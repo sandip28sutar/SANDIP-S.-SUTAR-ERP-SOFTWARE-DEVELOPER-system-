@@ -1,100 +1,137 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#4b2108">
-<meta name="description" content="SANDIP S. SUTAR ERP & APK Developer Console">
-<link rel="manifest" href="manifest.json">
-<title>SANDIP S. SUTAR - ERP Developer Console</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>SANDIP S. SUTAR ERP | Developer Console</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#222}
-.header{background:#fff;text-align:center;overflow:hidden}.header img{width:100%;max-height:205px;object-fit:cover;display:block}
-.topbar{background:linear-gradient(90deg,#3d1805,#5a2809,#3d1805);color:#fff;min-height:76px;padding:10px 18px;display:flex;align-items:center;gap:16px;overflow-x:auto;white-space:nowrap}
-.brand{font-size:20px;font-weight:bold}.divider{height:38px;width:1px;background:#d8a26c}.menu-btn{border:0;background:#fff;color:#222;width:58px;height:58px;border-radius:12px;font-size:32px;cursor:pointer}
-.badge{background:#eee;color:#333;border-radius:20px;padding:7px 13px;font-size:13px}.info{font-size:14px}
-main{max-width:1200px;margin:auto;padding:22px}.hero,.section{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 14px #00000014;margin-bottom:22px}
-.hero h1,.section h2{color:#4b2108}.hero h1{margin:0 0 8px}.hero p{color:#666}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border-radius:14px;padding:22px;min-height:220px;box-shadow:0 3px 14px #00000014;border-top:4px solid #5a2809}
-.icon{font-size:42px}.card h2{color:#4b2108;font-size:20px}.card p{color:#666;line-height:1.5;min-height:60px}.btn{width:100%;border:0;border-radius:8px;padding:12px;background:#4b2108;color:#fff;font-weight:bold;cursor:pointer}
-.menu-panel{display:none;background:#fff;margin:15px;padding:16px;border-radius:12px;box-shadow:0 4px 18px #0002}.menu-panel.show{display:block}
-.menu-item{width:100%;padding:13px;margin:5px 0;border:0;border-radius:8px;background:#f2f3f5;text-align:left;font-size:15px;cursor:pointer}
-.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.tool{background:#f5f6f8;border:1px solid #ddd;border-radius:10px;padding:15px;cursor:pointer}.tool strong{display:block;margin:5px 0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f4f5f7;color:#222}
+.header{background:#fff;text-align:center;border-bottom:1px solid #ddd}
+.header img{display:block;width:100%;max-height:210px;object-fit:cover}
+.brandHead{padding:22px 10px;font-size:30px;font-weight:800;color:#12335f}
+.brandHead small{display:block;font-size:15px;color:#8a4b16;margin-top:7px}
+.nav{background:#4a2108;color:white;min-height:78px;padding:12px 18px;display:flex;align-items:center;gap:14px;overflow:auto;white-space:nowrap}
+.brand{font-size:20px;font-weight:700}.line{height:40px;width:1px;background:#d49a60}
+button{font:inherit;cursor:pointer}
+.menu{background:white;border:0;border-radius:10px;width:58px;height:54px;font-size:30px}
+.badge{background:#eee;color:#333;border-radius:20px;padding:7px 12px;font-size:13px}
+main{max-width:1200px;margin:auto;padding:22px}
+.hero{background:white;border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 3px 15px #0001}
+.hero h1{margin:0;color:#4a2108;font-size:25px}.hero p{color:#666}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 15px #0001;border-top:5px solid #5a2809}
+.card .ico{font-size:44px}.card h2{color:#4a2108;margin:8px 0}.card p{color:#666;line-height:1.5;min-height:65px}
+.action{width:100%;padding:12px;border:0;border-radius:8px;background:#4a2108;color:#fff;font-weight:700}
+.panel{display:none;background:#fff;margin-top:16px;padding:18px;border-radius:12px;box-shadow:0 3px 15px #0001}
+.panel.show{display:block}.item{display:block;width:100%;padding:13px;margin:6px 0;text-align:left;border:0;border-radius:8px;background:#f0f1f3}
+.tools{margin-top:20px;background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 15px #0001}
+.toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.tool{padding:15px;border:1px solid #ddd;border-radius:9px;background:#f8f8f8}
 footer{text-align:center;padding:25px;color:#777;font-size:13px}
-@media(max-width:800px){.header img{max-height:155px}.topbar{padding:9px 12px}.brand{font-size:17px}main{padding:14px}.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr 1fr}}
-@media(max-width:450px){.tools{grid-template-columns:1fr}.info{display:none}}
+@media(max-width:800px){.cards{grid-template-columns:1fr}.toolgrid{grid-template-columns:1fr 1fr}.header img{max-height:160px}.brand{font-size:17px}main{padding:14px}}
+@media(max-width:450px){.toolgrid{grid-template-columns:1fr}.adminInfo{display:none}}
 </style>
 </head>
 <body>
 
-<div class="header">
+<header class="header">
 <img src="header.jpg" alt="SANDIP S. SUTAR ERP & APK Developer"
-onerror="this.style.display='none'">
+onerror="this.style.display='none';document.getElementById('fallback').style.display='block'">
+<div id="fallback" class="brandHead" style="display:none">
+SANDIP S. SUTAR
+<small>ERP & APK DEVELOPER • ERP SOFTWARE • ANDROID APK • PC EXE SOFTWARE</small>
 </div>
+</header>
 
-<div class="topbar">
+<nav class="nav">
 <div class="brand">🏠 SANDIP S. SUTAR ERP</div>
-<div class="divider"></div>
-<button class="menu-btn" onclick="toggleMenu()">☰</button>
-<div>👤 Administrator</div><span class="badge">Admin</span>
-<div class="info">📅 <span id="date"></span></div>
-<div class="info">☁️ Cloud: Online</div>
-</div>
+<div class="line"></div>
+<button class="menu" onclick="document.getElementById('panel').classList.toggle('show')">☰</button>
+<div class="adminInfo">👤 Administrator</div>
+<span class="badge">Admin</span>
+<div class="adminInfo">📅 <span id="today"></span></div>
+<div class="adminInfo">☁️ Cloud: Online</div>
+</nav>
 
-<div id="menuPanel" class="menu-panel">
-<b style="color:#4b2108">⚙️ Developer Menu</b>
-<button class="menu-item" onclick="openModule('app')">📱 New Android App</button>
-<button class="menu-item" onclick="openModule('erp')">🏢 New ERP Software</button>
-<button class="menu-item" onclick="openModule('exe')">💻 New PC EXE Software</button>
-<button class="menu-item" onclick="showMessage('My Projects')">📁 My Projects</button>
-<button class="menu-item" onclick="showMessage('Templates')">🧩 Templates</button>
-<button class="menu-item" onclick="showMessage('Database / Firebase')">🔥 Database / Firebase</button>
-<button class="menu-item" onclick="showMessage('Build Center')">🛠️ Build Center</button>
-<button class="menu-item" onclick="showMessage('Advanced Settings')">⚙️ Advanced Settings</button>
+<div id="panel" class="panel">
+<b>⚙️ Developer Menu</b>
+<button class="item" onclick="newProject('Android App')">📱 New Android App</button>
+<button class="item" onclick="newProject('ERP Software')">🏢 New ERP Software</button>
+<button class="item" onclick="newProject('PC EXE Software')">💻 New PC EXE Software</button>
+<button class="item" onclick="msg('My Projects')">📁 My Projects</button>
+<button class="item" onclick="msg('Templates')">🧩 Templates</button>
+<button class="item" onclick="msg('Database / Firebase')">🔥 Database / Firebase</button>
+<button class="item" onclick="msg('Build Center')">🛠️ Build Center</button>
+<button class="item" onclick="msg('Advanced Settings')">⚙️ Advanced Settings</button>
 </div>
 
 <main>
-<div class="hero">
+<section class="hero">
 <h1>🚀 SANDIP S. SUTAR Developer Console</h1>
-<p>Create and manage Android APK, ERP Software and Windows PC EXE projects from one place.</p>
+<p>Android APK, complete ERP Software आणि Windows PC EXE projects तयार करण्यासाठी central developer console.</p>
+</section>
+
+<section class="cards">
+<article class="card">
+<div class="ico">📱</div><h2>New App Developer</h2>
+<p>Login, Dashboard, Firebase, Logo, PWA आणि Android APK project setup.</p>
+<button class="action" onclick="newProject('Android App')">+ Create New App</button>
+</article>
+
+<article class="card">
+<div class="ico">🏢</div><h2>New ERP Software</h2>
+<p>Sales, Purchase, Stock, Customer, Supplier, Invoice, Accounts, Users आणि Reports.</p>
+<button class="action" onclick="newProject('ERP Software')">+ Create New ERP</button>
+</article>
+
+<article class="card">
+<div class="ico">💻</div><h2>New PC EXE Software</h2>
+<p>Windows desktop software, database, reports, printing, backup आणि EXE build setup.</p>
+<button class="action" onclick="newProject('PC EXE Software')">+ Create PC EXE</button>
+</article>
+</section>
+
+<section class="tools">
+<h2 style="color:#4a2108">🛠️ Developer Tools</h2>
+<div class="toolgrid">
+<div class="tool" onclick="msg('My Projects')">📁 <b>My Projects</b><br><small>Manage projects</small></div>
+<div class="tool" onclick="msg('Templates')">🧩 <b>Templates</b><br><small>Ready templates</small></div>
+<div class="tool" onclick="msg('Firebase')">🔥 <b>Firebase</b><br><small>Database & cloud</small></div>
+<div class="tool" onclick="msg('Build Center')">🛠️ <b>Build Center</b><br><small>Build applications</small></div>
+<div class="tool" onclick="msg('APK Builder')">📦 <b>APK Builder</b><br><small>Android build</small></div>
+<div class="tool" onclick="msg('EXE Builder')">🖥️ <b>EXE Builder</b><br><small>Windows build</small></div>
+<div class="tool" onclick="msg('Backup Manager')">💾 <b>Backup</b><br><small>Project backup</small></div>
+<div class="tool" onclick="msg('Advanced Settings')">⚙️ <b>Advanced</b><br><small>Developer settings</small></div>
 </div>
-
-<div class="grid">
-<div class="card"><div class="icon">📱</div><h2>New App Developer</h2>
-<p>Create Android applications with Login, Dashboard, Firebase, Logo, PWA and APK development setup.</p>
-<button class="btn" onclick="openModule('app')">+ Create New App</button></div>
-
-<div class="card"><div class="icon">🏢</div><h2>New ERP Software</h2>
-<p>Create ERP with Sales, Purchase, Stock, Customer, Supplier, Invoice, Accounts, Users and Reports.</p>
-<button class="btn" onclick="openModule('erp')">+ Create New ERP</button></div>
-
-<div class="card"><div class="icon">💻</div><h2>New PC EXE Software</h2>
-<p>Create Windows desktop software with Database, Reports, Printing, Backup and EXE build setup.</p>
-<button class="btn" onclick="openModule('exe')">+ Create PC EXE</button></div>
-</div>
-
-<div class="section">
-<h2>🛠️ Developer Tools</h2>
-<div class="tools">
-<div class="tool" onclick="showMessage('My Projects')">📁<strong>My Projects</strong><small>Manage projects</small></div>
-<div class="tool" onclick="showMessage('Templates')">🧩<strong>Templates</strong><small>Ready templates</small></div>
-<div class="tool" onclick="showMessage('Database / Firebase')">🔥<strong>Firebase</strong><small>Database & cloud</small></div>
-<div class="tool" onclick="showMessage('Build Center')">🛠️<strong>Build Center</strong><small>Build applications</small></div>
-<div class="tool" onclick="showMessage('APK Builder')">📦<strong>APK Builder</strong><small>Android APK setup</small></div>
-<div class="tool" onclick="showMessage('EXE Builder')">🖥️<strong>EXE Builder</strong><small>Windows EXE setup</small></div>
-<div class="tool" onclick="showMessage('Backup Manager')">💾<strong>Backup</strong><small>Project backup</small></div>
-<div class="tool" onclick="showMessage('Advanced Settings')">⚙️<strong>Advanced</strong><small>Developer settings</small></div>
-</div></div>
+</section>
 </main>
 
 <footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b></footer>
 
 <script>
-function updateDate(){let d=new Date();document.getElementById("date").textContent=String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear()}updateDate();
-function toggleMenu(){document.getElementById("menuPanel").classList.toggle("show")}
-function openModule(t){let x=t==="app"?"📱 New Android App Project":t==="erp"?"🏢 New ERP Software Project":"💻 New PC EXE Software Project";alert(x+"\n\nProject setup module ready.")}
-function showMessage(x){alert("🔧 "+x+"\n\nDeveloper module selected.")}
-if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+(function(){
+const d=new Date();
+document.getElementById('today').textContent=
+String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+})();
+function newProject(name){
+alert('🚀 '+name+'\n\nProject setup is ready.\nNext: Project Name → Logo → Login → Database → Dashboard → Build.');
+}
+function msg(name){alert('🔧 '+name+'\n\nModule selected.');}
+
+/* If an older service worker is causing the old blank page to be cached,
+   remove it so this new index.html becomes the active page. */
+if('serviceWorker' in navigator){
+navigator.serviceWorker.getRegistrations().then(function(rs){
+rs.forEach(function(r){r.unregister();});
+});
+if(window.caches){
+caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k);});});
+}
+}
 </script>
 </body>
 </html>
