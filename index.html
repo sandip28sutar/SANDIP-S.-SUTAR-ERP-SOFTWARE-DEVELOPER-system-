@@ -1,10 +1,87 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SANDIP S. SUTAR Developer Console</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f4f4f4;font-family:Arial;color:#222}.header{width:100%;display:block}.top{height:105px;background:#3b1c08;color:white;display:flex;align-items:center;gap:14px;padding:10px 18px;overflow-x:auto;white-space:nowrap}.home{font-size:21px;font-weight:bold;border-right:1px solid #8d6748;padding-right:18px}.menu{background:white;color:#222;border:0;border-radius:7px;font-size:29px;padding:7px 14px}.badge{background:#f5e9da;color:#222;border-radius:18px;padding:7px 12px}.select{background:white;color:#222;border:0;border-radius:8px;padding:11px 14px;font-size:16px}main{padding:22px;max-width:1150px;margin:auto}.title,.card{background:white;border-radius:12px;box-shadow:0 2px 8px #0001}.title{padding:20px}.title h2{margin:0 0 7px;color:#3b1c08}.title p{margin:0;color:#666}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}.card{padding:22px;border-top:5px solid #8a5a20}.icon{font-size:40px}.card h3{margin:8px 0}.card p{color:#666;line-height:1.45;min-height:48px}.action{background:#3b1c08;color:white;border:0;border-radius:7px;padding:11px 16px;font-size:15px}.drawer{display:none;position:fixed;left:0;top:0;width:300px;height:100%;background:white;z-index:5;box-shadow:2px 0 12px #0005}.drawer h3{margin:0;background:#3b1c08;color:white;padding:20px}.drawer button{display:block;width:92%;margin:6px auto;padding:13px;text-align:left;border:0;background:white;border-radius:7px;font-size:16px}@media(max-width:700px){.grid{grid-template-columns:1fr}.top{height:95px}.home{font-size:17px}main{padding:14px}}</style></head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SANDIP S. SUTAR ERP Developer Console</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f4f4;font-family:Arial,sans-serif;color:#222}
+.header{width:100%;display:block}
+.top{background:#3b1c08;color:#fff;padding:14px 18px;display:flex;align-items:center;gap:14px;overflow:auto;white-space:nowrap}
+.home{font-size:20px;font-weight:bold}
+.btn{background:#fff;color:#222;border:0;border-radius:7px;padding:10px 14px;font-size:16px}
+.admin{font-size:17px}
+.badge{background:#f3e8d8;color:#222;padding:6px 10px;border-radius:16px}
+main{max-width:1100px;margin:auto;padding:20px}
+.title{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px #0001}
+.title h2{margin:0 0 8px;color:#3b1c08}
+.title p{margin:0;color:#666}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+.card{background:#fff;border-radius:12px;padding:22px;border-top:5px solid #8a5a20;box-shadow:0 2px 8px #0001}
+.icon{font-size:42px}
+.card h3{margin:10px 0 7px}
+.card p{color:#666;line-height:1.5;min-height:50px}
+.create{background:#3b1c08;color:#fff;border:0;border-radius:7px;padding:11px 16px;font-size:15px}
+.menu{margin-top:18px;background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 8px #0001}
+.menu h3{margin-top:0;color:#3b1c08}
+.menu a{display:inline-block;background:#eee;padding:11px 14px;border-radius:7px;margin:5px;text-decoration:none;color:#222}
+@media(max-width:700px){.grid{grid-template-columns:1fr}main{padding:12px}.top{padding:10px}.home{font-size:17px}}
+</style>
+</head>
+<body>
+
 <img class="header" src="header.jpg" alt="SANDIP S. SUTAR ERP & App Developer">
-<div class="top"><div class="home">🏠 SANDIP S. SUTAR ERP</div><button class="menu" onclick="document.getElementById('drawer').style.display='block'">☰</button><div>👤 Administrator <span class="badge">Admin</span></div><div>📅<br>24/08/2026</div><div>☁️<br>Cloud: Login</div><div>🔔</div><button class="select">🏢 Main Branch ▾</button><button class="select">🌐 English ▾</button></div>
-<div id="drawer" class="drawer"><h3>SANDIP DEVELOPER CONSOLE <span style="float:right" onclick="this.parentElement.parentElement.style.display='none'">✕</span></h3><button onclick="newApp()">📱 New App</button><button onclick="newERP()">📊 New ERP Software</button><button onclick="newEXE()">🖥️ New PC EXE Software</button><button>📁 My Projects</button><button>🧩 Templates</button><button>☁️ Database / Firebase</button><button>⚙️ Build Center</button><button>📦 Export Project</button><button>⚙️ Advanced Settings</button></div>
-<main><div class="title"><h2>Developer Console</h2><p>Android App, ERP Software आणि Windows PC EXE Software एकाच dashboard मधून तयार करा.</p></div><div class="grid">
-<div class="card"><div class="icon">📱</div><h3>New App</h3><p>Android App — Login, Screens, Logo, Firebase आणि APK setup.</p><button class="action" onclick="newApp()">Create New App</button></div>
-<div class="card"><div class="icon">📊</div><h3>New ERP Software</h3><p>Sales, Purchase, Stock, Customer, Supplier, Invoice, Accounts आणि Reports.</p><button class="action" onclick="newERP()">Create New ERP</button></div>
-<div class="card"><div class="icon">🖥️</div><h3>New PC EXE Software</h3><p>Windows desktop Database, Reports, Print, Backup आणि EXE project.</p><button class="action" onclick="newEXE()">Create PC EXE</button></div></div></main>
-<script>function newApp(){alert("New Android App Project")}function newERP(){alert("New ERP Software Project")}function newEXE(){alert("New PC EXE Software Project")}</script></body></html>
+
+<div class="top">
+<div class="home">🏠 SANDIP S. SUTAR ERP</div>
+<button class="btn">☰</button>
+<div class="admin">👤 Administrator <span class="badge">Admin</span></div>
+<div>📅 24/08/2026</div>
+<div>☁️ Cloud: Login</div>
+<div>🔔</div>
+<button class="btn">🏢 Main Branch ▾</button>
+<button class="btn">🌐 English ▾</button>
+</div>
+
+<main>
+<div class="title">
+<h2>🚀 SANDIP S. SUTAR Developer Console</h2>
+<p>Create and manage <b>Android Apps, ERP Software and PC EXE Software</b> from one place.</p>
+</div>
+
+<div class="grid">
+<div class="card">
+<div class="icon">📱</div>
+<h3>New App</h3>
+<p>Android App project with Login, Screens, Logo, Firebase and APK development setup.</p>
+<button class="create" onclick="alert('New Android App Project')">Create New App</button>
+</div>
+
+<div class="card">
+<div class="icon">📊</div>
+<h3>New ERP Software</h3>
+<p>Sales, Purchase, Stock, Customer, Supplier, Invoice, Accounts, Users and Reports.</p>
+<button class="create" onclick="alert('New ERP Software Project')">Create New ERP</button>
+</div>
+
+<div class="card">
+<div class="icon">🖥️</div>
+<h3>New PC EXE Software</h3>
+<p>Windows desktop software with Database, Reports, Print, Backup and EXE build setup.</p>
+<button class="create" onclick="alert('New PC EXE Software Project')">Create PC EXE</button>
+</div>
+</div>
+
+<div class="menu">
+<h3>Developer Menu</h3>
+<a href="#" onclick="alert('My Projects')">📁 My Projects</a>
+<a href="#" onclick="alert('Templates')">🧩 Templates</a>
+<a href="#" onclick="alert('Database / Firebase')">☁️ Database / Firebase</a>
+<a href="#" onclick="alert('Build Center')">⚙️ Build Center</a>
+<a href="#" onclick="alert('Export Project')">📦 Export Project</a>
+<a href="#" onclick="alert('Advanced Settings')">⚙️ Advanced Settings</a>
+</div>
+</main>
+</body>
+</html>
