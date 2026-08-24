@@ -3,101 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SANDIP S. SUTAR | App • ERP • PC EXE Developer</title>
+<title>SANDIP S. SUTAR Developer Console</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#3a1c08">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;color:#222}
-.header{width:100%;display:block}.bar{min-height:105px;background:linear-gradient(90deg,#321706,#4b250c,#321706);color:#fff;display:flex;align-items:center;gap:18px;padding:10px 18px;overflow-x:auto}
-.home{font-size:22px;font-weight:bold;white-space:nowrap;border-right:1px solid #8c6849;padding-right:20px}.menuBtn{background:#fff;border:0;border-radius:7px;font-size:30px;padding:8px 16px;cursor:pointer}.admin{white-space:nowrap;font-size:19px}.badge{background:#f5eadb;color:#222;border-radius:18px;padding:7px 12px;margin-left:7px}.date,.cloud{white-space:nowrap}.branch,.language{background:#fff;color:#222;border:0;border-radius:8px;padding:12px 15px;font-size:17px;white-space:nowrap}.branch{margin-left:auto}
-.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:9}.drawer{position:fixed;left:-330px;top:0;width:310px;height:100%;background:#fff;z-index:10;transition:.25s;box-shadow:3px 0 15px #0005;overflow:auto}.drawer.open{left:0}.overlay.open{display:block}.drawerHead{background:#321706;color:#fff;padding:22px;font-size:22px;font-weight:bold}.close{float:right;cursor:pointer}.nav{padding:10px}.nav button{width:100%;text-align:left;border:0;background:#fff;padding:15px;margin:3px 0;border-radius:8px;font-size:17px;cursor:pointer}.nav button:hover{background:#f0e5d8}
-main{padding:25px;max-width:1200px;margin:auto}.welcome{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 12px #0001}.welcome h2{margin:0 0 8px;color:#321706}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}.card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 12px #0001;border-top:5px solid #7b4a18}.card .ico{font-size:40px}.card h3{margin:10px 0 7px}.card p{color:#666;min-height:45px}.card button,.primary{background:#321706;color:#fff;border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font-size:15px}.secondary{background:#eee;color:#222;border:0;border-radius:8px;padding:11px 15px;cursor:pointer}
-.modal{display:none;position:fixed;inset:0;background:#0008;z-index:20;align-items:center;justify-content:center;padding:15px}.modal.show{display:flex}.modalBox{background:#fff;width:min(620px,100%);max-height:90vh;overflow:auto;border-radius:14px;padding:22px}.modalBox h2{margin-top:0}.form{display:grid;gap:12px}.form input,.form select{padding:12px;border:1px solid #ccc;border-radius:7px;font-size:16px}.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:15px}
-.toast{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;padding:14px 18px;border-radius:8px;display:none;z-index:30}
-@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}.home{font-size:17px}.admin{font-size:16px}}
-@media(max-width:520px){.grid{grid-template-columns:1fr}main{padding:14px}.bar{gap:10px}.branch{margin-left:0}}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f4f4;color:#222;font-family:Arial,Helvetica,sans-serif}
+.header{width:100%;display:block}
+.topbar{height:105px;background:linear-gradient(90deg,#321706,#4b250c,#321706);color:#fff;display:flex;align-items:center;gap:16px;padding:10px 18px;overflow-x:auto;white-space:nowrap}
+.home{font-size:21px;font-weight:bold;padding-right:18px;border-right:1px solid #876348}
+.menuBtn{background:#fff;color:#222;border:0;border-radius:7px;font-size:30px;padding:7px 15px}
+.admin{font-size:18px}.badge{background:#f3e8d8;color:#222;border-radius:18px;padding:7px 12px;margin-left:5px}
+.date,.cloud{font-size:16px}.branch,.lang{background:#fff;color:#222;border:0;border-radius:8px;padding:11px 14px;font-size:16px}.branch{margin-left:auto}
+main{max-width:1200px;margin:auto;padding:22px}
+.hero{background:#fff;border-radius:14px;padding:22px;box-shadow:0 2px 10px #0001}
+.hero h2{margin:0 0 7px;color:#321706}.hero p{margin:0;color:#666}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+.card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 2px 10px #0001;border-top:5px solid #8a5a20}
+.icon{font-size:42px}.card h3{margin:9px 0 5px}.card p{color:#666;min-height:48px;line-height:1.45}
+.btn{border:0;border-radius:8px;padding:11px 15px;background:#321706;color:#fff;font-size:15px}
+.drawer{position:fixed;z-index:20;top:0;left:-320px;width:305px;height:100%;background:#fff;box-shadow:3px 0 15px #0005;transition:.25s;overflow:auto}.drawer.open{left:0}
+.drawerHead{background:#321706;color:#fff;padding:20px;font-weight:bold}.close{float:right}
+.drawer button{display:block;width:calc(100% - 20px);margin:6px 10px;padding:13px;border:0;background:#fff;text-align:left;border-radius:8px;font-size:16px}.drawer button:hover{background:#eee}
+.overlay{display:none;position:fixed;inset:0;background:#0007;z-index:19}.overlay.open{display:block}
+.modal{display:none;position:fixed;inset:0;background:#0007;z-index:30;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}
+.box{background:#fff;border-radius:14px;width:min(600px,100%);padding:22px}.box h2{margin-top:0}.box input,.box select{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border-radius:7px;font-size:16px}.actions{text-align:right;margin-top:12px}.cancel{background:#ddd;color:#222;margin-right:8px}
+.toast{position:fixed;right:18px;bottom:18px;background:#222;color:#fff;padding:13px 17px;border-radius:8px;display:none;z-index:40}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.topbar{height:95px}.home{font-size:17px}.admin{font-size:16px}main{padding:14px}}
 </style>
 </head>
 <body>
-<img class="header" src="header.png" alt="SANDIP S. SUTAR ERP & App Developer Header">
+<img class="header" src="header.jpg" alt="SANDIP S. SUTAR ERP & App Developer">
 
-<nav class="bar">
+<div class="topbar">
 <div class="home">🏠 SANDIP S. SUTAR ERP</div>
-<button class="menuBtn" onclick="openMenu()">☰</button>
+<button class="menuBtn" onclick="menu()">☰</button>
 <div class="admin">👤 Administrator <span class="badge">Admin</span></div>
 <div class="date">📅<br>24/08/2026</div>
-<div class="cloud">☁️<br>Cloud: Login</div><div>🔔</div>
+<div class="cloud">☁️<br>Cloud: Login</div>
+<div>🔔</div>
 <button class="branch">🏢 Main Branch ▾</button>
-<button class="language">🌐 English ▾</button>
-</nav>
-
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-<aside class="drawer" id="drawer">
-<div class="drawerHead">SANDIP DEVELOPER CONSOLE <span class="close" onclick="closeMenu()">✕</span></div>
-<div class="nav">
-<button onclick="openProject('app')">📱 New App</button>
-<button onclick="openProject('erp')">📊 New ERP Software</button>
-<button onclick="openProject('exe')">🖥️ New PC EXE Software</button>
-<button onclick="showToast('My Projects section ready')">📁 My Projects</button>
-<button onclick="showToast('Templates section ready')">🧩 Templates</button>
-<button onclick="showToast('Database / Firebase settings ready')">☁️ Database / Firebase</button>
-<button onclick="showToast('Build Center ready')">⚙️ Build Center</button>
-<button onclick="showToast('Export Project ready')">📦 Export Project</button>
-<button onclick="showToast('Settings ready')">⚙️ Advanced Settings</button>
+<button class="lang">🌐 English ▾</button>
 </div>
+
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+<aside id="drawer" class="drawer">
+<div class="drawerHead">SANDIP DEVELOPER CONSOLE <span class="close" onclick="closeMenu()">✕</span></div>
+<button onclick="openProject('Android App')">📱 New App</button>
+<button onclick="openProject('ERP Software')">📊 New ERP Software</button>
+<button onclick="openProject('PC EXE Software')">🖥️ New PC EXE Software</button>
+<button onclick="toast('My Projects ready')">📁 My Projects</button>
+<button onclick="toast('Templates ready')">🧩 Templates</button>
+<button onclick="toast('Firebase / Database ready')">☁️ Database / Firebase</button>
+<button onclick="toast('Build Center ready')">⚙️ Build Center</button>
+<button onclick="toast('Export Project ready')">📦 Export Project</button>
+<button onclick="toast('Advanced Settings ready')">⚙️ Advanced Settings</button>
 </aside>
 
 <main>
-<section class="welcome">
+<section class="hero">
 <h2>Developer Console</h2>
-<p>Create your own <b>Android Apps, ERP Software and Windows PC EXE Software</b> from one dashboard.</p>
+<p>एकाच dashboard मधून <b>Android App, ERP Software आणि PC EXE Software</b> projects तयार करा.</p>
 </section>
 <section class="grid">
-<div class="card"><div class="ico">📱</div><h3>New App</h3><p>Create Android app projects with name, logo, screens, login and database settings.</p><button onclick="openProject('app')">Create New App</button></div>
-<div class="card"><div class="ico">📊</div><h3>New ERP Software</h3><p>Start a business ERP with sales, purchase, inventory, accounts, invoice and reports.</p><button onclick="openProject('erp')">Create New ERP</button></div>
-<div class="card"><div class="ico">🖥️</div><h3>New PC EXE Software</h3><p>Create Windows desktop software projects with database, reports, print and installer options.</p><button onclick="openProject('exe')">Create PC EXE</button></div>
+<div class="card"><div class="icon">📱</div><h3>New App</h3><p>Android app project, login, screens, logo, Firebase आणि APK build setup.</p><button class="btn" onclick="openProject('Android App')">Create New App</button></div>
+<div class="card"><div class="icon">📊</div><h3>New ERP Software</h3><p>Sales, Purchase, Stock, Customer, Supplier, Invoice, Accounts आणि Reports.</p><button class="btn" onclick="openProject('ERP Software')">Create New ERP</button></div>
+<div class="card"><div class="icon">🖥️</div><h3>New PC EXE Software</h3><p>Windows desktop project, database, print, reports, backup आणि EXE build.</p><button class="btn" onclick="openProject('PC EXE Software')">Create PC EXE</button></div>
 </section>
 </main>
 
-<div class="modal" id="modal">
-<div class="modalBox">
-<h2 id="modalTitle">New Project</h2>
-<form class="form" onsubmit="createProject(event)">
-<input id="projectName" required placeholder="Project / Business Name">
-<select id="projectType"><option>Android App</option><option>ERP Software</option><option>PC EXE Software</option></select>
-<input id="logoName" placeholder="Logo file name (optional)">
-<select id="database"><option>Firebase / Cloud Database</option><option>Local Database</option><option>Firebase + Local Backup</option></select>
-<div id="features"></div>
-<div class="actions"><button type="button" class="secondary" onclick="closeProject()">Cancel</button><button class="primary">Create Project</button></div>
-</form>
+<div id="modal" class="modal">
+<div class="box">
+<h2 id="title">New Project</h2>
+<input id="name" placeholder="Project / Business Name" required>
+<select id="db"><option>Firebase / Cloud Database</option><option>Local Database</option><option>Firebase + Local Backup</option></select>
+<input id="logo" placeholder="Logo file name (optional)">
+<p id="features" style="background:#f5eee5;padding:12px;border-radius:8px"></p>
+<div class="actions"><button class="btn cancel" onclick="closeProject()">Cancel</button><button class="btn" onclick="createProject()">Create Project</button></div>
 </div></div>
-<div class="toast" id="toast"></div>
+<div id="toastBox" class="toast"></div>
 
 <script>
-const drawer=document.getElementById('drawer'),overlay=document.getElementById('overlay'),modal=document.getElementById('modal');
-function openMenu(){drawer.classList.add('open');overlay.classList.add('open')}
-function closeMenu(){drawer.classList.remove('open');overlay.classList.remove('open')}
+const d=document.getElementById('drawer'),o=document.getElementById('overlay'),m=document.getElementById('modal');
+function menu(){d.classList.add('open');o.classList.add('open')}
+function closeMenu(){d.classList.remove('open');o.classList.remove('open')}
 function openProject(type){
-closeMenu(); modal.classList.add('show');
-const titles={app:'Create New Android App',erp:'Create New ERP Software',exe:'Create New PC EXE Software'};
-const types={app:'Android App',erp:'ERP Software',exe:'PC EXE Software'};
-document.getElementById('modalTitle').textContent=titles[type];
-document.getElementById('projectType').value=types[type];
-const f={app:'📱 Login • Home • Menu • Notifications • Firebase • APK Build',
-erp:'📊 Sales • Purchase • Stock • Customer • Supplier • Invoice • Reports • Users',
-exe:'🖥️ Desktop UI • Database • Reports • Print • Backup • EXE Build • Installer'};
-document.getElementById('features').innerHTML='<p style="background:#f6f0e8;padding:12px;border-radius:8px">'+f[type]+'</p>';
+ closeMenu();m.classList.add('open');document.getElementById('title').textContent='Create New '+type;
+ const f={ 'Android App':'Login • Home • Menu • Notifications • Firebase • APK Build',
+ 'ERP Software':'Sales • Purchase • Stock • Customer • Supplier • Invoice • Accounts • Reports • Users',
+ 'PC EXE Software':'Desktop UI • Database • Reports • Print • Backup • EXE Build • Installer'};
+ document.getElementById('features').textContent=f[type];
+ m.dataset.type=type;
 }
-function closeProject(){modal.classList.remove('show')}
-function createProject(e){
-e.preventDefault();
-const name=document.getElementById('projectName').value.trim();
-const type=document.getElementById('projectType').value;
-localStorage.setItem('lastProject',JSON.stringify({name,type,date:new Date().toLocaleString()}));
-closeProject();showToast('✅ '+type+' project "'+name+'" created');
+function closeProject(){m.classList.remove('open')}
+function createProject(){
+ const n=document.getElementById('name').value.trim(); if(!n){alert('Project name required');return}
+ localStorage.setItem('lastProject',JSON.stringify({name:n,type:m.dataset.type,created:new Date().toLocaleString()}));
+ closeProject();toast('✅ '+m.dataset.type+' created: '+n);
 }
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
-if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
+function toast(t){const x=document.getElementById('toastBox');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2300)}
+if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
 </script>
 </body>
 </html>
