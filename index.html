@@ -71,6 +71,19 @@ input,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;bor
 .erpModules label{background:#fff;border:1px solid #ddd;border-radius:7px;padding:9px}
 .codeArea{width:100%;min-height:180px;font-family:monospace;padding:12px;border:1px solid #ccc;border-radius:8px}
 @media(max-width:700px){.erpModeGrid,.erpGrid{grid-template-columns:1fr}.erpModules{grid-template-columns:1fr}}
+
+.erpMenuOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9000;padding:18px;align-items:center;justify-content:center}
+.erpMenuOverlay.show{display:flex}
+.erpMenuPanel{width:min(900px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:14px;padding:20px;box-shadow:0 8px 30px #0004}
+.erpMenuHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #ddd;padding-bottom:12px}
+.erpMenuHeader h2{margin:0;color:#4a2108}
+.erpClose{border:0;background:#eee;border-radius:8px;padding:9px 13px;font-size:18px}
+.erpMenuGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.erpMenuItem{padding:15px;border:1px solid #ddd;border-radius:10px;background:#fafafa;text-align:left;cursor:pointer}
+.erpMenuItem:hover{background:#fff3e8;border-color:#4a2108}
+.erpMenuItem b{display:block;color:#4a2108;margin-bottom:5px}
+@media(max-width:700px){.erpMenuOverlay{padding:10px}.erpMenuPanel{max-height:94vh;padding:15px}.erpMenuGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.erpMenuGrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -430,6 +443,40 @@ function exportFictional(){
 }
 
 
+
+function openERPMenu(){
+ const m=document.getElementById("erpMenuOverlay");
+ if(m)m.classList.add("show");
+}
+function closeERPMenu(){
+ const m=document.getElementById("erpMenuOverlay");
+ if(m)m.classList.remove("show");
+}
+function openERPSection(name){
+ closeERPMenu();
+ const map={
+  erpDashboard:"ERP Dashboard",
+  erpMasters:"Master Management",
+  erpSales:"Sales",
+  erpPurchase:"Purchase",
+  erpInventory:"Inventory / Stock",
+  erpAccounts:"Accounts",
+  erpGST:"GST / Tax",
+  erpReports:"Reports",
+  erpUsers:"Users & Access",
+  erpSettings:"ERP Settings",
+  erpBuilder:"ERP Module Builder",
+  erpCode:"Developer Coding Mode",
+  erpWorkflow:"Workflow Builder",
+  erpReportsBuilder:"Report Builder",
+  erpData:"Data / Database"
+ };
+ const label=map[name]||name;
+ const section=document.getElementById("erpDeveloper");
+ if(section)section.scrollIntoView({behavior:"smooth"});
+ alert("💼 "+label+"\n\nERP module selected.");
+}
+
 function selectERPMode(mode){
  document.getElementById("simpleMode").classList.toggle("selected",mode==="simple");
  document.getElementById("codingMode").classList.toggle("selected",mode==="coding");
@@ -490,6 +537,33 @@ function escapeHtml(s){
 showProjects();
 checkLogin();
 </script>
+</div>
+
+<div id="erpMenuOverlay" class="erpMenuOverlay" onclick="if(event.target===this)closeERPMenu()">
+  <div class="erpMenuPanel">
+    <div class="erpMenuHeader">
+      <h2>💼 ERP Software Developer</h2>
+      <button class="erpClose" onclick="closeERPMenu()">✕</button>
+    </div>
+    <p>Select an ERP development module.</p>
+    <div class="erpMenuGrid">
+      <div class="erpMenuItem" onclick="openERPSection('erpDashboard')"><b>🏠 ERP Dashboard</b><small>Business overview</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpMasters')"><b>👥 Master Management</b><small>Customer, supplier, items</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpSales')"><b>🛒 Sales</b><small>Quotation, order, invoice</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpPurchase')"><b>🛍️ Purchase</b><small>PO, receipt, purchase invoice</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpInventory')"><b>📦 Inventory / Stock</b><small>Stock, warehouse, transfer</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpAccounts')"><b>💰 Accounts</b><small>Cash, bank, ledger, P&L</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpGST')"><b>🧾 GST / Tax</b><small>Tax, HSN/SAC, reports</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpReports')"><b>📊 Reports</b><small>Sales, purchase, stock</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpUsers')"><b>👤 Users & Access</b><small>Roles and permissions</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpSettings')"><b>⚙️ ERP Settings</b><small>Company, invoice, print</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpBuilder')"><b>🧩 ERP Module Builder</b><small>Custom modules and forms</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpCode')"><b>👨‍💻 Coding Mode</b><small>HTML, CSS, JS, JSON</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpWorkflow')"><b>🔄 Workflow Builder</b><small>Business automation</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpReportsBuilder')"><b>📝 Report Builder</b><small>Custom reports</small></div>
+      <div class="erpMenuItem" onclick="openERPSection('erpData')"><b>💾 Data / Database</b><small>Schema and import</small></div>
+    </div>
+  </div>
 </div>
 </body>
 </html>
