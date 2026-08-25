@@ -36,10 +36,48 @@ input,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;bor
  .brand{font-size:17px}
  .card,.panel,.hero{padding:17px}
 }
+
+#loginScreen{position:fixed;inset:0;background:#f4f5f7;z-index:10000;display:flex;align-items:center;justify-content:center;padding:18px}
+.loginBox{width:min(420px,100%);background:#fff;border-radius:14px;padding:26px;box-shadow:0 4px 20px #0002;text-align:left}
+.loginBox h1{margin-top:0;color:#4a2108;text-align:center}
+.loginBox .loginLogo{width:90px;height:90px;border-radius:12px;object-fit:cover;display:block;margin:0 auto 12px}
+.loginBox input{width:100%;padding:13px;margin:7px 0 12px;border:1px solid #ccc;border-radius:8px;font:inherit}
+.loginBtn{width:100%;padding:13px;background:#4a2108;color:#fff;border:0;border-radius:8px;font-weight:bold;font-size:15px}
+.loginHint{text-align:center;color:#777;font-size:12px;margin-top:12px}
+.loginError{display:none;color:#b00020;background:#fff0f0;padding:9px;border-radius:7px;margin-bottom:10px;font-size:13px}
+
+.advCard{background:#fff;border-radius:12px;padding:18px;margin-top:16px;box-shadow:0 2px 8px #0001}
+.advGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.advItem{padding:13px;border:1px solid #ddd;border-radius:8px;background:#fafafa;cursor:pointer}
+.advItem:hover{background:#f0f0f0}
+.builderBox{display:none;margin-top:14px;padding:16px;border:1px solid #ddd;border-radius:10px;background:#fafafa}
+.builderBox.show{display:block}
+.builderGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.simBar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.simBtn{padding:9px 13px;border:0;border-radius:7px;background:#4a2108;color:#fff}
+@media(max-width:800px){.advGrid{grid-template-columns:1fr 1fr}.builderGrid{grid-template-columns:1fr}}
+@media(max-width:450px){.advGrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
+<div id="loginScreen">
+  <div class="loginBox">
+    <img class="loginLogo" src="header.jpg" alt="Logo" onerror="this.style.display='none'">
+    <h1>🔐 Login</h1>
+    <div id="loginError" class="loginError">Invalid User ID or Password.</div>
+    <label>User ID</label>
+    <input id="loginUser" type="text" autocomplete="username" placeholder="Enter User ID">
+    <label>Password</label>
+    <input id="loginPass" type="password" autocomplete="current-password" placeholder="Enter Password"
+           onkeydown="if(event.key==='Enter')loginUser()">
+    <button class="loginBtn" onclick="loginUser()">Login</button>
+    <div class="loginHint">SANDIP S. SUTAR Developer Console</div>
+  </div>
+</div>
+
+
+<div id="appShell" style="display:none">
 <div class="header">
 <img src="header.jpg" alt="SANDIP S. SUTAR" onerror="this.style.display='none'">
 <div class="brand">
@@ -58,6 +96,7 @@ SANDIP S. SUTAR - APP & ERP DEVELOPER
 <button onclick="scrollToId('projects')">📁 My Projects</button>
 <button onclick="scrollToId('active')">🟢 Active Programs</button>
 <button onclick="scrollToId('demo')">🧪 Demo Programs</button>
+<button onclick="scrollToId('advancedFictional')">🧬 Advanced Fictional Program</button>
 <div id="searchBox" style="display:none;background:#fff;padding:12px;border-bottom:1px solid #ddd">
 <input id="searchInput" type="search" placeholder="🔎 Search projects, apps, ERP..." oninput="searchProjects()" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font:inherit">
 </div>
@@ -98,6 +137,51 @@ SANDIP S. SUTAR - APP & ERP DEVELOPER
 <input type="file" id="codeFile" accept=".html,.htm,.css,.js,.json,.txt" onchange="loadCodeFile(this)">
 
 <button class="btn" onclick="createProject()">Create Project</button>
+</section>
+
+
+<section id="advancedFictional" class="advCard">
+<h2 style="color:#4a2108">🧬 Advanced Fictional Program</h2>
+<p>Demo → Prototype → Active software simulation and project builder.</p>
+
+<div class="advGrid">
+<div class="advItem" onclick="openBuilder('Architecture')">🏗️ Architecture Builder</div>
+<div class="advItem" onclick="openBuilder('Workflow')">⚙️ Workflow Automation</div>
+<div class="advItem" onclick="openBuilder('Data Studio')">📊 Data Studio</div>
+<div class="advItem" onclick="openBuilder('Simulation')">🧪 Simulation Engine</div>
+<div class="advItem" onclick="openBuilder('API Lab')">🔌 API Integration Lab</div>
+<div class="advItem" onclick="openBuilder('Device')">📱 Device Simulator</div>
+<div class="advItem" onclick="openBuilder('Developer')">💻 Developer Console</div>
+<div class="advItem" onclick="openBuilder('Release')">📦 Release Manager</div>
+<div class="advItem" onclick="openBuilder('Team')">👥 Team Simulator</div>
+<div class="advItem" onclick="openBuilder('Security')">🔐 Security Simulation</div>
+<div class="advItem" onclick="openBuilder('UI')">🎨 UI Theme Builder</div>
+<div class="advItem" onclick="openBuilder('AI Generator')">🤖 Fictional Generator</div>
+</div>
+
+<div id="builderBox" class="builderBox">
+<h3 id="builderTitle">Builder</h3>
+<div class="builderGrid">
+<input id="fictionalName" placeholder="Program / Project Name">
+<select id="fictionalType">
+<option>ERP Software</option><option>Android App</option>
+<option>PC EXE Software</option><option>Custom Program</option>
+</select>
+<select id="fictionalStage">
+<option>🧪 Demo</option><option>🔬 Prototype</option><option>🟢 Active</option>
+</select>
+<select id="fictionalData">
+<option>Sample Data</option><option>Empty Database</option><option>Generated Demo Data</option>
+</select>
+</div>
+<div class="simBar">
+<button class="simBtn" onclick="generateFictional()">🤖 Generate Program</button>
+<button class="simBtn" onclick="simulateData()">🎲 Generate Demo Data</button>
+<button class="simBtn" onclick="resetFictional()">🔄 Reset</button>
+<button class="simBtn" onclick="exportFictional()">📦 Export JSON</button>
+</div>
+<div id="builderResult" style="margin-top:14px"></div>
+</div>
 </section>
 
 <section id="projects" class="panel">
@@ -191,6 +275,77 @@ function searchProjects(){
  ).join('');
 }
 
+
+const LOGIN_USER="admin";
+const LOGIN_PASS="1234";
+
+function loginUser(){
+ const u=document.getElementById("loginUser").value.trim();
+ const p=document.getElementById("loginPass").value;
+ const err=document.getElementById("loginError");
+ if(u===LOGIN_USER && p===LOGIN_PASS){
+   sessionStorage.setItem("sutarLoggedIn","1");
+   err.style.display="none";
+   document.getElementById("loginScreen").style.display="none";
+   document.getElementById("appShell").style.display="block";
+ }else{
+   err.style.display="block";
+ }
+}
+function checkLogin(){
+ if(sessionStorage.getItem("sutarLoggedIn")==="1"){
+   document.getElementById("loginScreen").style.display="none";
+   document.getElementById("appShell").style.display="block";
+ }
+}
+
+
+let currentBuilder="General";
+function openBuilder(name){
+ currentBuilder=name;
+ document.getElementById("builderBox").classList.add("show");
+ document.getElementById("builderTitle").textContent="🧬 "+name+" Builder";
+ document.getElementById("advancedFictional").scrollIntoView({behavior:"smooth"});
+}
+function generateFictional(){
+ const name=document.getElementById("fictionalName").value.trim()||"Untitled Fictional Program";
+ const type=document.getElementById("fictionalType").value;
+ const stage=document.getElementById("fictionalStage").value;
+ const data=document.getElementById("fictionalData").value;
+ const modules=["Dashboard","Users","Customers","Products","Reports","Settings"];
+ const project={name,type,stage,data,builder:currentBuilder,modules,created:new Date().toLocaleString()};
+ let list=[];
+ try{list=JSON.parse(localStorage.getItem("sutarProjects")||"[]")}catch(e){}
+ list.push({name,type,mode:stage,created:project.created,advanced:true,config:project});
+ try{localStorage.setItem("sutarProjects",JSON.stringify(list))}catch(e){}
+ document.getElementById("builderResult").innerHTML=
+ "<b>✅ Program Generated</b><br>"+escapeHtml(name)+
+ "<br><small>"+escapeHtml(type)+" • "+escapeHtml(stage)+
+ " • Builder: "+escapeHtml(currentBuilder)+"</small><br><br>"+
+ "<b>Modules:</b> "+modules.join(" • ");
+ showProjects();
+}
+function simulateData(){
+ const result=document.getElementById("builderResult");
+ result.innerHTML="<b>🎲 Demo Simulation Ready</b><br>Users: 12 • Customers: 48 • Products: 125 • Transactions: 326 • Reports: 8";
+}
+function resetFictional(){
+ document.getElementById("fictionalName").value="";
+ document.getElementById("builderResult").innerHTML="Builder reset.";
+}
+function exportFictional(){
+ const data={
+  name:document.getElementById("fictionalName").value||"Fictional Program",
+  type:document.getElementById("fictionalType").value,
+  stage:document.getElementById("fictionalStage").value,
+  builder:currentBuilder,
+  exported:new Date().toISOString()
+ };
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+ a.download="fictional-program.json";a.click();URL.revokeObjectURL(a.href);
+}
+
 function showProjects(){
  let list=[];
  try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]')}catch(e){}
@@ -207,6 +362,8 @@ function escapeHtml(s){
  });
 }
 showProjects();
+checkLogin();
 </script>
+</div>
 </body>
 </html>
