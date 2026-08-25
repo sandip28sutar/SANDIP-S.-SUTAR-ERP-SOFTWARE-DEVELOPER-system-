@@ -1,51 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>SANDIP S. SUTAR ERP | Developer Console</title>
+
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#f4f5f7;color:#222}
 body{overflow-x:hidden}
 .header{width:100%;background:#fff;text-align:center;border-bottom:1px solid #ddd}
 .header img{display:block;width:100%;height:auto;max-height:210px;object-fit:cover}
-.fallback{display:none;padding:22px 10px;color:#12335f;font-weight:800;font-size:30px}
-.fallback small{display:block;font-size:14px;color:#8a4b16;margin-top:7px}
-.nav{width:100%;background:#4a2108;color:#fff;min-height:78px;padding:12px 18px;display:flex;align-items:center;gap:14px;overflow-x:auto;white-space:nowrap}
+.headerFallback{display:none;padding:25px 10px;color:#12335f;font-weight:800;font-size:30px}
+.headerFallback small{display:block;color:#8a4b16;font-size:14px;margin-top:7px}
+
+.nav{
+ width:100%;min-height:78px;padding:12px 18px;
+ background:#4a2108;color:#fff;display:flex;align-items:center;
+ gap:14px;white-space:nowrap;overflow-x:auto
+}
 .brand{font-size:20px;font-weight:700;flex:0 0 auto}
-.menu{background:#fff;color:#222;border:0;border-radius:10px;width:58px;height:54px;font-size:30px;flex:0 0 auto}
-.adminInfo{flex:0 0 auto}
-.badge{background:#eee;color:#333;border-radius:20px;padding:7px 12px;font-size:13px;flex:0 0 auto}
-#panel{display:none;width:100%;background:#fff;padding:14px;border-bottom:1px solid #ddd;box-shadow:0 3px 10px #0002}
+.menu{
+ width:58px;height:54px;flex:0 0 auto;border:0;border-radius:10px;
+ background:#fff;color:#222;font-size:30px;cursor:pointer
+}
+.admin{flex:0 0 auto}.badge{
+ background:#eee;color:#333;border-radius:20px;padding:7px 12px;
+ font-size:13px;flex:0 0 auto
+}
+
+#panel{
+ display:none;width:100%;background:#fff;padding:14px;
+ border-bottom:1px solid #ddd;box-shadow:0 3px 10px #0002
+}
 #panel.show{display:block}
-.item{display:block;width:100%;padding:13px;margin:6px 0;text-align:left;border:0;border-radius:8px;background:#f0f1f3}
-main{display:block!important;visibility:visible!important;opacity:1!important;width:100%;max-width:1200px;margin:0 auto;padding:22px}
-.hero{display:block!important;background:#fff;border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 3px 15px #0001}
+.item{
+ display:block;width:100%;padding:13px;margin:6px 0;text-align:left;
+ border:0;border-radius:8px;background:#f0f1f3;color:#222;
+ font-size:15px;cursor:pointer
+}
+
+main{
+ display:block!important;visibility:visible!important;opacity:1!important;
+ width:100%;max-width:1200px;margin:0 auto;padding:22px
+}
+.hero{
+ display:block!important;background:#fff;border-radius:14px;padding:24px;
+ margin-bottom:20px;box-shadow:0 3px 15px #0001
+}
 .hero h1{margin:0;color:#4a2108;font-size:25px}
-.hero p{color:#666;line-height:1.5}
-.cards{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;width:100%}
-.card{display:block!important;background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 15px #0001;border-top:5px solid #5a2809;min-width:0}
+.hero p{color:#666;line-height:1.5;margin-bottom:0}
+
+.cards{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:18px;width:100%
+}
+.card{
+ display:block!important;background:#fff;border-radius:14px;padding:22px;
+ box-shadow:0 3px 15px #0001;border-top:5px solid #5a2809;min-width:0
+}
 .card.active{border-top-color:#25803d}
 .card.demo{border-top-color:#a56b14}
-.card .ico{font-size:44px}
-.card h2{color:#4a2108;margin:8px 0}
+.ico{font-size:44px}
+.card h2{color:#4a2108;margin:8px 0;font-size:21px}
 .card p{color:#666;line-height:1.5;min-height:65px}
-.action{width:100%;padding:12px;border:0;border-radius:8px;background:#4a2108;color:#fff;font-weight:700}
-.programs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:20px}
-.tools{display:block!important;margin-top:20px;background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 15px #0001}
-.toolgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.tool{padding:15px;border:1px solid #ddd;border-radius:9px;background:#f8f8f8}
+.action{
+ width:100%;padding:12px;border:0;border-radius:8px;
+ background:#4a2108;color:#fff;font-weight:700;font-size:15px;cursor:pointer
+}
+
+.programs{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:18px;margin-top:20px
+}
+.tools{
+ display:block!important;margin-top:20px;background:#fff;border-radius:14px;
+ padding:22px;box-shadow:0 3px 15px #0001
+}
+.toolgrid{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px
+}
+.tool{
+ padding:15px;border:1px solid #ddd;border-radius:9px;
+ background:#f8f8f8;cursor:pointer
+}
+.tool b{display:inline-block;margin-left:5px}
 footer{text-align:center;padding:25px;color:#777;font-size:13px}
-.modal{display:none;position:fixed;inset:0;background:#0008;z-index:1000;align-items:center;justify-content:center;padding:15px}
+
+.modal{
+ display:none;position:fixed;inset:0;background:#0008;z-index:9999;
+ align-items:center;justify-content:center;padding:15px
+}
 .modal.show{display:flex}
-.modalBox{background:#fff;width:min(520px,100%);max-height:90vh;overflow:auto;border-radius:14px;padding:22px}
-.modalBox input,.modalBox select{width:100%;padding:12px;margin:8px 0 12px;border:1px solid #ccc;border-radius:7px;font:inherit}
+.modalBox{
+ background:#fff;width:min(520px,100%);max-height:90vh;overflow:auto;
+ border-radius:14px;padding:22px
+}
+.modalBox input,.modalBox select{
+ width:100%;padding:12px;margin:8px 0 12px;border:1px solid #ccc;
+ border-radius:7px;font:inherit
+}
 .modalActions{text-align:right;margin-top:15px}
-.cancel{background:#777!important;margin-right:6px}
+.cancel{background:#777!important;width:auto!important;margin-right:6px}
+
 @media(max-width:800px){
  .header img{max-height:160px}
  .brand{font-size:17px}
@@ -53,24 +113,28 @@ footer{text-align:center;padding:25px;color:#777;font-size:13px}
  .cards{grid-template-columns:1fr}
  .programs{grid-template-columns:1fr}
  .toolgrid{grid-template-columns:1fr 1fr}
- .adminInfo{display:none}
+ .admin{display:none}
 }
 @media(max-width:450px){
- .nav{min-height:70px;padding:10px}
- .menu{width:52px;height:50px}
- .toolgrid{grid-template-columns:1fr}
+ .nav{min-height:70px;padding:10px 12px;gap:10px}
+ .brand{font-size:16px}
+ .menu{width:52px;height:50px;font-size:28px}
+ main{padding:12px}
  .hero{padding:18px}
  .hero h1{font-size:21px}
  .card{padding:17px}
+ .toolgrid{grid-template-columns:1fr}
+ .tools{padding:17px}
 }
 </style>
 </head>
+
 <body>
 
 <header class="header">
   <img src="header.jpg" alt="SANDIP S. SUTAR ERP & APK Developer"
-       onerror="this.style.display='none';document.getElementById('fallback').style.display='block'">
-  <div id="fallback" class="fallback">
+       onerror="this.style.display='none';document.getElementById('headerFallback').style.display='block'">
+  <div id="headerFallback" class="headerFallback">
     SANDIP S. SUTAR
     <small>ERP & APK DEVELOPER • ERP SOFTWARE • ANDROID APK • PC EXE SOFTWARE</small>
   </div>
@@ -78,24 +142,24 @@ footer{text-align:center;padding:25px;color:#777;font-size:13px}
 
 <nav class="nav">
   <div class="brand">🏠 SANDIP S. SUTAR ERP</div>
-  <button class="menu" onclick="toggleMenu()">☰</button>
-  <div class="adminInfo">👤 Administrator</div>
+  <button class="menu" type="button" onclick="toggleMenu()">☰</button>
+  <div class="admin">👤 Administrator</div>
   <span class="badge">Admin</span>
-  <div class="adminInfo">📅 <span id="today"></span></div>
-  <div class="adminInfo">☁️ Cloud: Login</div>
+  <div class="admin">📅 <span id="today"></span></div>
+  <div class="admin">☁️ Cloud: Login</div>
 </nav>
 
 <div id="panel">
   <b>⚙️ Developer Menu</b>
   <button class="item" onclick="openProgram('active')">🟢 New Active Program</button>
   <button class="item" onclick="openProgram('demo')">🧪 New Demo / Fictional Program</button>
-  <button class="item" onclick="msg('New Android App')">📱 New Android App</button>
-  <button class="item" onclick="msg('New ERP Software')">🏢 New ERP Software</button>
-  <button class="item" onclick="msg('New PC EXE Software')">💻 New PC EXE Software</button>
-  <button class="item" onclick="msg('My Projects')">📁 My Projects</button>
-  <button class="item" onclick="msg('Firebase / Database')">🔥 Firebase / Database</button>
-  <button class="item" onclick="msg('Build Center')">🛠️ Build Center</button>
-  <button class="item" onclick="msg('Advanced Settings')">⚙️ Advanced Settings</button>
+  <button class="item" onclick="message('New Android App')">📱 New Android App</button>
+  <button class="item" onclick="message('New ERP Software')">🏢 New ERP Software</button>
+  <button class="item" onclick="message('New PC EXE Software')">💻 New PC EXE Software</button>
+  <button class="item" onclick="message('My Projects')">📁 My Projects</button>
+  <button class="item" onclick="message('Firebase / Database')">🔥 Firebase / Database</button>
+  <button class="item" onclick="message('Build Center')">🛠️ Build Center</button>
+  <button class="item" onclick="message('Advanced Settings')">⚙️ Advanced Settings</button>
 </div>
 
 <main id="appMain">
@@ -109,21 +173,21 @@ footer{text-align:center;padding:25px;color:#777;font-size:13px}
       <div class="ico">📱</div>
       <h2>New Android App</h2>
       <p>Login, dashboard, logo, Firebase, screens and Android APK project setup.</p>
-      <button class="action" onclick="msg('New Android App')">+ Create New App</button>
+      <button class="action" onclick="message('New Android App')">+ Create New App</button>
     </article>
 
     <article class="card">
       <div class="ico">🏢</div>
       <h2>New ERP Software</h2>
       <p>Sales, purchase, stock, customer, supplier, invoice, accounts and reports.</p>
-      <button class="action" onclick="msg('New ERP Software')">+ Create New ERP</button>
+      <button class="action" onclick="message('New ERP Software')">+ Create New ERP</button>
     </article>
 
     <article class="card">
       <div class="ico">💻</div>
       <h2>New PC EXE Software</h2>
       <p>Windows desktop software, database, reports, printing, backup and EXE build setup.</p>
-      <button class="action" onclick="msg('New PC EXE Software')">+ Create PC EXE</button>
+      <button class="action" onclick="message('New PC EXE Software')">+ Create PC EXE</button>
     </article>
   </section>
 
@@ -146,19 +210,19 @@ footer{text-align:center;padding:25px;color:#777;font-size:13px}
   <section class="tools">
     <h2 style="color:#4a2108">🛠️ Developer Tools</h2>
     <div class="toolgrid">
-      <div class="tool" onclick="msg('My Projects')">📁 <b>My Projects</b><br><small>Manage projects</small></div>
-      <div class="tool" onclick="msg('Templates')">🧩 <b>Templates</b><br><small>Ready templates</small></div>
-      <div class="tool" onclick="msg('Firebase')">🔥 <b>Firebase</b><br><small>Database & cloud</small></div>
-      <div class="tool" onclick="msg('Build Center')">🛠️ <b>Build Center</b><br><small>Build applications</small></div>
-      <div class="tool" onclick="msg('APK Builder')">📦 <b>APK Builder</b><br><small>Android build</small></div>
-      <div class="tool" onclick="msg('EXE Builder')">🖥️ <b>EXE Builder</b><br><small>Windows build</small></div>
-      <div class="tool" onclick="msg('Backup Manager')">💾 <b>Backup</b><br><small>Project backup</small></div>
-      <div class="tool" onclick="msg('Advanced Settings')">⚙️ <b>Advanced</b><br><small>Developer settings</small></div>
+      <div class="tool" onclick="message('My Projects')">📁 <b>My Projects</b><br><small>Manage projects</small></div>
+      <div class="tool" onclick="message('Templates')">🧩 <b>Templates</b><br><small>Ready templates</small></div>
+      <div class="tool" onclick="message('Firebase')">🔥 <b>Firebase</b><br><small>Database & cloud</small></div>
+      <div class="tool" onclick="message('Build Center')">🛠️ <b>Build Center</b><br><small>Build applications</small></div>
+      <div class="tool" onclick="message('APK Builder')">📦 <b>APK Builder</b><br><small>Android build</small></div>
+      <div class="tool" onclick="message('EXE Builder')">🖥️ <b>EXE Builder</b><br><small>Windows build</small></div>
+      <div class="tool" onclick="message('Backup Manager')">💾 <b>Backup</b><br><small>Project backup</small></div>
+      <div class="tool" onclick="message('Advanced Settings')">⚙️ <b>Advanced</b><br><small>Developer settings</small></div>
     </div>
   </section>
 </main>
 
-<div id="modal" class="modal">
+<div id="modal" class="modal" onclick="if(event.target===this)closeProgram()">
   <div class="modalBox">
     <h2 id="modalTitle" style="color:#4a2108;margin-top:0">New Program</h2>
     <label>Project Name</label>
@@ -171,7 +235,7 @@ footer{text-align:center;padding:25px;color:#777;font-size:13px}
       <option>Fictional / Custom Program</option>
     </select>
     <div class="modalActions">
-      <button class="action cancel" style="width:auto" onclick="closeProgram()">Cancel</button>
+      <button class="action cancel" onclick="closeProgram()">Cancel</button>
       <button class="action" style="width:auto" onclick="createProgram()">Create Program</button>
     </div>
   </div>
@@ -183,38 +247,48 @@ Designed & Developed by <b>SANDIP S. SUTAR</b>
 </footer>
 
 <script>
-document.getElementById('today').textContent =
-  new Date().toLocaleDateString('en-IN');
+(function(){
+  var d=document.getElementById('today');
+  if(d) d.textContent=new Date().toLocaleDateString('en-IN');
 
-function toggleMenu(){
-  document.getElementById('panel').classList.toggle('show');
-}
-function msg(name){
-  alert('🔧 '+name+'\n\nModule selected. Ready for development.');
-}
-function openProgram(mode){
-  document.getElementById('modal').classList.add('show');
-  document.getElementById('modalTitle').textContent =
-    mode === 'demo' ? '🧪 New Demo / Fictional Program' : '🟢 New Active Program';
-  document.getElementById('projectName').value='';
-  document.getElementById('modal').dataset.mode=mode;
-  document.getElementById('panel').classList.remove('show');
-}
-function closeProgram(){
-  document.getElementById('modal').classList.remove('show');
-}
-function createProgram(){
-  const name=document.getElementById('projectName').value.trim();
-  if(!name){alert('Project name required.');return;}
-  const mode=document.getElementById('modal').dataset.mode || 'active';
-  const type=document.getElementById('programType').value;
-  const key='sutarProjects';
-  const list=JSON.parse(localStorage.getItem(key)||'[]');
-  list.push({name,mode,type,created:new Date().toLocaleString()});
-  localStorage.setItem(key,JSON.stringify(list));
-  closeProgram();
-  alert((mode==='demo'?'🧪 Demo Program':'🟢 Active Program')+' created: '+name);
-}
+  window.toggleMenu=function(){
+    var p=document.getElementById('panel');
+    if(p) p.classList.toggle('show');
+  };
+
+  window.message=function(name){
+    alert('🔧 '+name+'\n\nModule selected. Ready for development.');
+  };
+
+  window.openProgram=function(mode){
+    var modal=document.getElementById('modal');
+    if(!modal) return;
+    document.getElementById('modalTitle').textContent =
+      mode==='demo' ? '🧪 New Demo / Fictional Program' : '🟢 New Active Program';
+    document.getElementById('projectName').value='';
+    modal.dataset.mode=mode;
+    modal.classList.add('show');
+    document.getElementById('panel').classList.remove('show');
+  };
+
+  window.closeProgram=function(){
+    document.getElementById('modal').classList.remove('show');
+  };
+
+  window.createProgram=function(){
+    var name=document.getElementById('projectName').value.trim();
+    if(!name){alert('Project name required.');return;}
+    var mode=document.getElementById('modal').dataset.mode || 'active';
+    var type=document.getElementById('programType').value;
+    var list=[];
+    try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]');}catch(e){}
+    list.push({name:name,mode:mode,type:type,created:new Date().toLocaleString()});
+    try{localStorage.setItem('sutarProjects',JSON.stringify(list));}catch(e){}
+    closeProgram();
+    alert((mode==='demo'?'🧪 Demo Program':'🟢 Active Program')+' created: '+name);
+  };
+})();
 </script>
+
 </body>
 </html>
