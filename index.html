@@ -57,6 +57,20 @@ input,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;bor
 .simBtn{padding:9px 13px;border:0;border-radius:7px;background:#4a2108;color:#fff}
 @media(max-width:800px){.advGrid{grid-template-columns:1fr 1fr}.builderGrid{grid-template-columns:1fr}}
 @media(max-width:450px){.advGrid{grid-template-columns:1fr}}
+
+.erpDev{background:#fff;border-radius:12px;padding:20px;margin-top:18px;box-shadow:0 2px 8px #0001}
+.erpModeGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.erpMode{border:2px solid #ddd;border-radius:10px;padding:16px;background:#fafafa;cursor:pointer}
+.erpMode:hover{border-color:#4a2108}
+.erpMode.selected{border-color:#4a2108;background:#fff8f2}
+.erpWizard{display:none;margin-top:15px;padding:16px;background:#fafafa;border-radius:10px;border:1px solid #ddd}
+.erpWizard.show{display:block}
+.erpGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.erpGrid input,.erpGrid select,.erpGrid textarea{width:100%;padding:11px;border:1px solid #ccc;border-radius:7px;font:inherit}
+.erpModules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.erpModules label{background:#fff;border:1px solid #ddd;border-radius:7px;padding:9px}
+.codeArea{width:100%;min-height:180px;font-family:monospace;padding:12px;border:1px solid #ccc;border-radius:8px}
+@media(max-width:700px){.erpModeGrid,.erpGrid{grid-template-columns:1fr}.erpModules{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -96,6 +110,7 @@ SANDIP S. SUTAR - APP & ERP DEVELOPER
 <button onclick="scrollToId('projects')">📁 My Projects</button>
 <button onclick="scrollToId('active')">🟢 Active Programs</button>
 <button onclick="scrollToId('demo')">🧪 Demo Programs</button>
+<button onclick="scrollToId('erpDeveloper')">💼 ERP Software Developer</button>
 <button onclick="scrollToId('advancedFictional')">🧬 Advanced Fictional Program</button>
 <div id="searchBox" style="display:none;background:#fff;padding:12px;border-bottom:1px solid #ddd">
 <input id="searchInput" type="search" placeholder="🔎 Search projects, apps, ERP..." oninput="searchProjects()" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font:inherit">
@@ -139,6 +154,74 @@ SANDIP S. SUTAR - APP & ERP DEVELOPER
 <button class="btn" onclick="createProject()">Create Project</button>
 </section>
 
+
+
+<section id="erpDeveloper" class="erpDev">
+<h2 style="color:#4a2108">💼 ERP Software Developer</h2>
+<p>Simple Business Setup किंवा Developer Coding Mode वापरून अनेक प्रकारच्या business साठी ERP तयार करा.</p>
+
+<div class="erpModeGrid">
+  <div id="simpleMode" class="erpMode selected" onclick="selectERPMode('simple')">
+    <h3>🏪 Simple Business Setup</h3>
+    <p>Shop owner फक्त business details भरतो आणि ERP structure तयार होते.</p>
+  </div>
+  <div id="codingMode" class="erpMode" onclick="selectERPMode('coding')">
+    <h3>👨‍💻 Developer Coding Mode</h3>
+    <p>Code, modules, database, workflow आणि reports स्वतः customize करा.</p>
+  </div>
+</div>
+
+<div id="simpleERP" class="erpWizard show">
+<h3>🏪 Business Details</h3>
+<div class="erpGrid">
+<input id="erpBusinessName" placeholder="Business Name">
+<input id="erpOwnerName" placeholder="Owner Name">
+<input id="erpMobile" placeholder="Mobile Number">
+<input id="erpAddress" placeholder="Business Address">
+<select id="erpBusinessType">
+<option>Retail</option><option>Wholesale</option><option>Manufacturing</option>
+<option>Service Business</option><option>Furniture / Plywood</option>
+<option>Construction</option><option>Restaurant</option><option>Transport</option>
+<option>Real Estate</option><option>Professional Services</option><option>Custom Business</option>
+</select>
+<input id="erpServices" placeholder="Business Services / Products">
+<select id="erpStock"><option>Stock: Yes</option><option>Stock: No</option></select>
+<select id="erpBilling"><option>Billing: Yes</option><option>Billing: No</option></select>
+<select id="erpAccounts"><option>Accounts: Yes</option><option>Accounts: No</option></select>
+<select id="erpDevice"><option>Mobile + PC</option><option>Mobile</option><option>PC</option></select>
+</div>
+<button class="btn" style="margin-top:12px" onclick="generateSimpleERP()">🚀 Generate ERP Structure</button>
+</div>
+
+<div id="codingERP" class="erpWizard">
+<h3>👨‍💻 Developer Coding Mode</h3>
+<div class="erpGrid">
+<input id="codeERPName" placeholder="ERP Project Name">
+<select id="codeERPType"><option>Custom ERP</option><option>Retail ERP</option><option>Manufacturing ERP</option><option>Service ERP</option></select>
+</div>
+<p><b>ERP Modules</b></p>
+<div class="erpModules">
+<label><input type="checkbox" checked> Dashboard</label>
+<label><input type="checkbox" checked> Customers</label>
+<label><input type="checkbox" checked> Suppliers</label>
+<label><input type="checkbox" checked> Products</label>
+<label><input type="checkbox" checked> Sales</label>
+<label><input type="checkbox" checked> Purchase</label>
+<label><input type="checkbox" checked> Inventory</label>
+<label><input type="checkbox"> Accounts</label>
+<label><input type="checkbox"> GST / Tax</label>
+<label><input type="checkbox"> HR / Staff</label>
+<label><input type="checkbox"> Reports</label>
+<label><input type="checkbox"> Custom Module</label>
+</div>
+<textarea id="erpCode" class="codeArea" placeholder="// HTML / CSS / JavaScript / JSON ERP code इथे paste करा..."></textarea>
+<input type="file" accept=".html,.htm,.css,.js,.json,.txt" onchange="loadERPCode(this)">
+<br><br>
+<button class="btn" onclick="generateCodingERP()">👨‍💻 Create ERP Project</button>
+</div>
+
+<div id="erpResult" style="margin-top:15px"></div>
+</section>
 
 <section id="advancedFictional" class="advCard">
 <h2 style="color:#4a2108">🧬 Advanced Fictional Program</h2>
@@ -344,6 +427,49 @@ function exportFictional(){
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
  a.download="fictional-program.json";a.click();URL.revokeObjectURL(a.href);
+}
+
+
+function selectERPMode(mode){
+ document.getElementById("simpleMode").classList.toggle("selected",mode==="simple");
+ document.getElementById("codingMode").classList.toggle("selected",mode==="coding");
+ document.getElementById("simpleERP").classList.toggle("show",mode==="simple");
+ document.getElementById("codingERP").classList.toggle("show",mode==="coding");
+}
+function generateSimpleERP(){
+ const name=document.getElementById("erpBusinessName").value.trim();
+ const owner=document.getElementById("erpOwnerName").value.trim();
+ const type=document.getElementById("erpBusinessType").value;
+ if(!name){alert("Business Name required.");return;}
+ const modules=["Dashboard","Customers","Suppliers","Products","Sales","Purchase","Reports","Users","Settings"];
+ const stock=document.getElementById("erpStock").value==="Stock: Yes";
+ const billing=document.getElementById("erpBilling").value==="Billing: Yes";
+ const accounts=document.getElementById("erpAccounts").value==="Accounts: Yes";
+ if(stock)modules.splice(6,0,"Inventory");
+ if(billing)modules.splice(6,0,"Billing / Invoice");
+ if(accounts)modules.push("Accounts");
+ const project={name,owner,businessType:type,services:document.getElementById("erpServices").value,modules,mode:"simple",created:new Date().toLocaleString()};
+ saveERPProject(project);
+ document.getElementById("erpResult").innerHTML="<b>✅ ERP Structure Created</b><br>"+escapeHtml(name)+"<br><small>"+escapeHtml(type)+" • Modules: "+modules.join(" • ")+"</small>";
+}
+function loadERPCode(input){
+ const f=input.files[0]; if(!f)return;
+ const r=new FileReader();
+ r.onload=e=>document.getElementById("erpCode").value=e.target.result;
+ r.readAsText(f);
+}
+function generateCodingERP(){
+ const name=document.getElementById("codeERPName").value.trim();
+ if(!name){alert("ERP Project Name required.");return;}
+ const project={name,businessType:document.getElementById("codeERPType").value,code:document.getElementById("erpCode").value,mode:"coding",created:new Date().toLocaleString()};
+ saveERPProject(project);
+ document.getElementById("erpResult").innerHTML="<b>👨‍💻 ERP Coding Project Created</b><br>"+escapeHtml(name);
+}
+function saveERPProject(project){
+ let list=[];
+ try{list=JSON.parse(localStorage.getItem("sutarERPProjects")||"[]")}catch(e){}
+ list.push(project);
+ try{localStorage.setItem("sutarERPProjects",JSON.stringify(list))}catch(e){}
 }
 
 function showProjects(){
