@@ -2,293 +2,158 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>SANDIP S. SUTAR ERP | Developer Console</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SANDIP S. SUTAR - App & ERP Developer</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;width:100%;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#f4f5f7;color:#222}
-body{overflow-x:hidden}
-.header{width:100%;background:#fff;text-align:center;border-bottom:1px solid #ddd}
-.header img{display:block;width:100%;height:auto;max-height:210px;object-fit:cover}
-.headerFallback{display:none;padding:25px 10px;color:#12335f;font-weight:800;font-size:30px}
-.headerFallback small{display:block;color:#8a4b16;font-size:14px;margin-top:7px}
-
-.nav{
- width:100%;min-height:78px;padding:12px 18px;
- background:#4a2108;color:#fff;display:flex;align-items:center;
- gap:14px;white-space:nowrap;overflow-x:auto
-}
-.brand{font-size:20px;font-weight:700;flex:0 0 auto}
-.menu{
- width:58px;height:54px;flex:0 0 auto;border:0;border-radius:10px;
- background:#fff;color:#222;font-size:30px;cursor:pointer
-}
-.admin{flex:0 0 auto}.badge{
- background:#eee;color:#333;border-radius:20px;padding:7px 12px;
- font-size:13px;flex:0 0 auto
-}
-
-#panel{
- display:none;width:100%;background:#fff;padding:14px;
- border-bottom:1px solid #ddd;box-shadow:0 3px 10px #0002
-}
-#panel.show{display:block}
-.item{
- display:block;width:100%;padding:13px;margin:6px 0;text-align:left;
- border:0;border-radius:8px;background:#f0f1f3;color:#222;
- font-size:15px;cursor:pointer
-}
-
-main{
- display:block!important;visibility:visible!important;opacity:1!important;
- width:100%;max-width:1200px;margin:0 auto;padding:22px
-}
-.hero{
- display:block!important;background:#fff;border-radius:14px;padding:24px;
- margin-bottom:20px;box-shadow:0 3px 15px #0001
-}
-.hero h1{margin:0;color:#4a2108;font-size:25px}
-.hero p{color:#666;line-height:1.5;margin-bottom:0}
-
-.cards{
- display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));
- gap:18px;width:100%
-}
-.card{
- display:block!important;background:#fff;border-radius:14px;padding:22px;
- box-shadow:0 3px 15px #0001;border-top:5px solid #5a2809;min-width:0
-}
-.card.active{border-top-color:#25803d}
-.card.demo{border-top-color:#a56b14}
-.ico{font-size:44px}
-.card h2{color:#4a2108;margin:8px 0;font-size:21px}
-.card p{color:#666;line-height:1.5;min-height:65px}
-.action{
- width:100%;padding:12px;border:0;border-radius:8px;
- background:#4a2108;color:#fff;font-weight:700;font-size:15px;cursor:pointer
-}
-
-.programs{
- display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:18px;margin-top:20px
-}
-.tools{
- display:block!important;margin-top:20px;background:#fff;border-radius:14px;
- padding:22px;box-shadow:0 3px 15px #0001
-}
-.toolgrid{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px
-}
-.tool{
- padding:15px;border:1px solid #ddd;border-radius:9px;
- background:#f8f8f8;cursor:pointer
-}
-.tool b{display:inline-block;margin-left:5px}
-footer{text-align:center;padding:25px;color:#777;font-size:13px}
-
-.modal{
- display:none;position:fixed;inset:0;background:#0008;z-index:9999;
- align-items:center;justify-content:center;padding:15px
-}
-.modal.show{display:flex}
-.modalBox{
- background:#fff;width:min(520px,100%);max-height:90vh;overflow:auto;
- border-radius:14px;padding:22px
-}
-.modalBox input,.modalBox select{
- width:100%;padding:12px;margin:8px 0 12px;border:1px solid #ccc;
- border-radius:7px;font:inherit
-}
-.modalActions{text-align:right;margin-top:15px}
-.cancel{background:#777!important;width:auto!important;margin-right:6px}
-
-@media(max-width:800px){
- .header img{max-height:160px}
- .brand{font-size:17px}
- main{padding:14px}
- .cards{grid-template-columns:1fr}
- .programs{grid-template-columns:1fr}
- .toolgrid{grid-template-columns:1fr 1fr}
- .admin{display:none}
-}
-@media(max-width:450px){
- .nav{min-height:70px;padding:10px 12px;gap:10px}
- .brand{font-size:16px}
- .menu{width:52px;height:50px;font-size:28px}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f5f7;color:#222}
+.header{background:#fff;text-align:center;border-bottom:1px solid #ddd}
+.header img{width:100%;max-height:170px;object-fit:cover;display:block}
+.brand{background:#4a2108;color:#fff;padding:16px;font-size:20px;font-weight:bold}
+.menuBtn{float:left;background:#fff;border:0;border-radius:7px;font-size:26px;padding:4px 11px}
+.menuBox{display:none;background:#fff;padding:12px;box-shadow:0 2px 8px #0002}
+.menuBox.show{display:block}
+.menuBox button{width:100%;padding:12px;margin:4px 0;text-align:left;border:0;border-radius:7px;background:#f0f0f0}
+main{max-width:1100px;margin:auto;padding:18px}
+.hero,.panel{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px #0001}
+h1,h2{color:#4a2108}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px #0001;text-align:center}
+.icon{font-size:40px}.card p{color:#666;line-height:1.5;min-height:44px}
+.btn{width:100%;padding:12px;background:#4a2108;color:#fff;border:0;border-radius:7px;font-weight:bold}
+.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.active{border-top:5px solid #25803d}.demo{border-top:5px solid #a56b14}
+textarea{width:100%;min-height:180px;padding:12px;border:1px solid #ccc;border-radius:8px;font-family:monospace;resize:vertical}
+input,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;border-radius:7px;font:inherit}
+#projectArea{display:none}
+#projectList{margin-top:15px}
+.project{padding:12px;background:#f7f7f7;border:1px solid #ddd;border-radius:8px;margin:7px 0}
+@media(max-width:700px){
+ .grid,.modeGrid{grid-template-columns:1fr}
  main{padding:12px}
- .hero{padding:18px}
- .hero h1{font-size:21px}
- .card{padding:17px}
- .toolgrid{grid-template-columns:1fr}
- .tools{padding:17px}
+ .brand{font-size:17px}
+ .card,.panel,.hero{padding:17px}
 }
 </style>
 </head>
-
 <body>
 
-<header class="header">
-  <img src="header.jpg" alt="SANDIP S. SUTAR ERP & APK Developer"
-       onerror="this.style.display='none';document.getElementById('headerFallback').style.display='block'">
-  <div id="headerFallback" class="headerFallback">
-    SANDIP S. SUTAR
-    <small>ERP & APK DEVELOPER • ERP SOFTWARE • ANDROID APK • PC EXE SOFTWARE</small>
-  </div>
-</header>
-
-<nav class="nav">
-  <div class="brand">🏠 SANDIP S. SUTAR ERP</div>
-  <button class="menu" type="button" onclick="toggleMenu()">☰</button>
-  <div class="admin">👤 Administrator</div>
-  <span class="badge">Admin</span>
-  <div class="admin">📅 <span id="today"></span></div>
-  <div class="admin">☁️ Cloud: Login</div>
-</nav>
-
-<div id="panel">
-  <b>⚙️ Developer Menu</b>
-  <button class="item" onclick="openProgram('active')">🟢 New Active Program</button>
-  <button class="item" onclick="openProgram('demo')">🧪 New Demo / Fictional Program</button>
-  <button class="item" onclick="message('New Android App')">📱 New Android App</button>
-  <button class="item" onclick="message('New ERP Software')">🏢 New ERP Software</button>
-  <button class="item" onclick="message('New PC EXE Software')">💻 New PC EXE Software</button>
-  <button class="item" onclick="message('My Projects')">📁 My Projects</button>
-  <button class="item" onclick="message('Firebase / Database')">🔥 Firebase / Database</button>
-  <button class="item" onclick="message('Build Center')">🛠️ Build Center</button>
-  <button class="item" onclick="message('Advanced Settings')">⚙️ Advanced Settings</button>
+<div class="header">
+<img src="header.jpg" alt="SANDIP S. SUTAR" onerror="this.style.display='none'">
+<div class="brand">
+<button class="menuBtn" onclick="toggleMenu()">☰</button>
+SANDIP S. SUTAR - APP & ERP DEVELOPER
+</div>
 </div>
 
-<main id="appMain">
-  <section class="hero">
-    <h1>🚀 SANDIP S. SUTAR Developer Console</h1>
-    <p>Create and manage Android APK, ERP Software, Windows PC EXE Software and Demo/Fictional Programs from one place.</p>
-  </section>
+<div id="menuBox" class="menuBox">
+<button onclick="scrollToId('creator')">🚀 Create Project</button>
+<button onclick="scrollToId('projects')">📁 My Projects</button>
+<button onclick="scrollToId('active')">🟢 Active Programs</button>
+<button onclick="scrollToId('demo')">🧪 Demo Programs</button>
+</div>
 
-  <section class="cards">
-    <article class="card">
-      <div class="ico">📱</div>
-      <h2>New Android App</h2>
-      <p>Login, dashboard, logo, Firebase, screens and Android APK project setup.</p>
-      <button class="action" onclick="message('New Android App')">+ Create New App</button>
-    </article>
+<main>
+<section class="hero">
+<h1>🚀 Developer Console</h1>
+<p>एकाच code वरून Android App, ERP Software, PC EXE आणि Demo Program project तयार करण्यासाठी simple console.</p>
+</section>
 
-    <article class="card">
-      <div class="ico">🏢</div>
-      <h2>New ERP Software</h2>
-      <p>Sales, purchase, stock, customer, supplier, invoice, accounts and reports.</p>
-      <button class="action" onclick="message('New ERP Software')">+ Create New ERP</button>
-    </article>
+<section class="grid">
+<div class="card"><div class="icon">📱</div><h2>Android App</h2><p>Android application project तयार करा.</p><button class="btn" onclick="setType('Android App')">Select</button></div>
+<div class="card"><div class="icon">💼</div><h2>ERP Software</h2><p>ERP software project तयार करा.</p><button class="btn" onclick="setType('ERP Software')">Select</button></div>
+<div class="card"><div class="icon">🖥️</div><h2>PC EXE</h2><p>Windows EXE project तयार करा.</p><button class="btn" onclick="setType('PC EXE Software')">Select</button></div>
+</section>
 
-    <article class="card">
-      <div class="ico">💻</div>
-      <h2>New PC EXE Software</h2>
-      <p>Windows desktop software, database, reports, printing, backup and EXE build setup.</p>
-      <button class="action" onclick="message('New PC EXE Software')">+ Create PC EXE</button>
-    </article>
-  </section>
+<section id="creator" class="panel" style="margin-top:18px">
+<h2>🛠️ Create Project From Code</h2>
+<label>Project Name</label>
+<input id="projectName" placeholder="उदा. Ganesh Plywood ERP">
 
-  <section class="programs">
-    <article class="card active">
-      <div class="ico">🟢</div>
-      <h2>Active Programs</h2>
-      <p>Real projects for actual use with database, login, build and export.</p>
-      <button class="action" onclick="openProgram('active')">+ New Active Program</button>
-    </article>
+<label>Project Type</label>
+<select id="projectType">
+<option>Android App</option>
+<option>ERP Software</option>
+<option>PC EXE Software</option>
+<option>Custom Program</option>
+</select>
 
-    <article class="card demo">
-      <div class="ico">🧪</div>
-      <h2>Demo / Fictional Programs</h2>
-      <p>Testing projects with demo data, sample reports and resettable content.</p>
-      <button class="action" onclick="openProgram('demo')">+ New Demo Program</button>
-    </article>
-  </section>
+<label>Program Mode</label>
+<select id="programMode">
+<option value="active">🟢 Active Program</option>
+<option value="demo">🧪 Demo / Fictional Program</option>
+</select>
 
-  <section class="tools">
-    <h2 style="color:#4a2108">🛠️ Developer Tools</h2>
-    <div class="toolgrid">
-      <div class="tool" onclick="message('My Projects')">📁 <b>My Projects</b><br><small>Manage projects</small></div>
-      <div class="tool" onclick="message('Templates')">🧩 <b>Templates</b><br><small>Ready templates</small></div>
-      <div class="tool" onclick="message('Firebase')">🔥 <b>Firebase</b><br><small>Database & cloud</small></div>
-      <div class="tool" onclick="message('Build Center')">🛠️ <b>Build Center</b><br><small>Build applications</small></div>
-      <div class="tool" onclick="message('APK Builder')">📦 <b>APK Builder</b><br><small>Android build</small></div>
-      <div class="tool" onclick="message('EXE Builder')">🖥️ <b>EXE Builder</b><br><small>Windows build</small></div>
-      <div class="tool" onclick="message('Backup Manager')">💾 <b>Backup</b><br><small>Project backup</small></div>
-      <div class="tool" onclick="message('Advanced Settings')">⚙️ <b>Advanced</b><br><small>Developer settings</small></div>
-    </div>
-  </section>
+<label>Paste / Upload Code</label>
+<textarea id="codeBox" placeholder="तुमचा HTML / CSS / JavaScript code इथे paste करा..."></textarea>
+<input type="file" id="codeFile" accept=".html,.htm,.css,.js,.json,.txt" onchange="loadCodeFile(this)">
+
+<button class="btn" onclick="createProject()">Create Project</button>
+</section>
+
+<section id="projects" class="panel">
+<h2>📁 My Projects</h2>
+<div id="projectList">No projects created yet.</div>
+</section>
+
+<section id="active" class="panel">
+<h2>🟢 Active Programs</h2>
+<p>Actual use साठी तयार केलेले projects.</p>
+</section>
+
+<section id="demo" class="panel">
+<h2>🧪 Demo / Fictional Programs</h2>
+<p>Testing/demo साठीचे projects.</p>
+</section>
 </main>
 
-<div id="modal" class="modal" onclick="if(event.target===this)closeProgram()">
-  <div class="modalBox">
-    <h2 id="modalTitle" style="color:#4a2108;margin-top:0">New Program</h2>
-    <label>Project Name</label>
-    <input id="projectName" placeholder="Enter project name">
-    <label>Program Type</label>
-    <select id="programType">
-      <option>Android App</option>
-      <option>ERP Software</option>
-      <option>PC EXE Software</option>
-      <option>Fictional / Custom Program</option>
-    </select>
-    <div class="modalActions">
-      <button class="action cancel" onclick="closeProgram()">Cancel</button>
-      <button class="action" style="width:auto" onclick="createProgram()">Create Program</button>
-    </div>
-  </div>
-</div>
-
-<footer>
-© 2026 SANDIP S. SUTAR ERP System<br>
-Designed & Developed by <b>SANDIP S. SUTAR</b>
-</footer>
-
 <script>
-(function(){
-  var d=document.getElementById('today');
-  if(d) d.textContent=new Date().toLocaleDateString('en-IN');
-
-  window.toggleMenu=function(){
-    var p=document.getElementById('panel');
-    if(p) p.classList.toggle('show');
-  };
-
-  window.message=function(name){
-    alert('🔧 '+name+'\n\nModule selected. Ready for development.');
-  };
-
-  window.openProgram=function(mode){
-    var modal=document.getElementById('modal');
-    if(!modal) return;
-    document.getElementById('modalTitle').textContent =
-      mode==='demo' ? '🧪 New Demo / Fictional Program' : '🟢 New Active Program';
-    document.getElementById('projectName').value='';
-    modal.dataset.mode=mode;
-    modal.classList.add('show');
-    document.getElementById('panel').classList.remove('show');
-  };
-
-  window.closeProgram=function(){
-    document.getElementById('modal').classList.remove('show');
-  };
-
-  window.createProgram=function(){
-    var name=document.getElementById('projectName').value.trim();
-    if(!name){alert('Project name required.');return;}
-    var mode=document.getElementById('modal').dataset.mode || 'active';
-    var type=document.getElementById('programType').value;
-    var list=[];
-    try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]');}catch(e){}
-    list.push({name:name,mode:mode,type:type,created:new Date().toLocaleString()});
-    try{localStorage.setItem('sutarProjects',JSON.stringify(list));}catch(e){}
-    closeProgram();
-    alert((mode==='demo'?'🧪 Demo Program':'🟢 Active Program')+' created: '+name);
-  };
-})();
+function toggleMenu(){document.getElementById('menuBox').classList.toggle('show')}
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});document.getElementById('menuBox').classList.remove('show')}
+function setType(type){
+ document.getElementById('projectType').value=type;
+ scrollToId('creator');
+}
+function loadCodeFile(input){
+ const file=input.files[0];
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=function(e){document.getElementById('codeBox').value=e.target.result};
+ reader.readAsText(file);
+}
+function createProject(){
+ const name=document.getElementById('projectName').value.trim();
+ const type=document.getElementById('projectType').value;
+ const mode=document.getElementById('programMode').value;
+ const code=document.getElementById('codeBox').value;
+ if(!name){alert('Project Name required.');return}
+ if(!code){alert('Code paste किंवा upload करा.');return}
+ let list=[];
+ try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]')}catch(e){}
+ list.push({
+  name:name,type:type,mode:mode,
+  code:code,created:new Date().toLocaleString()
+ });
+ localStorage.setItem('sutarProjects',JSON.stringify(list));
+ showProjects();
+ alert('✅ '+type+' project created successfully.');
+}
+function showProjects(){
+ let list=[];
+ try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]')}catch(e){}
+ const box=document.getElementById('projectList');
+ if(!list.length){box.innerHTML='No projects created yet.';return}
+ box.innerHTML=list.map((p,i)=>
+ '<div class="project"><b>'+(p.mode==='demo'?'🧪':'🟢')+' '+escapeHtml(p.name)+'</b><br>'+
+ '<small>'+escapeHtml(p.type)+' • '+escapeHtml(p.created)+'</small></div>'
+ ).join('');
+}
+function escapeHtml(s){
+ return String(s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];
+ });
+}
+showProjects();
 </script>
-
 </body>
 </html>
