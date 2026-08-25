@@ -27,6 +27,8 @@ textarea{width:100%;min-height:180px;padding:12px;border:1px solid #ccc;border-r
 input,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;border-radius:7px;font:inherit}
 #projectArea{display:none}
 #projectList{margin-top:15px}
+.searchResult{padding:12px;background:#f7f7f7;border:1px solid #ddd;border-radius:8px;margin:7px 0}
+.noResult{padding:12px;color:#777;background:#fafafa;border-radius:8px}
 .project{padding:12px;background:#f7f7f7;border:1px solid #ddd;border-radius:8px;margin:7px 0}
 @media(max-width:700px){
  .grid,.modeGrid{grid-template-columns:1fr}
@@ -43,14 +45,21 @@ input,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;bor
 <div class="brand">
 <button class="menuBtn" onclick="toggleMenu()">☰</button>
 SANDIP S. SUTAR - APP & ERP DEVELOPER
+<span style="float:right;font-size:14px;font-weight:normal">
+<button onclick="refreshApp()" style="margin-left:8px;padding:6px 9px;border:0;border-radius:6px">↻ Refresh</button>
+<button onclick="logout()" style="margin-left:5px;padding:6px 9px;border:0;border-radius:6px">🚪 Log Out</button>
+</span>
 </div>
 </div>
 
 <div id="menuBox" class="menuBox">
+<button onclick="toggleSearch()">🔎 Search</button>
 <button onclick="scrollToId('creator')">🚀 Create Project</button>
 <button onclick="scrollToId('projects')">📁 My Projects</button>
 <button onclick="scrollToId('active')">🟢 Active Programs</button>
 <button onclick="scrollToId('demo')">🧪 Demo Programs</button>
+<div id="searchBox" style="display:none;background:#fff;padding:12px;border-bottom:1px solid #ddd">
+<input id="searchInput" type="search" placeholder="🔎 Search projects, apps, ERP..." oninput="searchProjects()" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font:inherit">
 </div>
 
 <main>
@@ -138,6 +147,50 @@ function createProject(){
  showProjects();
  alert('✅ '+type+' project created successfully.');
 }
+
+function refreshApp(){
+ location.reload();
+}
+function logout(){
+ const ok=confirm("Log out from this Developer Console?");
+ if(!ok)return;
+ try{
+  sessionStorage.clear();
+  localStorage.removeItem("sutarSession");
+ }catch(e){}
+ alert("Logged out successfully.");
+ location.reload();
+}
+function toggleSearch(){
+ const box=document.getElementById("searchBox");
+ box.style.display=box.style.display==="block"?"none":"block";
+ document.getElementById("menuBox").classList.remove("show");
+ if(box.style.display==="block"){
+  document.getElementById("searchInput").focus();
+  searchProjects();
+ }
+}
+function searchProjects(){
+ const q=document.getElementById("searchInput").value.trim().toLowerCase();
+ let list=[];
+ try{list=JSON.parse(localStorage.getItem("sutarProjects")||"[]")}catch(e){}
+ const box=document.getElementById("projectList");
+ if(!q){showProjects();return}
+ const matches=list.filter(p =>
+  String(p.name||"").toLowerCase().includes(q) ||
+  String(p.type||"").toLowerCase().includes(q) ||
+  String(p.mode||"").toLowerCase().includes(q)
+ );
+ if(!matches.length){
+  box.innerHTML='<div class="noResult">🔎 No matching projects found.</div>';
+  return;
+ }
+ box.innerHTML=matches.map(p =>
+  '<div class="searchResult"><b>'+(p.mode==="demo"?"🧪":"🟢")+' '+escapeHtml(p.name)+'</b><br><small>'+
+  escapeHtml(p.type)+' • '+escapeHtml(p.created)+'</small></div>'
+ ).join('');
+}
+
 function showProjects(){
  let list=[];
  try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]')}catch(e){}
