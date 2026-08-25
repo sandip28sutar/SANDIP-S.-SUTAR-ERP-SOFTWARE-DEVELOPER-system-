@@ -57,6 +57,8 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;color:#2
 <div class="layout">
 <aside class="sidebar" id="sidebar">
 <button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button>
+<button onclick="openProjectModal('active')">🟢 New Active Program</button>
+<button onclick="openProjectModal('demo')">🧪 New Demo Program</button>
 <button onclick="show('android',this)">📱 New Android App</button>
 <button onclick="show('erp',this)">💼 New ERP Software</button>
 <button onclick="show('pc',this)">🖥️ New PC EXE Software</button>
@@ -82,6 +84,19 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;color:#2
 <div class="card"><div class="icon">💼</div><h3>New ERP Software</h3><p>Create sales, purchase, stock, accounts and reports.</p><button class="btn" onclick="showById('erp')">Create ERP</button></div>
 <div class="card"><div class="icon">🖥️</div><h3>New PC EXE Software</h3><p>Create Windows desktop software and EXE builds.</p><button class="btn" onclick="showById('pc')">Create EXE</button></div>
 </div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:20px">
+<div class="card" style="border-top-color:#25803d">
+<div class="icon">🟢</div><h3>Active Programs</h3>
+<p>Real projects for actual use, with database, login, build and export.</p>
+<button class="btn" onclick="openProjectModal('active')">+ New Active Program</button>
+</div>
+<div class="card" style="border-top-color:#a56b14">
+<div class="icon">🧪</div><h3>Demo / Fictional Programs</h3>
+<p>Safe testing projects with demo data, sample reports and resettable content.</p>
+<button class="btn" onclick="openProjectModal('demo')">+ New Demo Program</button>
+</div>
+</div>
+
 </section>
 
 <section id="android" class="section"><div class="panel"><h2>📱 New Android App</h2><p>Android project setup.</p><div class="list"><div class="listItem">🔐 Login & Authentication</div><div class="listItem">🎨 App Logo & Screens</div><div class="listItem">🔥 Firebase Integration</div><div class="listItem">📦 APK Build</div></div><br><button class="btn" onclick="alert('Android project setup ready.')">Start Project</button></div></section>
@@ -100,6 +115,30 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;color:#2
 
 <section id="settings" class="section"><div class="panel"><h2>⚙️ Advanced Settings</h2><div class="list"><div class="listItem">🏷️ Branding</div><div class="listItem">👤 User & Access Settings</div><div class="listItem">💾 Backup Settings</div><div class="listItem">🔧 Developer Settings</div></div></div></section>
 
+
+<div id="projectModal" style="display:none;position:fixed;inset:0;background:#0008;z-index:50;align-items:center;justify-content:center;padding:15px">
+  <div style="background:#fff;border-radius:14px;padding:22px;width:min(520px,100%)">
+    <h2 id="modalTitle" style="color:#4a2108;margin-top:0">New Program</h2>
+    <label>Project Name</label>
+    <input id="projectName" placeholder="Enter project name" style="width:100%;padding:12px;margin:8px 0 12px;border:1px solid #ccc;border-radius:7px">
+    <label>Program Mode</label>
+    <select id="programMode" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:7px">
+      <option value="active">🟢 Active Program</option>
+      <option value="demo">🧪 Demo / Fictional Program</option>
+    </select>
+    <label>Program Type</label>
+    <select id="programType" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:7px">
+      <option>Android App</option>
+      <option>ERP Software</option>
+      <option>PC EXE Software</option>
+      <option>Fictional / Custom Program</option>
+    </select>
+    <div style="text-align:right;margin-top:15px">
+      <button class="btn" onclick="closeProjectModal()" style="background:#777">Cancel</button>
+      <button class="btn" onclick="createProgram()">Create Program</button>
+    </div>
+  </div>
+</div>
 </main>
 </div>
 
@@ -118,6 +157,27 @@ document.querySelectorAll('.section').forEach(x=>x.classList.remove('show'));
 document.getElementById(id).classList.add('show');
 document.querySelectorAll('.sidebar button').forEach(x=>x.classList.remove('active'));
 }
+
+function openProjectModal(mode){
+  document.getElementById('projectModal').style.display='flex';
+  document.getElementById('programMode').value=mode || 'active';
+  document.getElementById('modalTitle').textContent =
+    mode==='demo' ? '🧪 New Demo / Fictional Program' : '🟢 New Active Program';
+}
+function closeProjectModal(){document.getElementById('projectModal').style.display='none'}
+function createProgram(){
+  const name=document.getElementById('projectName').value.trim();
+  const mode=document.getElementById('programMode').value;
+  const type=document.getElementById('programType').value;
+  if(!name){alert('Project name required.');return}
+  const key='sutarProjects';
+  const list=JSON.parse(localStorage.getItem(key)||'[]');
+  list.push({name,mode,type,created:new Date().toLocaleString()});
+  localStorage.setItem(key,JSON.stringify(list));
+  closeProjectModal();
+  alert((mode==='demo'?'🧪 Demo Program':'🟢 Active Program')+' created: '+name);
+}
+
 </script>
 </body>
 </html>
