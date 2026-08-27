@@ -2,568 +2,120 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SANDIP S. SUTAR - App & ERP Developer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SANDIP S. SUTAR | ERP Developer Console</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f5f7;color:#222}
-.header{background:#fff;text-align:center;border-bottom:1px solid #ddd}
-.header img{width:100%;max-height:170px;object-fit:cover;display:block}
-.brand{background:#4a2108;color:#fff;padding:16px;font-size:20px;font-weight:bold}
-.menuBtn{float:left;background:#fff;border:0;border-radius:7px;font-size:26px;padding:4px 11px}
-.menuBox{display:none;background:#fff;padding:12px;box-shadow:0 2px 8px #0002}
-.menuBox.show{display:block}
-.menuBox button{width:100%;padding:12px;margin:4px 0;text-align:left;border:0;border-radius:7px;background:#f0f0f0}
-main{max-width:1100px;margin:auto;padding:18px}
-.hero,.panel{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px #0001}
-h1,h2{color:#4a2108}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px #0001;text-align:center}
-.icon{font-size:40px}.card p{color:#666;line-height:1.5;min-height:44px}
-.btn{width:100%;padding:12px;background:#4a2108;color:#fff;border:0;border-radius:7px;font-weight:bold}
-.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
-.active{border-top:5px solid #25803d}.demo{border-top:5px solid #a56b14}
-textarea{width:100%;min-height:180px;padding:12px;border:1px solid #ccc;border-radius:8px;font-family:monospace;resize:vertical}
-input,select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;border-radius:7px;font:inherit}
-#projectArea{display:none}
-#projectList{margin-top:15px}
-.searchResult{padding:12px;background:#f7f7f7;border:1px solid #ddd;border-radius:8px;margin:7px 0}
-.noResult{padding:12px;color:#777;background:#fafafa;border-radius:8px}
-.project{padding:12px;background:#f7f7f7;border:1px solid #ddd;border-radius:8px;margin:7px 0}
-@media(max-width:700px){
- .grid,.modeGrid{grid-template-columns:1fr}
- main{padding:12px}
- .brand{font-size:17px}
- .card,.panel,.hero{padding:17px}
-}
-
-#loginScreen{position:fixed;inset:0;background:#f4f5f7;z-index:10000;display:flex;align-items:center;justify-content:center;padding:18px}
-.loginBox{width:min(420px,100%);background:#fff;border-radius:14px;padding:26px;box-shadow:0 4px 20px #0002;text-align:left}
-.loginBox h1{margin-top:0;color:#4a2108;text-align:center}
-.loginBox .loginLogo{width:90px;height:90px;border-radius:12px;object-fit:cover;display:block;margin:0 auto 12px}
-.loginBox input{width:100%;padding:13px;margin:7px 0 12px;border:1px solid #ccc;border-radius:8px;font:inherit}
-.loginBtn{width:100%;padding:13px;background:#4a2108;color:#fff;border:0;border-radius:8px;font-weight:bold;font-size:15px}
-.loginHint{text-align:center;color:#777;font-size:12px;margin-top:12px}
-.loginError{display:none;color:#b00020;background:#fff0f0;padding:9px;border-radius:7px;margin-bottom:10px;font-size:13px}
-
-.advCard{background:#fff;border-radius:12px;padding:18px;margin-top:16px;box-shadow:0 2px 8px #0001}
-.advGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.advItem{padding:13px;border:1px solid #ddd;border-radius:8px;background:#fafafa;cursor:pointer}
-.advItem:hover{background:#f0f0f0}
-.builderBox{display:none;margin-top:14px;padding:16px;border:1px solid #ddd;border-radius:10px;background:#fafafa}
-.builderBox.show{display:block}
-.builderGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.simBar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.simBtn{padding:9px 13px;border:0;border-radius:7px;background:#4a2108;color:#fff}
-@media(max-width:800px){.advGrid{grid-template-columns:1fr 1fr}.builderGrid{grid-template-columns:1fr}}
-@media(max-width:450px){.advGrid{grid-template-columns:1fr}}
-
-.erpDev{background:#fff;border-radius:12px;padding:20px;margin-top:18px;box-shadow:0 2px 8px #0001}
-.erpModeGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
-.erpMode{border:2px solid #ddd;border-radius:10px;padding:16px;background:#fafafa;cursor:pointer}
-.erpMode:hover{border-color:#4a2108}
-.erpMode.selected{border-color:#4a2108;background:#fff8f2}
-.erpWizard{display:none;margin-top:15px;padding:16px;background:#fafafa;border-radius:10px;border:1px solid #ddd}
-.erpWizard.show{display:block}
-.erpGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.erpGrid input,.erpGrid select,.erpGrid textarea{width:100%;padding:11px;border:1px solid #ccc;border-radius:7px;font:inherit}
-.erpModules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
-.erpModules label{background:#fff;border:1px solid #ddd;border-radius:7px;padding:9px}
-.codeArea{width:100%;min-height:180px;font-family:monospace;padding:12px;border:1px solid #ccc;border-radius:8px}
-@media(max-width:700px){.erpModeGrid,.erpGrid{grid-template-columns:1fr}.erpModules{grid-template-columns:1fr}}
-
-.erpMenuOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9000;padding:18px;align-items:center;justify-content:center}
-.erpMenuOverlay.show{display:flex}
-.erpMenuPanel{width:min(900px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:14px;padding:20px;box-shadow:0 8px 30px #0004}
-.erpMenuHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #ddd;padding-bottom:12px}
-.erpMenuHeader h2{margin:0;color:#4a2108}
-.erpClose{border:0;background:#eee;border-radius:8px;padding:9px 13px;font-size:18px}
-.erpMenuGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-.erpMenuItem{padding:15px;border:1px solid #ddd;border-radius:10px;background:#fafafa;text-align:left;cursor:pointer}
-.erpMenuItem:hover{background:#fff3e8;border-color:#4a2108}
-.erpMenuItem b{display:block;color:#4a2108;margin-bottom:5px}
-@media(max-width:700px){.erpMenuOverlay{padding:10px}.erpMenuPanel{max-height:94vh;padding:15px}.erpMenuGrid{grid-template-columns:1fr 1fr}}
-@media(max-width:430px){.erpMenuGrid{grid-template-columns:1fr}}
+*{box-sizing:border-box}html,body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#182033}
+body{overflow-x:hidden}
+.header{background:#07172f;width:100%;border-bottom:2px solid #1d7cff}
+.header img{display:block;width:100%;height:auto;max-height:190px;object-fit:cover}
+.nav{min-height:68px;background:#fff;display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid #ddd;white-space:nowrap;overflow-x:auto}
+.menu{width:48px;height:46px;border:1px solid #ddd;border-radius:9px;background:#fff;font-size:24px}
+.brand{font-weight:800;color:#102044;font-size:18px}.spacer{flex:1}
+.badge{background:#e9f1ff;color:#1769e0;padding:7px 11px;border-radius:20px;font-size:12px;font-weight:700}
+#panel{display:none;background:#fff;padding:12px 18px;border-bottom:1px solid #ddd;box-shadow:0 4px 14px #0001}
+#panel.show{display:block}.item{width:100%;max-width:360px;display:block;text-align:left;border:0;background:#f3f6fa;padding:12px;margin:6px 0;border-radius:8px}
+main{max-width:1400px;margin:auto;padding:22px}
+.hero{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 15px #0001}
+.hero h1{margin:0;color:#102044}.hero p{color:#667085}
+.cards{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));gap:12px;margin-top:18px}
+.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 3px 15px #0001;border:1px solid #e6eaf0}
+.stat b{display:block;font-size:24px;margin:8px 0;color:#1464df}.stat small{color:#667085}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}
+.box{background:#fff;border-radius:14px;padding:18px;box-shadow:0 3px 15px #0001}
+.box h2{margin-top:0;color:#16264a}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.action{padding:16px;border:1px solid #e1e7ef;border-radius:10px;background:#f8fafc}
+button.primary{border:0;border-radius:8px;padding:10px 14px;background:#1769e0;color:#fff;font-weight:700;cursor:pointer}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.tool{padding:15px;border:1px solid #e1e7ef;border-radius:10px;background:#fff;cursor:pointer}
+footer{text-align:center;color:#667085;padding:25px}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}}
+@media(max-width:600px){.header img{max-height:150px}.nav{padding:9px 10px}.brand{font-size:15px}main{padding:12px}.cards{grid-template-columns:repeat(2,1fr)}.actions{grid-template-columns:1fr}.tools{grid-template-columns:1fr 1fr}.hero{padding:17px}.hero h1{font-size:21px}}
 </style>
 </head>
 <body>
 
-<div id="loginScreen">
-  <div class="loginBox">
-    <img class="loginLogo" src="header.jpg" alt="Logo" onerror="this.style.display='none'">
-    <h1>🔐 Login</h1>
-    <div id="loginError" class="loginError">Invalid User ID or Password.</div>
-    <label>User ID</label>
-    <input id="loginUser" type="text" autocomplete="username" placeholder="Enter User ID">
-    <label>Password</label>
-    <input id="loginPass" type="password" autocomplete="current-password" placeholder="Enter Password"
-           onkeydown="if(event.key==='Enter')loginUser()">
-    <button class="loginBtn" onclick="loginUser()">Login</button>
-    <div class="loginHint">SANDIP S. SUTAR Developer Console</div>
-  </div>
-</div>
+<header class="header"><img src="header.jpg" alt="SANDIP S. SUTAR ERP Software Developer"></header>
 
+<nav class="nav">
+  <button class="menu" onclick="toggleMenu()">☰</button>
+  <div class="brand">SANDIP S. SUTAR ERP</div>
+  <div class="spacer"></div>
+  <span>👤 Developer</span><span class="badge">Super Admin</span>
+  <span>📅 <span id="today"></span></span>
+  <span>☁️ Cloud</span>
+</nav>
 
-<div id="appShell" style="display:none">
-<div class="header">
-<img src="header.jpg" alt="SANDIP S. SUTAR" onerror="this.style.display='none'">
-<div class="brand">
-<button class="menuBtn" onclick="toggleMenu()">☰</button>
-SANDIP S. SUTAR - APP & ERP DEVELOPER
-<span style="float:right;font-size:14px;font-weight:normal">
-<button onclick="refreshApp()" style="margin-left:8px;padding:6px 9px;border:0;border-radius:6px">↻ Refresh</button>
-<button onclick="logout()" style="margin-left:5px;padding:6px 9px;border:0;border-radius:6px">🚪 Log Out</button>
-</span>
-</div>
-</div>
-
-<div id="menuBox" class="menuBox">
-<button onclick="toggleSearch()">🔎 Search</button>
-<button onclick="scrollToId('creator')">🚀 Create Project</button>
-<button onclick="scrollToId('projects')">📁 My Projects</button>
-<button onclick="scrollToId('active')">🟢 Active Programs</button>
-<button onclick="scrollToId('demo')">🧪 Demo Programs</button>
-<button onclick="scrollToId('erpDeveloper')">💼 ERP Software Developer</button>
-<button onclick="scrollToId('advancedFictional')">🧬 Advanced Fictional Program</button>
-<div id="searchBox" style="display:none;background:#fff;padding:12px;border-bottom:1px solid #ddd">
-<input id="searchInput" type="search" placeholder="🔎 Search projects, apps, ERP..." oninput="searchProjects()" style="width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font:inherit">
+<div id="panel">
+  <b>⚙️ Developer Menu</b>
+  <button class="item" onclick="go('ERP Software Developer')">🏢 ERP Software Developer</button>
+  <button class="item" onclick="go('New Customer ERP')">➕ New Customer ERP</button>
+  <button class="item" onclick="go('Active Programs')">🟢 Active Programs</button>
+  <button class="item" onclick="go('Demo / Fictional Programs')">🧪 Demo / Fictional Programs</button>
+  <button class="item" onclick="go('Firebase / Database')">🔥 Firebase / Database</button>
+  <button class="item" onclick="go('Build Center')">🛠️ Build Center</button>
+  <button class="item" onclick="go('Settings')">⚙️ Settings</button>
 </div>
 
 <main>
 <section class="hero">
-<h1>🚀 Developer Console</h1>
-<p>एकाच code वरून Android App, ERP Software, PC EXE आणि Demo Program project तयार करण्यासाठी simple console.</p>
+<h1>🚀 SANDIP S. SUTAR Developer Console</h1>
+<p>Develop, customize and manage ERP software, Android apps and PC EXE software for multiple business services from one place.</p>
 </section>
 
-<section class="grid">
-<div class="card"><div class="icon">📱</div><h2>Android App</h2><p>Android application project तयार करा.</p><button class="btn" onclick="setType('Android App')">Select</button></div>
-<div class="card"><div class="icon">💼</div><h2>ERP Software</h2><p>ERP software project तयार करा.</p><button class="btn" onclick="setType('ERP Software')">Select</button></div>
-<div class="card"><div class="icon">🖥️</div><h2>PC EXE</h2><p>Windows EXE project तयार करा.</p><button class="btn" onclick="setType('PC EXE Software')">Select</button></div>
+<section class="cards">
+<div class="card stat">👥<b>12</b><small>Total Customers</small></div>
+<div class="card stat">🏢<b>8</b><small>Active ERP</small></div>
+<div class="card stat">🔑<b>7</b><small>Active Licenses</small></div>
+<div class="card stat">🛒<b>₹1,25,430</b><small>Today's Sales</small></div>
+<div class="card stat">₹<b>₹85,350</b><small>Today's Purchase</small></div>
+<div class="card stat">📦<b>1,248</b><small>Total Items</small></div>
+<div class="card stat">📈<b>₹2,45,780</b><small>Monthly Profit</small></div>
 </section>
 
-<section id="creator" class="panel" style="margin-top:18px">
-<h2>🛠️ Create Project From Code</h2>
-<label>Project Name</label>
-<input id="projectName" placeholder="उदा. Ganesh Plywood ERP">
-
-<label>Project Type</label>
-<select id="projectType">
-<option>Android App</option>
-<option>ERP Software</option>
-<option>PC EXE Software</option>
-<option>Custom Program</option>
-</select>
-
-<label>Program Mode</label>
-<select id="programMode">
-<option value="active">🟢 Active Program</option>
-<option value="demo">🧪 Demo / Fictional Program</option>
-</select>
-
-<label>Paste / Upload Code</label>
-<textarea id="codeBox" placeholder="तुमचा HTML / CSS / JavaScript code इथे paste करा..."></textarea>
-<input type="file" id="codeFile" accept=".html,.htm,.css,.js,.json,.txt" onchange="loadCodeFile(this)">
-
-<button class="btn" onclick="createProject()">Create Project</button>
-</section>
-
-
-
-<section id="erpDeveloper" class="erpDev">
-<h2 style="color:#4a2108">💼 ERP Software Developer</h2>
-<p>Simple Business Setup किंवा Developer Coding Mode वापरून अनेक प्रकारच्या business साठी ERP तयार करा.</p>
-
-<div class="erpModeGrid">
-  <div id="simpleMode" class="erpMode selected" onclick="selectERPMode('simple')">
-    <h3>🏪 Simple Business Setup</h3>
-    <p>Shop owner फक्त business details भरतो आणि ERP structure तयार होते.</p>
-  </div>
-  <div id="codingMode" class="erpMode" onclick="selectERPMode('coding')">
-    <h3>👨‍💻 Developer Coding Mode</h3>
-    <p>Code, modules, database, workflow आणि reports स्वतः customize करा.</p>
-  </div>
+<section class="layout">
+<div class="box">
+<h2>📋 ERP Software Developer</h2>
+<p>Create a working ERP for any shop or business service.</p>
+<div class="actions">
+<div class="action">🏪 <b>Business Details</b><br><small>Shop name, logo, address, GST and contact</small></div>
+<div class="action">👥 <b>Customers & Suppliers</b><br><small>Master data and balances</small></div>
+<div class="action">🧾 <b>Sales & Purchase</b><br><small>Invoice, quotation and purchase</small></div>
+<div class="action">📦 <b>Stock Management</b><br><small>Items, units and stock reports</small></div>
+<div class="action">💰 <b>Accounts</b><br><small>Cash, bank, expenses and dues</small></div>
+<div class="action">📊 <b>Reports</b><br><small>Sales, purchase, stock and profit</small></div>
+</div>
 </div>
 
-<div id="simpleERP" class="erpWizard show">
-<h3>🏪 Business Details</h3>
-<div class="erpGrid">
-<input id="erpBusinessName" placeholder="Business Name">
-<input id="erpOwnerName" placeholder="Owner Name">
-<input id="erpMobile" placeholder="Mobile Number">
-<input id="erpAddress" placeholder="Business Address">
-<select id="erpBusinessType">
-<option>Retail</option><option>Wholesale</option><option>Manufacturing</option>
-<option>Service Business</option><option>Furniture / Plywood</option>
-<option>Construction</option><option>Restaurant</option><option>Transport</option>
-<option>Real Estate</option><option>Professional Services</option><option>Custom Business</option>
-</select>
-<input id="erpServices" placeholder="Business Services / Products">
-<select id="erpStock"><option>Stock: Yes</option><option>Stock: No</option></select>
-<select id="erpBilling"><option>Billing: Yes</option><option>Billing: No</option></select>
-<select id="erpAccounts"><option>Accounts: Yes</option><option>Accounts: No</option></select>
-<select id="erpDevice"><option>Mobile + PC</option><option>Mobile</option><option>PC</option></select>
-</div>
-<button class="btn" style="margin-top:12px" onclick="generateSimpleERP()">🚀 Generate ERP Structure</button>
-</div>
-
-<div id="codingERP" class="erpWizard">
-<h3>👨‍💻 Developer Coding Mode</h3>
-<div class="erpGrid">
-<input id="codeERPName" placeholder="ERP Project Name">
-<select id="codeERPType"><option>Custom ERP</option><option>Retail ERP</option><option>Manufacturing ERP</option><option>Service ERP</option></select>
-</div>
-<p><b>ERP Modules</b></p>
-<div class="erpModules">
-<label><input type="checkbox" checked> Dashboard</label>
-<label><input type="checkbox" checked> Customers</label>
-<label><input type="checkbox" checked> Suppliers</label>
-<label><input type="checkbox" checked> Products</label>
-<label><input type="checkbox" checked> Sales</label>
-<label><input type="checkbox" checked> Purchase</label>
-<label><input type="checkbox" checked> Inventory</label>
-<label><input type="checkbox"> Accounts</label>
-<label><input type="checkbox"> GST / Tax</label>
-<label><input type="checkbox"> HR / Staff</label>
-<label><input type="checkbox"> Reports</label>
-<label><input type="checkbox"> Custom Module</label>
-</div>
-<textarea id="erpCode" class="codeArea" placeholder="// HTML / CSS / JavaScript / JSON ERP code इथे paste करा..."></textarea>
-<input type="file" accept=".html,.htm,.css,.js,.json,.txt" onchange="loadERPCode(this)">
-<br><br>
-<button class="btn" onclick="generateCodingERP()">👨‍💻 Create ERP Project</button>
-</div>
-
-<div id="erpResult" style="margin-top:15px"></div>
-</section>
-
-<section id="advancedFictional" class="advCard">
-<h2 style="color:#4a2108">🧬 Advanced Fictional Program</h2>
-<p>Demo → Prototype → Active software simulation and project builder.</p>
-
-<div class="advGrid">
-<div class="advItem" onclick="openBuilder('Architecture')">🏗️ Architecture Builder</div>
-<div class="advItem" onclick="openBuilder('Workflow')">⚙️ Workflow Automation</div>
-<div class="advItem" onclick="openBuilder('Data Studio')">📊 Data Studio</div>
-<div class="advItem" onclick="openBuilder('Simulation')">🧪 Simulation Engine</div>
-<div class="advItem" onclick="openBuilder('API Lab')">🔌 API Integration Lab</div>
-<div class="advItem" onclick="openBuilder('Device')">📱 Device Simulator</div>
-<div class="advItem" onclick="openBuilder('Developer')">💻 Developer Console</div>
-<div class="advItem" onclick="openBuilder('Release')">📦 Release Manager</div>
-<div class="advItem" onclick="openBuilder('Team')">👥 Team Simulator</div>
-<div class="advItem" onclick="openBuilder('Security')">🔐 Security Simulation</div>
-<div class="advItem" onclick="openBuilder('UI')">🎨 UI Theme Builder</div>
-<div class="advItem" onclick="openBuilder('AI Generator')">🤖 Fictional Generator</div>
-</div>
-
-<div id="builderBox" class="builderBox">
-<h3 id="builderTitle">Builder</h3>
-<div class="builderGrid">
-<input id="fictionalName" placeholder="Program / Project Name">
-<select id="fictionalType">
-<option>ERP Software</option><option>Android App</option>
-<option>PC EXE Software</option><option>Custom Program</option>
-</select>
-<select id="fictionalStage">
-<option>🧪 Demo</option><option>🔬 Prototype</option><option>🟢 Active</option>
-</select>
-<select id="fictionalData">
-<option>Sample Data</option><option>Empty Database</option><option>Generated Demo Data</option>
-</select>
-</div>
-<div class="simBar">
-<button class="simBtn" onclick="generateFictional()">🤖 Generate Program</button>
-<button class="simBtn" onclick="simulateData()">🎲 Generate Demo Data</button>
-<button class="simBtn" onclick="resetFictional()">🔄 Reset</button>
-<button class="simBtn" onclick="exportFictional()">📦 Export JSON</button>
-</div>
-<div id="builderResult" style="margin-top:14px"></div>
+<div class="box">
+<h2>⚡ Quick Actions</h2>
+<p>Start a new project or open an existing ERP.</p>
+<p><button class="primary" onclick="go('Create New Customer ERP')">+ Create New Customer ERP</button></p>
+<p><button class="primary" onclick="go('ERP Coding Mode')">⌘ ERP Coding Mode</button></p>
+<p><button class="primary" onclick="go('Backup / Restore')">💾 Backup / Restore</button></p>
+<p><button class="primary" onclick="go('License Manager')">🛡️ License Manager</button></p>
 </div>
 </section>
 
-<section id="projects" class="panel">
-<h2>📁 My Projects</h2>
-<div id="projectList">No projects created yet.</div>
-</section>
-
-<section id="active" class="panel">
-<h2>🟢 Active Programs</h2>
-<p>Actual use साठी तयार केलेले projects.</p>
-</section>
-
-<section id="demo" class="panel">
-<h2>🧪 Demo / Fictional Programs</h2>
-<p>Testing/demo साठीचे projects.</p>
+<section class="tools">
+<div class="tool" onclick="go('My Projects')">📁 <b>My Projects</b><br><small>Manage ERP projects</small></div>
+<div class="tool" onclick="go('Templates')">🧩 <b>Templates</b><br><small>Ready ERP templates</small></div>
+<div class="tool" onclick="go('Firebase')">🔥 <b>Firebase</b><br><small>Cloud database</small></div>
+<div class="tool" onclick="go('APK Builder')">📦 <b>APK Builder</b><br><small>Android build</small></div>
+<div class="tool" onclick="go('EXE Builder')">🖥️ <b>EXE Builder</b><br><small>Windows build</small></div>
+<div class="tool" onclick="go('Backup')">💾 <b>Backup</b><br><small>Project backup</small></div>
+<div class="tool" onclick="go('Advanced Program')">🚀 <b>Advanced Program</b><br><small>Fictional / custom</small></div>
+<div class="tool" onclick="go('Reports')">📊 <b>Reports</b><br><small>Analytics</small></div>
 </section>
 </main>
 
+<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b></footer>
+
 <script>
-function toggleMenu(){document.getElementById('menuBox').classList.toggle('show')}
-function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});document.getElementById('menuBox').classList.remove('show')}
-function setType(type){
- document.getElementById('projectType').value=type;
- scrollToId('creator');
-}
-function loadCodeFile(input){
- const file=input.files[0];
- if(!file)return;
- const reader=new FileReader();
- reader.onload=function(e){document.getElementById('codeBox').value=e.target.result};
- reader.readAsText(file);
-}
-function createProject(){
- const name=document.getElementById('projectName').value.trim();
- const type=document.getElementById('projectType').value;
- const mode=document.getElementById('programMode').value;
- const code=document.getElementById('codeBox').value;
- if(!name){alert('Project Name required.');return}
- if(!code){alert('Code paste किंवा upload करा.');return}
- let list=[];
- try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]')}catch(e){}
- list.push({
-  name:name,type:type,mode:mode,
-  code:code,created:new Date().toLocaleString()
- });
- localStorage.setItem('sutarProjects',JSON.stringify(list));
- showProjects();
- alert('✅ '+type+' project created successfully.');
-}
-
-function refreshApp(){
- location.reload();
-}
-function logout(){
- const ok=confirm("Log out from this Developer Console?");
- if(!ok)return;
- try{
-  sessionStorage.clear();
-  localStorage.removeItem("sutarSession");
- }catch(e){}
- alert("Logged out successfully.");
- location.reload();
-}
-function toggleSearch(){
- const box=document.getElementById("searchBox");
- box.style.display=box.style.display==="block"?"none":"block";
- document.getElementById("menuBox").classList.remove("show");
- if(box.style.display==="block"){
-  document.getElementById("searchInput").focus();
-  searchProjects();
- }
-}
-function searchProjects(){
- const q=document.getElementById("searchInput").value.trim().toLowerCase();
- let list=[];
- try{list=JSON.parse(localStorage.getItem("sutarProjects")||"[]")}catch(e){}
- const box=document.getElementById("projectList");
- if(!q){showProjects();return}
- const matches=list.filter(p =>
-  String(p.name||"").toLowerCase().includes(q) ||
-  String(p.type||"").toLowerCase().includes(q) ||
-  String(p.mode||"").toLowerCase().includes(q)
- );
- if(!matches.length){
-  box.innerHTML='<div class="noResult">🔎 No matching projects found.</div>';
-  return;
- }
- box.innerHTML=matches.map(p =>
-  '<div class="searchResult"><b>'+(p.mode==="demo"?"🧪":"🟢")+' '+escapeHtml(p.name)+'</b><br><small>'+
-  escapeHtml(p.type)+' • '+escapeHtml(p.created)+'</small></div>'
- ).join('');
-}
-
-
-const LOGIN_USER="admin";
-const LOGIN_PASS="1234";
-
-function loginUser(){
- const u=document.getElementById("loginUser").value.trim();
- const p=document.getElementById("loginPass").value;
- const err=document.getElementById("loginError");
- if(u===LOGIN_USER && p===LOGIN_PASS){
-   sessionStorage.setItem("sutarLoggedIn","1");
-   err.style.display="none";
-   document.getElementById("loginScreen").style.display="none";
-   document.getElementById("appShell").style.display="block";
- }else{
-   err.style.display="block";
- }
-}
-function checkLogin(){
- if(sessionStorage.getItem("sutarLoggedIn")==="1"){
-   document.getElementById("loginScreen").style.display="none";
-   document.getElementById("appShell").style.display="block";
- }
-}
-
-
-let currentBuilder="General";
-function openBuilder(name){
- currentBuilder=name;
- document.getElementById("builderBox").classList.add("show");
- document.getElementById("builderTitle").textContent="🧬 "+name+" Builder";
- document.getElementById("advancedFictional").scrollIntoView({behavior:"smooth"});
-}
-function generateFictional(){
- const name=document.getElementById("fictionalName").value.trim()||"Untitled Fictional Program";
- const type=document.getElementById("fictionalType").value;
- const stage=document.getElementById("fictionalStage").value;
- const data=document.getElementById("fictionalData").value;
- const modules=["Dashboard","Users","Customers","Products","Reports","Settings"];
- const project={name,type,stage,data,builder:currentBuilder,modules,created:new Date().toLocaleString()};
- let list=[];
- try{list=JSON.parse(localStorage.getItem("sutarProjects")||"[]")}catch(e){}
- list.push({name,type,mode:stage,created:project.created,advanced:true,config:project});
- try{localStorage.setItem("sutarProjects",JSON.stringify(list))}catch(e){}
- document.getElementById("builderResult").innerHTML=
- "<b>✅ Program Generated</b><br>"+escapeHtml(name)+
- "<br><small>"+escapeHtml(type)+" • "+escapeHtml(stage)+
- " • Builder: "+escapeHtml(currentBuilder)+"</small><br><br>"+
- "<b>Modules:</b> "+modules.join(" • ");
- showProjects();
-}
-function simulateData(){
- const result=document.getElementById("builderResult");
- result.innerHTML="<b>🎲 Demo Simulation Ready</b><br>Users: 12 • Customers: 48 • Products: 125 • Transactions: 326 • Reports: 8";
-}
-function resetFictional(){
- document.getElementById("fictionalName").value="";
- document.getElementById("builderResult").innerHTML="Builder reset.";
-}
-function exportFictional(){
- const data={
-  name:document.getElementById("fictionalName").value||"Fictional Program",
-  type:document.getElementById("fictionalType").value,
-  stage:document.getElementById("fictionalStage").value,
-  builder:currentBuilder,
-  exported:new Date().toISOString()
- };
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const a=document.createElement("a");a.href=URL.createObjectURL(blob);
- a.download="fictional-program.json";a.click();URL.revokeObjectURL(a.href);
-}
-
-
-
-function openERPMenu(){
- const m=document.getElementById("erpMenuOverlay");
- if(m)m.classList.add("show");
-}
-function closeERPMenu(){
- const m=document.getElementById("erpMenuOverlay");
- if(m)m.classList.remove("show");
-}
-function openERPSection(name){
- closeERPMenu();
- const map={
-  erpDashboard:"ERP Dashboard",
-  erpMasters:"Master Management",
-  erpSales:"Sales",
-  erpPurchase:"Purchase",
-  erpInventory:"Inventory / Stock",
-  erpAccounts:"Accounts",
-  erpGST:"GST / Tax",
-  erpReports:"Reports",
-  erpUsers:"Users & Access",
-  erpSettings:"ERP Settings",
-  erpBuilder:"ERP Module Builder",
-  erpCode:"Developer Coding Mode",
-  erpWorkflow:"Workflow Builder",
-  erpReportsBuilder:"Report Builder",
-  erpData:"Data / Database"
- };
- const label=map[name]||name;
- const section=document.getElementById("erpDeveloper");
- if(section)section.scrollIntoView({behavior:"smooth"});
- alert("💼 "+label+"\n\nERP module selected.");
-}
-
-function selectERPMode(mode){
- document.getElementById("simpleMode").classList.toggle("selected",mode==="simple");
- document.getElementById("codingMode").classList.toggle("selected",mode==="coding");
- document.getElementById("simpleERP").classList.toggle("show",mode==="simple");
- document.getElementById("codingERP").classList.toggle("show",mode==="coding");
-}
-function generateSimpleERP(){
- const name=document.getElementById("erpBusinessName").value.trim();
- const owner=document.getElementById("erpOwnerName").value.trim();
- const type=document.getElementById("erpBusinessType").value;
- if(!name){alert("Business Name required.");return;}
- const modules=["Dashboard","Customers","Suppliers","Products","Sales","Purchase","Reports","Users","Settings"];
- const stock=document.getElementById("erpStock").value==="Stock: Yes";
- const billing=document.getElementById("erpBilling").value==="Billing: Yes";
- const accounts=document.getElementById("erpAccounts").value==="Accounts: Yes";
- if(stock)modules.splice(6,0,"Inventory");
- if(billing)modules.splice(6,0,"Billing / Invoice");
- if(accounts)modules.push("Accounts");
- const project={name,owner,businessType:type,services:document.getElementById("erpServices").value,modules,mode:"simple",created:new Date().toLocaleString()};
- saveERPProject(project);
- document.getElementById("erpResult").innerHTML="<b>✅ ERP Structure Created</b><br>"+escapeHtml(name)+"<br><small>"+escapeHtml(type)+" • Modules: "+modules.join(" • ")+"</small>";
-}
-function loadERPCode(input){
- const f=input.files[0]; if(!f)return;
- const r=new FileReader();
- r.onload=e=>document.getElementById("erpCode").value=e.target.result;
- r.readAsText(f);
-}
-function generateCodingERP(){
- const name=document.getElementById("codeERPName").value.trim();
- if(!name){alert("ERP Project Name required.");return;}
- const project={name,businessType:document.getElementById("codeERPType").value,code:document.getElementById("erpCode").value,mode:"coding",created:new Date().toLocaleString()};
- saveERPProject(project);
- document.getElementById("erpResult").innerHTML="<b>👨‍💻 ERP Coding Project Created</b><br>"+escapeHtml(name);
-}
-function saveERPProject(project){
- let list=[];
- try{list=JSON.parse(localStorage.getItem("sutarERPProjects")||"[]")}catch(e){}
- list.push(project);
- try{localStorage.setItem("sutarERPProjects",JSON.stringify(list))}catch(e){}
-}
-
-function showProjects(){
- let list=[];
- try{list=JSON.parse(localStorage.getItem('sutarProjects')||'[]')}catch(e){}
- const box=document.getElementById('projectList');
- if(!list.length){box.innerHTML='No projects created yet.';return}
- box.innerHTML=list.map((p,i)=>
- '<div class="project"><b>'+(p.mode==='demo'?'🧪':'🟢')+' '+escapeHtml(p.name)+'</b><br>'+
- '<small>'+escapeHtml(p.type)+' • '+escapeHtml(p.created)+'</small></div>'
- ).join('');
-}
-function escapeHtml(s){
- return String(s).replace(/[&<>"']/g,function(c){
-  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];
- });
-}
-showProjects();
-checkLogin();
+document.getElementById('today').textContent=new Date().toLocaleDateString('en-IN');
+function toggleMenu(){document.getElementById('panel').classList.toggle('show')}
+function go(name){alert('🔧 '+name+'\\n\\nModule selected. Ready for development.')}
 </script>
-</div>
-
-<div id="erpMenuOverlay" class="erpMenuOverlay" onclick="if(event.target===this)closeERPMenu()">
-  <div class="erpMenuPanel">
-    <div class="erpMenuHeader">
-      <h2>💼 ERP Software Developer</h2>
-      <button class="erpClose" onclick="closeERPMenu()">✕</button>
-    </div>
-    <p>Select an ERP development module.</p>
-    <div class="erpMenuGrid">
-      <div class="erpMenuItem" onclick="openERPSection('erpDashboard')"><b>🏠 ERP Dashboard</b><small>Business overview</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpMasters')"><b>👥 Master Management</b><small>Customer, supplier, items</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpSales')"><b>🛒 Sales</b><small>Quotation, order, invoice</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpPurchase')"><b>🛍️ Purchase</b><small>PO, receipt, purchase invoice</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpInventory')"><b>📦 Inventory / Stock</b><small>Stock, warehouse, transfer</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpAccounts')"><b>💰 Accounts</b><small>Cash, bank, ledger, P&L</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpGST')"><b>🧾 GST / Tax</b><small>Tax, HSN/SAC, reports</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpReports')"><b>📊 Reports</b><small>Sales, purchase, stock</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpUsers')"><b>👤 Users & Access</b><small>Roles and permissions</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpSettings')"><b>⚙️ ERP Settings</b><small>Company, invoice, print</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpBuilder')"><b>🧩 ERP Module Builder</b><small>Custom modules and forms</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpCode')"><b>👨‍💻 Coding Mode</b><small>HTML, CSS, JS, JSON</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpWorkflow')"><b>🔄 Workflow Builder</b><small>Business automation</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpReportsBuilder')"><b>📝 Report Builder</b><small>Custom reports</small></div>
-      <div class="erpMenuItem" onclick="openERPSection('erpData')"><b>💾 Data / Database</b><small>Schema and import</small></div>
-    </div>
-  </div>
-</div>
 </body>
 </html>
