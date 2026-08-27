@@ -67,9 +67,16 @@ background:#fafafa!important;color:#222;cursor:pointer}
 @media(max-width:850px){.erpModulePage .actions{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.erpTools{flex-direction:column;align-items:stretch}.erpModulePage .actions{grid-template-columns:1fr}}
 
+
+.erpModal{display:none;position:fixed;inset:0;background:#0007;z-index:200;padding:18px;overflow:auto}
+.erpModal.show{display:block}.erpModalInner{max-width:900px;margin:5vh auto;background:#fff;border-radius:14px;padding:20px;box-shadow:0 12px 45px #0004}
+.modalHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modalHead button{border:0;background:#eee;border-radius:8px;padding:8px;cursor:pointer}
+.tableWrap{overflow:auto;margin-top:18px}.smallBtn{padding:7px 10px;font-size:12px}
+
 </style>
 </head>
 <body>
+<div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
 
 <header class="header"><img src="header.jpg" alt="SANDIP S. SUTAR ERP Software Developer"></header>
 
@@ -183,7 +190,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <div class="search"><input id="search" placeholder="🔎 Search ERP, module or project..." oninput="filterText()"><button class="primary" onclick="location.reload()">Refresh</button></div>
 </div>
 <div class="grid">
-<div class="card stat">👥<b>12</b>Customers</div><div class="card stat">🏢<b>8</b>Active ERP</div>
+<div class="card stat">👥<b id="countCustomers">0</b>Customers</div><div class="card stat">🏢<b>8</b>Active ERP</div>
 <div class="card stat">🟢<b>7</b>Licenses</div><div class="card stat">🧪<b>4</b>Demo Programs</div>
 </div>
 <div class="box">
@@ -207,6 +214,409 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <section id="apptest" class="page"><div class="box"><h2>🧪 Test App</h2><div class="actions"><div class="action">📱 Mobile Preview</div><div class="action">🐞 Error Check</div><div class="action">⚡ Performance Check</div><div class="action">🔍 Final Test</div></div></div></section>
 <section id="apkbuild" class="page"><div class="box"><h2>📦 Build APK</h2><div class="status">Ready for Android APK build setup.</div><div class="actions"><div class="action">🧪 Debug APK</div><div class="action">🚀 Release APK</div><div class="action">🔏 Signed APK</div></div></div></section>
 <section id="appexport" class="page"><div class="box"><h2>📤 Export App Project</h2><p>Export the app project files for Android Studio or further development.</p><button class="primary" onclick="alert('Export project selected in demo mode.')">Export Project</button></div></section>
+
+<script>
+/* ===== Universal ERP local demo data layer ===== */
+const ERP_DB_KEY = "universalERP_demo_v1";
+const ERP_EMPTY = {customers:[], companies:[], products:[], sales:[], purchases:[], stock:[], accounts:[], users:[]};
+let ERP_DB = JSON.parse(localStorage.getItem(ERP_DB_KEY) || "null") || ERP_EMPTY;
+function saveERP(){localStorage.setItem(ERP_DB_KEY,JSON.stringify(ERP_DB));}
+function uid(prefix){return prefix+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,6);}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+function openERPData(module, title, fields){
+  const f=fields.map(x=>`<div class="field"><label>${esc(x.label)}</label><input id="erp_${x.key}" type="${x.type||"text"}" placeholder="${esc(x.placeholder||"")}"></div>`).join("");
+  const rows=(ERP_DB[module]||[]).map((r,i)=>`<tr>${fields.map(x=>`<td>${esc(r[x.key])}</td>`).join("")}<td><button class="action smallBtn" onclick="deleteERP('${module}',${i})">Delete</button></td></tr>`).join("");
+  const head=fields.map(x=>`<th>${esc(x.label)}</th>`).join("");
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${esc(title)}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">${f}</div><button class="primary" onclick="addERP('${module}',${JSON.stringify(fields).replace(/</g,"\\u003c")})">Save</button>
+  <div class="tableWrap"><table><tr>${head}<th>Action</th></tr>${rows||`<tr><td colspan="${fields.length+1}">No records yet</td></tr>`}</table></div></div>`;
+  el.classList.add("show");
+}
+function addERP(module, fields){
+  const obj={id:uid(module.slice(0,3))};
+  for(const x of fields)obj[x.key]=document.getElementById("erp_"+x.key)?.value.trim()||"";
+  ERP_DB[module].push(obj); saveERP(); refreshERPCounters(); alert("Saved successfully."); closeERPData();
+}
+function deleteERP(module,index){if(confirm("Delete this record?")){ERP_DB[module].splice(index,1);saveERP();refreshERPCounters();}}
+function closeERPData(){document.getElementById("erp-data-modal").classList.remove("show");}
+function dataFor(key){
+  const map={
+    "Customer Master":["customers","Customer Master",[{key:"name",label:"Customer Name",placeholder:"Customer / Business name"},{key:"mobile",label:"Mobile"},{key:"gst",label:"GST / Tax ID"},{key:"address",label:"Address"}]],
+    "Company Profile":["companies","Company Profile",[{key:"name",label:"Company Name",placeholder:"Company name"},{key:"business",label:"Business Type"},{key:"gst",label:"GST / Tax ID"},{key:"contact",label:"Contact"}]],
+    "Item Master":["products","Product / Item Master",[{key:"name",label:"Item Name"},{key:"sku",label:"SKU / Barcode"},{key:"unit",label:"Unit"},{key:"price",label:"Sales Price",type:"number"},{key:"tax",label:"Tax %",type:"number"}]],
+    "Sales Invoice":["sales","Sales Invoice",[{key:"invoice",label:"Invoice No."},{key:"customer",label:"Customer"},{key:"amount",label:"Amount",type:"number"},{key:"date",label:"Date",type:"date"}]],
+    "Purchase Invoice":["purchases","Purchase Invoice",[{key:"invoice",label:"Invoice No."},{key:"supplier",label:"Supplier"},{key:"amount",label:"Amount",type:"number"},{key:"date",label:"Date",type:"date"}]],
+    "Stock In":["stock","Stock In",[{key:"item",label:"Item"},{key:"qty",label:"Quantity",type:"number"},{key:"warehouse",label:"Warehouse"}]],
+    "Expense Entry":["accounts","Expense Entry",[{key:"category",label:"Category"},{key:"amount",label:"Amount",type:"number"},{key:"date",label:"Date",type:"date"},{key:"note",label:"Note"}]],
+    "Users":["users","Users",[{key:"name",label:"User Name"},{key:"role",label:"Role"},{key:"mobile",label:"Mobile"}]]
+  };
+  return map[key];
+}
+function openERPFunction(key,label){
+  const d=dataFor(label);
+  if(d){openERPData(d[0],d[1],d[2]);return;}
+  alert(label+" selected — configuration screen is ready for the next development stage.");
+}
+</script>
+
+
+<script>
+/* ===== ERP Transaction Engine V1 ===== */
+function erpNum(v){ const n=parseFloat(v); return isNaN(n)?0:n; }
+function erpDate(){ return new Date().toISOString().slice(0,10); }
+function addTransaction(type, data){
+  const amount=erpNum(data.amount), qty=erpNum(data.qty);
+  if(type==="sale"){
+    ERP_DB.sales.push({id:uid("sal"),invoice:data.invoice||("SI-"+Date.now()),customer:data.customer||"",amount,date:data.date||erpDate(),item:data.item||"",qty});
+    if(data.item && qty){
+      ERP_DB.stock.push({id:uid("stk"),item:data.item,qty:-qty,warehouse:data.warehouse||"Main"});
+    }
+    ERP_DB.accounts.push({id:uid("acc"),category:"Sales",amount,date:data.date||erpDate(),note:"Sales Invoice "+(data.invoice||"")});
+  }
+  if(type==="purchase"){
+    ERP_DB.purchases.push({id:uid("pur"),invoice:data.invoice||("PI-"+Date.now()),supplier:data.supplier||"",amount,date:data.date||erpDate(),item:data.item||"",qty});
+    if(data.item && qty){
+      ERP_DB.stock.push({id:uid("stk"),item:data.item,qty,warehouse:data.warehouse||"Main"});
+    }
+    ERP_DB.accounts.push({id:uid("acc"),category:"Purchase",amount,date:data.date||erpDate(),note:"Purchase Invoice "+(data.invoice||"")});
+  }
+  saveERP(); refreshERPCounters();
+}
+function openTransaction(type){
+  const sale=type==="sale";
+  const title=sale?"Sales Invoice":"Purchase Invoice";
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${title}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Invoice No.</label><input id="tx_invoice" value="${sale?"SI-":"PI-"}${Date.now()}"></div>
+  <div class="field"><label>${sale?"Customer":"Supplier"}</label><input id="tx_party"></div>
+  <div class="field"><label>Item</label><input id="tx_item"></div>
+  <div class="field"><label>Quantity</label><input id="tx_qty" type="number" min="0"></div>
+  <div class="field"><label>Amount</label><input id="tx_amount" type="number" min="0"></div>
+  <div class="field"><label>Warehouse</label><input id="tx_warehouse" value="Main"></div>
+  <div class="field"><label>Date</label><input id="tx_date" type="date" value="${erpDate()}"></div>
+  </div>
+  <button class="primary" onclick="saveTransaction('${type}')">Save ${title}</button>
+  <div class="status" style="margin-top:12px">Automatic flow: ${sale?"Sales → Stock Out → Accounts":"Purchase → Stock In → Accounts"}.</div></div>`;
+  el.classList.add("show");
+}
+function saveTransaction(type){
+  addTransaction(type,{
+    invoice:document.getElementById("tx_invoice").value,
+    [type==="sale"?"customer":"supplier"]:document.getElementById("tx_party").value,
+    item:document.getElementById("tx_item").value,
+    qty:document.getElementById("tx_qty").value,
+    amount:document.getElementById("tx_amount").value,
+    warehouse:document.getElementById("tx_warehouse").value,
+    date:document.getElementById("tx_date").value
+  });
+  alert("Transaction saved. Stock and Accounts updated automatically.");
+  closeERPData();
+}
+function stockBalance(item){
+  return (ERP_DB.stock||[]).filter(x=>!item||x.item.toLowerCase()===item.toLowerCase()).reduce((s,x)=>s+erpNum(x.qty),0);
+}
+function openLiveReport(title, rows, headers){
+  const el=document.getElementById("erp-data-modal");
+  const body=rows.map(r=>"<tr>"+r.map(x=>"<td>"+esc(x)+"</td>").join("")+"</tr>").join("");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${esc(title)}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="tableWrap"><table><tr>${headers.map(h=>"<th>"+esc(h)+"</th>").join("")}</tr>${body||"<tr><td colspan='"+headers.length+"'>No data</td></tr>"}</table></div></div>`;
+  el.classList.add("show");
+}
+function openSalesReport(){
+  openLiveReport("Sales Summary",
+    (ERP_DB.sales||[]).map(x=>[x.invoice,x.customer,x.item,x.qty,x.amount,x.date]),
+    ["Invoice","Customer","Item","Qty","Amount","Date"]);
+}
+function openPurchaseReport(){
+  openLiveReport("Purchase Summary",
+    (ERP_DB.purchases||[]).map(x=>[x.invoice,x.supplier,x.item,x.qty,x.amount,x.date]),
+    ["Invoice","Supplier","Item","Qty","Amount","Date"]);
+}
+function openStockReport(){
+  const map={}; (ERP_DB.stock||[]).forEach(x=>map[x.item]=(map[x.item]||0)+erpNum(x.qty));
+  openLiveReport("Current Stock",Object.entries(map).map(([k,v])=>[k,v]),["Item","Balance Qty"]);
+}
+function openAccountsReport(){
+  openLiveReport("Accounts Summary",
+    (ERP_DB.accounts||[]).map(x=>[x.category,x.amount,x.date,x.note]),
+    ["Type","Amount","Date","Reference"]);
+}
+</script>
+
+
+<script>
+/* ===== GST, Outstanding & Invoice Print V3 ===== */
+function gstCalc(amount, rate){
+  amount=parseFloat(amount)||0; rate=parseFloat(rate)||0;
+  const tax=amount*rate/100;
+  return {tax, cgst:tax/2, sgst:tax/2, total:amount+tax};
+}
+function openGSTInvoice(type){
+  const sale=type==="sale";
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${sale?"Sales GST Invoice":"Purchase GST Invoice"}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Invoice No.</label><input id="gst_no" value="${sale?"SI-":"PI-"}${Date.now()}"></div>
+  <div class="field"><label>${sale?"Customer":"Supplier"}</label><input id="gst_party"></div>
+  <div class="field"><label>Item</label><input id="gst_item"></div>
+  <div class="field"><label>Taxable Amount</label><input id="gst_amount" type="number" oninput="calcGSTPreview()"></div>
+  <div class="field"><label>GST Rate %</label><input id="gst_rate" type="number" value="18" oninput="calcGSTPreview()"></div>
+  <div class="field"><label>Date</label><input id="gst_date" type="date" value="${erpDate()}"></div>
+  </div>
+  <div id="gstPreview" class="status">Enter amount to calculate GST.</div>
+  <button class="primary" onclick="saveGSTInvoice('${type}')">Save & Print Invoice</button>
+  </div>`;
+  el.classList.add("show");
+}
+function calcGSTPreview(){
+  const x=gstCalc(document.getElementById("gst_amount").value,document.getElementById("gst_rate").value);
+  document.getElementById("gstPreview").innerHTML=`CGST: ₹${x.cgst.toFixed(2)} &nbsp; SGST: ₹${x.sgst.toFixed(2)} &nbsp; <b>Total: ₹${x.total.toFixed(2)}</b>`;
+}
+function saveGSTInvoice(type){
+  const sale=type==="sale", amount=parseFloat(document.getElementById("gst_amount").value)||0, rate=parseFloat(document.getElementById("gst_rate").value)||0;
+  const tax=gstCalc(amount,rate);
+  const data={invoice:document.getElementById("gst_no").value,item:document.getElementById("gst_item").value,amount:tax.total,qty:1,date:document.getElementById("gst_date").value,taxable:amount,cgst:tax.cgst,sgst:tax.sgst,gstRate:rate};
+  data[sale?"customer":"supplier"]=document.getElementById("gst_party").value;
+  addTransaction(type,data);
+  printInvoice({...data,taxable:amount,rate,cgst:tax.cgst,sgst:tax.sgst,total:tax.total,type});
+  closeERPData();
+}
+function printInvoice(d){
+  const w=window.open("","_blank");
+  if(!w){alert("Please allow pop-ups to print the invoice.");return;}
+  w.document.write(`<html><head><title>${esc(d.invoice)}</title><style>body{font-family:Arial;padding:35px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:10px}h1{margin-bottom:5px}.right{text-align:right}</style></head><body>
+  <h1>COMMERCIAL UNIVERSAL ERP</h1><p>Tax Invoice</p>
+  <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
+  <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
+  <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
+function partyOutstanding(kind, party){
+  let total=0;
+  if(kind==="customer"){
+    (ERP_DB.sales||[]).forEach(x=>{if((x.customer||"").toLowerCase()===(party||"").toLowerCase()) total+=erpNum(x.amount)});
+  }else{
+    (ERP_DB.purchases||[]).forEach(x=>{if((x.supplier||"").toLowerCase()===(party||"").toLowerCase()) total+=erpNum(x.amount)});
+  }
+  return total;
+}
+function openOutstanding(kind){
+  const data=kind==="customer"?ERP_DB.sales:ERP_DB.purchases, key=kind==="customer"?"customer":"supplier";
+  const map={}; (data||[]).forEach(x=>{const p=x[key]||"Unknown";map[p]=(map[p]||0)+erpNum(x.amount)});
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Outstanding",Object.entries(map).map(([p,a])=>[p,a.toFixed(2)]),[kind==="customer"?"Customer":"Supplier","Outstanding"]);
+}
+</script>
+
+
+<script>
+/* ===== Payments -> Outstanding -> Ledger V4 ===== */
+function openPaymentEntry(kind){
+  const sale=kind==="customer";
+  const el=document.getElementById("erp-data-modal");
+  const parties=sale?(ERP_DB.sales||[]).map(x=>x.customer).filter(Boolean): (ERP_DB.purchases||[]).map(x=>x.supplier).filter(Boolean);
+  const opts=[...new Set(parties)].map(p=>`<option>${esc(p)}</option>`).join("");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${sale?"Customer Payment":"Supplier Payment"}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>${sale?"Customer":"Supplier"}</label><input id="pay_party" list="pay_parties"><datalist id="pay_parties">${opts}</datalist></div>
+  <div class="field"><label>Payment Amount</label><input id="pay_amount" type="number" min="0"></div>
+  <div class="field"><label>Payment Mode</label><select id="pay_mode"><option>Cash</option><option>Bank</option><option>UPI</option><option>Cheque</option></select></div>
+  <div class="field"><label>Date</label><input id="pay_date" type="date" value="${erpDate()}"></div>
+  <div class="field"><label>Reference / Note</label><input id="pay_note"></div>
+  </div>
+  <button class="primary" onclick="savePayment('${kind}')">Save Payment</button>
+  <div class="status">Automatic flow: Payment → Ledger → Outstanding Balance.</div></div>`;
+  el.classList.add("show");
+}
+function savePayment(kind){
+  const party=document.getElementById("pay_party").value.trim(), amount=erpNum(document.getElementById("pay_amount").value);
+  if(!party || amount<=0){alert("Enter party and valid payment amount.");return;}
+  ERP_DB.accounts.push({id:uid("pay"),category:kind==="customer"?"Customer Payment":"Supplier Payment",amount:-amount,date:document.getElementById("pay_date").value,note:(document.getElementById("pay_mode").value+" - "+party+" - "+document.getElementById("pay_note").value)});
+  if(!ERP_DB.payments)ERP_DB.payments=[];
+  ERP_DB.payments.push({id:uid("pmt"),kind,party,amount,mode:document.getElementById("pay_mode").value,date:document.getElementById("pay_date").value,note:document.getElementById("pay_note").value});
+  saveERP(); refreshERPCounters(); alert("Payment saved. Ledger and outstanding updated."); closeERPData();
+}
+function outstandingWithPayments(kind){
+  const key=kind==="customer"?"customer":"supplier", source=kind==="customer"?(ERP_DB.sales||[]):(ERP_DB.purchases||[]);
+  const map={};
+  source.forEach(x=>{const p=x[key]||"Unknown";map[p]=(map[p]||0)+erpNum(x.amount)});
+  (ERP_DB.payments||[]).filter(x=>x.kind===kind).forEach(x=>{map[x.party]=(map[x.party]||0)-erpNum(x.amount)});
+  return Object.entries(map).map(([p,a])=>[p,a.toFixed(2)]);
+}
+function openNetOutstanding(kind){
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Net Outstanding",
+    outstandingWithPayments(kind),
+    [kind==="customer"?"Customer":"Supplier","Balance"]);
+}
+function openPartyLedger(kind){
+  const key=kind==="customer"?"customer":"supplier", source=kind==="customer"?(ERP_DB.sales||[]):(ERP_DB.purchases||[]);
+  const rows=[];
+  source.forEach(x=>rows.push([x[key]||"",x.date||"",kind==="customer"?"Invoice":"Purchase",erpNum(x.amount).toFixed(2)]));
+  (ERP_DB.payments||[]).filter(x=>x.kind===kind).forEach(x=>rows.push([x.party,x.date,"Payment","-"+erpNum(x.amount).toFixed(2)]));
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Ledger",rows,["Party","Date","Entry","Amount"]);
+}
+</script>
+
+
+<script>
+/* ===== Accounts + GST + Day Book V5 ===== */
+function accountTotals(){
+  let income=0, expense=0;
+  (ERP_DB.accounts||[]).forEach(x=>{
+    const a=erpNum(x.amount);
+    if(a>=0 && !String(x.category).toLowerCase().includes("purchase")) income+=a;
+    if(a<0 || String(x.category).toLowerCase().includes("purchase")) expense+=Math.abs(a);
+  });
+  return {income,expense,profit:income-expense};
+}
+function openPLReport(){
+  const t=accountTotals();
+  openLiveReport("Profit & Loss Summary",
+    [["Total Income","₹"+t.income.toFixed(2)],["Total Expense","₹"+t.expense.toFixed(2)],["Net Profit / Loss","₹"+t.profit.toFixed(2)]],
+    ["Particular","Amount"]);
+}
+function openDayBook(){
+  const rows=(ERP_DB.accounts||[]).map(x=>[x.date||"",x.category||"",erpNum(x.amount).toFixed(2),x.note||""]);
+  openLiveReport("Day Book",rows,["Date","Entry","Amount","Reference"]);
+}
+function openGSTSummary(){
+  let taxable=0,gst=0;
+  (ERP_DB.sales||[]).forEach(x=>{taxable+=erpNum(x.taxable||x.amount);gst+=erpNum(x.cgst)+erpNum(x.sgst)});
+  openLiveReport("GST Summary",
+    [["Sales Taxable Value","₹"+taxable.toFixed(2)],["GST Collected","₹"+gst.toFixed(2)]],
+    ["Particular","Amount"]);
+}
+function exportERPData(){
+  const blob=new Blob([JSON.stringify(ERP_DB,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="universal-erp-backup.json";a.click();URL.revokeObjectURL(a.href);
+}
+function importERPData(){
+  const input=document.createElement("input");input.type="file";input.accept=".json";
+  input.onchange=()=>{const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{ERP_DB=JSON.parse(r.result);saveERP();refreshERPCounters();alert("Backup restored successfully.");}catch(e){alert("Invalid backup file.");}};r.readAsText(f)};
+  input.click();
+}
+</script>
+
+
+<script>
+/* ===== Professional Documents & Print Center V6 ===== */
+function openDocumentCenter(type){
+  const titles={quotation:"Quotation",salesorder:"Sales Order",delivery:"Delivery Challan",salesinvoice:"Sales Invoice",purchaseorder:"Purchase Order",purchaseinvoice:"Purchase Invoice"};
+  const title=titles[type]||"ERP Document";
+  const prefix={quotation:"QT-",salesorder:"SO-",delivery:"DC-",salesinvoice:"SI-",purchaseorder:"PO-",purchaseinvoice:"PI-"}[type]||"DOC-";
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>📄 ${title}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Document No.</label><input id="doc_no" value="${prefix}${Date.now()}"></div>
+  <div class="field"><label>Party Name</label><input id="doc_party"></div>
+  <div class="field"><label>Item / Description</label><input id="doc_item"></div>
+  <div class="field"><label>Quantity</label><input id="doc_qty" type="number" value="1" min="0"></div>
+  <div class="field"><label>Rate</label><input id="doc_rate" type="number" value="0" min="0" oninput="calcDocTotal()"></div>
+  <div class="field"><label>GST %</label><input id="doc_gst" type="number" value="18" min="0" oninput="calcDocTotal()"></div>
+  <div class="field"><label>Date</label><input id="doc_date" type="date" value="${erpDate()}"></div>
+  <div class="field"><label>Notes / Terms</label><input id="doc_note"></div>
+  </div>
+  <div id="docTotal" class="status">Taxable: ₹0.00 | GST: ₹0.00 | Total: ₹0.00</div>
+  <button class="primary" onclick="saveProfessionalDocument('${type}')">Save & Print</button>
+  <button class="action" onclick="printProfessionalDocument('${type}',true)">Print Preview</button>
+  </div>`;
+  el.classList.add("show"); calcDocTotal();
+}
+function calcDocTotal(){
+  const q=erpNum(document.getElementById("doc_qty")?.value), r=erpNum(document.getElementById("doc_rate")?.value), g=erpNum(document.getElementById("doc_gst")?.value);
+  const taxable=q*r,tax=taxable*g/100,total=taxable+tax;
+  const e=document.getElementById("docTotal"); if(e)e.innerHTML=`Taxable: ₹${taxable.toFixed(2)} | GST: ₹${tax.toFixed(2)} | <b>Total: ₹${total.toFixed(2)}</b>`;
+}
+function saveProfessionalDocument(type){
+  const q=erpNum(document.getElementById("doc_qty").value),r=erpNum(document.getElementById("doc_rate").value),g=erpNum(document.getElementById("doc_gst").value),taxable=q*r,tax=taxable*g/100,total=taxable+tax;
+  if(!ERP_DB.documents)ERP_DB.documents=[];
+  const d={id:uid("doc"),type,no:document.getElementById("doc_no").value,party:document.getElementById("doc_party").value,item:document.getElementById("doc_item").value,qty:q,rate:r,gst:g,taxable,tax,total,date:document.getElementById("doc_date").value,note:document.getElementById("doc_note").value};
+  ERP_DB.documents.push(d);saveERP();alert("Document saved.");printProfessionalDocument(type,false,d);closeERPData();
+}
+function printProfessionalDocument(type,preview,d){
+  d=d||{no:document.getElementById("doc_no").value,party:document.getElementById("doc_party").value,item:document.getElementById("doc_item").value,qty:erpNum(document.getElementById("doc_qty").value),rate:erpNum(document.getElementById("doc_rate").value),gst:erpNum(document.getElementById("doc_gst").value),date:document.getElementById("doc_date").value,note:document.getElementById("doc_note").value};
+  const taxable=d.qty*d.rate,tax=taxable*d.gst/100,total=taxable+tax;
+  const labels={quotation:"QUOTATION",salesorder:"SALES ORDER",delivery:"DELIVERY CHALLAN",salesinvoice:"TAX INVOICE",purchaseorder:"PURCHASE ORDER",purchaseinvoice:"PURCHASE INVOICE"};
+  const w=window.open("","_blank");if(!w){alert("Please allow pop-ups.");return;}
+  w.document.write(`<html><head><title>${esc(d.no)}</title><style>
+  body{font-family:Arial;margin:35px;color:#222}.top{display:flex;justify-content:space-between;border-bottom:2px solid #222;padding-bottom:15px}
+  table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #aaa;padding:10px}th{background:#f2f2f2}.right{text-align:right}
+  .terms{margin-top:30px;border-top:1px solid #aaa;padding-top:15px}.sign{margin-top:70px;display:flex;justify-content:space-between}
+  </style></head><body><div class="top"><div><h1>COMMERCIAL UNIVERSAL ERP</h1><div>Professional Business Document</div></div><div><h2>${labels[type]||"DOCUMENT"}</h2><b>No:</b> ${esc(d.no)}<br><b>Date:</b> ${esc(d.date)}</div></div>
+  <p><b>Party:</b> ${esc(d.party)}</p><table><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Taxable</th><th>GST</th><th>Total</th></tr>
+  <tr><td>${esc(d.item)}</td><td>${d.qty}</td><td class="right">₹${d.rate.toFixed(2)}</td><td class="right">₹${taxable.toFixed(2)}</td><td class="right">₹${tax.toFixed(2)}</td><td class="right">₹${total.toFixed(2)}</td></tr></table>
+  <h3 class="right">Grand Total: ₹${total.toFixed(2)}</h3><div class="terms"><b>Notes / Terms:</b><br>${esc(d.note)}</div>
+  <div class="sign"><span>Customer / Party Signature</span><span>Authorized Signature</span></div><script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
+</script>
+
+
+<script>
+/* ===== Professional Inventory & Warehouse V7 ===== */
+function openInventoryForm(mode){
+  const titles={opening:"Opening Stock",in:"Stock In",out:"Stock Out",transfer:"Stock Transfer",adjust:"Stock Adjustment"};
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>📦 ${titles[mode]}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Item / SKU / Barcode</label><input id="inv_item" placeholder="Scan or type item"></div>
+  <div class="field"><label>Quantity</label><input id="inv_qty" type="number" min="0"></div>
+  <div class="field"><label>Warehouse / Godown</label><input id="inv_wh" value="Main"></div>
+  <div class="field"><label>Rack / Shelf / Bin</label><input id="inv_bin" placeholder="Optional"></div>
+  ${mode==="transfer"?'<div class="field"><label>To Warehouse</label><input id="inv_to" value="Main"></div>':''}
+  <div class="field"><label>Reason / Note</label><input id="inv_note"></div>
+  </div>
+  <button class="primary" onclick="saveInventory('${mode}')">Save</button>
+  <div class="status">Stock balance updates automatically after saving.</div></div>`;
+  el.classList.add("show");
+}
+function saveInventory(mode){
+  const item=document.getElementById("inv_item").value.trim(),qty=erpNum(document.getElementById("inv_qty").value),wh=document.getElementById("inv_wh").value.trim()||"Main";
+  if(!item||qty<=0){alert("Enter item and valid quantity.");return;}
+  if(!ERP_DB.stock)ERP_DB.stock=[];
+  const date=erpDate(), note=document.getElementById("inv_note").value;
+  if(mode==="transfer"){
+    const to=document.getElementById("inv_to").value.trim()||"Main";
+    ERP_DB.stock.push({id:uid("stk"),item,qty:-qty,warehouse:wh,date,note:"Transfer to "+to});
+    ERP_DB.stock.push({id:uid("stk"),item,qty,warehouse:to,date,note:"Transfer from "+wh});
+  }else{
+    const signed=mode==="out"||mode==="adjust" ? -qty : qty;
+    ERP_DB.stock.push({id:uid("stk"),item,qty:signed,warehouse:wh,date,note:mode==="adjust"?"Adjustment: "+note:note});
+  }
+  saveERP();alert("Stock updated successfully.");closeERPData();
+}
+function inventoryBalances(){
+  const map={};
+  (ERP_DB.stock||[]).forEach(x=>{
+    const wh=x.warehouse||"Main",item=x.item||"Unknown";
+    map[item+"||"+wh]=(map[item+"||"+wh]||0)+erpNum(x.qty);
+  });
+  return Object.entries(map).map(([k,v])=>{const [item,wh]=k.split("||");return [item,wh,v.toFixed(2)]});
+}
+function openWarehouseReport(){openLiveReport("Warehouse Stock",inventoryBalances(),["Item","Warehouse","Balance Qty"])}
+function openStockLedger(){openLiveReport("Stock Ledger",(ERP_DB.stock||[]).map(x=>[x.date||"",x.item||"",x.warehouse||"Main",erpNum(x.qty).toFixed(2),x.note||""]),["Date","Item","Warehouse","Qty","Reference"])}
+function openLowStock(){
+  const threshold=10, rows=[];
+  const map={};(ERP_DB.stock||[]).forEach(x=>map[x.item]=(map[x.item]||0)+erpNum(x.qty));
+  Object.entries(map).forEach(([item,q])=>{if(q<=threshold)rows.push([item,q.toFixed(2),threshold])});
+  openLiveReport("Low Stock Alert",rows,["Item","Balance Qty","Alert Below"]);
+}
+function openBarcode(){
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>▦ Barcode / SKU Lookup</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="field"><label>Scan / Enter Barcode</label><input id="barcode_q" autofocus oninput="barcodeSearch()"></div>
+  <div id="barcode_result" class="status">Enter a barcode or SKU.</div></div>`;
+  el.classList.add("show");
+}
+function barcodeSearch(){
+  const q=(document.getElementById("barcode_q").value||"").toLowerCase();
+  const found=(ERP_DB.products||[]).filter(x=>(x.sku||"").toLowerCase().includes(q)||(x.name||"").toLowerCase().includes(q));
+  document.getElementById("barcode_result").innerHTML=found.length?found.map(x=>`<b>${esc(x.name)}</b> — SKU: ${esc(x.sku)} — Price: ₹${esc(x.price)}`).join("<br>"):"No matching item.";
+}
+</script>
+
 <section id="erp-dashboard" class="page erpModulePage">
 <div class="box">
 <h2>01 🏠 Dashboard</h2>
@@ -215,7 +625,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="business overview" onclick="openERPFunction(this.dataset.search, 'Business Overview')">01 Business Overview</button><button class="action erpAction" data-search="sales summary" onclick="openERPFunction(this.dataset.search, 'Sales Summary')">02 Sales Summary</button><button class="action erpAction" data-search="purchase summary" onclick="openERPFunction(this.dataset.search, 'Purchase Summary')">03 Purchase Summary</button><button class="action erpAction" data-search="stock summary" onclick="openERPFunction(this.dataset.search, 'Stock Summary')">04 Stock Summary</button><button class="action erpAction" data-search="cash & bank" onclick="openERPFunction(this.dataset.search, 'Cash & Bank')">05 Cash & Bank</button><button class="action erpAction" data-search="receivable" onclick="openERPFunction(this.dataset.search, 'Receivable')">06 Receivable</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">07 Payable</button><button class="action erpAction" data-search="profit & loss" onclick="openERPFunction(this.dataset.search, 'Profit & Loss')">08 Profit & Loss</button><button class="action erpAction" data-search="pending orders" onclick="openERPFunction(this.dataset.search, 'Pending Orders')">09 Pending Orders</button><button class="action erpAction" data-search="low stock" onclick="openERPFunction(this.dataset.search, 'Low Stock')">10 Low Stock</button><button class="action erpAction" data-search="payment due" onclick="openERPFunction(this.dataset.search, 'Payment Due')">11 Payment Due</button><button class="action erpAction" data-search="notifications" onclick="openERPFunction(this.dataset.search, 'Notifications')">12 Notifications</button><button class="action erpAction" data-search="analytics & charts" onclick="openERPFunction(this.dataset.search, 'Analytics & Charts')">13 Analytics & Charts</button></div>
+<div class="actions"><button class="action erpAction" data-search="business overview" onclick="openERPFunction(this.dataset.search, 'Business Overview')">01 Business Overview</button><button class="action erpAction" data-search="sales summary" onclick="openERPFunction(this.dataset.search, 'Sales Summary')">02 Sales Summary</button><button class="action erpAction" data-search="purchase summary" onclick="openERPFunction(this.dataset.search, 'Purchase Summary')">03 Purchase Summary</button><button class="action erpAction" data-search="stock summary" onclick="openERPFunction(this.dataset.search, 'Stock Summary')">04 Stock Summary</button><button class="action erpAction" data-search="cash & bank" onclick="openERPFunction(this.dataset.search, 'Cash & Bank')">05 Cash & Bank</button><button class="action erpAction" data-search="receivable" onclick="openERPFunction(this.dataset.search, 'Receivable')">06 Receivable</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">07 Payable</button><button class="action erpAction" data-search="profit & loss" onclick="openERPFunction(this.dataset.search, 'Profit & Loss')">08 Profit & Loss</button><button class="action erpAction" data-search="pending orders" onclick="openERPFunction(this.dataset.search, 'Pending Orders')">09 Pending Orders</button><button class="action erpAction" data-search="low stock" onclick="openLowStock()">10 Low Stock</button><button class="action erpAction" data-search="payment due" onclick="openERPFunction(this.dataset.search, 'Payment Due')">11 Payment Due</button><button class="action erpAction" data-search="notifications" onclick="openERPFunction(this.dataset.search, 'Notifications')">12 Notifications</button><button class="action erpAction" data-search="analytics & charts" onclick="openERPFunction(this.dataset.search, 'Analytics & Charts')">13 Analytics & Charts</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -275,7 +685,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="customer master" onclick="openERPFunction(this.dataset.search, 'Customer Master')">01 Customer Master</button><button class="action erpAction" data-search="customer groups" onclick="openERPFunction(this.dataset.search, 'Customer Groups')">02 Customer Groups</button><button class="action erpAction" data-search="customer ledger" onclick="openERPFunction(this.dataset.search, 'Customer Ledger')">03 Customer Ledger</button><button class="action erpAction" data-search="outstanding" onclick="openERPFunction(this.dataset.search, 'Outstanding')">04 Outstanding</button><button class="action erpAction" data-search="credit limit" onclick="openERPFunction(this.dataset.search, 'Credit Limit')">05 Credit Limit</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">06 Payment History</button><button class="action erpAction" data-search="customer statement" onclick="openERPFunction(this.dataset.search, 'Customer Statement')">07 Customer Statement</button><button class="action erpAction" data-search="customer documents" onclick="openERPFunction(this.dataset.search, 'Customer Documents')">08 Customer Documents</button></div>
+<div class="actions"><button class="action erpAction" data-search="customer master" onclick="openERPFunction(this.dataset.search, 'Customer Master')">01 Customer Master</button><button class="action erpAction" data-search="customer groups" onclick="openERPFunction(this.dataset.search, 'Customer Groups')">02 Customer Groups</button><button class="action erpAction" data-search="customer ledger" onclick="openPartyLedger('customer')">03 Customer Ledger</button><button class="action erpAction" data-search="outstanding" onclick="openOutstanding('customer')">04 Outstanding</button><button class="action erpAction" data-search="credit limit" onclick="openERPFunction(this.dataset.search, 'Credit Limit')">05 Credit Limit</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">06 Payment History</button><button class="action erpAction" data-search="customer statement" onclick="openERPFunction(this.dataset.search, 'Customer Statement')">07 Customer Statement</button><button class="action erpAction" data-search="customer documents" onclick="openERPFunction(this.dataset.search, 'Customer Documents')">08 Customer Documents</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -290,7 +700,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="supplier master" onclick="openERPFunction(this.dataset.search, 'Supplier Master')">01 Supplier Master</button><button class="action erpAction" data-search="supplier groups" onclick="openERPFunction(this.dataset.search, 'Supplier Groups')">02 Supplier Groups</button><button class="action erpAction" data-search="supplier ledger" onclick="openERPFunction(this.dataset.search, 'Supplier Ledger')">03 Supplier Ledger</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">04 Payable</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">05 Payment History</button><button class="action erpAction" data-search="supplier statement" onclick="openERPFunction(this.dataset.search, 'Supplier Statement')">06 Supplier Statement</button><button class="action erpAction" data-search="supplier documents" onclick="openERPFunction(this.dataset.search, 'Supplier Documents')">07 Supplier Documents</button></div>
+<div class="actions"><button class="action erpAction" data-search="supplier master" onclick="openERPFunction(this.dataset.search, 'Supplier Master')">01 Supplier Master</button><button class="action erpAction" data-search="supplier groups" onclick="openERPFunction(this.dataset.search, 'Supplier Groups')">02 Supplier Groups</button><button class="action erpAction" data-search="supplier ledger" onclick="openPartyLedger('supplier')">03 Supplier Ledger</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">04 Payable</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">05 Payment History</button><button class="action erpAction" data-search="supplier statement" onclick="openERPFunction(this.dataset.search, 'Supplier Statement')">06 Supplier Statement</button><button class="action erpAction" data-search="supplier documents" onclick="openERPFunction(this.dataset.search, 'Supplier Documents')">07 Supplier Documents</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -305,7 +715,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="item master" onclick="openERPFunction(this.dataset.search, 'Item Master')">01 Item Master</button><button class="action erpAction" data-search="category" onclick="openERPFunction(this.dataset.search, 'Category')">02 Category</button><button class="action erpAction" data-search="sub-category" onclick="openERPFunction(this.dataset.search, 'Sub-category')">03 Sub-category</button><button class="action erpAction" data-search="brand" onclick="openERPFunction(this.dataset.search, 'Brand')">04 Brand</button><button class="action erpAction" data-search="unit" onclick="openERPFunction(this.dataset.search, 'Unit')">05 Unit</button><button class="action erpAction" data-search="hsn/sac" onclick="openERPFunction(this.dataset.search, 'HSN/SAC')">06 HSN/SAC</button><button class="action erpAction" data-search="barcode" onclick="openERPFunction(this.dataset.search, 'Barcode')">07 Barcode</button><button class="action erpAction" data-search="sku" onclick="openERPFunction(this.dataset.search, 'SKU')">08 SKU</button><button class="action erpAction" data-search="batch" onclick="openERPFunction(this.dataset.search, 'Batch')">09 Batch</button><button class="action erpAction" data-search="serial number" onclick="openERPFunction(this.dataset.search, 'Serial Number')">10 Serial Number</button><button class="action erpAction" data-search="purchase price" onclick="openERPFunction(this.dataset.search, 'Purchase Price')">11 Purchase Price</button><button class="action erpAction" data-search="sales price" onclick="openERPFunction(this.dataset.search, 'Sales Price')">12 Sales Price</button><button class="action erpAction" data-search="mrp" onclick="openERPFunction(this.dataset.search, 'MRP')">13 MRP</button><button class="action erpAction" data-search="tax" onclick="openERPFunction(this.dataset.search, 'Tax')">14 Tax</button><button class="action erpAction" data-search="discount" onclick="openERPFunction(this.dataset.search, 'Discount')">15 Discount</button><button class="action erpAction" data-search="custom fields" onclick="openERPFunction(this.dataset.search, 'Custom Fields')">16 Custom Fields</button></div>
+<div class="actions"><button class="action erpAction" data-search="item master" onclick="openERPFunction(this.dataset.search, 'Item Master')">01 Item Master</button><button class="action erpAction" data-search="category" onclick="openERPFunction(this.dataset.search, 'Category')">02 Category</button><button class="action erpAction" data-search="sub-category" onclick="openERPFunction(this.dataset.search, 'Sub-category')">03 Sub-category</button><button class="action erpAction" data-search="brand" onclick="openERPFunction(this.dataset.search, 'Brand')">04 Brand</button><button class="action erpAction" data-search="unit" onclick="openERPFunction(this.dataset.search, 'Unit')">05 Unit</button><button class="action erpAction" data-search="hsn/sac" onclick="openERPFunction(this.dataset.search, 'HSN/SAC')">06 HSN/SAC</button><button class="action erpAction" data-search="barcode" onclick="openBarcode()">07 Barcode</button><button class="action erpAction" data-search="sku" onclick="openERPFunction(this.dataset.search, 'SKU')">08 SKU</button><button class="action erpAction" data-search="batch" onclick="openERPFunction(this.dataset.search, 'Batch')">09 Batch</button><button class="action erpAction" data-search="serial number" onclick="openERPFunction(this.dataset.search, 'Serial Number')">10 Serial Number</button><button class="action erpAction" data-search="purchase price" onclick="openERPFunction(this.dataset.search, 'Purchase Price')">11 Purchase Price</button><button class="action erpAction" data-search="sales price" onclick="openERPFunction(this.dataset.search, 'Sales Price')">12 Sales Price</button><button class="action erpAction" data-search="mrp" onclick="openERPFunction(this.dataset.search, 'MRP')">13 MRP</button><button class="action erpAction" data-search="tax" onclick="openERPFunction(this.dataset.search, 'Tax')">14 Tax</button><button class="action erpAction" data-search="discount" onclick="openERPFunction(this.dataset.search, 'Discount')">15 Discount</button><button class="action erpAction" data-search="custom fields" onclick="openERPFunction(this.dataset.search, 'Custom Fields')">16 Custom Fields</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -320,7 +730,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="quotation" onclick="openERPFunction(this.dataset.search, 'Quotation')">01 Quotation</button><button class="action erpAction" data-search="sales order" onclick="openERPFunction(this.dataset.search, 'Sales Order')">02 Sales Order</button><button class="action erpAction" data-search="delivery challan" onclick="openERPFunction(this.dataset.search, 'Delivery Challan')">03 Delivery Challan</button><button class="action erpAction" data-search="sales invoice" onclick="openERPFunction(this.dataset.search, 'Sales Invoice')">04 Sales Invoice</button><button class="action erpAction" data-search="sales return" onclick="openERPFunction(this.dataset.search, 'Sales Return')">05 Sales Return</button><button class="action erpAction" data-search="credit note" onclick="openERPFunction(this.dataset.search, 'Credit Note')">06 Credit Note</button><button class="action erpAction" data-search="customer payment" onclick="openERPFunction(this.dataset.search, 'Customer Payment')">07 Customer Payment</button><button class="action erpAction" data-search="sales history" onclick="openERPFunction(this.dataset.search, 'Sales History')">08 Sales History</button><button class="action erpAction" data-search="outstanding" onclick="openERPFunction(this.dataset.search, 'Outstanding')">09 Outstanding</button><button class="action erpAction" data-search="sales reports" onclick="openERPFunction(this.dataset.search, 'Sales Reports')">10 Sales Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="quotation" onclick="openDocumentCenter('quotation')">01 Quotation</button><button class="action erpAction" data-search="sales order" onclick="openDocumentCenter('salesorder')">02 Sales Order</button><button class="action erpAction" data-search="delivery challan" onclick="openDocumentCenter('delivery')">03 Delivery Challan</button><button class="action erpAction" data-search="sales invoice" onclick="openGSTInvoice('sale')">04 Sales Invoice</button><button class="action erpAction" data-search="sales return" onclick="openERPFunction(this.dataset.search, 'Sales Return')">05 Sales Return</button><button class="action erpAction" data-search="credit note" onclick="openERPFunction(this.dataset.search, 'Credit Note')">06 Credit Note</button><button class="action erpAction" data-search="customer payment" onclick="openERPFunction(this.dataset.search, 'Customer Payment')">07 Customer Payment</button><button class="action erpAction" data-search="sales history" onclick="openERPFunction(this.dataset.search, 'Sales History')">08 Sales History</button><button class="action erpAction" data-search="outstanding" onclick="openERPFunction(this.dataset.search, 'Outstanding')">09 Outstanding</button><button class="action erpAction" data-search="sales reports" onclick="openSalesReport()">10 Sales Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -335,7 +745,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="purchase enquiry" onclick="openERPFunction(this.dataset.search, 'Purchase Enquiry')">01 Purchase Enquiry</button><button class="action erpAction" data-search="purchase quotation" onclick="openERPFunction(this.dataset.search, 'Purchase Quotation')">02 Purchase Quotation</button><button class="action erpAction" data-search="purchase order" onclick="openERPFunction(this.dataset.search, 'Purchase Order')">03 Purchase Order</button><button class="action erpAction" data-search="goods receipt" onclick="openERPFunction(this.dataset.search, 'Goods Receipt')">04 Goods Receipt</button><button class="action erpAction" data-search="purchase invoice" onclick="openERPFunction(this.dataset.search, 'Purchase Invoice')">05 Purchase Invoice</button><button class="action erpAction" data-search="purchase return" onclick="openERPFunction(this.dataset.search, 'Purchase Return')">06 Purchase Return</button><button class="action erpAction" data-search="debit note" onclick="openERPFunction(this.dataset.search, 'Debit Note')">07 Debit Note</button><button class="action erpAction" data-search="supplier payment" onclick="openERPFunction(this.dataset.search, 'Supplier Payment')">08 Supplier Payment</button><button class="action erpAction" data-search="purchase history" onclick="openERPFunction(this.dataset.search, 'Purchase History')">09 Purchase History</button><button class="action erpAction" data-search="purchase reports" onclick="openERPFunction(this.dataset.search, 'Purchase Reports')">10 Purchase Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="purchase enquiry" onclick="openERPFunction(this.dataset.search, 'Purchase Enquiry')">01 Purchase Enquiry</button><button class="action erpAction" data-search="purchase quotation" onclick="openERPFunction(this.dataset.search, 'Purchase Quotation')">02 Purchase Quotation</button><button class="action erpAction" data-search="purchase order" onclick="openDocumentCenter('purchaseorder')">03 Purchase Order</button><button class="action erpAction" data-search="goods receipt" onclick="openERPFunction(this.dataset.search, 'Goods Receipt')">04 Goods Receipt</button><button class="action erpAction" data-search="purchase invoice" onclick="openGSTInvoice('purchase')">05 Purchase Invoice</button><button class="action erpAction" data-search="purchase return" onclick="openERPFunction(this.dataset.search, 'Purchase Return')">06 Purchase Return</button><button class="action erpAction" data-search="debit note" onclick="openERPFunction(this.dataset.search, 'Debit Note')">07 Debit Note</button><button class="action erpAction" data-search="supplier payment" onclick="openERPFunction(this.dataset.search, 'Supplier Payment')">08 Supplier Payment</button><button class="action erpAction" data-search="purchase history" onclick="openERPFunction(this.dataset.search, 'Purchase History')">09 Purchase History</button><button class="action erpAction" data-search="purchase reports" onclick="openPurchaseReport()">10 Purchase Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -350,7 +760,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="opening stock" onclick="openERPFunction(this.dataset.search, 'Opening Stock')">01 Opening Stock</button><button class="action erpAction" data-search="stock in" onclick="openERPFunction(this.dataset.search, 'Stock In')">02 Stock In</button><button class="action erpAction" data-search="stock out" onclick="openERPFunction(this.dataset.search, 'Stock Out')">03 Stock Out</button><button class="action erpAction" data-search="stock transfer" onclick="openERPFunction(this.dataset.search, 'Stock Transfer')">04 Stock Transfer</button><button class="action erpAction" data-search="stock adjustment" onclick="openERPFunction(this.dataset.search, 'Stock Adjustment')">05 Stock Adjustment</button><button class="action erpAction" data-search="stock ledger" onclick="openERPFunction(this.dataset.search, 'Stock Ledger')">06 Stock Ledger</button><button class="action erpAction" data-search="stock valuation" onclick="openERPFunction(this.dataset.search, 'Stock Valuation')">07 Stock Valuation</button><button class="action erpAction" data-search="physical stock" onclick="openERPFunction(this.dataset.search, 'Physical Stock')">08 Physical Stock</button><button class="action erpAction" data-search="low stock" onclick="openERPFunction(this.dataset.search, 'Low Stock')">09 Low Stock</button><button class="action erpAction" data-search="expiry" onclick="openERPFunction(this.dataset.search, 'Expiry')">10 Expiry</button><button class="action erpAction" data-search="batch management" onclick="openERPFunction(this.dataset.search, 'Batch Management')">11 Batch Management</button><button class="action erpAction" data-search="serial management" onclick="openERPFunction(this.dataset.search, 'Serial Management')">12 Serial Management</button></div>
+<div class="actions"><button class="action erpAction" data-search="opening stock" onclick="openInventoryForm('opening')">01 Opening Stock</button><button class="action erpAction" data-search="stock in" onclick="openInventoryForm('in')">02 Stock In</button><button class="action erpAction" data-search="stock out" onclick="openInventoryForm('out')">03 Stock Out</button><button class="action erpAction" data-search="stock transfer" onclick="openInventoryForm('transfer')">04 Stock Transfer</button><button class="action erpAction" data-search="stock adjustment" onclick="openInventoryForm('adjust')">05 Stock Adjustment</button><button class="action erpAction" data-search="stock ledger" onclick="openStockLedger()">06 Stock Ledger</button><button class="action erpAction" data-search="stock valuation" onclick="openERPFunction(this.dataset.search, 'Stock Valuation')">07 Stock Valuation</button><button class="action erpAction" data-search="physical stock" onclick="openERPFunction(this.dataset.search, 'Physical Stock')">08 Physical Stock</button><button class="action erpAction" data-search="low stock" onclick="openERPFunction(this.dataset.search, 'Low Stock')">09 Low Stock</button><button class="action erpAction" data-search="expiry" onclick="openERPFunction(this.dataset.search, 'Expiry')">10 Expiry</button><button class="action erpAction" data-search="batch management" onclick="openERPFunction(this.dataset.search, 'Batch Management')">11 Batch Management</button><button class="action erpAction" data-search="serial management" onclick="openERPFunction(this.dataset.search, 'Serial Management')">12 Serial Management</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -365,7 +775,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="warehouse" onclick="openERPFunction(this.dataset.search, 'Warehouse')">01 Warehouse</button><button class="action erpAction" data-search="godown" onclick="openERPFunction(this.dataset.search, 'Godown')">02 Godown</button><button class="action erpAction" data-search="rack" onclick="openERPFunction(this.dataset.search, 'Rack')">03 Rack</button><button class="action erpAction" data-search="shelf" onclick="openERPFunction(this.dataset.search, 'Shelf')">04 Shelf</button><button class="action erpAction" data-search="bin" onclick="openERPFunction(this.dataset.search, 'Bin')">05 Bin</button><button class="action erpAction" data-search="warehouse transfer" onclick="openERPFunction(this.dataset.search, 'Warehouse Transfer')">06 Warehouse Transfer</button><button class="action erpAction" data-search="warehouse stock" onclick="openERPFunction(this.dataset.search, 'Warehouse Stock')">07 Warehouse Stock</button><button class="action erpAction" data-search="stock location" onclick="openERPFunction(this.dataset.search, 'Stock Location')">08 Stock Location</button></div>
+<div class="actions"><button class="action erpAction" data-search="warehouse" onclick="openERPFunction(this.dataset.search, 'Warehouse')">01 Warehouse</button><button class="action erpAction" data-search="godown" onclick="openERPFunction(this.dataset.search, 'Godown')">02 Godown</button><button class="action erpAction" data-search="rack" onclick="openERPFunction(this.dataset.search, 'Rack')">03 Rack</button><button class="action erpAction" data-search="shelf" onclick="openERPFunction(this.dataset.search, 'Shelf')">04 Shelf</button><button class="action erpAction" data-search="bin" onclick="openERPFunction(this.dataset.search, 'Bin')">05 Bin</button><button class="action erpAction" data-search="warehouse transfer" onclick="openERPFunction(this.dataset.search, 'Warehouse Transfer')">06 Warehouse Transfer</button><button class="action erpAction" data-search="warehouse stock" onclick="openWarehouseReport()">07 Warehouse Stock</button><button class="action erpAction" data-search="stock location" onclick="openERPFunction(this.dataset.search, 'Stock Location')">08 Stock Location</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -395,7 +805,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="cash book" onclick="openERPFunction(this.dataset.search, 'Cash Book')">01 Cash Book</button><button class="action erpAction" data-search="bank book" onclick="openERPFunction(this.dataset.search, 'Bank Book')">02 Bank Book</button><button class="action erpAction" data-search="ledger" onclick="openERPFunction(this.dataset.search, 'Ledger')">03 Ledger</button><button class="action erpAction" data-search="journal" onclick="openERPFunction(this.dataset.search, 'Journal')">04 Journal</button><button class="action erpAction" data-search="receivable" onclick="openERPFunction(this.dataset.search, 'Receivable')">05 Receivable</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">06 Payable</button><button class="action erpAction" data-search="income" onclick="openERPFunction(this.dataset.search, 'Income')">07 Income</button><button class="action erpAction" data-search="expense" onclick="openERPFunction(this.dataset.search, 'Expense')">08 Expense</button><button class="action erpAction" data-search="trial balance" onclick="openERPFunction(this.dataset.search, 'Trial Balance')">09 Trial Balance</button><button class="action erpAction" data-search="profit & loss" onclick="openERPFunction(this.dataset.search, 'Profit & Loss')">10 Profit & Loss</button><button class="action erpAction" data-search="balance sheet" onclick="openERPFunction(this.dataset.search, 'Balance Sheet')">11 Balance Sheet</button><button class="action erpAction" data-search="day book" onclick="openERPFunction(this.dataset.search, 'Day Book')">12 Day Book</button><button class="action erpAction" data-search="bank reconciliation" onclick="openERPFunction(this.dataset.search, 'Bank Reconciliation')">13 Bank Reconciliation</button></div>
+<div class="actions"><button class="action erpAction" data-search="cash book" onclick="openERPFunction(this.dataset.search, 'Cash Book')">01 Cash Book</button><button class="action erpAction" data-search="bank book" onclick="openERPFunction(this.dataset.search, 'Bank Book')">02 Bank Book</button><button class="action erpAction" data-search="ledger" onclick="openERPFunction(this.dataset.search, 'Ledger')">03 Ledger</button><button class="action erpAction" data-search="journal" onclick="openERPFunction(this.dataset.search, 'Journal')">04 Journal</button><button class="action erpAction" data-search="receivable" onclick="openERPFunction(this.dataset.search, 'Receivable')">05 Receivable</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">06 Payable</button><button class="action erpAction" data-search="income" onclick="openERPFunction(this.dataset.search, 'Income')">07 Income</button><button class="action erpAction" data-search="expense" onclick="openERPFunction(this.dataset.search, 'Expense')">08 Expense</button><button class="action erpAction" data-search="trial balance" onclick="openERPFunction(this.dataset.search, 'Trial Balance')">09 Trial Balance</button><button class="action erpAction" data-search="profit & loss" onclick="openERPFunction(this.dataset.search, 'Profit & Loss')">10 Profit & Loss</button><button class="action erpAction" data-search="balance sheet" onclick="openERPFunction(this.dataset.search, 'Balance Sheet')">11 Balance Sheet</button><button class="action erpAction" data-search="day book" onclick="openDayBook()">12 Day Book</button><button class="action erpAction" data-search="bank reconciliation" onclick="openERPFunction(this.dataset.search, 'Bank Reconciliation')">13 Bank Reconciliation</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -410,7 +820,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="gst settings" onclick="openERPFunction(this.dataset.search, 'GST Settings')">01 GST Settings</button><button class="action erpAction" data-search="tax rates" onclick="openERPFunction(this.dataset.search, 'Tax Rates')">02 Tax Rates</button><button class="action erpAction" data-search="cgst" onclick="openERPFunction(this.dataset.search, 'CGST')">03 CGST</button><button class="action erpAction" data-search="sgst" onclick="openERPFunction(this.dataset.search, 'SGST')">04 SGST</button><button class="action erpAction" data-search="igst" onclick="openERPFunction(this.dataset.search, 'IGST')">05 IGST</button><button class="action erpAction" data-search="hsn/sac" onclick="openERPFunction(this.dataset.search, 'HSN/SAC')">06 HSN/SAC</button><button class="action erpAction" data-search="tax invoice" onclick="openERPFunction(this.dataset.search, 'Tax Invoice')">07 Tax Invoice</button><button class="action erpAction" data-search="credit note" onclick="openERPFunction(this.dataset.search, 'Credit Note')">08 Credit Note</button><button class="action erpAction" data-search="debit note" onclick="openERPFunction(this.dataset.search, 'Debit Note')">09 Debit Note</button><button class="action erpAction" data-search="gst reports" onclick="openERPFunction(this.dataset.search, 'GST Reports')">10 GST Reports</button><button class="action erpAction" data-search="tax summary" onclick="openERPFunction(this.dataset.search, 'Tax Summary')">11 Tax Summary</button></div>
+<div class="actions"><button class="action erpAction" data-search="gst settings" onclick="openERPFunction(this.dataset.search, 'GST Settings')">01 GST Settings</button><button class="action erpAction" data-search="tax rates" onclick="openERPFunction(this.dataset.search, 'Tax Rates')">02 Tax Rates</button><button class="action erpAction" data-search="cgst" onclick="openERPFunction(this.dataset.search, 'CGST')">03 CGST</button><button class="action erpAction" data-search="sgst" onclick="openERPFunction(this.dataset.search, 'SGST')">04 SGST</button><button class="action erpAction" data-search="igst" onclick="openERPFunction(this.dataset.search, 'IGST')">05 IGST</button><button class="action erpAction" data-search="hsn/sac" onclick="openERPFunction(this.dataset.search, 'HSN/SAC')">06 HSN/SAC</button><button class="action erpAction" data-search="tax invoice" onclick="openERPFunction(this.dataset.search, 'Tax Invoice')">07 Tax Invoice</button><button class="action erpAction" data-search="credit note" onclick="openERPFunction(this.dataset.search, 'Credit Note')">08 Credit Note</button><button class="action erpAction" data-search="debit note" onclick="openERPFunction(this.dataset.search, 'Debit Note')">09 Debit Note</button><button class="action erpAction" data-search="gst reports" onclick="openGSTSummary()">10 GST Reports</button><button class="action erpAction" data-search="tax summary" onclick="openERPFunction(this.dataset.search, 'Tax Summary')">11 Tax Summary</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -545,7 +955,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="sales reports" onclick="openERPFunction(this.dataset.search, 'Sales Reports')">01 Sales Reports</button><button class="action erpAction" data-search="purchase reports" onclick="openERPFunction(this.dataset.search, 'Purchase Reports')">02 Purchase Reports</button><button class="action erpAction" data-search="stock reports" onclick="openERPFunction(this.dataset.search, 'Stock Reports')">03 Stock Reports</button><button class="action erpAction" data-search="accounts reports" onclick="openERPFunction(this.dataset.search, 'Accounts Reports')">04 Accounts Reports</button><button class="action erpAction" data-search="gst reports" onclick="openERPFunction(this.dataset.search, 'GST Reports')">05 GST Reports</button><button class="action erpAction" data-search="customer reports" onclick="openERPFunction(this.dataset.search, 'Customer Reports')">06 Customer Reports</button><button class="action erpAction" data-search="supplier reports" onclick="openERPFunction(this.dataset.search, 'Supplier Reports')">07 Supplier Reports</button><button class="action erpAction" data-search="hr reports" onclick="openERPFunction(this.dataset.search, 'HR Reports')">08 HR Reports</button><button class="action erpAction" data-search="expense reports" onclick="openERPFunction(this.dataset.search, 'Expense Reports')">09 Expense Reports</button><button class="action erpAction" data-search="profit reports" onclick="openERPFunction(this.dataset.search, 'Profit Reports')">10 Profit Reports</button><button class="action erpAction" data-search="business analytics" onclick="openERPFunction(this.dataset.search, 'Business Analytics')">11 Business Analytics</button><button class="action erpAction" data-search="custom reports" onclick="openERPFunction(this.dataset.search, 'Custom Reports')">12 Custom Reports</button><button class="action erpAction" data-search="excel export" onclick="openERPFunction(this.dataset.search, 'Excel Export')">13 Excel Export</button><button class="action erpAction" data-search="pdf export" onclick="openERPFunction(this.dataset.search, 'PDF Export')">14 PDF Export</button><button class="action erpAction" data-search="print" onclick="openERPFunction(this.dataset.search, 'Print')">15 Print</button></div>
+<div class="actions"><button class="action erpAction" data-search="sales reports" onclick="openSalesReport()">01 Sales Reports</button><button class="action erpAction" data-search="purchase reports" onclick="openPurchaseReport()">02 Purchase Reports</button><button class="action erpAction" data-search="stock reports" onclick="openStockReport()">03 Stock Reports</button><button class="action erpAction" data-search="accounts reports" onclick="openAccountsReport()">04 Accounts Reports</button><button class="action erpAction" data-search="gst reports" onclick="openERPFunction(this.dataset.search, 'GST Reports')">05 GST Reports</button><button class="action erpAction" data-search="customer reports" onclick="openERPFunction(this.dataset.search, 'Customer Reports')">06 Customer Reports</button><button class="action erpAction" data-search="supplier reports" onclick="openERPFunction(this.dataset.search, 'Supplier Reports')">07 Supplier Reports</button><button class="action erpAction" data-search="hr reports" onclick="openERPFunction(this.dataset.search, 'HR Reports')">08 HR Reports</button><button class="action erpAction" data-search="expense reports" onclick="openERPFunction(this.dataset.search, 'Expense Reports')">09 Expense Reports</button><button class="action erpAction" data-search="profit reports" onclick="openPLReport()">10 Profit Reports</button><button class="action erpAction" data-search="business analytics" onclick="openERPFunction(this.dataset.search, 'Business Analytics')">11 Business Analytics</button><button class="action erpAction" data-search="custom reports" onclick="openERPFunction(this.dataset.search, 'Custom Reports')">12 Custom Reports</button><button class="action erpAction" data-search="excel export" onclick="openERPFunction(this.dataset.search, 'Excel Export')">13 Excel Export</button><button class="action erpAction" data-search="pdf export" onclick="openERPFunction(this.dataset.search, 'PDF Export')">14 PDF Export</button><button class="action erpAction" data-search="print" onclick="openERPFunction(this.dataset.search, 'Print')">15 Print</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -778,7 +1188,40 @@ background:#fafafa!important;color:#222;cursor:pointer}
 </div>
 </section>
 <section id="erp" class="page"><div class="box"><h2>🏢 ERP Software Developer</h2><p><b>This is the main ERP development area.</b> All 38 modules are grouped by their actual business purpose. Open a module to use its related functions without searching through unrelated options.</p>
-<div class="status">Commercial ERP principle: one module → all related functions → simple workflow → customer-wise ON/OFF.</div>
+<div class="status">Commercial ERP principle: one module → all related functions → simple workflow → customer-wise ON/OFF.</div><div class="box" style="margin-top:14px"><h3>📦 Professional Inventory Center</h3>
+<p>Manage stock, warehouses and item lookup from one place.</p>
+<div class="actions">
+<button class="action" onclick="openInventoryForm('opening')">📥 Opening Stock</button>
+<button class="action" onclick="openInventoryForm('in')">➕ Stock In</button>
+<button class="action" onclick="openInventoryForm('out')">➖ Stock Out</button>
+<button class="action" onclick="openInventoryForm('transfer')">🔄 Stock Transfer</button>
+<button class="action" onclick="openInventoryForm('adjust')">⚖️ Stock Adjustment</button>
+<button class="action" onclick="openWarehouseReport()">🏭 Warehouse Stock</button>
+<button class="action" onclick="openStockLedger()">📒 Stock Ledger</button>
+<button class="action" onclick="openLowStock()">⚠️ Low Stock</button>
+<button class="action" onclick="openBarcode()">▦ Barcode Lookup</button>
+</div></div>
+<div class="box" style="margin-top:14px"><h3>📄 Professional Document Center</h3>
+<p>Create, save and print common business documents from one simple place.</p>
+<div class="actions">
+<button class="action" onclick="openDocumentCenter('quotation')">📝 Quotation</button>
+<button class="action" onclick="openDocumentCenter('salesorder')">🛒 Sales Order</button>
+<button class="action" onclick="openDocumentCenter('delivery')">🚚 Delivery Challan</button>
+<button class="action" onclick="openDocumentCenter('salesinvoice')">🧾 Sales Invoice</button>
+<button class="action" onclick="openDocumentCenter('purchaseorder')">📋 Purchase Order</button>
+<button class="action" onclick="openDocumentCenter('purchaseinvoice')">🧾 Purchase Invoice</button>
+</div></div>
+<div class="actions" style="margin-top:12px">
+<button class="primary" onclick="openTransaction('sale')">＋ New Sales Invoice</button>
+<button class="primary" onclick="openTransaction('purchase')">＋ New Purchase Invoice</button>
+<button class="action" onclick="openStockReport()">📊 Live Stock</button>
+<button class="action" onclick="openAccountsReport()">💳 Live Accounts</button><button class="action" onclick="openOutstanding('customer')">👤 Customer Outstanding</button><button class="action" onclick="openOutstanding('supplier')">🚚 Supplier Outstanding</button><button class="primary" onclick="openPaymentEntry('customer')">＋ Customer Payment</button><button class="primary" onclick="openPaymentEntry('supplier')">＋ Supplier Payment</button><button class="action" onclick="openNetOutstanding('customer')">👤 Net Customer Balance</button><button class="action" onclick="openNetOutstanding('supplier')">🚚 Net Supplier Balance</button>
+<button class="action" onclick="openPLReport()">📈 Profit & Loss</button>
+<button class="action" onclick="openDayBook()">📒 Day Book</button>
+<button class="action" onclick="openGSTSummary()">🇮🇳 GST Summary</button>
+<button class="action" onclick="exportERPData()">⬇️ Backup</button>
+<button class="action" onclick="importERPData()">⬆️ Restore</button>
+</div>
 <div class="actions">
 <div class="action" onclick="showPage('newerp')">01 ➕ New ERP Software</div>
 <div class="action" onclick="showPage('business')">02 🏪 Business Details</div>
@@ -884,6 +1327,13 @@ function toggleDev(id){
 </script>
 
 <script>
+
+
+function refreshERPCounters(){
+  const ids=[["countCustomers","customers"],["countCompanies","companies"],["countProducts","products"]];
+  ids.forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=(ERP_DB[k]||[]).length;});
+}
+document.addEventListener("DOMContentLoaded",refreshERPCounters);
 
 </script>
 </body>
