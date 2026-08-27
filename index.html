@@ -74,6 +74,64 @@ background:#fafafa!important;color:#222;cursor:pointer}
 .tableWrap{overflow:auto;margin-top:18px}.smallBtn{padding:7px 10px;font-size:12px}
 
 </style>
+
+<style>
+/* V17 stability + mobile/PC responsive fixes */
+html,body{width:100%;min-height:100%;overflow-x:hidden}
+main{width:100%;min-height:calc(100vh - 220px)}
+.page.active{display:block!important}
+.header{width:100%;overflow:hidden}
+.header img{width:100%;height:auto;min-height:80px;object-fit:cover}
+.top{width:100%;flex-wrap:nowrap}
+.side{max-width:88vw}
+.action,.erpAction,.sub,.devMain,.topbtn,.menu{touch-action:manipulation}
+@media(max-width:560px){
+  .header img{max-height:150px;min-height:72px}
+  .top{height:58px;padding:6px 8px;gap:7px}
+  .menu{width:44px;height:44px;font-size:22px;flex:0 0 44px}
+  .brand{font-size:13px;overflow:hidden;text-overflow:ellipsis}
+  .badge{padding:5px 8px;font-size:11px;flex:0 0 auto}
+  main{padding:8px;min-height:calc(100vh - 210px)}
+  .hero,.box,.card{border-radius:10px}
+  .hero h1{font-size:20px;line-height:1.25}
+  .hero p{font-size:14px}
+  .actions,.grid,.formgrid{grid-template-columns:1fr!important}
+  table{font-size:13px}
+  th,td{padding:8px}
+}
+</style>
+
+
+<style id="v18-same-ui-responsive">
+/* V18: one master UI for PC + mobile */
+*,*:before,*:after{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{margin:0}
+.top,.nav,.header,main{width:100%;max-width:100%}
+main,.page,.box,.card,.hero,.action,.actions,.grid,.formgrid,.optionTable,.devSub{min-width:0;max-width:100%}
+img,video,canvas,iframe{max-width:100%}
+input,select,textarea,button{max-width:100%}
+table{width:100%;max-width:100%;overflow-wrap:anywhere}
+@media(max-width:700px){
+  .top{height:auto!important;min-height:56px!important;padding:7px 8px!important;gap:7px!important}
+  .brand{font-size:13px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top .adminInfo{display:none!important}
+  .badge{font-size:10px!important;padding:5px 7px!important;white-space:nowrap}
+  .menu{flex:0 0 44px!important;width:44px!important;height:44px!important}
+  .side{width:min(330px,92vw)!important;max-width:92vw!important}
+  main{padding:10px!important}
+  .hero{padding:16px!important}
+  .hero h1{font-size:20px!important;line-height:1.25!important}
+  .hero p{font-size:13px!important}
+  .grid,.actions,.formgrid,.cards,.programs{grid-template-columns:1fr!important}
+  .action,.devMain,.sub,.item,button{min-height:44px}
+  .optionTable{overflow-x:auto}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+}
+@media(min-width:701px){
+  main{padding-left:22px;padding-right:22px}
+}
+</style>
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
@@ -144,15 +202,15 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="devMain" onclick="toggleDev('appGroup')">📱 APP / APK DEVELOPER <span>▾</span></button>
 <div class="devSub">
 <div class="optionTable">
-<button class="sub" onclick="showPage('new-app')">➕ New Android App</button>
-<button class="sub" onclick="showPage('app-details')">📋 App Details</button>
-<button class="sub" onclick="showPage('app-ui')">🖥️ App Screens / UI</button>
-<button class="sub" onclick="showPage('app-login')">🔐 App Login</button>
-<button class="sub" onclick="showPage('app-firebase')">🔥 Firebase</button>
-<button class="sub" onclick="showPage('app-assets')">🎨 Logo & Assets</button>
-<button class="sub" onclick="showPage('app-test')">🧪 Test App</button>
-<button class="sub" onclick="showPage('app-build')">📦 Build APK</button>
-<button class="sub" onclick="showPage('app-export')">📤 Export App Project</button>
+<button class="sub" onclick="showPage('newapp')">➕ New Android App</button>
+<button class="sub" onclick="showPage('appdetails')">📋 App Details</button>
+<button class="sub" onclick="showPage('appscreens')">🖥️ App Screens / UI</button>
+<button class="sub" onclick="showPage('applogin')">🔐 App Login</button>
+<button class="sub" onclick="showPage('appfirebase')">🔥 Firebase</button>
+<button class="sub" onclick="showPage('appassets')">🎨 Logo & Assets</button>
+<button class="sub" onclick="showPage('apptest')">🧪 Test App</button>
+<button class="sub" onclick="showPage('apkbuild')">📦 Build APK</button>
+<button class="sub" onclick="showPage('appexport')">📤 Export App Project</button>
 </div>
 </div>
 </div>
@@ -161,16 +219,16 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <button class="devMain" onclick="toggleDev('pcGroup')">💻 PC EXE DEVELOPER <span>▾</span></button>
 <div class="devSub">
 <div class="optionTable">
-<button class="sub" onclick="showPage('pc-exe-new')">➕ New PC Software</button>
-<button class="sub" onclick="showPage('pc-exe-details')">📋 Software Details</button>
-<button class="sub" onclick="showPage('pc-exe-ui')">🖥️ Desktop UI</button>
-<button class="sub" onclick="showPage('pc-exe-database')">🗄️ Database</button>
-<button class="sub" onclick="showPage('pc-exe-modules')">🧩 Modules</button>
-<button class="sub" onclick="showPage('pc-exe-users')">🔐 Users & Security</button>
-<button class="sub" onclick="showPage('pc-exe-testing')">🧪 Testing</button>
-<button class="sub" onclick="showPage('pc-exe-backup')">💾 Backup</button>
-<button class="sub" onclick="showPage('pc-exe-build')">📦 Build EXE</button>
-<button class="sub" onclick="showPage('pc-exe-release')">📤 Release / Export</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">➕ New PC Software</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">📋 Software Details</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">🖥️ Desktop UI</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">🗄️ Database</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">🧩 Modules</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">🔐 Users & Security</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">🧪 Testing</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">💾 Backup</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">📦 Build EXE</button>
+<button class="sub" onclick="showPage('pc-exe-developer')">📤 Release / Export</button>
 </div>
 </div>
 </div>
@@ -392,7 +450,35 @@ function printInvoice(d){
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body>
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script>
+<script>
+/* V17 boot guard: preserve the existing dashboard and all existing programs. */
+(function(){
+  function ensureVisible(){
+    var pages=document.querySelectorAll('.page');
+    var active=document.querySelector('.page.active');
+    if(!active && pages.length){
+      var d=document.getElementById('dashboard') || pages[0];
+      d.classList.add('active');
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ensureVisible);
+  else ensureVisible();
+})();
+</script>
+
+
+<script id="v18-page-guard">
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    if(!document.querySelector('.page.active')){
+      const d=document.getElementById('dashboard')||document.querySelector('.page');
+      if(d)d.classList.add('active');
+    }
+  });
+})();
+</script>
+</body>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
@@ -976,7 +1062,7 @@ function ownerExport(){
 
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile }
   from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
@@ -990,7 +1076,7 @@ const firebaseConfig = {
   messagingSenderId:"805539742021",
   appId:"1:805539742021:web:5be8eeed81d6f4ba567e2c"
 };
-const appV16=initializeApp(firebaseConfig);
+const appV16=getApps().length ? getApp() : initializeApp(firebaseConfig);
 const authV16=getAuth(appV16), dbV16=getFirestore(appV16);
 
 window.v16OpenCustomerAccount=()=>{
@@ -1825,7 +1911,19 @@ onAuthStateChanged(authV16,user=>{
 <script>
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
 function closeMenu(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));var x=document.getElementById(id);if(x)x.classList.add('active');closeMenu();window.scrollTo(0,0)}
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  var x=document.getElementById(id);
+  if(!x){
+    var fallback=document.getElementById('dashboard');
+    if(fallback) fallback.classList.add('active');
+    console.warn('Page not found:',id);
+  }else{
+    x.classList.add('active');
+  }
+  closeMenu();
+  window.scrollTo({top:0,left:0,behavior:'instant'});
+}
 function createERP(){var n=document.getElementById('pname').value.trim();if(!n){alert('ERP / Project Name required.');return}alert('ERP project created: '+n);showPage('erp')}
 function createApp(){var n=document.getElementById('appname').value.trim();if(!n){alert('App Name required.');return}alert('Android App project created: '+n);showPage('appdev')}
 function logout(){if(confirm('Logout from Developer Console?')) alert('Logged out (demo mode).')}
