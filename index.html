@@ -1,141 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SANDIP S. SUTAR | ERP Developer Console</title>
+<title>SANDIP S. SUTAR ERP Developer</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#182033}
-body{overflow-x:hidden}
-.header{background:#07172f;width:100%;border-bottom:2px solid #1d7cff}
-.header img{display:block;width:100%;height:auto;max-height:190px;object-fit:cover}
-.nav{min-height:68px;background:#fff;display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid #ddd;white-space:nowrap;overflow-x:auto}
-.menu{width:48px;height:46px;border:1px solid #ddd;border-radius:9px;background:#fff;font-size:24px}
-.brand{font-weight:800;color:#102044;font-size:18px}.spacer{flex:1}
-.badge{background:#e9f1ff;color:#1769e0;padding:7px 11px;border-radius:20px;font-size:12px;font-weight:700}
-#panel{display:none;background:#fff;padding:12px 18px;border-bottom:1px solid #ddd;box-shadow:0 4px 14px #0001}
-#panel.show{display:block}.item{width:100%;max-width:360px;display:block;text-align:left;border:0;background:#f3f6fa;padding:12px;margin:6px 0;border-radius:8px}
-main{max-width:1400px;margin:auto;padding:22px}
-.hero{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 15px #0001}
-.hero h1{margin:0;color:#102044}.hero p{color:#667085}
-.cards{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));gap:12px;margin-top:18px}
-.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 3px 15px #0001;border:1px solid #e6eaf0}
-.stat b{display:block;font-size:24px;margin:8px 0;color:#1464df}.stat small{color:#667085}
-.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}
-.box{background:#fff;border-radius:14px;padding:18px;box-shadow:0 3px 15px #0001}
-.box h2{margin-top:0;color:#16264a}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
-.action{padding:16px;border:1px solid #e1e7ef;border-radius:10px;background:#f8fafc}
-button.primary{border:0;border-radius:8px;padding:10px 14px;background:#1769e0;color:#fff;font-weight:700;cursor:pointer}
-.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
-.tool{padding:15px;border:1px solid #e1e7ef;border-radius:10px;background:#fff;cursor:pointer}
-footer{text-align:center;color:#667085;padding:25px}
-@media(max-width:1000px){.cards{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}}
-@media(max-width:600px){.header img{max-height:150px}.nav{padding:9px 10px}.brand{font-size:15px}main{padding:12px}.cards{grid-template-columns:repeat(2,1fr)}.actions{grid-template-columns:1fr}.tools{grid-template-columns:1fr 1fr}.hero{padding:17px}.hero h1{font-size:21px}}
+*{box-sizing:border-box}
+html,body{margin:0;font-family:Arial,sans-serif;background:#f4f6f9;color:#1f2937}
+button,input,select{font:inherit}
+.header{background:#07182f}.header img{display:block;width:100%;max-height:180px;object-fit:cover}
+.top{height:64px;background:#4a2108;color:#fff;display:flex;align-items:center;gap:10px;padding:8px 12px;position:sticky;top:0;z-index:50}
+.menu{width:46px;height:46px;border:0;border-radius:8px;background:#fff;color:#222;font-size:24px}
+.brand{font-weight:800;font-size:17px;white-space:nowrap}.grow{flex:1}
+.topbtn{border:0;background:#ffffff22;color:#fff;border-radius:8px;padding:9px;cursor:pointer}
+.badge{background:#fff;color:#4a2108;border-radius:15px;padding:6px 9px;font-size:12px}
+.side{position:fixed;top:0;left:-310px;width:290px;height:100vh;background:#fff;z-index:100;box-shadow:5px 0 20px #0003;transition:.25s;overflow:auto}
+.side.open{left:0}.sidehead{padding:18px;background:#4a2108;color:#fff;font-weight:800}
+.side button{display:block;width:100%;text-align:left;border:0;background:#fff;padding:14px 16px;border-bottom:1px solid #eee;cursor:pointer}
+.side button:hover{background:#f4f6f9}.sub{padding-left:32px!important;background:#fafafa!important}
+.overlay{display:none;position:fixed;inset:0;background:#0006;z-index:90}.overlay.show{display:block}
+main{max-width:1250px;margin:auto;padding:16px}
+.page{display:none}.page.active{display:block}
+.hero,.box,.card{background:#fff;border-radius:12px;box-shadow:0 3px 14px #0001}
+.hero{padding:20px}.hero h1{margin:0;color:#4a2108}.hero p{color:#667085;line-height:1.5}
+.search{display:flex;gap:8px;margin:15px 0}.search input{flex:1;padding:12px;border:1px solid #ccd2da;border-radius:8px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{padding:16px}.stat b{display:block;font-size:22px;color:#1769e0;margin:7px 0}
+.box{padding:18px;margin-top:16px}.box h2{margin-top:0;color:#4a2108}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.action{padding:15px;border:1px solid #e2e6eb;border-radius:9px;background:#fafbfc;cursor:pointer}
+.primary{border:0;background:#4a2108;color:#fff;padding:11px 15px;border-radius:8px;font-weight:700;cursor:pointer}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;font-size:13px;margin-bottom:5px}.field input,.field select{width:100%;padding:11px;border:1px solid #ccd2da;border-radius:7px}
+.status{padding:10px;border-radius:8px;background:#edf8ef;color:#23733a;margin-bottom:12px}
+table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+footer{text-align:center;padding:25px;color:#667085}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.actions{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.brand{font-size:14px}.topbtn.hideMob{display:none}main{padding:10px}.grid,.actions,.formgrid{grid-template-columns:1fr}.hero{padding:16px}.hero h1{font-size:21px}.header img{max-height:145px}}
+</style>
+
+
 
 <style>
-.workflow-step{counter-increment:step}
+.appSubmenu,.pcSubmenu{background:#fafafa;border-bottom:1px solid #eee}
+.appSubmenu .sub,.pcSubmenu .sub{padding-left:38px!important;font-size:14px}
 </style>
+
+
+
+<style>
+.devGroup{border-bottom:1px solid #eee}
+.devMain{display:flex!important;align-items:center;justify-content:space-between;width:100%;
+text-align:left;border:0;background:#fff!important;padding:14px 16px;font-weight:800;cursor:pointer}
+.devMain span{font-size:16px;color:#777;transition:.2s}
+.devGroup.closed .devMain span{transform:rotate(-90deg)}
+.devSub{display:block;max-height:900px;overflow:hidden;transition:max-height .22s ease}
+.devGroup.closed .devSub{max-height:0}
+.optionTable{margin:0 10px 8px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
+.optionTable .sub{display:block!important;width:100%;margin:0!important;padding:12px 14px 12px 36px!important;
+text-align:left;border:0!important;border-bottom:1px solid #eee!important;border-radius:0!important;
+background:#fafafa!important;color:#222;cursor:pointer}
+.optionTable .sub:last-child{border-bottom:0!important}
 </style>
 </head>
 <body>
 
 <header class="header"><img src="header.jpg" alt="SANDIP S. SUTAR ERP Software Developer"></header>
 
-<nav class="nav">
-  <button class="menu" onclick="toggleMenu()">☰</button>
-  <div class="brand">SANDIP S. SUTAR ERP</div>
-  <div class="spacer"></div>
-  <span>👤 Developer</span><span class="badge">Super Admin</span>
-  <span>📅 <span id="today"></span></span>
-  <span>☁️ Cloud</span>
+<nav class="top">
+<button class="menu" onclick="openMenu()">☰</button>
+<div class="brand">SANDIP S. SUTAR ERP</div>
+<div class="grow"></div>
+<button class="topbtn hideMob" onclick="location.reload()">↻ Refresh</button>
+<button class="topbtn" onclick="logout()">↪ Logout</button>
+<span class="badge">Admin</span>
 </nav>
 
-<div id="panel">
-  <b>⚙️ Developer Menu</b>
-  <button class="item" onclick="go('ERP Software Developer')">🏢 ERP Software Developer</button>
-  <button class="item" onclick="go('New Customer ERP')">➕ New Customer ERP</button>
-  <button class="item" onclick="go('Active Programs')">🟢 Active Programs</button>
-  <button class="item" onclick="go('Demo / Fictional Programs')">🧪 Demo / Fictional Programs</button>
-  <button class="item" onclick="go('Firebase / Database')">🔥 Firebase / Database</button>
-  <button class="item" onclick="go('Build Center')">🛠️ Build Center</button>
-  <button class="item" onclick="go('Settings')">⚙️ Settings</button>
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+<aside id="side" class="side">
+<div class="sidehead">⚙️ DEVELOPER MENU</div>
+
+<button onclick="showPage('dashboard')">🏠 Dashboard</button>
+<button onclick="showPage('quick')">⚡ Quick Action</button>
+
+<div class="devGroup" id="erpGroup">
+<button class="devMain" onclick="toggleDev('erpGroup')">🏢 ERP SOFTWARE DEVELOPER <span>▾</span></button>
+<div class="devSub">
+<div class="optionTable">
+<button class="sub" onclick="showPage('newerp')">➕ New ERP Software</button>
+<button class="sub" onclick="showPage('business')">🏪 Business Details</button>
+<button class="sub" onclick="showPage('masters')">👥 Masters</button>
+<button class="sub" onclick="showPage('sales')">🧾 Sales & Purchase</button>
+<button class="sub" onclick="showPage('stock')">📦 Stock Management</button>
+<button class="sub" onclick="showPage('accounts')">💰 Accounts</button>
+<button class="sub" onclick="showPage('reports')">📊 Reports & Analytics</button>
+<button class="sub" onclick="showPage('users')">🔐 Users & Login</button>
+<button class="sub" onclick="showPage('backup')">💾 Backup & Restore</button>
+<button class="sub" onclick="showPage('license')">🛡️ License & Subscription</button>
 </div>
+</div>
+</div>
+
+<div class="devGroup" id="appGroup">
+<button class="devMain" onclick="toggleDev('appGroup')">📱 APP / APK DEVELOPER <span>▾</span></button>
+<div class="devSub">
+<div class="optionTable">
+<button class="sub" onclick="showPage('new-app')">➕ New Android App</button>
+<button class="sub" onclick="showPage('app-details')">📋 App Details</button>
+<button class="sub" onclick="showPage('app-ui')">🖥️ App Screens / UI</button>
+<button class="sub" onclick="showPage('app-login')">🔐 App Login</button>
+<button class="sub" onclick="showPage('app-firebase')">🔥 Firebase</button>
+<button class="sub" onclick="showPage('app-assets')">🎨 Logo & Assets</button>
+<button class="sub" onclick="showPage('app-test')">🧪 Test App</button>
+<button class="sub" onclick="showPage('app-build')">📦 Build APK</button>
+<button class="sub" onclick="showPage('app-export')">📤 Export App Project</button>
+</div>
+</div>
+</div>
+
+<div class="devGroup" id="pcGroup">
+<button class="devMain" onclick="toggleDev('pcGroup')">💻 PC EXE DEVELOPER <span>▾</span></button>
+<div class="devSub">
+<div class="optionTable">
+<button class="sub" onclick="showPage('pc-exe-new')">➕ New PC Software</button>
+<button class="sub" onclick="showPage('pc-exe-details')">📋 Software Details</button>
+<button class="sub" onclick="showPage('pc-exe-ui')">🖥️ Desktop UI</button>
+<button class="sub" onclick="showPage('pc-exe-database')">🗄️ Database</button>
+<button class="sub" onclick="showPage('pc-exe-modules')">🧩 Modules</button>
+<button class="sub" onclick="showPage('pc-exe-users')">🔐 Users & Security</button>
+<button class="sub" onclick="showPage('pc-exe-testing')">🧪 Testing</button>
+<button class="sub" onclick="showPage('pc-exe-backup')">💾 Backup</button>
+<button class="sub" onclick="showPage('pc-exe-build')">📦 Build EXE</button>
+<button class="sub" onclick="showPage('pc-exe-release')">📤 Release / Export</button>
+</div>
+</div>
+</div>
+
+<button onclick="showPage('programs')">🚀 Active Programs</button>
+<button onclick="showPage('demo')">🧪 Demo / Fictional Programs</button>
+<button onclick="showPage('build')">🛠️ Build Center</button>
+<button onclick="showPage('firebase')">🔥 Firebase / Database</button>
+<button onclick="showPage('settings')">⚙️ Settings</button>
+</aside>
 
 <main>
-<section class="hero">
+<section id="dashboard" class="page active">
+<div class="hero">
 <h1>🚀 SANDIP S. SUTAR Developer Console</h1>
-<p>Develop, customize and manage ERP software, Android apps and PC EXE software for multiple business services from one place.</p>
-</section>
-
-<section class="cards">
-<div class="card stat">👥<b>12</b><small>Total Customers</small></div>
-<div class="card stat">🏢<b>8</b><small>Active ERP</small></div>
-<div class="card stat">🔑<b>7</b><small>Active Licenses</small></div>
-<div class="card stat">🛒<b>₹1,25,430</b><small>Today's Sales</small></div>
-<div class="card stat">₹<b>₹85,350</b><small>Today's Purchase</small></div>
-<div class="card stat">📦<b>1,248</b><small>Total Items</small></div>
-<div class="card stat">📈<b>₹2,45,780</b><small>Monthly Profit</small></div>
-</section>
-
-<section class="layout">
-<div class="box">
-<h2>📋 ERP Software Developer</h2>
-<p>Create a working ERP for any shop or business service.</p>
-<div class="actions">
-<div class="action">🏪 <b>Business Details</b><br><small>Shop name, logo, address, GST and contact</small></div>
-<div class="action">👥 <b>Customers & Suppliers</b><br><small>Master data and balances</small></div>
-<div class="action">🧾 <b>Sales & Purchase</b><br><small>Invoice, quotation and purchase</small></div>
-<div class="action">📦 <b>Stock Management</b><br><small>Items, units and stock reports</small></div>
-<div class="action">💰 <b>Accounts</b><br><small>Cash, bank, expenses and dues</small></div>
-<div class="action">📊 <b>Reports</b><br><small>Sales, purchase, stock and profit</small></div>
+<p>One systematic console for creating ERP software and applications for different businesses.</p>
+<div class="search"><input id="search" placeholder="🔎 Search ERP, module or project..." oninput="filterText()"><button class="primary" onclick="location.reload()">Refresh</button></div>
 </div>
+<div class="grid">
+<div class="card stat">👥<b>12</b>Customers</div><div class="card stat">🏢<b>8</b>Active ERP</div>
+<div class="card stat">🟢<b>7</b>Licenses</div><div class="card stat">🧪<b>4</b>Demo Programs</div>
 </div>
-
 <div class="box">
 <h2>⚡ Quick Actions</h2>
-<p>Start a new project or open an existing ERP.</p>
-<p><button class="primary" onclick="go('Create New Customer ERP')">+ Create New Customer ERP</button></p>
-<p><button class="primary" onclick="go('ERP Coding Mode')">⌘ ERP Coding Mode</button></p>
-<p><button class="primary" onclick="go('Backup / Restore')">💾 Backup / Restore</button></p>
-<p><button class="primary" onclick="go('License Manager')">🛡️ License Manager</button></p>
-</div>
-</section>
-
-
-<section class="box" style="margin-top:18px">
-<h2>🔄 Systematic ERP Development Process</h2>
-<p>Every ERP project follows the same clear sequence from business setup to final delivery.</p>
 <div class="actions">
-<div class="action">01️⃣ <b>Business Setup</b><br><small>Business name, logo, address, GST, contact and industry.</small></div>
-<div class="action">02️⃣ <b>ERP Structure</b><br><small>Select required sales, purchase, stock, accounts and reports.</small></div>
-<div class="action">03️⃣ <b>Master Data</b><br><small>Customers, suppliers, products, units, users and opening balances.</small></div>
-<div class="action">04️⃣ <b>Module Development</b><br><small>Build and customize each ERP module step by step.</small></div>
-<div class="action">05️⃣ <b>Database & Login</b><br><small>Configure database, user ID, password, roles and access.</small></div>
-<div class="action">06️⃣ <b>Testing</b><br><small>Test forms, calculations, reports, mobile and PC layouts.</small></div>
-<div class="action">07️⃣ <b>Backup & Security</b><br><small>Backup, restore, validation and basic security checks.</small></div>
-<div class="action">08️⃣ <b>Build & Delivery</b><br><small>Web ERP, Android APK or Windows EXE final build.</small></div>
+<div class="action" onclick="showPage('newerp')">➕ <b>Create New ERP</b><br><small>Start a customer ERP</small></div>
+<div class="action" onclick="showPage('business')">🏪 <b>Business Setup</b><br><small>Shop details and branding</small></div>
+<div class="action" onclick="showPage('build')">🛠️ <b>Build Center</b><br><small>Prepare final build</small></div>
+<div class="action" onclick="showPage('appdev')">📱 <b>App / APK Developer</b><br><small>Create Android app</small></div>
+</div>
 </div>
 </section>
 
-<section class="tools">
-<div class="tool" onclick="go('My Projects')">📁 <b>My Projects</b><br><small>Manage ERP projects</small></div>
-<div class="tool" onclick="go('Templates')">🧩 <b>Templates</b><br><small>Ready ERP templates</small></div>
-<div class="tool" onclick="go('Firebase')">🔥 <b>Firebase</b><br><small>Cloud database</small></div>
-<div class="tool" onclick="go('APK Builder')">📦 <b>APK Builder</b><br><small>Android build</small></div>
-<div class="tool" onclick="go('EXE Builder')">🖥️ <b>EXE Builder</b><br><small>Windows build</small></div>
-<div class="tool" onclick="go('Backup')">💾 <b>Backup</b><br><small>Project backup</small></div>
-<div class="tool" onclick="go('Advanced Program')">🚀 <b>Advanced Program</b><br><small>Fictional / custom</small></div>
-<div class="tool" onclick="go('Reports')">📊 <b>Reports</b><br><small>Analytics</small></div>
+<section id="appdev" class="page"><div class="box"><h2>📱 App / APK Developer</h2><p><b>Main Android application development area.</b> All app/APK options are kept in a fixed systematic order.</p><div class="actions"><div class="action" onclick="showPage('newapp')">01 ➕ New Android App</div><div class="action" onclick="showPage('appdetails')">02 📋 App Details</div><div class="action" onclick="showPage('appscreens')">03 🖥️ App Screens / UI</div><div class="action" onclick="showPage('applogin')">04 🔐 App Login</div><div class="action" onclick="showPage('appfirebase')">05 🔥 Firebase</div><div class="action" onclick="showPage('appassets')">06 🎨 Logo & Assets</div><div class="action" onclick="showPage('apptest')">07 🧪 Test App</div><div class="action" onclick="showPage('apkbuild')">08 📦 Build APK</div><div class="action" onclick="showPage('appexport')">09 📤 Export Project</div></div></div></section>
+<section id="newapp" class="page"><div class="box"><h2>➕ New Android App</h2><div class="status">Step 1 of 4 — Basic app information</div><div class="formgrid"><div class="field"><label>App Name</label><input id="appname" placeholder="Example: My Business App"></div><div class="field"><label>App Type</label><select><option>Business App</option><option>ERP App</option><option>Service App</option><option>Shop App</option><option>Custom App</option></select></div><div class="field"><label>Package Name</label><input placeholder="com.company.app"></div><div class="field"><label>Developer Name</label><input value="SANDIP S. SUTAR"></div></div><br><button class="primary" onclick="createApp()">Create App Project</button></div></section>
+<section id="appdetails" class="page"><div class="box"><h2>📋 App Details</h2><div class="formgrid"><div class="field"><label>App Name</label><input></div><div class="field"><label>Version</label><input value="1.0.0"></div><div class="field"><label>Package ID</label><input placeholder="com.example.app"></div><div class="field"><label>Target Android</label><select><option>Android 15+</option><option>Android 14+</option><option>Android 13+</option></select></div></div></div></section>
+<section id="appscreens" class="page"><div class="box"><h2>🖥️ App Screens / UI</h2><div class="actions"><div class="action">🏠 Splash / Home</div><div class="action">🔐 Login Screen</div><div class="action">📊 Dashboard</div><div class="action">☰ Menu</div><div class="action">📝 Forms</div><div class="action">📄 Reports</div></div></div></section>
+<section id="applogin" class="page"><div class="box"><h2>🔐 App Login</h2><p>Set User ID and Password login for the application.</p><div class="formgrid"><div class="field"><label>User ID</label><input placeholder="admin"></div><div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div></div><br><button class="primary" onclick="alert('App login settings saved in demo mode.')">Save Login</button></div></section>
+<section id="appfirebase" class="page"><div class="box"><h2>🔥 App Firebase</h2><p>Firebase connection area for Authentication, Firestore/Realtime Database, Storage and cloud features.</p><div class="actions"><div class="action">🔐 Authentication</div><div class="action">🗄️ Firestore / Database</div><div class="action">☁️ Storage</div></div></div></section>
+<section id="appassets" class="page"><div class="box"><h2>🎨 Logo & Assets</h2><p>Manage app logo, splash image, icons and other assets.</p></div></section>
+<section id="apptest" class="page"><div class="box"><h2>🧪 Test App</h2><div class="actions"><div class="action">📱 Mobile Preview</div><div class="action">🐞 Error Check</div><div class="action">⚡ Performance Check</div><div class="action">🔍 Final Test</div></div></div></section>
+<section id="apkbuild" class="page"><div class="box"><h2>📦 Build APK</h2><div class="status">Ready for Android APK build setup.</div><div class="actions"><div class="action">🧪 Debug APK</div><div class="action">🚀 Release APK</div><div class="action">🔏 Signed APK</div></div></div></section>
+<section id="appexport" class="page"><div class="box"><h2>📤 Export App Project</h2><p>Export the app project files for Android Studio or further development.</p><button class="primary" onclick="alert('Export project selected in demo mode.')">Export Project</button></div></section>
+<section id="erp" class="page"><div class="box"><h2>🏢 ERP Software Developer</h2><p><b>This is the main ERP development area.</b> All ERP options are kept under this menu in a fixed order.</p>
+<div class="actions">
+<div class="action" onclick="showPage('newerp')">01 ➕ New ERP Software</div>
+<div class="action" onclick="showPage('business')">02 🏪 Business Details</div>
+<div class="action" onclick="showPage('masters')">03 👥 Masters</div>
+<div class="action" onclick="showPage('sales')">04 🧾 Sales & Purchase</div>
+<div class="action" onclick="showPage('stock')">05 📦 Stock</div>
+<div class="action" onclick="showPage('accounts')">06 💰 Accounts</div>
+<div class="action" onclick="showPage('reports')">07 📊 Reports</div>
+<div class="action" onclick="showPage('users')">08 🔐 Users & Login</div>
+<div class="action" onclick="showPage('backup')">09 💾 Backup</div>
+<div class="action" onclick="showPage('license')">10 🛡️ License</div>
+</div></div></section>
+
+<section id="newerp" class="page"><div class="box"><h2>➕ Create New ERP Software</h2><div class="status">Step 1 of 4 — Basic project information</div><div class="formgrid">
+<div class="field"><label>ERP / Project Name</label><input id="pname" placeholder="Example: Ganesh Plywood ERP"></div>
+<div class="field"><label>Business Type</label><select><option>Retail Shop</option><option>Wholesale</option><option>Manufacturing</option><option>Service Business</option><option>Trading</option><option>Custom</option></select></div>
+<div class="field"><label>Owner Name</label><input placeholder="Business owner"></div>
+<div class="field"><label>Mobile / Contact</label><input placeholder="Contact number"></div>
+</div><br><button class="primary" onclick="createERP()">Create Project</button></div></section>
+
+<section id="business" class="page"><div class="box"><h2>🏪 Business Details</h2><p>Each customer can enter their own business details, logo and branding.</p><div class="formgrid"><div class="field"><label>Business Name</label><input></div><div class="field"><label>GST / Tax ID</label><input></div><div class="field"><label>Address</label><input></div><div class="field"><label>Invoice Prefix</label><input placeholder="INV-"></div></div></div></section>
+
+<section id="masters" class="page"><div class="box"><h2>👥 Masters</h2><div class="actions"><div class="action">👤 Customers</div><div class="action">🏢 Suppliers</div><div class="action">📦 Products / Items</div><div class="action">📏 Units</div><div class="action">💳 Payment Modes</div><div class="action">👨‍💼 Staff / Users</div></div></div></section>
+
+<section id="sales" class="page"><div class="box"><h2>🧾 Sales & Purchase</h2><div class="actions"><div class="action">🧾 Sales Invoice</div><div class="action">📋 Quotation</div><div class="action">↩️ Sales Return</div><div class="action">🛒 Purchase</div><div class="action">↩️ Purchase Return</div><div class="action">💵 Receipts / Payments</div></div></div></section>
+
+<section id="stock" class="page"><div class="box"><h2>📦 Stock Management</h2><div class="actions"><div class="action">📦 Stock In</div><div class="action">📤 Stock Out</div><div class="action">🔄 Stock Transfer</div><div class="action">⚠️ Low Stock</div><div class="action">📊 Stock Valuation</div><div class="action">🔍 Stock Ledger</div></div></div></section>
+
+<section id="accounts" class="page"><div class="box"><h2>💰 Accounts</h2><div class="actions"><div class="action">💵 Cash Book</div><div class="action">🏦 Bank Book</div><div class="action">💸 Expenses</div><div class="action">📒 Customer Dues</div><div class="action">📒 Supplier Dues</div><div class="action">📈 Profit & Loss</div></div></div></section>
+
+<section id="reports" class="page"><div class="box"><h2>📊 Reports & Analytics</h2><div class="actions"><div class="action">📊 Sales Report</div><div class="action">🛒 Purchase Report</div><div class="action">📦 Stock Report</div><div class="action">💰 Profit Report</div><div class="action">👥 Customer Report</div><div class="action">🧾 GST / Tax Report</div></div></div></section>
+
+<section id="users" class="page"><div class="box"><h2>🔐 Users & Login</h2><p>Project login structure.</p><div class="formgrid"><div class="field"><label>User ID</label><input placeholder="admin"></div><div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div></div><br><button class="primary" onclick="alert('Login settings saved for this demo.')">Save Login Settings</button></div></section>
+
+<section id="backup" class="page"><div class="box"><h2>💾 Backup & Restore</h2><p>Keep project backup and restore controls in one place.</p><button class="primary" onclick="alert('Backup module selected.')">Create Backup</button></div></section>
+<section id="license" class="page"><div class="box"><h2>🛡️ License & Subscription</h2><div class="actions"><div class="action">🟢 Active</div><div class="action">📅 Expiry</div><div class="action">🔑 License Key</div></div></div></section>
+<section id="programs" class="page"><div class="box"><h2>🟢 Active Programs</h2><p>Real customer projects are managed here.</p></div></section>
+<section id="demo" class="page"><div class="box"><h2>🧪 Demo / Fictional Programs</h2><p>Testing and fictional projects are kept separately from active projects.</p></div></section>
+<section id="quick" class="page"><div class="box"><h2>⚡ Quick Action</h2><p>Fast access to the most-used development functions.</p></div></section>
+<section id="build" class="page"><div class="box"><h2>🛠️ Build Center</h2><div class="actions"><div class="action">🌐 Web ERP Build</div><div class="action">📱 Android APK</div><div class="action">💻 Windows EXE</div><div class="action">📦 Export Project</div></div></div></section>
+<section id="firebase" class="page"><div class="box"><h2>🔥 Firebase / Database</h2><p>Cloud database connection can be added here later without disturbing the ERP menu structure.</p></div></section>
+<section id="settings" class="page"><div class="box"><h2>⚙️ Settings</h2><p>Developer and application settings.</p></div></section>
+
+<section id="pc-exe-developer" class="page">
+<div class="box">
+<h2>💻 PC EXE Software Developer</h2>
+<p>Windows desktop software development is handled here in a separate systematic workflow.</p>
+
+<div class="status">Step 1 → 10 • PC EXE Development Workflow</div>
+<div class="actions">
+<div class="action">01️⃣ <b>New PC Software</b><br><small>Create a new Windows EXE project.</small></div>
+<div class="action">02️⃣ <b>Software Details</b><br><small>Name, business type, version and branding.</small></div>
+<div class="action">03️⃣ <b>Desktop UI</b><br><small>Forms, dashboard, menus and responsive layouts.</small></div>
+<div class="action">04️⃣ <b>Database</b><br><small>Local database or cloud database configuration.</small></div>
+<div class="action">05️⃣ <b>Modules</b><br><small>Sales, purchase, stock, accounts, reports and custom modules.</small></div>
+<div class="action">06️⃣ <b>Users & Security</b><br><small>Login, roles, permissions and audit controls.</small></div>
+<div class="action">07️⃣ <b>Testing</b><br><small>Desktop, database, printing and workflow testing.</small></div>
+<div class="action">08️⃣ <b>Backup</b><br><small>Project and application data backup/restore.</small></div>
+<div class="action">09️⃣ <b>Build EXE</b><br><small>Prepare the Windows application build.</small></div>
+<div class="action">🔟 <b>Release / Export</b><br><small>Export project and prepare customer delivery.</small></div>
+</div>
+
+<div class="box" style="margin-top:16px;box-shadow:none;border:1px solid #e5e7eb">
+<h3>⚡ Quick PC EXE Actions</h3>
+<div class="actions">
+<div class="action" onclick="alert('New PC EXE project selected.')">➕ Create EXE Project</div>
+<div class="action" onclick="alert('Desktop UI Designer selected.')">🖥️ UI Designer</div>
+<div class="action" onclick="alert('Database setup selected.')">🗄️ Database Setup</div>
+<div class="action" onclick="alert('EXE Build Center selected.')">📦 Build EXE</div>
+</div>
+</div>
+</div>
 </section>
+
 </main>
 
 <footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b></footer>
 
 <script>
-document.getElementById('today').textContent=new Date().toLocaleDateString('en-IN');
-function toggleMenu(){document.getElementById('panel').classList.toggle('show')}
-function go(name){alert('🔧 '+name+'\\n\\nModule selected. Ready for development.')}
+function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
+function closeMenu(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));var x=document.getElementById(id);if(x)x.classList.add('active');closeMenu();window.scrollTo(0,0)}
+function createERP(){var n=document.getElementById('pname').value.trim();if(!n){alert('ERP / Project Name required.');return}alert('ERP project created: '+n);showPage('erp')}
+function createApp(){var n=document.getElementById('appname').value.trim();if(!n){alert('App Name required.');return}alert('Android App project created: '+n);showPage('appdev')}
+function logout(){if(confirm('Logout from Developer Console?')) alert('Logged out (demo mode).')}
+function filterText(){var q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.action').forEach(x=>x.style.display=(!q||x.innerText.toLowerCase().includes(q))?'block':'none')}
+function toggleDev(id){
+  const group=document.getElementById(id);
+  if(!group)return;
+  group.classList.toggle('closed');
+}
+</script>
+
+<script>
+
 </script>
 </body>
 </html>
