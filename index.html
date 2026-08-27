@@ -186,96 +186,25 @@ table{width:100%;max-width:100%;overflow-wrap:anywhere}
   .menu{flex-basis:42px!important;width:42px!important;height:42px!important;min-width:42px!important}
 }
 </style>
-<style id="v20-final-responsive">
-@media(max-width:700px){
-  body{font-size:15px;}
-  .header img{width:100%!important;height:auto!important;max-height:145px!important;object-fit:contain!important;background:#07182f;}
-  .top{position:relative!important;min-height:56px!important;overflow:visible!important;}
-  .topbtn{display:none!important;}
-  .brand{font-size:13px!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-  main{display:block!important;width:100%!important;padding:10px!important;}
-  .page.active{display:block!important;width:100%!important;}
-  .hero,.box{width:100%!important;}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
-  .actions{grid-template-columns:1fr 1fr!important;}
-  .action,.erpAction{width:100%!important;min-width:0!important;white-space:normal!important;}
-}
-@media(max-width:430px){
-  .header img{max-height:125px!important;}
-  .grid,.actions{grid-template-columns:1fr!important;}
-  .hero h1{font-size:19px!important;}
-}
+
+<style id="true-responsive-software-header">
+*{box-sizing:border-box!important}
+html,body{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;overflow-x:hidden!important}
+.softwareHeader{width:100%;min-height:116px;background:linear-gradient(105deg,#07182f,#10284a 55%,#07182f);color:#fff;display:flex;align-items:center;gap:18px;padding:12px 22px;border-bottom:3px solid #4a2108;overflow:hidden}
+.headerLogo{width:82px;height:82px;flex:0 0 82px;display:grid;place-items:center;color:#f2b84b}.headerLogo svg{width:78px;height:78px}
+.headerTitle{min-width:0;flex:1;text-align:center;overflow:hidden}.smallDevanagari{font-size:10px}.headerTitle h1{margin:3px 0 5px;font-size:34px;line-height:1;white-space:nowrap;color:#fff}.headerTitle .role{font-size:15px;font-weight:800;color:#1597e5;white-space:nowrap}.headerLine{display:flex;justify-content:center;gap:8px;margin-top:7px;font-size:9px;font-weight:700;white-space:nowrap}.headerLine i{font-style:normal;opacity:.6}
+.headerRight{width:250px;flex:0 0 250px;border-left:1px solid #ffffff33;padding-left:18px;display:flex;flex-direction:column;gap:3px}.headerRight b{font-size:19px}.headerRight strong{font-size:17px;color:#1597e5}.headerRight span{font-size:10px}
+@media(max-width:700px){.softwareHeader{min-height:78px;padding:7px 9px;gap:7px}.headerLogo{width:52px;height:52px;flex-basis:52px}.headerLogo svg{width:50px;height:50px}.headerTitle{text-align:left}.smallDevanagari{font-size:6px}.headerTitle h1{font-size:19px;letter-spacing:.2px;margin:2px 0 4px}.headerTitle .role{font-size:8.5px;letter-spacing:.4px}.headerLine{justify-content:flex-start;gap:3px;font-size:6px;margin-top:4px}.headerRight{display:none}}
+@media(max-width:380px){.softwareHeader{padding:6px 7px;gap:5px}.headerLogo{width:45px;height:45px;flex-basis:45px}.headerLogo svg{width:43px;height:43px}.headerTitle h1{font-size:17px}.headerTitle .role{font-size:7.5px}.headerLine{font-size:5.5px;gap:2px}}
+/* Keep navigation and all existing ERP content inside the viewport */
+.top{width:100%!important;max-width:100%!important;overflow:hidden!important}.brand{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}main{width:100%!important;max-width:1250px!important;min-width:0!important;margin-left:auto!important;margin-right:auto!important}.page,.hero,.box,.card,.grid,.actions,.formgrid{min-width:0!important;max-width:100%!important}
 </style>
-
-<style id="v21-mobile-final-fix">
-/* V21 FINAL: keep full PC content, make mobile header/page fit exactly */
-html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden!important;}
-body{position:relative;}
-.header{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;overflow:hidden!important;}
-.header img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0!important;padding:0!important;}
-.top{width:100%!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important;}
-main{width:100%!important;max-width:1250px;box-sizing:border-box!important;margin-left:auto!important;margin-right:auto!important;}
-.page,.hero,.box,.card,.actions,.grid,.formgrid{max-width:100%!important;min-width:0!important;box-sizing:border-box!important;}
-/* The drawer must be completely off-screen when closed; never push the page sideways. */
-.side{left:-100%!important;width:min(290px,88vw)!important;max-width:88vw!important;}
-.side.open{left:0!important;}
-.overlay{left:0!important;right:0!important;width:100%!important;}
-@media(max-width:700px){
-  .header img{height:auto!important;max-height:none!important;object-fit:cover!important;object-position:center!important;}
-  .top{min-height:56px!important;height:56px!important;padding:6px 8px!important;display:flex!important;align-items:center!important;gap:6px!important;overflow:hidden!important;}
-  .menu{flex:0 0 42px!important;width:42px!important;min-width:42px!important;height:42px!important;}
-  .brand{flex:1 1 auto!important;min-width:0!important;width:auto!important;font-size:13px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-  .badge{flex:0 0 auto!important;max-width:64px!important;overflow:hidden!important;white-space:nowrap!important;font-size:10px!important;padding:5px 7px!important;}
-  main{padding:10px!important;margin:0!important;width:100%!important;}
-  .hero{padding:16px!important;margin:0!important;width:100%!important;}
-  .hero h1{font-size:20px!important;line-height:1.25!important;overflow-wrap:anywhere;}
-  .hero p{font-size:14px!important;}
-  .search{width:100%!important;display:flex!important;gap:8px!important;}
-  .search input{min-width:0!important;width:auto!important;}
-  .search button{flex:0 0 auto!important;}
-  .grid,.actions,.formgrid{width:100%!important;grid-template-columns:1fr!important;}
-  .card,.box,.action,.erpAction{width:100%!important;min-width:0!important;}
-  table{max-width:100%!important;}
-}
-@media(max-width:430px){
-  .header img{max-height:none!important;}
-  .top{padding:6px!important;gap:5px!important;}
-  .brand{font-size:12px!important;}
-  .badge{font-size:9px!important;padding:4px 6px!important;}
-  main{padding:8px!important;}
-  .hero{padding:14px!important;}
-  .search{gap:6px!important;}
-  .search input{font-size:14px!important;padding:10px!important;}
-  .search .primary{padding:10px 12px!important;}
-}
-</style>
-
-
-<style id="mobile-software-header-final">
-/* Standalone software header: no JPG dependency, same responsive structure on PC + mobile */
-.softwareHeader{width:100%;min-height:118px;background:linear-gradient(105deg,#07182f 0%,#10284a 52%,#07182f 100%);color:#fff;display:flex;align-items:center;gap:18px;padding:12px 24px;border-bottom:3px solid #4a2108;overflow:hidden}
-.headerLogo{width:82px;height:82px;flex:0 0 82px;display:grid;place-items:center;color:#f2b84b}
-.headerLogo svg{width:78px;height:78px;display:block}
-.headerTitle{min-width:0;flex:1;text-align:center}
-.smallDevanagari{font-size:11px;opacity:.9;margin-bottom:2px}
-.headerTitle h1{font-size:34px;line-height:1;margin:2px 0 5px;letter-spacing:1px;color:#fff}
-.headerTitle .role{font-size:16px;font-weight:800;letter-spacing:1px;color:#1597e5}
-.headerLine{display:flex;justify-content:center;gap:9px;align-items:center;margin-top:8px;font-size:10px;font-weight:700;letter-spacing:.4px;white-space:nowrap}
-.headerLine i{font-style:normal;opacity:.6}
-.headerRight{width:270px;flex:0 0 270px;border-left:1px solid #ffffff33;padding-left:20px;display:flex;flex-direction:column;gap:3px}
-.headerRight b{font-size:21px;letter-spacing:.6px}.headerRight strong{font-size:19px;color:#1597e5}.headerRight span{font-size:11px;opacity:.9}
-@media(max-width:850px){.softwareHeader{min-height:94px;padding:9px 12px;gap:10px}.headerLogo{width:62px;height:62px;flex-basis:62px}.headerLogo svg{width:60px;height:60px}.headerTitle h1{font-size:25px}.headerTitle .role{font-size:12px}.headerLine{font-size:8px;gap:5px;margin-top:5px}.headerRight{width:190px;flex-basis:190px;padding-left:10px}.headerRight b{font-size:14px}.headerRight strong{font-size:13px}.headerRight span{font-size:8px}}
-@media(max-width:560px){.softwareHeader{min-height:82px;padding:7px 9px;gap:7px}.headerLogo{width:48px;height:48px;flex-basis:48px}.headerLogo svg{width:46px;height:46px}.headerTitle{overflow:hidden}.smallDevanagari{font-size:7px}.headerTitle h1{font-size:19px;letter-spacing:.3px;white-space:nowrap}.headerTitle .role{font-size:9px;letter-spacing:.5px}.headerLine{font-size:6.5px;gap:4px;margin-top:4px}.headerRight{display:none}.top{min-height:56px!important;height:56px!important}.top .topbtn{display:none!important}.top .badge{margin-left:auto}.brand{font-size:13px!important}}
-</style>
-
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
 
 <header class="softwareHeader" aria-label="SANDIP S. SUTAR ERP Software Developer">
-  <div class="headerLogo" aria-label="S logo">
-    <svg viewBox="0 0 80 80" role="img" aria-hidden="true"><circle cx="40" cy="40" r="36" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="40" cy="40" r="28" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".75"/><text x="40" y="54" text-anchor="middle" font-size="40" font-family="Georgia,serif" font-weight="700">S</text></svg>
-  </div>
+  <div class="headerLogo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="36" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="40" cy="40" r="28" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".75"/><text x="40" y="54" text-anchor="middle" font-size="40" font-family="Georgia,serif" font-weight="700">S</text></svg></div>
   <div class="headerTitle"><div class="smallDevanagari">॥ श्री गणेशाय नमः ॥</div><h1>SANDIP S. SUTAR</h1><div class="role">ERP &amp; APK DEVELOPER</div><div class="headerLine"><span>ERP SOFTWARE</span><i>•</i><span>ANDROID APK</span><i>•</i><span>PC EXE SOFTWARE</span></div></div>
   <div class="headerRight"><b>MULTI-BUSINESS</b><strong>ERP PLATFORM</strong><span>CREATE • MANAGE • GROW</span></div>
 </header>
@@ -587,60 +516,12 @@ function saveGSTInvoice(type){
 function printInvoice(d){
   const w=window.open("","_blank");
   if(!w){alert("Please allow pop-ups to print the invoice.");return;}
-  w.document.write(`<html><head><title>${esc(d.invoice)}</title><style>body{font-family:Arial;padding:35px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:10px}h1{margin-bottom:5px}.right{text-align:right}</style>
-<style id="v21-mobile-final-fix">
-/* V21 FINAL: keep full PC content, make mobile header/page fit exactly */
-html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden!important;}
-body{position:relative;}
-.header{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;overflow:hidden!important;}
-.header img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;margin:0!important;padding:0!important;}
-.top{width:100%!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important;}
-main{width:100%!important;max-width:1250px;box-sizing:border-box!important;margin-left:auto!important;margin-right:auto!important;}
-.page,.hero,.box,.card,.actions,.grid,.formgrid{max-width:100%!important;min-width:0!important;box-sizing:border-box!important;}
-/* The drawer must be completely off-screen when closed; never push the page sideways. */
-.side{left:-100%!important;width:min(290px,88vw)!important;max-width:88vw!important;}
-.side.open{left:0!important;}
-.overlay{left:0!important;right:0!important;width:100%!important;}
-@media(max-width:700px){
-  .header img{height:auto!important;max-height:none!important;object-fit:cover!important;object-position:center!important;}
-  .top{min-height:56px!important;height:56px!important;padding:6px 8px!important;display:flex!important;align-items:center!important;gap:6px!important;overflow:hidden!important;}
-  .menu{flex:0 0 42px!important;width:42px!important;min-width:42px!important;height:42px!important;}
-  .brand{flex:1 1 auto!important;min-width:0!important;width:auto!important;font-size:13px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-  .badge{flex:0 0 auto!important;max-width:64px!important;overflow:hidden!important;white-space:nowrap!important;font-size:10px!important;padding:5px 7px!important;}
-  main{padding:10px!important;margin:0!important;width:100%!important;}
-  .hero{padding:16px!important;margin:0!important;width:100%!important;}
-  .hero h1{font-size:20px!important;line-height:1.25!important;overflow-wrap:anywhere;}
-  .hero p{font-size:14px!important;}
-  .search{width:100%!important;display:flex!important;gap:8px!important;}
-  .search input{min-width:0!important;width:auto!important;}
-  .search button{flex:0 0 auto!important;}
-  .grid,.actions,.formgrid{width:100%!important;grid-template-columns:1fr!important;}
-  .card,.box,.action,.erpAction{width:100%!important;min-width:0!important;}
-  table{max-width:100%!important;}
-}
-@media(max-width:430px){
-  .header img{max-height:none!important;}
-  .top{padding:6px!important;gap:5px!important;}
-  .brand{font-size:12px!important;}
-  .badge{font-size:9px!important;padding:4px 6px!important;}
-  main{padding:8px!important;}
-  .hero{padding:14px!important;}
-  .search{gap:6px!important;}
-  .search input{font-size:14px!important;padding:10px!important;}
-  .search .primary{padding:10px 12px!important;}
-}
-</style>
-
-</head><body>
+  w.document.write(`<html><head><title>${esc(d.invoice)}</title><style>body{font-family:Arial;padding:35px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:10px}h1{margin-bottom:5px}.right{text-align:right}</style></head><body>
   <h1>COMMERCIAL UNIVERSAL ERP</h1><p>Tax Invoice</p>
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body></html>`);
-  w.document.close();
-}
-</script>
-
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script>
 <script>
 /* V17 boot guard: preserve the existing dashboard and all existing programs. */
 (function(){
@@ -655,6 +536,232 @@ main{width:100%!important;max-width:1250px;box-sizing:border-box!important;margi
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ensureVisible);
   else ensureVisible();
 })();
+</script>
+
+
+<script id="v18-page-guard">
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    if(!document.querySelector('.page.active')){
+      const d=document.getElementById('dashboard')||document.querySelector('.page');
+      if(d)d.classList.add('active');
+    }
+  });
+})();
+</script>
+</body>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyDyMwQXALyHjvu-hOlt5RbhmFYtWwx_yQs",
+  authDomain:"sandip-s-sutar-erp.firebaseapp.com",
+  projectId:"sandip-s-sutar-erp",
+  storageBucket:"sandip-s-sutar-erp.firebasestorage.app",
+  messagingSenderId:"805539742021",
+  appId:"1:805539742021:web:5be8eeed81d6f4ba567e2c"
+};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app), db=getFirestore(app);
+window.ERP_FIREBASE={app,auth,db,firebaseConfig};
+
+window.firebaseTest=async function(){
+  const el=document.getElementById('firebaseStatus');
+  try{
+    await setDoc(doc(db,'system','connectionTest'),{status:'connected',updatedAt:serverTimestamp()},{merge:true});
+    el.textContent='✅ Firebase connected successfully — Firestore write test passed.';
+  }catch(e){
+    el.textContent='⚠️ Firebase SDK connected, but Firestore test failed: '+e.message;
+  }
+};
+window.firebaseSignUp=async function(){
+  const email=document.getElementById('fb_email').value.trim(), pass=document.getElementById('fb_pass').value;
+  const msg=document.getElementById('fb_msg');
+  if(!email||pass.length<6){msg.textContent='Enter a valid email and password (minimum 6 characters).';return;}
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    await setDoc(doc(db,'users',cred.user.uid),{email,role:'CustomerAdmin',createdAt:serverTimestamp()},{merge:true});
+    msg.textContent='✅ Account created and linked to Firebase.';
+  }catch(e){msg.textContent='⚠️ '+e.message;}
+};
+window.firebaseLogin=async function(){
+  const email=document.getElementById('fb_email').value.trim(), pass=document.getElementById('fb_pass').value, msg=document.getElementById('fb_msg');
+  try{const cred=await signInWithEmailAndPassword(auth,email,pass);msg.textContent='✅ Logged in: '+cred.user.email;}catch(e){msg.textContent='⚠️ '+e.message;}
+};
+window.firebaseLogout=async function(){try{await signOut(auth)}catch(e){alert(e.message)}};
+window.syncCurrentCustomer=async function(){
+  const s=typeof v13State==='function'?v13State():{};
+  const c=typeof v14State==='function'?v14State():{customers:[]};
+  const name=s.customerName||'Customer';
+  const id=s.customerId||('CUS-'+Date.now());
+  const payload={customerId:id,name,plan:s.plan||'Starter',license:s.license||'TRIAL',validTill:s.validTill||'',features:(typeof v12State==='function'?v12State().features:{}),updatedAt:serverTimestamp()};
+  try{await setDoc(doc(db,'customers',id),payload,{merge:true});document.getElementById('firebaseStatus').textContent='✅ Current customer synced to Firestore: '+id;}catch(e){document.getElementById('firebaseStatus').textContent='⚠️ Customer sync failed: '+e.message;}
+};
+onAuthStateChanged(auth,u=>{const e=document.getElementById('fb_user');if(e)e.textContent=u?'Signed in: '+u.email:'Not signed in';});
+</script>
+
+</html>`);
+  w.document.close();
+}
+function partyOutstanding(kind, party){
+  let total=0;
+  if(kind==="customer"){
+    (ERP_DB.sales||[]).forEach(x=>{if((x.customer||"").toLowerCase()===(party||"").toLowerCase()) total+=erpNum(x.amount)});
+  }else{
+    (ERP_DB.purchases||[]).forEach(x=>{if((x.supplier||"").toLowerCase()===(party||"").toLowerCase()) total+=erpNum(x.amount)});
+  }
+  return total;
+}
+function openOutstanding(kind){
+  const data=kind==="customer"?ERP_DB.sales:ERP_DB.purchases, key=kind==="customer"?"customer":"supplier";
+  const map={}; (data||[]).forEach(x=>{const p=x[key]||"Unknown";map[p]=(map[p]||0)+erpNum(x.amount)});
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Outstanding",Object.entries(map).map(([p,a])=>[p,a.toFixed(2)]),[kind==="customer"?"Customer":"Supplier","Outstanding"]);
+}
+</script>
+
+
+<script>
+/* ===== Payments -> Outstanding -> Ledger V4 ===== */
+function openPaymentEntry(kind){
+  const sale=kind==="customer";
+  const el=document.getElementById("erp-data-modal");
+  const parties=sale?(ERP_DB.sales||[]).map(x=>x.customer).filter(Boolean): (ERP_DB.purchases||[]).map(x=>x.supplier).filter(Boolean);
+  const opts=[...new Set(parties)].map(p=>`<option>${esc(p)}</option>`).join("");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${sale?"Customer Payment":"Supplier Payment"}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>${sale?"Customer":"Supplier"}</label><input id="pay_party" list="pay_parties"><datalist id="pay_parties">${opts}</datalist></div>
+  <div class="field"><label>Payment Amount</label><input id="pay_amount" type="number" min="0"></div>
+  <div class="field"><label>Payment Mode</label><select id="pay_mode"><option>Cash</option><option>Bank</option><option>UPI</option><option>Cheque</option></select></div>
+  <div class="field"><label>Date</label><input id="pay_date" type="date" value="${erpDate()}"></div>
+  <div class="field"><label>Reference / Note</label><input id="pay_note"></div>
+  </div>
+  <button class="primary" onclick="savePayment('${kind}')">Save Payment</button>
+  <div class="status">Automatic flow: Payment → Ledger → Outstanding Balance.</div></div>`;
+  el.classList.add("show");
+}
+function savePayment(kind){
+  const party=document.getElementById("pay_party").value.trim(), amount=erpNum(document.getElementById("pay_amount").value);
+  if(!party || amount<=0){alert("Enter party and valid payment amount.");return;}
+  ERP_DB.accounts.push({id:uid("pay"),category:kind==="customer"?"Customer Payment":"Supplier Payment",amount:-amount,date:document.getElementById("pay_date").value,note:(document.getElementById("pay_mode").value+" - "+party+" - "+document.getElementById("pay_note").value)});
+  if(!ERP_DB.payments)ERP_DB.payments=[];
+  ERP_DB.payments.push({id:uid("pmt"),kind,party,amount,mode:document.getElementById("pay_mode").value,date:document.getElementById("pay_date").value,note:document.getElementById("pay_note").value});
+  saveERP(); refreshERPCounters(); alert("Payment saved. Ledger and outstanding updated."); closeERPData();
+}
+function outstandingWithPayments(kind){
+  const key=kind==="customer"?"customer":"supplier", source=kind==="customer"?(ERP_DB.sales||[]):(ERP_DB.purchases||[]);
+  const map={};
+  source.forEach(x=>{const p=x[key]||"Unknown";map[p]=(map[p]||0)+erpNum(x.amount)});
+  (ERP_DB.payments||[]).filter(x=>x.kind===kind).forEach(x=>{map[x.party]=(map[x.party]||0)-erpNum(x.amount)});
+  return Object.entries(map).map(([p,a])=>[p,a.toFixed(2)]);
+}
+function openNetOutstanding(kind){
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Net Outstanding",
+    outstandingWithPayments(kind),
+    [kind==="customer"?"Customer":"Supplier","Balance"]);
+}
+function openPartyLedger(kind){
+  const key=kind==="customer"?"customer":"supplier", source=kind==="customer"?(ERP_DB.sales||[]):(ERP_DB.purchases||[]);
+  const rows=[];
+  source.forEach(x=>rows.push([x[key]||"",x.date||"",kind==="customer"?"Invoice":"Purchase",erpNum(x.amount).toFixed(2)]));
+  (ERP_DB.payments||[]).filter(x=>x.kind===kind).forEach(x=>rows.push([x.party,x.date,"Payment","-"+erpNum(x.amount).toFixed(2)]));
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Ledger",rows,["Party","Date","Entry","Amount"]);
+}
+</script>
+
+
+<script>
+/* ===== Accounts + GST + Day Book V5 ===== */
+function accountTotals(){
+  let income=0, expense=0;
+  (ERP_DB.accounts||[]).forEach(x=>{
+    const a=erpNum(x.amount);
+    if(a>=0 && !String(x.category).toLowerCase().includes("purchase")) income+=a;
+    if(a<0 || String(x.category).toLowerCase().includes("purchase")) expense+=Math.abs(a);
+  });
+  return {income,expense,profit:income-expense};
+}
+function openPLReport(){
+  const t=accountTotals();
+  openLiveReport("Profit & Loss Summary",
+    [["Total Income","₹"+t.income.toFixed(2)],["Total Expense","₹"+t.expense.toFixed(2)],["Net Profit / Loss","₹"+t.profit.toFixed(2)]],
+    ["Particular","Amount"]);
+}
+function openDayBook(){
+  const rows=(ERP_DB.accounts||[]).map(x=>[x.date||"",x.category||"",erpNum(x.amount).toFixed(2),x.note||""]);
+  openLiveReport("Day Book",rows,["Date","Entry","Amount","Reference"]);
+}
+function openGSTSummary(){
+  let taxable=0,gst=0;
+  (ERP_DB.sales||[]).forEach(x=>{taxable+=erpNum(x.taxable||x.amount);gst+=erpNum(x.cgst)+erpNum(x.sgst)});
+  openLiveReport("GST Summary",
+    [["Sales Taxable Value","₹"+taxable.toFixed(2)],["GST Collected","₹"+gst.toFixed(2)]],
+    ["Particular","Amount"]);
+}
+function exportERPData(){
+  const blob=new Blob([JSON.stringify(ERP_DB,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="universal-erp-backup.json";a.click();URL.revokeObjectURL(a.href);
+}
+function importERPData(){
+  const input=document.createElement("input");input.type="file";input.accept=".json";
+  input.onchange=()=>{const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{ERP_DB=JSON.parse(r.result);saveERP();refreshERPCounters();alert("Backup restored successfully.");}catch(e){alert("Invalid backup file.");}};r.readAsText(f)};
+  input.click();
+}
+</script>
+
+
+<script>
+/* ===== Professional Documents & Print Center V6 ===== */
+function openDocumentCenter(type){
+  const titles={quotation:"Quotation",salesorder:"Sales Order",delivery:"Delivery Challan",salesinvoice:"Sales Invoice",purchaseorder:"Purchase Order",purchaseinvoice:"Purchase Invoice"};
+  const title=titles[type]||"ERP Document";
+  const prefix={quotation:"QT-",salesorder:"SO-",delivery:"DC-",salesinvoice:"SI-",purchaseorder:"PO-",purchaseinvoice:"PI-"}[type]||"DOC-";
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>📄 ${title}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Document No.</label><input id="doc_no" value="${prefix}${Date.now()}"></div>
+  <div class="field"><label>Party Name</label><input id="doc_party"></div>
+  <div class="field"><label>Item / Description</label><input id="doc_item"></div>
+  <div class="field"><label>Quantity</label><input id="doc_qty" type="number" value="1" min="0"></div>
+  <div class="field"><label>Rate</label><input id="doc_rate" type="number" value="0" min="0" oninput="calcDocTotal()"></div>
+  <div class="field"><label>GST %</label><input id="doc_gst" type="number" value="18" min="0" oninput="calcDocTotal()"></div>
+  <div class="field"><label>Date</label><input id="doc_date" type="date" value="${erpDate()}"></div>
+  <div class="field"><label>Notes / Terms</label><input id="doc_note"></div>
+  </div>
+  <div id="docTotal" class="status">Taxable: ₹0.00 | GST: ₹0.00 | Total: ₹0.00</div>
+  <button class="primary" onclick="saveProfessionalDocument('${type}')">Save & Print</button>
+  <button class="action" onclick="printProfessionalDocument('${type}',true)">Print Preview</button>
+  </div>`;
+  el.classList.add("show"); calcDocTotal();
+}
+function calcDocTotal(){
+  const q=erpNum(document.getElementById("doc_qty")?.value), r=erpNum(document.getElementById("doc_rate")?.value), g=erpNum(document.getElementById("doc_gst")?.value);
+  const taxable=q*r,tax=taxable*g/100,total=taxable+tax;
+  const e=document.getElementById("docTotal"); if(e)e.innerHTML=`Taxable: ₹${taxable.toFixed(2)} | GST: ₹${tax.toFixed(2)} | <b>Total: ₹${total.toFixed(2)}</b>`;
+}
+function saveProfessionalDocument(type){
+  const q=erpNum(document.getElementById("doc_qty").value),r=erpNum(document.getElementById("doc_rate").value),g=erpNum(document.getElementById("doc_gst").value),taxable=q*r,tax=taxable*g/100,total=taxable+tax;
+  if(!ERP_DB.documents)ERP_DB.documents=[];
+  const d={id:uid("doc"),type,no:document.getElementById("doc_no").value,party:document.getElementById("doc_party").value,item:document.getElementById("doc_item").value,qty:q,rate:r,gst:g,taxable,tax,total,date:document.getElementById("doc_date").value,note:document.getElementById("doc_note").value};
+  ERP_DB.documents.push(d);saveERP();alert("Document saved.");printProfessionalDocument(type,false,d);closeERPData();
+}
+function printProfessionalDocument(type,preview,d){
+  d=d||{no:document.getElementById("doc_no").value,party:document.getElementById("doc_party").value,item:document.getElementById("doc_item").value,qty:erpNum(document.getElementById("doc_qty").value),rate:erpNum(document.getElementById("doc_rate").value),gst:erpNum(document.getElementById("doc_gst").value),date:document.getElementById("doc_date").value,note:document.getElementById("doc_note").value};
+  const taxable=d.qty*d.rate,tax=taxable*d.gst/100,total=taxable+tax;
+  const labels={quotation:"QUOTATION",salesorder:"SALES ORDER",delivery:"DELIVERY CHALLAN",salesinvoice:"TAX INVOICE",purchaseorder:"PURCHASE ORDER",purchaseinvoice:"PURCHASE INVOICE"};
+  const w=window.open("","_blank");if(!w){alert("Please allow pop-ups.");return;}
+  w.document.write(`<html><head><title>${esc(d.no)}</title><style>
+  body{font-family:Arial;margin:35px;color:#222}.top{display:flex;justify-content:space-between;border-bottom:2px solid #222;padding-bottom:15px}
+  table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #aaa;padding:10px}th{background:#f2f2f2}.right{text-align:right}
+  .terms{margin-top:30px;border-top:1px solid #aaa;padding-top:15px}.sign{margin-top:70px;display:flex;justify-content:space-between}
+  </style></head><body><div class="top"><div><h1>COMMERCIAL UNIVERSAL ERP</h1><div>Professional Business Document</div></div><div><h2>${labels[type]||"DOCUMENT"}</h2><b>No:</b> ${esc(d.no)}<br><b>Date:</b> ${esc(d.date)}</div></div>
+  <p><b>Party:</b> ${esc(d.party)}</p><table><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Taxable</th><th>GST</th><th>Total</th></tr>
+  <tr><td>${esc(d.item)}</td><td>${d.qty}</td><td class="right">₹${d.rate.toFixed(2)}</td><td class="right">₹${taxable.toFixed(2)}</td><td class="right">₹${tax.toFixed(2)}</td><td class="right">₹${total.toFixed(2)}</td></tr></table>
+  <h3 class="right">Grand Total: ₹${total.toFixed(2)}</h3><div class="terms"><b>Notes / Terms:</b><br>${esc(d.note)}</div>
+  <div class="sign"><span>Customer / Party Signature</span><span>Authorized Signature</span></div><script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
 </script>
 
 
