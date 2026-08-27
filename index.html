@@ -392,7 +392,60 @@ function printInvoice(d){
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body></html>`);
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyDyMwQXALyHjvu-hOlt5RbhmFYtWwx_yQs",
+  authDomain:"sandip-s-sutar-erp.firebaseapp.com",
+  projectId:"sandip-s-sutar-erp",
+  storageBucket:"sandip-s-sutar-erp.firebasestorage.app",
+  messagingSenderId:"805539742021",
+  appId:"1:805539742021:web:5be8eeed81d6f4ba567e2c"
+};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app), db=getFirestore(app);
+window.ERP_FIREBASE={app,auth,db,firebaseConfig};
+
+window.firebaseTest=async function(){
+  const el=document.getElementById('firebaseStatus');
+  try{
+    await setDoc(doc(db,'system','connectionTest'),{status:'connected',updatedAt:serverTimestamp()},{merge:true});
+    el.textContent='✅ Firebase connected successfully — Firestore write test passed.';
+  }catch(e){
+    el.textContent='⚠️ Firebase SDK connected, but Firestore test failed: '+e.message;
+  }
+};
+window.firebaseSignUp=async function(){
+  const email=document.getElementById('fb_email').value.trim(), pass=document.getElementById('fb_pass').value;
+  const msg=document.getElementById('fb_msg');
+  if(!email||pass.length<6){msg.textContent='Enter a valid email and password (minimum 6 characters).';return;}
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    await setDoc(doc(db,'users',cred.user.uid),{email,role:'CustomerAdmin',createdAt:serverTimestamp()},{merge:true});
+    msg.textContent='✅ Account created and linked to Firebase.';
+  }catch(e){msg.textContent='⚠️ '+e.message;}
+};
+window.firebaseLogin=async function(){
+  const email=document.getElementById('fb_email').value.trim(), pass=document.getElementById('fb_pass').value, msg=document.getElementById('fb_msg');
+  try{const cred=await signInWithEmailAndPassword(auth,email,pass);msg.textContent='✅ Logged in: '+cred.user.email;}catch(e){msg.textContent='⚠️ '+e.message;}
+};
+window.firebaseLogout=async function(){try{await signOut(auth)}catch(e){alert(e.message)}};
+window.syncCurrentCustomer=async function(){
+  const s=typeof v13State==='function'?v13State():{};
+  const c=typeof v14State==='function'?v14State():{customers:[]};
+  const name=s.customerName||'Customer';
+  const id=s.customerId||('CUS-'+Date.now());
+  const payload={customerId:id,name,plan:s.plan||'Starter',license:s.license||'TRIAL',validTill:s.validTill||'',features:(typeof v12State==='function'?v12State().features:{}),updatedAt:serverTimestamp()};
+  try{await setDoc(doc(db,'customers',id),payload,{merge:true});document.getElementById('firebaseStatus').textContent='✅ Current customer synced to Firestore: '+id;}catch(e){document.getElementById('firebaseStatus').textContent='⚠️ Customer sync failed: '+e.message;}
+};
+onAuthStateChanged(auth,u=>{const e=document.getElementById('fb_user');if(e)e.textContent=u?'Signed in: '+u.email:'Not signed in';});
+</script>
+
+</html>`);
   w.document.close();
 }
 function partyOutstanding(kind, party){
@@ -833,6 +886,169 @@ function setBusinessPreset(type){
   saveV12(s);applyFeatureVisibility();
 }
 document.addEventListener("DOMContentLoaded",()=>setTimeout(applyFeatureVisibility,100));
+</script>
+
+
+<script>
+/* ===== Customer Onboarding + Licensing V13 ===== */
+const V13_KEY="ERP_V13_SETUP";
+function v13State(){try{return JSON.parse(localStorage.getItem(V13_KEY))||{license:"TRIAL",customerId:"",customerName:"",validTill:"",plan:"Starter"}}catch(e){return {license:"TRIAL",customerId:"",customerName:"",validTill:"",plan:"Starter"}}}
+function saveV13(s){localStorage.setItem(V13_KEY,JSON.stringify(s))}
+function openCustomerSetup(){
+  const s=v13State(), el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>🚀 Customer Setup</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Business / Customer Name</label><input id="v13_name" value="${esc(s.customerName)}"></div>
+  <div class="field"><label>Customer ID</label><input id="v13_id" value="${esc(s.customerId||("CUS-"+Date.now()))}"></div>
+  <div class="field"><label>Plan</label><select id="v13_plan"><option>Starter</option><option>Professional</option><option>Enterprise</option></select></div>
+  <div class="field"><label>License Status</label><select id="v13_license"><option>TRIAL</option><option>ACTIVE</option><option>SUSPENDED</option></select></div>
+  <div class="field"><label>Valid Till</label><input id="v13_till" type="date" value="${esc(s.validTill)}"></div>
+  </div>
+  <button class="primary" onclick="saveCustomerSetup()">💾 Save Customer Setup</button>
+  <div class="status">Use this setup when delivering the same Universal ERP to a new customer.</div></div>`;
+  el.classList.add("show");
+}
+function saveCustomerSetup(){
+  const s=v13State();
+  s.customerName=document.getElementById("v13_name").value.trim();
+  s.customerId=document.getElementById("v13_id").value.trim();
+  s.plan=document.getElementById("v13_plan").value;
+  s.license=document.getElementById("v13_license").value;
+  s.validTill=document.getElementById("v13_till").value;
+  saveV13(s);closeERPData();renderV13Badge();alert("Customer setup saved.");
+}
+function renderV13Badge(){
+  const s=v13State(), e=document.getElementById("licenseBadge");
+  if(e)e.textContent=(s.customerName||"Not configured")+" • "+s.plan+" • "+s.license;
+}
+function openLicenseCenter(){
+  const s=v13State();
+  openLiveReport("Customer License / Subscription",
+    [["Customer",s.customerName||"Not configured"],["Customer ID",s.customerId||"-"],["Plan",s.plan],["Status",s.license],["Valid Till",s.validTill||"Not set"]],
+    ["Field","Value"]);
+}
+document.addEventListener("DOMContentLoaded",()=>setTimeout(renderV13Badge,120));
+</script>
+
+
+<script>
+/* ===== Super Admin / Owner Console V14 ===== */
+const V14_KEY="ERP_V14_OWNER_CONSOLE";
+function v14State(){try{return JSON.parse(localStorage.getItem(V14_KEY))||{customers:[]}}catch(e){return {customers:[]}}}
+function saveV14(s){localStorage.setItem(V14_KEY,JSON.stringify(s))}
+function openOwnerConsole(){
+  const s=v14State(), lic=v13State(), rows=s.customers.map(c=>[c.id,c.name,c.plan,c.status,c.validTill,c.lastSeen||"-"]);
+  openLiveReport("Super Admin — Customer Console",
+    rows.length?rows:[["No customers","Add customers from onboarding","","","",""]],
+    ["Customer ID","Business","Plan","Status","Valid Till","Last Seen"]);
+  setTimeout(()=>{
+    const el=document.getElementById("erp-data-modal"), inner=el.querySelector(".erpModalInner");
+    if(inner) inner.innerHTML+=`<div class="actions" style="margin-top:14px">
+      <button class="primary" onclick="openOwnerCustomer()">＋ Add / Update Customer</button>
+      <button class="action" onclick="ownerExport()">⬇️ Export Customer List</button>
+    </div>`;
+  },30);
+}
+function openOwnerCustomer(){
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>👑 Super Admin Customer</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Customer ID</label><input id="oc_id" value="CUS-${Date.now()}"></div>
+  <div class="field"><label>Business Name</label><input id="oc_name"></div>
+  <div class="field"><label>Plan</label><select id="oc_plan"><option>Starter</option><option>Professional</option><option>Enterprise</option></select></div>
+  <div class="field"><label>Status</label><select id="oc_status"><option>ACTIVE</option><option>TRIAL</option><option>SUSPENDED</option><option>EXPIRED</option></select></div>
+  <div class="field"><label>Valid Till</label><input id="oc_till" type="date"></div>
+  </div><button class="primary" onclick="saveOwnerCustomer()">💾 Save Customer</button></div>`;
+  el.classList.add("show");
+}
+function saveOwnerCustomer(){
+  const s=v14State(),v=k=>document.getElementById("oc_"+k).value.trim(), id=v("id");
+  if(!id||!v("name"))return alert("Customer ID and Business Name required.");
+  const obj={id,name:v("name"),plan:v("plan"),status:v("status"),validTill:v("till"),lastSeen:new Date().toISOString().slice(0,10)};
+  const i=s.customers.findIndex(x=>x.id===id);if(i>=0)s.customers[i]=obj;else s.customers.push(obj);
+  saveV14(s);closeERPData();alert("Customer saved.");openOwnerConsole();
+}
+function ownerExport(){
+  const blob=new Blob([JSON.stringify(v14State().customers,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="erp-customers.json";a.click();URL.revokeObjectURL(a.href);
+}
+</script>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile }
+  from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyDyMwQXALHjvu-hOlt5RbhmFYtWwx_yQs",
+  authDomain:"sandip-s-sutar-erp.firebaseapp.com",
+  projectId:"sandip-s-sutar-erp",
+  storageBucket:"sandip-s-sutar-erp.firebasestorage.app",
+  messagingSenderId:"805539742021",
+  appId:"1:805539742021:web:5be8eeed81d6f4ba567e2c"
+};
+const appV16=initializeApp(firebaseConfig);
+const authV16=getAuth(appV16), dbV16=getFirestore(appV16);
+
+window.v16OpenCustomerAccount=()=>{
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>👤 Customer Account</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Business / Customer Name</label><input id="v16_name"></div>
+  <div class="field"><label>Email / Login ID</label><input id="v16_email" type="email"></div>
+  <div class="field"><label>Password</label><input id="v16_pass" type="password"></div>
+  <div class="field"><label>Mobile</label><input id="v16_mobile"></div>
+  <div class="field"><label>Business Type</label><input id="v16_type" value="General Trading"></div>
+  <div class="field"><label>Plan</label><select id="v16_plan"><option>Starter</option><option>Professional</option><option>Enterprise</option></select></div>
+  </div>
+  <button class="primary" onclick="v16CreateCustomer()">🚀 Create Customer Account</button>
+  <div id="v16_msg" class="status">Customer account will use Firebase Authentication. Business data is not loaded into the owner screen.</div></div>`;
+  el.classList.add("show");
+};
+window.v16CreateCustomer=async()=>{
+  const val=id=>document.getElementById(id).value.trim();
+  const name=val("v16_name"),email=val("v16_email"),pass=val("v16_pass"),mobile=val("v16_mobile"),type=val("v16_type"),plan=val("v16_plan");
+  const msg=document.getElementById("v16_msg");
+  if(!name||!email||pass.length<6){msg.textContent="Enter name, valid email and password (minimum 6 characters).";return;}
+  try{
+    const cred=await createUserWithEmailAndPassword(authV16,email,pass);
+    await updateProfile(cred.user,{displayName:name});
+    const customerId="CUS-"+cred.user.uid.slice(0,8).toUpperCase();
+    await setDoc(doc(dbV16,"customers",cred.user.uid),{
+      customerId,businessName:name,email,mobile,businessType:type,plan,
+      status:"ACTIVE",modules:{},createdAt:serverTimestamp()
+    });
+    localStorage.setItem("ERP_CURRENT_CUSTOMER_ID",customerId);
+    msg.textContent="Customer created: "+customerId+".";
+    setTimeout(()=>closeERPData(),700);
+  }catch(e){msg.textContent="Firebase error: "+e.message;}
+};
+window.v16OpenLogin=()=>{
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>🔐 Customer Login</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="field"><label>Email</label><input id="v16_login_email" type="email"></div>
+  <div class="field"><label>Password</label><input id="v16_login_pass" type="password"></div>
+  <button class="primary" onclick="v16Login()">Login</button><button class="action" onclick="v16Logout()">Logout</button>
+  <div id="v16_login_msg" class="status">Firebase Authentication login.</div></div>`;
+  el.classList.add("show");
+};
+window.v16Login=async()=>{
+  try{
+    const c=await signInWithEmailAndPassword(authV16,document.getElementById("v16_login_email").value.trim(),document.getElementById("v16_login_pass").value);
+    const snap=await getDoc(doc(dbV16,"customers",c.user.uid));
+    if(snap.exists())localStorage.setItem("ERP_CURRENT_CUSTOMER_ID",snap.data().customerId||"");
+    document.getElementById("v16_login_msg").textContent="Login successful.";
+    setTimeout(()=>closeERPData(),500);
+  }catch(e){document.getElementById("v16_login_msg").textContent="Login failed: "+e.message;}
+};
+window.v16Logout=async()=>{await signOut(authV16);localStorage.removeItem("ERP_CURRENT_CUSTOMER_ID");alert("Logged out.");};
+onAuthStateChanged(authV16,user=>{
+  const b=document.getElementById("v16AuthBadge");
+  if(b)b.textContent=user?("Logged in: "+(user.displayName||user.email)):"Not logged in";
+});
 </script>
 
 <section id="erp-dashboard" class="page erpModulePage">
@@ -1446,6 +1662,27 @@ document.addEventListener("DOMContentLoaded",()=>setTimeout(applyFeatureVisibili
 <button class="action" onclick="openLowStock()">⚠️ Low Stock</button>
 <button class="action" onclick="openBarcode()">▦ Barcode Lookup</button>
 </div></div>
+<div class="box" style="margin-top:14px"><h3>☁️ V15 Cloud ERP</h3><p>Firebase is connected to the Universal ERP project. Use the Firebase Center to test the cloud, create customer accounts and sync customer setup.</p><div class="actions"><button class="primary" onclick="showPage('firebase')">🔥 Open Firebase Cloud Center</button></div></div>
+<div class="box" style="margin-top:14px"><h3>👑 Super Admin / Owner Console</h3>
+<p>Manage all ERP customers, plans, license status and validity from one central console.</p>
+<div class="actions">
+<button class="primary" onclick="openOwnerConsole()">👑 Open Owner Console</button>
+<button class="action" onclick="openOwnerCustomer()">＋ Add Customer</button>
+</div></div>
+<div class="box" style="margin-top:14px"><h3>👤 Firebase Customer Account System</h3>
+<div><b id="v16AuthBadge">Not logged in</b></div>
+<p>Create an individual customer login and Customer ID. The customer account is stored in Firebase Authentication + Firestore.</p>
+<div class="actions">
+<button class="primary" onclick="v16OpenCustomerAccount()">👤 Create Customer Account</button>
+<button class="action" onclick="v16OpenLogin()">🔐 Customer Login</button>
+</div></div>
+<div class="box" style="margin-top:14px"><h3>🚀 Customer Onboarding & License</h3>
+<div><b id="licenseBadge">Not configured • Starter • TRIAL</b></div>
+<p>Set up the customer once, choose a plan, and configure the same ERP for different businesses.</p>
+<div class="actions">
+<button class="primary" onclick="openCustomerSetup()">🚀 Customer Setup</button>
+<button class="action" onclick="openLicenseCenter()">🔑 License Details</button>
+</div></div>
 <div class="box" style="margin-top:14px"><h3>⚙️ Universal ERP Feature Manager</h3>
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
 <span>Business Type:</span><b id="businessTypeBadge">General Trading</b>
@@ -1538,7 +1775,16 @@ document.addEventListener("DOMContentLoaded",()=>setTimeout(applyFeatureVisibili
 <section id="demo" class="page"><div class="box"><h2>🧪 Demo / Fictional Programs</h2><p>Testing and fictional projects are kept separately from active projects.</p></div></section>
 <section id="quick" class="page"><div class="box"><h2>⚡ Quick Action</h2><p>Fast access to the most-used development functions.</p></div></section>
 <section id="build" class="page"><div class="box"><h2>🛠️ Build Center</h2><div class="actions"><div class="action">🌐 Web ERP Build</div><div class="action">📱 Android APK</div><div class="action">💻 Windows EXE</div><div class="action" onclick="showPage('erp-developer')">🧑‍💻 Developer Console</div><div class="action">📦 Export Project</div></div></div></section>
-<section id="firebase" class="page"><div class="box"><h2>🔥 Firebase / Database</h2><p>Cloud database connection can be added here later without disturbing the ERP menu structure.</p></div></section>
+<section id="firebase" class="page"><div class="box"><h2>🔥 Firebase Cloud Center — V15</h2>
+<p><b>Project:</b> sandip-s-sutar-erp</p>
+<div class="actions"><button class="primary" onclick="firebaseTest()">🧪 Test Firebase Connection</button><button class="action" onclick="syncCurrentCustomer()">☁️ Sync Current Customer</button></div>
+<div id="firebaseStatus" class="status">Ready. First enable Authentication and Firestore in Firebase Console.</div>
+<hr>
+<h3>🔐 Firebase Authentication</h3><div id="fb_user" class="status">Not signed in</div>
+<div class="formgrid"><div class="field"><label>Email</label><input id="fb_email" type="email" placeholder="customer@example.com"></div><div class="field"><label>Password</label><input id="fb_pass" type="password" placeholder="Minimum 6 characters"></div></div>
+<div class="actions"><button class="primary" onclick="firebaseSignUp()">➕ Create Account</button><button class="action" onclick="firebaseLogin()">🔑 Cloud Login</button><button class="action" onclick="firebaseLogout()">🚪 Cloud Logout</button></div>
+<div id="fb_msg" class="status">Cloud authentication is separate from the old demo login.</div>
+</div></section>
 <section id="settings" class="page"><div class="box"><h2>⚙️ Settings</h2><p>Developer and application settings.</p></div></section>
 
 <section id="pc-exe-developer" class="page">
