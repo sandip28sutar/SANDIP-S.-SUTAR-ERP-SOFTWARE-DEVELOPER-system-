@@ -250,11 +250,35 @@ main{width:100%!important;max-width:1250px;box-sizing:border-box!important;margi
 }
 </style>
 
+
+<style id="mobile-software-header-final">
+/* Standalone software header: no JPG dependency, same responsive structure on PC + mobile */
+.softwareHeader{width:100%;min-height:118px;background:linear-gradient(105deg,#07182f 0%,#10284a 52%,#07182f 100%);color:#fff;display:flex;align-items:center;gap:18px;padding:12px 24px;border-bottom:3px solid #4a2108;overflow:hidden}
+.headerLogo{width:82px;height:82px;flex:0 0 82px;display:grid;place-items:center;color:#f2b84b}
+.headerLogo svg{width:78px;height:78px;display:block}
+.headerTitle{min-width:0;flex:1;text-align:center}
+.smallDevanagari{font-size:11px;opacity:.9;margin-bottom:2px}
+.headerTitle h1{font-size:34px;line-height:1;margin:2px 0 5px;letter-spacing:1px;color:#fff}
+.headerTitle .role{font-size:16px;font-weight:800;letter-spacing:1px;color:#1597e5}
+.headerLine{display:flex;justify-content:center;gap:9px;align-items:center;margin-top:8px;font-size:10px;font-weight:700;letter-spacing:.4px;white-space:nowrap}
+.headerLine i{font-style:normal;opacity:.6}
+.headerRight{width:270px;flex:0 0 270px;border-left:1px solid #ffffff33;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+.headerRight b{font-size:21px;letter-spacing:.6px}.headerRight strong{font-size:19px;color:#1597e5}.headerRight span{font-size:11px;opacity:.9}
+@media(max-width:850px){.softwareHeader{min-height:94px;padding:9px 12px;gap:10px}.headerLogo{width:62px;height:62px;flex-basis:62px}.headerLogo svg{width:60px;height:60px}.headerTitle h1{font-size:25px}.headerTitle .role{font-size:12px}.headerLine{font-size:8px;gap:5px;margin-top:5px}.headerRight{width:190px;flex-basis:190px;padding-left:10px}.headerRight b{font-size:14px}.headerRight strong{font-size:13px}.headerRight span{font-size:8px}}
+@media(max-width:560px){.softwareHeader{min-height:82px;padding:7px 9px;gap:7px}.headerLogo{width:48px;height:48px;flex-basis:48px}.headerLogo svg{width:46px;height:46px}.headerTitle{overflow:hidden}.smallDevanagari{font-size:7px}.headerTitle h1{font-size:19px;letter-spacing:.3px;white-space:nowrap}.headerTitle .role{font-size:9px;letter-spacing:.5px}.headerLine{font-size:6.5px;gap:4px;margin-top:4px}.headerRight{display:none}.top{min-height:56px!important;height:56px!important}.top .topbtn{display:none!important}.top .badge{margin-left:auto}.brand{font-size:13px!important}}
+</style>
+
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
 
-<header class="header"><img src="header.jpg" alt="SANDIP S. SUTAR ERP Software Developer"></header>
+<header class="softwareHeader" aria-label="SANDIP S. SUTAR ERP Software Developer">
+  <div class="headerLogo" aria-label="S logo">
+    <svg viewBox="0 0 80 80" role="img" aria-hidden="true"><circle cx="40" cy="40" r="36" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="40" cy="40" r="28" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".75"/><text x="40" y="54" text-anchor="middle" font-size="40" font-family="Georgia,serif" font-weight="700">S</text></svg>
+  </div>
+  <div class="headerTitle"><div class="smallDevanagari">॥ श्री गणेशाय नमः ॥</div><h1>SANDIP S. SUTAR</h1><div class="role">ERP &amp; APK DEVELOPER</div><div class="headerLine"><span>ERP SOFTWARE</span><i>•</i><span>ANDROID APK</span><i>•</i><span>PC EXE SOFTWARE</span></div></div>
+  <div class="headerRight"><b>MULTI-BUSINESS</b><strong>ERP PLATFORM</strong><span>CREATE • MANAGE • GROW</span></div>
+</header>
 
 <nav class="top">
 <button class="menu" onclick="openMenu()">☰</button>
