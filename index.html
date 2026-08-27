@@ -221,6 +221,7 @@ const ERP_DB_KEY = "universalERP_demo_v1";
 const ERP_EMPTY = {customers:[], companies:[], products:[], sales:[], purchases:[], stock:[], accounts:[], users:[]};
 let ERP_DB = JSON.parse(localStorage.getItem(ERP_DB_KEY) || "null") || ERP_EMPTY;
 function saveERP(){localStorage.setItem(ERP_DB_KEY,JSON.stringify(ERP_DB));}
+function ensureERPCollection(module){if(!ERP_DB[module])ERP_DB[module]=[];return ERP_DB[module];}
 function uid(prefix){return prefix+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,6);}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function openERPData(module, title, fields){
@@ -236,9 +237,9 @@ function openERPData(module, title, fields){
 function addERP(module, fields){
   const obj={id:uid(module.slice(0,3))};
   for(const x of fields)obj[x.key]=document.getElementById("erp_"+x.key)?.value.trim()||"";
-  ERP_DB[module].push(obj); saveERP(); refreshERPCounters(); alert("Saved successfully."); closeERPData();
+  ensureERPCollection(module).push(obj); saveERP(); refreshERPCounters(); renderDashboardKPI(); alert("Saved successfully."); closeERPData();
 }
-function deleteERP(module,index){if(confirm("Delete this record?")){ERP_DB[module].splice(index,1);saveERP();refreshERPCounters();}}
+function deleteERP(module,index){if(confirm("Delete this record?")){ensureERPCollection(module).splice(index,1);saveERP();refreshERPCounters();}}
 function closeERPData(){document.getElementById("erp-data-modal").classList.remove("show");}
 function dataFor(key){
   const map={
@@ -617,6 +618,223 @@ function barcodeSearch(){
 }
 </script>
 
+
+<script>
+/* ===== CRM + HR + Service + Project V8 ===== */
+function openSimpleModule(module,title,fields){
+  openERPData(module,title,fields);
+}
+function setupOperationalModules(){
+  const map={
+    "Leads":["crm_leads","CRM Leads",[{key:"name",label:"Lead / Customer Name"},{key:"mobile",label:"Mobile"},{key:"source",label:"Source"},{key:"status",label:"Status"}]],
+    "Enquiries":["crm_enquiries","CRM Enquiries",[{key:"party",label:"Party"},{key:"subject",label:"Enquiry"},{key:"date",label:"Date",type:"date"},{key:"status",label:"Status"}]],
+    "Follow-ups":["crm_followups","CRM Follow-ups",[{key:"party",label:"Party"},{key:"date",label:"Follow-up Date",type:"date"},{key:"note",label:"Note"},{key:"status",label:"Status"}]],
+    "Employee Master":["employees","Employee Master",[{key:"name",label:"Employee Name"},{key:"mobile",label:"Mobile"},{key:"department",label:"Department"},{key:"designation",label:"Designation"}]],
+    "Attendance":["attendance","Attendance",[{key:"employee",label:"Employee"},{key:"date",label:"Date",type:"date"},{key:"status",label:"Status"}]],
+    "Leave":["leaves","Leave",[{key:"employee",label:"Employee"},{key:"from",label:"From",type:"date"},{key:"to",label:"To",type:"date"},{key:"reason",label:"Reason"}]],
+    "Service Request":["service","Service Request",[{key:"customer",label:"Customer"},{key:"subject",label:"Problem / Request"},{key:"technician",label:"Technician"},{key:"status",label:"Status"}]],
+    "Job Card":["jobcards","Job Card",[{key:"customer",label:"Customer"},{key:"job",label:"Job Details"},{key:"technician",label:"Technician"},{key:"status",label:"Status"}]],
+    "Projects":["projects","Projects",[{key:"name",label:"Project Name"},{key:"customer",label:"Customer"},{key:"start",label:"Start Date",type:"date"},{key:"status",label:"Status"}]],
+    "Tasks":["project_tasks","Project Tasks",[{key:"project",label:"Project"},{key:"task",label:"Task"},{key:"owner",label:"Owner"},{key:"status",label:"Status"}]]
+  };
+  return map;
+}
+const originalDataFor=window.dataFor;
+window.dataFor=function(label){
+  const d=setupOperationalModules()[label];
+  return d||originalDataFor(label);
+};
+function openOperational(label){
+  const d=setupOperationalModules()[label];
+  if(d){openSimpleModule(d[0],d[1],d[2]);return true;}
+  return false;
+}
+</script>
+
+
+<script>
+/* ===== HR Payroll + Manufacturing + Assets + Expenses V9 ===== */
+function openV9(label){
+  const map={
+    "Salary":["payroll","Salary / Payroll",[{key:"employee",label:"Employee"},{key:"month",label:"Month"},{key:"basic",label:"Basic Salary",type:"number"},{key:"deduction",label:"Deduction",type:"number"},{key:"net",label:"Net Salary",type:"number"}]],
+    "Payroll":["payroll","Payroll",[{key:"employee",label:"Employee"},{key:"month",label:"Month"},{key:"basic",label:"Basic Salary",type:"number"},{key:"deduction",label:"Deduction",type:"number"},{key:"net",label:"Net Salary",type:"number"}]],
+    "BOM":["bom","Bill of Materials",[{key:"product",label:"Finished Product"},{key:"material",label:"Raw Material"},{key:"qty",label:"Material Qty",type:"number"},{key:"unit",label:"Unit"}]],
+    "Production":["production","Production Entry",[{key:"product",label:"Finished Product"},{key:"qty",label:"Production Qty",type:"number"},{key:"date",label:"Date",type:"date"},{key:"note",label:"Note"}]],
+    "Raw Material":["production_material","Raw Material Issue",[{key:"material",label:"Raw Material"},{key:"qty",label:"Quantity",type:"number"},{key:"date",label:"Date",type:"date"}]],
+    "Asset Master":["assets","Asset Master",[{key:"name",label:"Asset Name"},{key:"code",label:"Asset Code"},{key:"value",label:"Purchase Value",type:"number"},{key:"date",label:"Purchase Date",type:"date"}]],
+    "Asset Allocation":["asset_allocations","Asset Allocation",[{key:"asset",label:"Asset"},{key:"employee",label:"Assigned To"},{key:"date",label:"Date",type:"date"}]],
+    "Expense Entry":["accounts","Expense Entry",[{key:"category",label:"Expense Category"},{key:"amount",label:"Amount",type:"number"},{key:"date",label:"Date",type:"date"},{key:"note",label:"Note"}]]
+  };
+  const d=map[label];
+  if(d)openERPData(d[0],d[1],d[2]);
+}
+</script>
+
+
+<script>
+/* ===== Real-time Business Dashboard V10 ===== */
+function dashboardMetrics(){
+  const sales=(ERP_DB.sales||[]).reduce((s,x)=>s+erpNum(x.amount),0);
+  const purchases=(ERP_DB.purchases||[]).reduce((s,x)=>s+erpNum(x.amount),0);
+  const payments=(ERP_DB.payments||[]).reduce((s,x)=>s+erpNum(x.amount),0);
+  const stock=(ERP_DB.stock||[]).reduce((s,x)=>s+erpNum(x.qty),0);
+  const customers=new Set((ERP_DB.sales||[]).map(x=>x.customer).filter(Boolean)).size;
+  const suppliers=new Set((ERP_DB.purchases||[]).map(x=>x.supplier).filter(Boolean)).size;
+  return {sales,purchases,payments,stock,customers,suppliers,profit:sales-purchases};
+}
+function openBusinessDashboard(){
+  const m=dashboardMetrics();
+  const rows=[
+    ["Sales", "₹"+m.sales.toFixed(2)],
+    ["Purchases", "₹"+m.purchases.toFixed(2)],
+    ["Estimated Gross Profit", "₹"+m.profit.toFixed(2)],
+    ["Payments Received", "₹"+m.payments.toFixed(2)],
+    ["Net Stock Movement", m.stock.toFixed(2)],
+    ["Active Customers", m.customers],
+    ["Active Suppliers", m.suppliers]
+  ];
+  openLiveReport("Real-time Business KPI",rows,["KPI","Value"]);
+}
+function openSalesChart(){
+  const map={};(ERP_DB.sales||[]).forEach(x=>{const d=x.date||"No Date";map[d]=(map[d]||0)+erpNum(x.amount)});
+  const rows=Object.entries(map).sort().map(([d,v])=>[d,"₹"+v.toFixed(2)]);
+  openLiveReport("Sales Trend",rows,["Date","Sales"]);
+}
+function openAlertCenter(){
+  const alerts=[];
+  const map={};(ERP_DB.stock||[]).forEach(x=>map[x.item]=(map[x.item]||0)+erpNum(x.qty));
+  Object.entries(map).forEach(([item,q])=>{if(q<=10)alerts.push(["Low Stock",item,q.toFixed(2)])});
+  const customerBal=outstandingWithPayments("customer");
+  customerBal.filter(x=>erpNum(x[1])>0).forEach(x=>alerts.push(["Customer Due",x[0],"₹"+x[1]]));
+  const supplierBal=outstandingWithPayments("supplier");
+  supplierBal.filter(x=>erpNum(x[1])>0).forEach(x=>alerts.push(["Supplier Payable",x[0],"₹"+x[1]]));
+  openLiveReport("ERP Alerts",alerts,["Alert","Party / Item","Value"]);
+}
+function renderDashboardKPI(){
+  const m=dashboardMetrics();
+  const targets=[
+    ["kpiSales","₹"+m.sales.toFixed(0)],
+    ["kpiPurchase","₹"+m.purchases.toFixed(0)],
+    ["kpiProfit","₹"+m.profit.toFixed(0)],
+    ["kpiCustomers",m.customers],
+    ["kpiStock",m.stock.toFixed(0)]
+  ];
+  targets.forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v;});
+}
+document.addEventListener("DOMContentLoaded",()=>setTimeout(renderDashboardKPI,50));
+</script>
+
+
+<script>
+/* ===== Multi Company / Branch / Roles / Login V11 ===== */
+const V11_KEY="ERP_V11_SECURITY";
+function v11State(){try{return JSON.parse(localStorage.getItem(V11_KEY))||{companies:[{id:"C1",name:"Default Company"}],branches:[{id:"B1",companyId:"C1",name:"Main Branch"}],users:[{id:"U1",name:"Administrator",username:"admin",password:"admin",role:"Admin",companyId:"C1",branchId:"B1"}],session:null}}catch(e){return {companies:[],branches:[],users:[],session:null}}}
+function saveV11(s){localStorage.setItem(V11_KEY,JSON.stringify(s))}
+function v11Session(){return v11State().session}
+function openSecurityCenter(){
+  const s=v11State(), el=document.getElementById("erp-data-modal");
+  const userRows=s.users.map(u=>[u.username,u.name,u.role,u.companyId,u.branchId]);
+  const companyRows=s.companies.map(c=>[c.id,c.name]);
+  const branchRows=s.branches.map(b=>[b.id,b.name,b.companyId]);
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>🔐 Company / Branch / User Security</h2><button onclick="closeERPData()">✕</button></div>
+  <h3>Companies</h3><div class="tableWrap"><table><tr><th>ID</th><th>Name</th></tr>${companyRows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>
+  <h3>Branches</h3><div class="tableWrap"><table><tr><th>ID</th><th>Name</th><th>Company</th></tr>${branchRows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</table></div>
+  <h3>Users & Roles</h3><div class="tableWrap"><table><tr><th>Username</th><th>Name</th><th>Role</th><th>Company</th><th>Branch</th></tr>${userRows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join("")}</table></div>
+  <div class="actions"><button class="primary" onclick="openAddCompany()">＋ Company</button><button class="primary" onclick="openAddBranch()">＋ Branch</button><button class="primary" onclick="openAddUser()">＋ User</button><button class="action" onclick="logoutERP()">🚪 Logout</button></div>
+  <div class="status">Demo login: admin / admin. For production, move authentication and authorization to a secure server/Firebase.</div></div>`;
+  el.classList.add("show");
+}
+function openAddCompany(){simpleV11Form("New Company",[["name","Company Name"]],"saveCompany")}
+function openAddBranch(){simpleV11Form("New Branch",[["name","Branch Name"],["companyId","Company ID"]],"saveBranch")}
+function openAddUser(){simpleV11Form("New User",[["name","Name"],["username","Username"],["password","Password"],["role","Role (Admin/Manager/Staff)"],["companyId","Company ID"],["branchId","Branch ID"]],"saveUser")}
+function simpleV11Form(title,fields,fn){
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${esc(title)}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">${fields.map(f=>`<div class="field"><label>${esc(f[1])}</label><input id="v11_${f[0]}" ${f[0]==="password"?'type="password"':''}></div>`).join("")}</div>
+  <button class="primary" onclick="${fn}()">Save</button></div>`;
+  el.classList.add("show");
+}
+function saveCompany(){const s=v11State(),name=document.getElementById("v11_name").value.trim();if(!name)return alert("Enter company name.");s.companies.push({id:"C"+Date.now(),name});saveV11(s);closeERPData();alert("Company added.");}
+function saveBranch(){const s=v11State(),name=document.getElementById("v11_name").value.trim(),companyId=document.getElementById("v11_companyId").value.trim();if(!name||!companyId)return alert("Enter branch and company ID.");s.branches.push({id:"B"+Date.now(),companyId,name});saveV11(s);closeERPData();alert("Branch added.");}
+function saveUser(){const s=v11State(),v=k=>document.getElementById("v11_"+k).value.trim();if(!v("username")||!v("password"))return alert("Username and password required.");s.users.push({id:"U"+Date.now(),name:v("name"),username:v("username"),password:v("password"),role:v("role")||"Staff",companyId:v("companyId")||"C1",branchId:v("branchId")||"B1"});saveV11(s);closeERPData();alert("User added.");}
+function logoutERP(){const s=v11State();s.session=null;saveV11(s);showERPLogin()}
+function showERPLogin(){
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><h2>🔐 ERP Login</h2><div class="field"><label>Username</label><input id="login_user" value="admin"></div><div class="field"><label>Password</label><input id="login_pass" type="password" value="admin"></div><button class="primary" onclick="loginERP()">Login</button><div id="loginMsg" class="status">Default demo: admin / admin</div></div>`;
+  el.classList.add("show");
+}
+function loginERP(){
+  const s=v11State(),u=document.getElementById("login_user").value,p=document.getElementById("login_pass").value;
+  const user=s.users.find(x=>x.username===u&&x.password===p);
+  if(!user){document.getElementById("loginMsg").textContent="Invalid username or password.";return;}
+  s.session={userId:user.id,username:user.username,role:user.role,companyId:user.companyId,branchId:user.branchId};saveV11(s);closeERPData();alert("Login successful.");
+}
+function applyV11Access(){
+  const session=v11Session();
+  if(!session)return;
+  document.querySelectorAll("[data-role]").forEach(e=>{const roles=e.dataset.role.split(",");e.style.display=roles.includes(session.role)?"":"none"});
+}
+</script>
+
+
+<script>
+/* ===== Universal ERP Feature Manager V12 ===== */
+const V12_KEY="ERP_V12_FEATURES";
+const V12_DEFAULT={
+  businessType:"General Trading",
+  features:{
+    dashboard:true,sales:true,purchase:true,inventory:true,accounts:true,gst:true,
+    customers:true,suppliers:true,documents:true,crm:false,hr:false,service:false,
+    projects:false,manufacturing:false,assets:false,expenses:true,
+    multiBranch:false,multiCompany:false,advancedReports:false,barcode:false,payroll:false
+  }
+};
+function v12State(){try{return JSON.parse(localStorage.getItem(V12_KEY))||V12_DEFAULT}catch(e){return V12_DEFAULT}}
+function saveV12(s){localStorage.setItem(V12_KEY,JSON.stringify(s))}
+function openFeatureManager(){
+  const s=v12State(), el=document.getElementById("erp-data-modal");
+  const names={
+    dashboard:"Dashboard",sales:"Sales",purchase:"Purchase",inventory:"Inventory",accounts:"Accounts",
+    gst:"GST",customers:"Customers",suppliers:"Suppliers",documents:"Documents",crm:"CRM",hr:"HR",
+    service:"Service",projects:"Projects",manufacturing:"Manufacturing",assets:"Assets",expenses:"Expenses",
+    multiBranch:"Multi-Branch",multiCompany:"Multi-Company",advancedReports:"Advanced Reports",barcode:"Barcode",
+    payroll:"Payroll"
+  };
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>⚙️ Feature Manager</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="field"><label>Business Type</label><select id="v12_business">${["General Trading","Retail Shop","Plywood / Furniture","Hardware","Manufacturing","Service Business","Wholesale","Real Estate","Other"].map(x=>`<option ${s.businessType===x?"selected":""}>${x}</option>`).join("")}</select></div>
+  <div class="formgrid">${Object.entries(names).map(([k,n])=>`<label class="field" style="display:flex;align-items:center;gap:10px"><input type="checkbox" id="f_${k}" ${s.features[k]?"checked":""} style="width:auto"> <span>${n}</span></label>`).join("")}</div>
+  <button class="primary" onclick="saveFeatureManager()">💾 Save Features</button>
+  <div class="status">Single-branch customers can keep Multi-Branch and Multi-Company OFF. Turn modules ON only when needed.</div></div>`;
+  el.classList.add("show");
+}
+function saveFeatureManager(){
+  const s=v12State();s.businessType=document.getElementById("v12_business").value;
+  Object.keys(s.features).forEach(k=>{const e=document.getElementById("f_"+k);if(e)s.features[k]=e.checked});
+  saveV12(s);closeERPData();applyFeatureVisibility();alert("Features saved for this business.");
+}
+function applyFeatureVisibility(){
+  const f=v12State().features;
+  document.querySelectorAll("[data-feature]").forEach(e=>{
+    const key=e.dataset.feature;
+    e.style.display=f[key]===false?"none":"";
+  });
+  const badge=document.getElementById("businessTypeBadge");
+  if(badge)badge.textContent=v12State().businessType;
+}
+function setBusinessPreset(type){
+  const s=v12State();s.businessType=type;
+  const all=s.features;
+  Object.keys(all).forEach(k=>all[k]=true);
+  if(type==="Retail Shop"){all.crm=false;all.hr=false;all.service=false;all.projects=false;all.manufacturing=false;all.assets=false;all.payroll=false;all.multiBranch=false;all.multiCompany=false;all.advancedReports=false}
+  if(type==="Plywood / Furniture"){all.crm=true;all.service=true;all.multiBranch=false;all.multiCompany=false}
+  if(type==="Manufacturing"){all.manufacturing=true;all.hr=true;all.payroll=true;all.assets=true;all.advancedReports=true}
+  if(type==="Service Business"){all.service=true;all.crm=true;all.projects=true;all.multiBranch=false}
+  if(type==="Wholesale"){all.crm=true;all.multiBranch=false;all.advancedReports=true}
+  saveV12(s);applyFeatureVisibility();
+}
+document.addEventListener("DOMContentLoaded",()=>setTimeout(applyFeatureVisibility,100));
+</script>
+
 <section id="erp-dashboard" class="page erpModulePage">
 <div class="box">
 <h2>01 🏠 Dashboard</h2>
@@ -835,7 +1053,7 @@ function barcodeSearch(){
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="leads" onclick="openERPFunction(this.dataset.search, 'Leads')">01 Leads</button><button class="action erpAction" data-search="enquiries" onclick="openERPFunction(this.dataset.search, 'Enquiries')">02 Enquiries</button><button class="action erpAction" data-search="follow-ups" onclick="openERPFunction(this.dataset.search, 'Follow-ups')">03 Follow-ups</button><button class="action erpAction" data-search="opportunities" onclick="openERPFunction(this.dataset.search, 'Opportunities')">04 Opportunities</button><button class="action erpAction" data-search="customer communication" onclick="openERPFunction(this.dataset.search, 'Customer Communication')">05 Customer Communication</button><button class="action erpAction" data-search="sales pipeline" onclick="openERPFunction(this.dataset.search, 'Sales Pipeline')">06 Sales Pipeline</button><button class="action erpAction" data-search="tasks" onclick="openERPFunction(this.dataset.search, 'Tasks')">07 Tasks</button><button class="action erpAction" data-search="reminders" onclick="openERPFunction(this.dataset.search, 'Reminders')">08 Reminders</button><button class="action erpAction" data-search="crm reports" onclick="openERPFunction(this.dataset.search, 'CRM Reports')">09 CRM Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="leads" onclick="openOperational('Leads')">01 Leads</button><button class="action erpAction" data-search="enquiries" onclick="openOperational('Enquiries')">02 Enquiries</button><button class="action erpAction" data-search="follow-ups" onclick="openOperational('Follow-ups')">03 Follow-ups</button><button class="action erpAction" data-search="opportunities" onclick="openERPFunction(this.dataset.search, 'Opportunities')">04 Opportunities</button><button class="action erpAction" data-search="customer communication" onclick="openERPFunction(this.dataset.search, 'Customer Communication')">05 Customer Communication</button><button class="action erpAction" data-search="sales pipeline" onclick="openERPFunction(this.dataset.search, 'Sales Pipeline')">06 Sales Pipeline</button><button class="action erpAction" data-search="tasks" onclick="openOperational('Tasks')">07 Tasks</button><button class="action erpAction" data-search="reminders" onclick="openERPFunction(this.dataset.search, 'Reminders')">08 Reminders</button><button class="action erpAction" data-search="crm reports" onclick="openERPFunction(this.dataset.search, 'CRM Reports')">09 CRM Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -850,7 +1068,7 @@ function barcodeSearch(){
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="employee master" onclick="openERPFunction(this.dataset.search, 'Employee Master')">01 Employee Master</button><button class="action erpAction" data-search="departments" onclick="openERPFunction(this.dataset.search, 'Departments')">02 Departments</button><button class="action erpAction" data-search="designations" onclick="openERPFunction(this.dataset.search, 'Designations')">03 Designations</button><button class="action erpAction" data-search="attendance" onclick="openERPFunction(this.dataset.search, 'Attendance')">04 Attendance</button><button class="action erpAction" data-search="leave" onclick="openERPFunction(this.dataset.search, 'Leave')">05 Leave</button><button class="action erpAction" data-search="salary" onclick="openERPFunction(this.dataset.search, 'Salary')">06 Salary</button><button class="action erpAction" data-search="payroll" onclick="openERPFunction(this.dataset.search, 'Payroll')">07 Payroll</button><button class="action erpAction" data-search="advance" onclick="openERPFunction(this.dataset.search, 'Advance')">08 Advance</button><button class="action erpAction" data-search="incentive" onclick="openERPFunction(this.dataset.search, 'Incentive')">09 Incentive</button><button class="action erpAction" data-search="commission" onclick="openERPFunction(this.dataset.search, 'Commission')">10 Commission</button><button class="action erpAction" data-search="employee documents" onclick="openERPFunction(this.dataset.search, 'Employee Documents')">11 Employee Documents</button><button class="action erpAction" data-search="hr reports" onclick="openERPFunction(this.dataset.search, 'HR Reports')">12 HR Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="employee master" onclick="openOperational('Employee Master')">01 Employee Master</button><button class="action erpAction" data-search="departments" onclick="openERPFunction(this.dataset.search, 'Departments')">02 Departments</button><button class="action erpAction" data-search="designations" onclick="openERPFunction(this.dataset.search, 'Designations')">03 Designations</button><button class="action erpAction" data-search="attendance" onclick="openOperational('Attendance')">04 Attendance</button><button class="action erpAction" data-search="leave" onclick="openOperational('Leave')">05 Leave</button><button class="action erpAction" data-search="salary" onclick="openV9('Salary')">06 Salary</button><button class="action erpAction" data-search="payroll" onclick="openV9('Payroll')">07 Payroll</button><button class="action erpAction" data-search="advance" onclick="openERPFunction(this.dataset.search, 'Advance')">08 Advance</button><button class="action erpAction" data-search="incentive" onclick="openERPFunction(this.dataset.search, 'Incentive')">09 Incentive</button><button class="action erpAction" data-search="commission" onclick="openERPFunction(this.dataset.search, 'Commission')">10 Commission</button><button class="action erpAction" data-search="employee documents" onclick="openERPFunction(this.dataset.search, 'Employee Documents')">11 Employee Documents</button><button class="action erpAction" data-search="hr reports" onclick="openERPFunction(this.dataset.search, 'HR Reports')">12 HR Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -865,7 +1083,7 @@ function barcodeSearch(){
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="bom" onclick="openERPFunction(this.dataset.search, 'BOM')">01 BOM</button><button class="action erpAction" data-search="production planning" onclick="openERPFunction(this.dataset.search, 'Production Planning')">02 Production Planning</button><button class="action erpAction" data-search="work order" onclick="openERPFunction(this.dataset.search, 'Work Order')">03 Work Order</button><button class="action erpAction" data-search="raw material" onclick="openERPFunction(this.dataset.search, 'Raw Material')">04 Raw Material</button><button class="action erpAction" data-search="production" onclick="openERPFunction(this.dataset.search, 'Production')">05 Production</button><button class="action erpAction" data-search="finished goods" onclick="openERPFunction(this.dataset.search, 'Finished Goods')">06 Finished Goods</button><button class="action erpAction" data-search="wastage" onclick="openERPFunction(this.dataset.search, 'Wastage')">07 Wastage</button><button class="action erpAction" data-search="job work" onclick="openERPFunction(this.dataset.search, 'Job Work')">08 Job Work</button><button class="action erpAction" data-search="production cost" onclick="openERPFunction(this.dataset.search, 'Production Cost')">09 Production Cost</button><button class="action erpAction" data-search="manufacturing reports" onclick="openERPFunction(this.dataset.search, 'Manufacturing Reports')">10 Manufacturing Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="bom" onclick="openV9('BOM')">01 BOM</button><button class="action erpAction" data-search="production planning" onclick="openERPFunction(this.dataset.search, 'Production Planning')">02 Production Planning</button><button class="action erpAction" data-search="work order" onclick="openERPFunction(this.dataset.search, 'Work Order')">03 Work Order</button><button class="action erpAction" data-search="raw material" onclick="openV9('Raw Material')">04 Raw Material</button><button class="action erpAction" data-search="production" onclick="openV9('Production')">05 Production</button><button class="action erpAction" data-search="finished goods" onclick="openERPFunction(this.dataset.search, 'Finished Goods')">06 Finished Goods</button><button class="action erpAction" data-search="wastage" onclick="openERPFunction(this.dataset.search, 'Wastage')">07 Wastage</button><button class="action erpAction" data-search="job work" onclick="openERPFunction(this.dataset.search, 'Job Work')">08 Job Work</button><button class="action erpAction" data-search="production cost" onclick="openERPFunction(this.dataset.search, 'Production Cost')">09 Production Cost</button><button class="action erpAction" data-search="manufacturing reports" onclick="openERPFunction(this.dataset.search, 'Manufacturing Reports')">10 Manufacturing Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -880,7 +1098,7 @@ function barcodeSearch(){
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="service request" onclick="openERPFunction(this.dataset.search, 'Service Request')">01 Service Request</button><button class="action erpAction" data-search="service ticket" onclick="openERPFunction(this.dataset.search, 'Service Ticket')">02 Service Ticket</button><button class="action erpAction" data-search="job card" onclick="openERPFunction(this.dataset.search, 'Job Card')">03 Job Card</button><button class="action erpAction" data-search="technician" onclick="openERPFunction(this.dataset.search, 'Technician')">04 Technician</button><button class="action erpAction" data-search="service schedule" onclick="openERPFunction(this.dataset.search, 'Service Schedule')">05 Service Schedule</button><button class="action erpAction" data-search="spare parts" onclick="openERPFunction(this.dataset.search, 'Spare Parts')">06 Spare Parts</button><button class="action erpAction" data-search="service invoice" onclick="openERPFunction(this.dataset.search, 'Service Invoice')">07 Service Invoice</button><button class="action erpAction" data-search="warranty" onclick="openERPFunction(this.dataset.search, 'Warranty')">08 Warranty</button><button class="action erpAction" data-search="amc" onclick="openERPFunction(this.dataset.search, 'AMC')">09 AMC</button><button class="action erpAction" data-search="service reports" onclick="openERPFunction(this.dataset.search, 'Service Reports')">10 Service Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="service request" onclick="openOperational('Service Request')">01 Service Request</button><button class="action erpAction" data-search="service ticket" onclick="openERPFunction(this.dataset.search, 'Service Ticket')">02 Service Ticket</button><button class="action erpAction" data-search="job card" onclick="openOperational('Job Card')">03 Job Card</button><button class="action erpAction" data-search="technician" onclick="openERPFunction(this.dataset.search, 'Technician')">04 Technician</button><button class="action erpAction" data-search="service schedule" onclick="openERPFunction(this.dataset.search, 'Service Schedule')">05 Service Schedule</button><button class="action erpAction" data-search="spare parts" onclick="openERPFunction(this.dataset.search, 'Spare Parts')">06 Spare Parts</button><button class="action erpAction" data-search="service invoice" onclick="openERPFunction(this.dataset.search, 'Service Invoice')">07 Service Invoice</button><button class="action erpAction" data-search="warranty" onclick="openERPFunction(this.dataset.search, 'Warranty')">08 Warranty</button><button class="action erpAction" data-search="amc" onclick="openERPFunction(this.dataset.search, 'AMC')">09 AMC</button><button class="action erpAction" data-search="service reports" onclick="openERPFunction(this.dataset.search, 'Service Reports')">10 Service Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -895,7 +1113,7 @@ function barcodeSearch(){
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="projects" onclick="openERPFunction(this.dataset.search, 'Projects')">01 Projects</button><button class="action erpAction" data-search="tasks" onclick="openERPFunction(this.dataset.search, 'Tasks')">02 Tasks</button><button class="action erpAction" data-search="milestones" onclick="openERPFunction(this.dataset.search, 'Milestones')">03 Milestones</button><button class="action erpAction" data-search="team" onclick="openERPFunction(this.dataset.search, 'Team')">04 Team</button><button class="action erpAction" data-search="project expenses" onclick="openERPFunction(this.dataset.search, 'Project Expenses')">05 Project Expenses</button><button class="action erpAction" data-search="project billing" onclick="openERPFunction(this.dataset.search, 'Project Billing')">06 Project Billing</button><button class="action erpAction" data-search="project profitability" onclick="openERPFunction(this.dataset.search, 'Project Profitability')">07 Project Profitability</button><button class="action erpAction" data-search="project reports" onclick="openERPFunction(this.dataset.search, 'Project Reports')">08 Project Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="projects" onclick="openOperational('Projects')">01 Projects</button><button class="action erpAction" data-search="tasks" onclick="openERPFunction(this.dataset.search, 'Tasks')">02 Tasks</button><button class="action erpAction" data-search="milestones" onclick="openERPFunction(this.dataset.search, 'Milestones')">03 Milestones</button><button class="action erpAction" data-search="team" onclick="openERPFunction(this.dataset.search, 'Team')">04 Team</button><button class="action erpAction" data-search="project expenses" onclick="openERPFunction(this.dataset.search, 'Project Expenses')">05 Project Expenses</button><button class="action erpAction" data-search="project billing" onclick="openERPFunction(this.dataset.search, 'Project Billing')">06 Project Billing</button><button class="action erpAction" data-search="project profitability" onclick="openERPFunction(this.dataset.search, 'Project Profitability')">07 Project Profitability</button><button class="action erpAction" data-search="project reports" onclick="openERPFunction(this.dataset.search, 'Project Reports')">08 Project Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -925,7 +1143,7 @@ function barcodeSearch(){
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="expense entry" onclick="openERPFunction(this.dataset.search, 'Expense Entry')">01 Expense Entry</button><button class="action erpAction" data-search="expense category" onclick="openERPFunction(this.dataset.search, 'Expense Category')">02 Expense Category</button><button class="action erpAction" data-search="employee expense" onclick="openERPFunction(this.dataset.search, 'Employee Expense')">03 Employee Expense</button><button class="action erpAction" data-search="business expense" onclick="openERPFunction(this.dataset.search, 'Business Expense')">04 Business Expense</button><button class="action erpAction" data-search="recurring expense" onclick="openERPFunction(this.dataset.search, 'Recurring Expense')">05 Recurring Expense</button><button class="action erpAction" data-search="expense approval" onclick="openERPFunction(this.dataset.search, 'Expense Approval')">06 Expense Approval</button><button class="action erpAction" data-search="expense reports" onclick="openERPFunction(this.dataset.search, 'Expense Reports')">07 Expense Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="expense entry" onclick="openV9('Expense Entry')">01 Expense Entry</button><button class="action erpAction" data-search="expense category" onclick="openERPFunction(this.dataset.search, 'Expense Category')">02 Expense Category</button><button class="action erpAction" data-search="employee expense" onclick="openERPFunction(this.dataset.search, 'Employee Expense')">03 Employee Expense</button><button class="action erpAction" data-search="business expense" onclick="openERPFunction(this.dataset.search, 'Business Expense')">04 Business Expense</button><button class="action erpAction" data-search="recurring expense" onclick="openERPFunction(this.dataset.search, 'Recurring Expense')">05 Recurring Expense</button><button class="action erpAction" data-search="expense approval" onclick="openERPFunction(this.dataset.search, 'Expense Approval')">06 Expense Approval</button><button class="action erpAction" data-search="expense reports" onclick="openERPFunction(this.dataset.search, 'Expense Reports')">07 Expense Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -940,7 +1158,7 @@ function barcodeSearch(){
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="asset master" onclick="openERPFunction(this.dataset.search, 'Asset Master')">01 Asset Master</button><button class="action erpAction" data-search="asset allocation" onclick="openERPFunction(this.dataset.search, 'Asset Allocation')">02 Asset Allocation</button><button class="action erpAction" data-search="asset transfer" onclick="openERPFunction(this.dataset.search, 'Asset Transfer')">03 Asset Transfer</button><button class="action erpAction" data-search="maintenance" onclick="openERPFunction(this.dataset.search, 'Maintenance')">04 Maintenance</button><button class="action erpAction" data-search="depreciation" onclick="openERPFunction(this.dataset.search, 'Depreciation')">05 Depreciation</button><button class="action erpAction" data-search="asset disposal" onclick="openERPFunction(this.dataset.search, 'Asset Disposal')">06 Asset Disposal</button><button class="action erpAction" data-search="asset reports" onclick="openERPFunction(this.dataset.search, 'Asset Reports')">07 Asset Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="asset master" onclick="openV9('Asset Master')">01 Asset Master</button><button class="action erpAction" data-search="asset allocation" onclick="openV9('Asset Allocation')">02 Asset Allocation</button><button class="action erpAction" data-search="asset transfer" onclick="openERPFunction(this.dataset.search, 'Asset Transfer')">03 Asset Transfer</button><button class="action erpAction" data-search="maintenance" onclick="openERPFunction(this.dataset.search, 'Maintenance')">04 Maintenance</button><button class="action erpAction" data-search="depreciation" onclick="openERPFunction(this.dataset.search, 'Depreciation')">05 Depreciation</button><button class="action erpAction" data-search="asset disposal" onclick="openERPFunction(this.dataset.search, 'Asset Disposal')">06 Asset Disposal</button><button class="action erpAction" data-search="asset reports" onclick="openERPFunction(this.dataset.search, 'Asset Reports')">07 Asset Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1188,7 +1406,34 @@ function barcodeSearch(){
 </div>
 </section>
 <section id="erp" class="page"><div class="box"><h2>🏢 ERP Software Developer</h2><p><b>This is the main ERP development area.</b> All 38 modules are grouped by their actual business purpose. Open a module to use its related functions without searching through unrelated options.</p>
-<div class="status">Commercial ERP principle: one module → all related functions → simple workflow → customer-wise ON/OFF.</div><div class="box" style="margin-top:14px"><h3>📦 Professional Inventory Center</h3>
+<div class="status">Commercial ERP principle: one module → all related functions → simple workflow → customer-wise ON/OFF.</div><div class="box" data-feature="manufacturing" style="margin-top:14px"><h3>⚙️ Advanced Operations Center</h3>
+<p>Payroll, manufacturing, assets and expenses in simple connected forms.</p>
+<div class="actions">
+<button class="action" onclick="openV9('Employee Master')">👨‍💼 Employee Master</button>
+<button class="action" onclick="openV9('Salary')">💰 Salary</button>
+<button class="action" onclick="openV9('Payroll')">🧾 Payroll</button>
+<button class="action" onclick="openV9('BOM')">🧩 BOM</button>
+<button class="action" onclick="openV9('Raw Material')">📦 Raw Material</button>
+<button class="action" onclick="openV9('Production')">🏭 Production</button>
+<button class="action" onclick="openV9('Asset Master')">🏢 Assets</button>
+<button class="action" onclick="openV9('Asset Allocation')">📍 Asset Allocation</button>
+<button class="action" onclick="openV9('Expense Entry')">💸 Expenses</button>
+</div></div>
+<div class="box" data-feature="crm" style="margin-top:14px"><h3>🤝 Business Operations Center</h3>
+<p>Manage CRM, HR, Service and Projects with simple forms.</p>
+<div class="actions">
+<button class="action" onclick="openOperational('Leads')">🤝 Leads</button>
+<button class="action" onclick="openOperational('Enquiries')">📩 Enquiries</button>
+<button class="action" onclick="openOperational('Follow-ups')">📞 Follow-ups</button>
+<button class="action" onclick="openOperational('Employee Master')">👨‍💼 Employees</button>
+<button class="action" onclick="openOperational('Attendance')">🕘 Attendance</button>
+<button class="action" onclick="openOperational('Leave')">🏖️ Leave</button>
+<button class="action" onclick="openOperational('Service Request')">🔧 Service</button>
+<button class="action" onclick="openOperational('Job Card')">🛠️ Job Card</button>
+<button class="action" onclick="openOperational('Projects')">📋 Projects</button>
+<button class="action" onclick="openOperational('Tasks')">✅ Tasks</button>
+</div></div>
+<div class="box" data-feature="inventory" style="margin-top:14px"><h3>📦 Professional Inventory Center</h3>
 <p>Manage stock, warehouses and item lookup from one place.</p>
 <div class="actions">
 <button class="action" onclick="openInventoryForm('opening')">📥 Opening Stock</button>
@@ -1201,7 +1446,38 @@ function barcodeSearch(){
 <button class="action" onclick="openLowStock()">⚠️ Low Stock</button>
 <button class="action" onclick="openBarcode()">▦ Barcode Lookup</button>
 </div></div>
-<div class="box" style="margin-top:14px"><h3>📄 Professional Document Center</h3>
+<div class="box" style="margin-top:14px"><h3>⚙️ Universal ERP Feature Manager</h3>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<span>Business Type:</span><b id="businessTypeBadge">General Trading</b>
+</div>
+<p>Customer-specific modules can be switched ON/OFF. Single-shop customers can use a clean simple ERP.</p>
+<div class="actions">
+<button class="primary" onclick="openFeatureManager()">⚙️ Manage Features</button>
+<button class="action" onclick="setBusinessPreset('Retail Shop')">🏪 Retail Preset</button>
+<button class="action" onclick="setBusinessPreset('Manufacturing')">🏭 Manufacturing Preset</button>
+<button class="action" onclick="setBusinessPreset('Service Business')">🔧 Service Preset</button>
+</div></div>
+<div class="box" data-feature="multiCompany" style="margin-top:14px"><h3>🔐 Multi-Company & Security Center</h3>
+<p>Manage companies, branches and user roles from one place.</p>
+<div class="actions">
+<button class="primary" onclick="openSecurityCenter()">🏢 Company / Branch / Users</button>
+<button class="action" onclick="showERPLogin()">🔐 Login</button>
+<button class="action" onclick="logoutERP()">🚪 Logout</button>
+</div></div>
+<div class="box" data-feature="dashboard" style="margin-top:14px"><h3>📊 Real-time Business Dashboard</h3>
+<div class="grid">
+<div class="card stat">🛒<b id="kpiSales">₹0</b>Sales</div>
+<div class="card stat">🧾<b id="kpiPurchase">₹0</b>Purchases</div>
+<div class="card stat">📈<b id="kpiProfit">₹0</b>Gross Profit</div>
+<div class="card stat">👥<b id="kpiCustomers">0</b>Customers</div>
+<div class="card stat">📦<b id="kpiStock">0</b>Stock Movement</div>
+</div>
+<div class="actions" style="margin-top:12px">
+<button class="primary" onclick="openBusinessDashboard()">📊 Full KPI</button>
+<button class="action" onclick="openSalesChart()">📈 Sales Trend</button>
+<button class="action" onclick="openAlertCenter()">🔔 Alerts</button>
+</div></div>
+<div class="box" data-feature="documents" style="margin-top:14px"><h3>📄 Professional Document Center</h3>
 <p>Create, save and print common business documents from one simple place.</p>
 <div class="actions">
 <button class="action" onclick="openDocumentCenter('quotation')">📝 Quotation</button>
@@ -1337,4 +1613,4 @@ document.addEventListener("DOMContentLoaded",refreshERPCounters);
 
 </script>
 </body>
-</html>
+</html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
