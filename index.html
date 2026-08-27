@@ -58,6 +58,15 @@ text-align:left;border:0;background:#fff!important;padding:14px 16px;font-weight
 text-align:left;border:0!important;border-bottom:1px solid #eee!important;border-radius:0!important;
 background:#fafafa!important;color:#222;cursor:pointer}
 .optionTable .sub:last-child{border-bottom:0!important}
+
+.erpTools{display:flex;gap:10px;align-items:center;margin:12px 0 16px}
+.moduleSearch{flex:1;padding:11px 12px;border:1px solid #ccd2da;border-radius:8px}
+.erpAction{border:1px solid #e2e6eb;border-radius:9px;background:#fafbfc;padding:15px;text-align:left;cursor:pointer}
+.erpAction:hover{background:#f0f5ff;border-color:#b9cff7}
+.erpModulePage .actions{grid-template-columns:repeat(3,1fr)}
+@media(max-width:850px){.erpModulePage .actions{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.erpTools{flex-direction:column;align-items:stretch}.erpModulePage .actions{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -83,21 +92,46 @@ background:#fafafa!important;color:#222;cursor:pointer}
 
 <div class="devGroup" id="erpGroup">
 <button class="devMain" onclick="toggleDev('erpGroup')">🏢 ERP SOFTWARE DEVELOPER <span>▾</span></button>
-<div class="devSub">
-<div class="optionTable">
-<button class="sub" onclick="showPage('newerp')">➕ New ERP Software</button>
-<button class="sub" onclick="showPage('business')">🏪 Business Details</button>
-<button class="sub" onclick="showPage('masters')">👥 Masters</button>
-<button class="sub" onclick="showPage('sales')">🧾 Sales & Purchase</button>
-<button class="sub" onclick="showPage('stock')">📦 Stock Management</button>
-<button class="sub" onclick="showPage('accounts')">💰 Accounts</button>
-<button class="sub" onclick="showPage('reports')">📊 Reports & Analytics</button>
-<button class="sub" onclick="showPage('users')">🔐 Users & Login</button>
-<button class="sub" onclick="showPage('backup')">💾 Backup & Restore</button>
-<button class="sub" onclick="showPage('license')">🛡️ License & Subscription</button>
-</div>
-</div>
-</div>
+<div class="devSub"><div class="optionTable">
+<button class="sub" onclick="showPage('erp-dashboard')">01 🏠 Dashboard</button>
+<button class="sub" onclick="showPage('erp-company')">02 🏢 Company Management</button>
+<button class="sub" onclick="showPage('erp-branch')">03 🏬 Branch Management</button>
+<button class="sub" onclick="showPage('erp-users')">04 👥 User & Role Management</button>
+<button class="sub" onclick="showPage('erp-customers')">05 👤 Customer Management</button>
+<button class="sub" onclick="showPage('erp-suppliers')">06 🚚 Supplier Management</button>
+<button class="sub" onclick="showPage('erp-products')">07 📦 Product / Item Master</button>
+<button class="sub" onclick="showPage('erp-sales')">08 🛒 Sales</button>
+<button class="sub" onclick="showPage('erp-purchase')">09 🧾 Purchase</button>
+<button class="sub" onclick="showPage('erp-inventory')">10 📊 Inventory</button>
+<button class="sub" onclick="showPage('erp-warehouse')">11 🏭 Warehouse</button>
+<button class="sub" onclick="showPage('erp-pos')">12 💵 POS / Billing</button>
+<button class="sub" onclick="showPage('erp-accounts')">13 💳 Accounts</button>
+<button class="sub" onclick="showPage('erp-gst')">14 🇮🇳 GST / Tax</button>
+<button class="sub" onclick="showPage('erp-crm')">15 🤝 CRM</button>
+<button class="sub" onclick="showPage('erp-hr')">16 👨‍💼 HR & Payroll</button>
+<button class="sub" onclick="showPage('erp-manufacturing')">17 🏭 Manufacturing</button>
+<button class="sub" onclick="showPage('erp-service')">18 🔧 Service Management</button>
+<button class="sub" onclick="showPage('erp-projects')">19 📋 Project Management</button>
+<button class="sub" onclick="showPage('erp-transport')">20 🚛 Transport / Delivery</button>
+<button class="sub" onclick="showPage('erp-expenses')">21 💸 Expense Management</button>
+<button class="sub" onclick="showPage('erp-assets')">22 🏢 Asset Management</button>
+<button class="sub" onclick="showPage('erp-reports')">23 📈 Reports & Analytics</button>
+<button class="sub" onclick="showPage('erp-notifications')">24 🔔 Notification Center</button>
+<button class="sub" onclick="showPage('erp-cloud')">25 ☁️ Cloud & Database</button>
+<button class="sub" onclick="showPage('erp-integrations')">26 🔗 Integrations</button>
+<button class="sub" onclick="showPage('erp-customization')">27 🎨 Customization</button>
+<button class="sub" onclick="showPage('erp-license')">28 🔑 License Management</button>
+<button class="sub" onclick="showPage('erp-subscription')">29 💎 Subscription & Plans</button>
+<button class="sub" onclick="showPage('erp-payment')">30 💰 Payment Management</button>
+<button class="sub" onclick="showPage('erp-support')">31 🎧 Support / Tickets</button>
+<button class="sub" onclick="showPage('erp-logs')">32 📝 Activity & Error Log</button>
+<button class="sub" onclick="showPage('erp-app')">33 📱 App Management</button>
+<button class="sub" onclick="showPage('erp-apk')">34 📦 APK Management</button>
+<button class="sub" onclick="showPage('erp-exe')">35 🖥️ EXE Management</button>
+<button class="sub" onclick="showPage('erp-updates')">36 🔄 Version & Update Management</button>
+<button class="sub" onclick="showPage('erp-developer')">37 🧑‍💻 Developer Console</button>
+<button class="sub" onclick="showPage('erp-settings')">38 ⚙️ System Settings</button>
+</div></div></div>
 
 <div class="devGroup" id="appGroup">
 <button class="devMain" onclick="toggleDev('appGroup')">📱 APP / APK DEVELOPER <span>▾</span></button>
@@ -173,7 +207,578 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <section id="apptest" class="page"><div class="box"><h2>🧪 Test App</h2><div class="actions"><div class="action">📱 Mobile Preview</div><div class="action">🐞 Error Check</div><div class="action">⚡ Performance Check</div><div class="action">🔍 Final Test</div></div></div></section>
 <section id="apkbuild" class="page"><div class="box"><h2>📦 Build APK</h2><div class="status">Ready for Android APK build setup.</div><div class="actions"><div class="action">🧪 Debug APK</div><div class="action">🚀 Release APK</div><div class="action">🔏 Signed APK</div></div></div></section>
 <section id="appexport" class="page"><div class="box"><h2>📤 Export App Project</h2><p>Export the app project files for Android Studio or further development.</p><button class="primary" onclick="alert('Export project selected in demo mode.')">Export Project</button></div></section>
-<section id="erp" class="page"><div class="box"><h2>🏢 ERP Software Developer</h2><p><b>This is the main ERP development area.</b> All ERP options are kept under this menu in a fixed order.</p>
+<section id="erp-dashboard" class="page erpModulePage">
+<div class="box">
+<h2>01 🏠 Dashboard</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="business overview" onclick="openERPFunction(this.dataset.search, 'Business Overview')">01 Business Overview</button><button class="action erpAction" data-search="sales summary" onclick="openERPFunction(this.dataset.search, 'Sales Summary')">02 Sales Summary</button><button class="action erpAction" data-search="purchase summary" onclick="openERPFunction(this.dataset.search, 'Purchase Summary')">03 Purchase Summary</button><button class="action erpAction" data-search="stock summary" onclick="openERPFunction(this.dataset.search, 'Stock Summary')">04 Stock Summary</button><button class="action erpAction" data-search="cash & bank" onclick="openERPFunction(this.dataset.search, 'Cash & Bank')">05 Cash & Bank</button><button class="action erpAction" data-search="receivable" onclick="openERPFunction(this.dataset.search, 'Receivable')">06 Receivable</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">07 Payable</button><button class="action erpAction" data-search="profit & loss" onclick="openERPFunction(this.dataset.search, 'Profit & Loss')">08 Profit & Loss</button><button class="action erpAction" data-search="pending orders" onclick="openERPFunction(this.dataset.search, 'Pending Orders')">09 Pending Orders</button><button class="action erpAction" data-search="low stock" onclick="openERPFunction(this.dataset.search, 'Low Stock')">10 Low Stock</button><button class="action erpAction" data-search="payment due" onclick="openERPFunction(this.dataset.search, 'Payment Due')">11 Payment Due</button><button class="action erpAction" data-search="notifications" onclick="openERPFunction(this.dataset.search, 'Notifications')">12 Notifications</button><button class="action erpAction" data-search="analytics & charts" onclick="openERPFunction(this.dataset.search, 'Analytics & Charts')">13 Analytics & Charts</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-company" class="page erpModulePage">
+<div class="box">
+<h2>02 🏢 Company Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="company profile" onclick="openERPFunction(this.dataset.search, 'Company Profile')">01 Company Profile</button><button class="action erpAction" data-search="company creation" onclick="openERPFunction(this.dataset.search, 'Company Creation')">02 Company Creation</button><button class="action erpAction" data-search="company switch" onclick="openERPFunction(this.dataset.search, 'Company Switch')">03 Company Switch</button><button class="action erpAction" data-search="financial year" onclick="openERPFunction(this.dataset.search, 'Financial Year')">04 Financial Year</button><button class="action erpAction" data-search="business type" onclick="openERPFunction(this.dataset.search, 'Business Type')">05 Business Type</button><button class="action erpAction" data-search="currency" onclick="openERPFunction(this.dataset.search, 'Currency')">06 Currency</button><button class="action erpAction" data-search="language" onclick="openERPFunction(this.dataset.search, 'Language')">07 Language</button><button class="action erpAction" data-search="tax configuration" onclick="openERPFunction(this.dataset.search, 'Tax Configuration')">08 Tax Configuration</button><button class="action erpAction" data-search="company settings" onclick="openERPFunction(this.dataset.search, 'Company Settings')">09 Company Settings</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-branch" class="page erpModulePage">
+<div class="box">
+<h2>03 🏬 Branch Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="branch creation" onclick="openERPFunction(this.dataset.search, 'Branch Creation')">01 Branch Creation</button><button class="action erpAction" data-search="branch list" onclick="openERPFunction(this.dataset.search, 'Branch List')">02 Branch List</button><button class="action erpAction" data-search="branch-wise users" onclick="openERPFunction(this.dataset.search, 'Branch-wise Users')">03 Branch-wise Users</button><button class="action erpAction" data-search="branch-wise stock" onclick="openERPFunction(this.dataset.search, 'Branch-wise Stock')">04 Branch-wise Stock</button><button class="action erpAction" data-search="branch-wise sales" onclick="openERPFunction(this.dataset.search, 'Branch-wise Sales')">05 Branch-wise Sales</button><button class="action erpAction" data-search="branch-wise accounts" onclick="openERPFunction(this.dataset.search, 'Branch-wise Accounts')">06 Branch-wise Accounts</button><button class="action erpAction" data-search="branch transfer" onclick="openERPFunction(this.dataset.search, 'Branch Transfer')">07 Branch Transfer</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-users" class="page erpModulePage">
+<div class="box">
+<h2>04 👥 User & Role Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="users" onclick="openERPFunction(this.dataset.search, 'Users')">01 Users</button><button class="action erpAction" data-search="roles" onclick="openERPFunction(this.dataset.search, 'Roles')">02 Roles</button><button class="action erpAction" data-search="permissions" onclick="openERPFunction(this.dataset.search, 'Permissions')">03 Permissions</button><button class="action erpAction" data-search="module access" onclick="openERPFunction(this.dataset.search, 'Module Access')">04 Module Access</button><button class="action erpAction" data-search="add/edit/delete access" onclick="openERPFunction(this.dataset.search, 'Add/Edit/Delete Access')">05 Add/Edit/Delete Access</button><button class="action erpAction" data-search="view-only access" onclick="openERPFunction(this.dataset.search, 'View-only Access')">06 View-only Access</button><button class="action erpAction" data-search="branch access" onclick="openERPFunction(this.dataset.search, 'Branch Access')">07 Branch Access</button><button class="action erpAction" data-search="login history" onclick="openERPFunction(this.dataset.search, 'Login History')">08 Login History</button><button class="action erpAction" data-search="activity log" onclick="openERPFunction(this.dataset.search, 'Activity Log')">09 Activity Log</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-customers" class="page erpModulePage">
+<div class="box">
+<h2>05 👤 Customer Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="customer master" onclick="openERPFunction(this.dataset.search, 'Customer Master')">01 Customer Master</button><button class="action erpAction" data-search="customer groups" onclick="openERPFunction(this.dataset.search, 'Customer Groups')">02 Customer Groups</button><button class="action erpAction" data-search="customer ledger" onclick="openERPFunction(this.dataset.search, 'Customer Ledger')">03 Customer Ledger</button><button class="action erpAction" data-search="outstanding" onclick="openERPFunction(this.dataset.search, 'Outstanding')">04 Outstanding</button><button class="action erpAction" data-search="credit limit" onclick="openERPFunction(this.dataset.search, 'Credit Limit')">05 Credit Limit</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">06 Payment History</button><button class="action erpAction" data-search="customer statement" onclick="openERPFunction(this.dataset.search, 'Customer Statement')">07 Customer Statement</button><button class="action erpAction" data-search="customer documents" onclick="openERPFunction(this.dataset.search, 'Customer Documents')">08 Customer Documents</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-suppliers" class="page erpModulePage">
+<div class="box">
+<h2>06 🚚 Supplier Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="supplier master" onclick="openERPFunction(this.dataset.search, 'Supplier Master')">01 Supplier Master</button><button class="action erpAction" data-search="supplier groups" onclick="openERPFunction(this.dataset.search, 'Supplier Groups')">02 Supplier Groups</button><button class="action erpAction" data-search="supplier ledger" onclick="openERPFunction(this.dataset.search, 'Supplier Ledger')">03 Supplier Ledger</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">04 Payable</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">05 Payment History</button><button class="action erpAction" data-search="supplier statement" onclick="openERPFunction(this.dataset.search, 'Supplier Statement')">06 Supplier Statement</button><button class="action erpAction" data-search="supplier documents" onclick="openERPFunction(this.dataset.search, 'Supplier Documents')">07 Supplier Documents</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-products" class="page erpModulePage">
+<div class="box">
+<h2>07 📦 Product / Item Master</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="item master" onclick="openERPFunction(this.dataset.search, 'Item Master')">01 Item Master</button><button class="action erpAction" data-search="category" onclick="openERPFunction(this.dataset.search, 'Category')">02 Category</button><button class="action erpAction" data-search="sub-category" onclick="openERPFunction(this.dataset.search, 'Sub-category')">03 Sub-category</button><button class="action erpAction" data-search="brand" onclick="openERPFunction(this.dataset.search, 'Brand')">04 Brand</button><button class="action erpAction" data-search="unit" onclick="openERPFunction(this.dataset.search, 'Unit')">05 Unit</button><button class="action erpAction" data-search="hsn/sac" onclick="openERPFunction(this.dataset.search, 'HSN/SAC')">06 HSN/SAC</button><button class="action erpAction" data-search="barcode" onclick="openERPFunction(this.dataset.search, 'Barcode')">07 Barcode</button><button class="action erpAction" data-search="sku" onclick="openERPFunction(this.dataset.search, 'SKU')">08 SKU</button><button class="action erpAction" data-search="batch" onclick="openERPFunction(this.dataset.search, 'Batch')">09 Batch</button><button class="action erpAction" data-search="serial number" onclick="openERPFunction(this.dataset.search, 'Serial Number')">10 Serial Number</button><button class="action erpAction" data-search="purchase price" onclick="openERPFunction(this.dataset.search, 'Purchase Price')">11 Purchase Price</button><button class="action erpAction" data-search="sales price" onclick="openERPFunction(this.dataset.search, 'Sales Price')">12 Sales Price</button><button class="action erpAction" data-search="mrp" onclick="openERPFunction(this.dataset.search, 'MRP')">13 MRP</button><button class="action erpAction" data-search="tax" onclick="openERPFunction(this.dataset.search, 'Tax')">14 Tax</button><button class="action erpAction" data-search="discount" onclick="openERPFunction(this.dataset.search, 'Discount')">15 Discount</button><button class="action erpAction" data-search="custom fields" onclick="openERPFunction(this.dataset.search, 'Custom Fields')">16 Custom Fields</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-sales" class="page erpModulePage">
+<div class="box">
+<h2>08 🛒 Sales</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="quotation" onclick="openERPFunction(this.dataset.search, 'Quotation')">01 Quotation</button><button class="action erpAction" data-search="sales order" onclick="openERPFunction(this.dataset.search, 'Sales Order')">02 Sales Order</button><button class="action erpAction" data-search="delivery challan" onclick="openERPFunction(this.dataset.search, 'Delivery Challan')">03 Delivery Challan</button><button class="action erpAction" data-search="sales invoice" onclick="openERPFunction(this.dataset.search, 'Sales Invoice')">04 Sales Invoice</button><button class="action erpAction" data-search="sales return" onclick="openERPFunction(this.dataset.search, 'Sales Return')">05 Sales Return</button><button class="action erpAction" data-search="credit note" onclick="openERPFunction(this.dataset.search, 'Credit Note')">06 Credit Note</button><button class="action erpAction" data-search="customer payment" onclick="openERPFunction(this.dataset.search, 'Customer Payment')">07 Customer Payment</button><button class="action erpAction" data-search="sales history" onclick="openERPFunction(this.dataset.search, 'Sales History')">08 Sales History</button><button class="action erpAction" data-search="outstanding" onclick="openERPFunction(this.dataset.search, 'Outstanding')">09 Outstanding</button><button class="action erpAction" data-search="sales reports" onclick="openERPFunction(this.dataset.search, 'Sales Reports')">10 Sales Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-purchase" class="page erpModulePage">
+<div class="box">
+<h2>09 🧾 Purchase</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="purchase enquiry" onclick="openERPFunction(this.dataset.search, 'Purchase Enquiry')">01 Purchase Enquiry</button><button class="action erpAction" data-search="purchase quotation" onclick="openERPFunction(this.dataset.search, 'Purchase Quotation')">02 Purchase Quotation</button><button class="action erpAction" data-search="purchase order" onclick="openERPFunction(this.dataset.search, 'Purchase Order')">03 Purchase Order</button><button class="action erpAction" data-search="goods receipt" onclick="openERPFunction(this.dataset.search, 'Goods Receipt')">04 Goods Receipt</button><button class="action erpAction" data-search="purchase invoice" onclick="openERPFunction(this.dataset.search, 'Purchase Invoice')">05 Purchase Invoice</button><button class="action erpAction" data-search="purchase return" onclick="openERPFunction(this.dataset.search, 'Purchase Return')">06 Purchase Return</button><button class="action erpAction" data-search="debit note" onclick="openERPFunction(this.dataset.search, 'Debit Note')">07 Debit Note</button><button class="action erpAction" data-search="supplier payment" onclick="openERPFunction(this.dataset.search, 'Supplier Payment')">08 Supplier Payment</button><button class="action erpAction" data-search="purchase history" onclick="openERPFunction(this.dataset.search, 'Purchase History')">09 Purchase History</button><button class="action erpAction" data-search="purchase reports" onclick="openERPFunction(this.dataset.search, 'Purchase Reports')">10 Purchase Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-inventory" class="page erpModulePage">
+<div class="box">
+<h2>10 📊 Inventory</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="opening stock" onclick="openERPFunction(this.dataset.search, 'Opening Stock')">01 Opening Stock</button><button class="action erpAction" data-search="stock in" onclick="openERPFunction(this.dataset.search, 'Stock In')">02 Stock In</button><button class="action erpAction" data-search="stock out" onclick="openERPFunction(this.dataset.search, 'Stock Out')">03 Stock Out</button><button class="action erpAction" data-search="stock transfer" onclick="openERPFunction(this.dataset.search, 'Stock Transfer')">04 Stock Transfer</button><button class="action erpAction" data-search="stock adjustment" onclick="openERPFunction(this.dataset.search, 'Stock Adjustment')">05 Stock Adjustment</button><button class="action erpAction" data-search="stock ledger" onclick="openERPFunction(this.dataset.search, 'Stock Ledger')">06 Stock Ledger</button><button class="action erpAction" data-search="stock valuation" onclick="openERPFunction(this.dataset.search, 'Stock Valuation')">07 Stock Valuation</button><button class="action erpAction" data-search="physical stock" onclick="openERPFunction(this.dataset.search, 'Physical Stock')">08 Physical Stock</button><button class="action erpAction" data-search="low stock" onclick="openERPFunction(this.dataset.search, 'Low Stock')">09 Low Stock</button><button class="action erpAction" data-search="expiry" onclick="openERPFunction(this.dataset.search, 'Expiry')">10 Expiry</button><button class="action erpAction" data-search="batch management" onclick="openERPFunction(this.dataset.search, 'Batch Management')">11 Batch Management</button><button class="action erpAction" data-search="serial management" onclick="openERPFunction(this.dataset.search, 'Serial Management')">12 Serial Management</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-warehouse" class="page erpModulePage">
+<div class="box">
+<h2>11 🏭 Warehouse</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="warehouse" onclick="openERPFunction(this.dataset.search, 'Warehouse')">01 Warehouse</button><button class="action erpAction" data-search="godown" onclick="openERPFunction(this.dataset.search, 'Godown')">02 Godown</button><button class="action erpAction" data-search="rack" onclick="openERPFunction(this.dataset.search, 'Rack')">03 Rack</button><button class="action erpAction" data-search="shelf" onclick="openERPFunction(this.dataset.search, 'Shelf')">04 Shelf</button><button class="action erpAction" data-search="bin" onclick="openERPFunction(this.dataset.search, 'Bin')">05 Bin</button><button class="action erpAction" data-search="warehouse transfer" onclick="openERPFunction(this.dataset.search, 'Warehouse Transfer')">06 Warehouse Transfer</button><button class="action erpAction" data-search="warehouse stock" onclick="openERPFunction(this.dataset.search, 'Warehouse Stock')">07 Warehouse Stock</button><button class="action erpAction" data-search="stock location" onclick="openERPFunction(this.dataset.search, 'Stock Location')">08 Stock Location</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-pos" class="page erpModulePage">
+<div class="box">
+<h2>12 💵 POS / Billing</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="pos billing" onclick="openERPFunction(this.dataset.search, 'POS Billing')">01 POS Billing</button><button class="action erpAction" data-search="barcode billing" onclick="openERPFunction(this.dataset.search, 'Barcode Billing')">02 Barcode Billing</button><button class="action erpAction" data-search="quick sale" onclick="openERPFunction(this.dataset.search, 'Quick Sale')">03 Quick Sale</button><button class="action erpAction" data-search="cash sale" onclick="openERPFunction(this.dataset.search, 'Cash Sale')">04 Cash Sale</button><button class="action erpAction" data-search="credit sale" onclick="openERPFunction(this.dataset.search, 'Credit Sale')">05 Credit Sale</button><button class="action erpAction" data-search="discount" onclick="openERPFunction(this.dataset.search, 'Discount')">06 Discount</button><button class="action erpAction" data-search="returns" onclick="openERPFunction(this.dataset.search, 'Returns')">07 Returns</button><button class="action erpAction" data-search="cash drawer" onclick="openERPFunction(this.dataset.search, 'Cash Drawer')">08 Cash Drawer</button><button class="action erpAction" data-search="day closing" onclick="openERPFunction(this.dataset.search, 'Day Closing')">09 Day Closing</button><button class="action erpAction" data-search="pos reports" onclick="openERPFunction(this.dataset.search, 'POS Reports')">10 POS Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-accounts" class="page erpModulePage">
+<div class="box">
+<h2>13 💳 Accounts</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="cash book" onclick="openERPFunction(this.dataset.search, 'Cash Book')">01 Cash Book</button><button class="action erpAction" data-search="bank book" onclick="openERPFunction(this.dataset.search, 'Bank Book')">02 Bank Book</button><button class="action erpAction" data-search="ledger" onclick="openERPFunction(this.dataset.search, 'Ledger')">03 Ledger</button><button class="action erpAction" data-search="journal" onclick="openERPFunction(this.dataset.search, 'Journal')">04 Journal</button><button class="action erpAction" data-search="receivable" onclick="openERPFunction(this.dataset.search, 'Receivable')">05 Receivable</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">06 Payable</button><button class="action erpAction" data-search="income" onclick="openERPFunction(this.dataset.search, 'Income')">07 Income</button><button class="action erpAction" data-search="expense" onclick="openERPFunction(this.dataset.search, 'Expense')">08 Expense</button><button class="action erpAction" data-search="trial balance" onclick="openERPFunction(this.dataset.search, 'Trial Balance')">09 Trial Balance</button><button class="action erpAction" data-search="profit & loss" onclick="openERPFunction(this.dataset.search, 'Profit & Loss')">10 Profit & Loss</button><button class="action erpAction" data-search="balance sheet" onclick="openERPFunction(this.dataset.search, 'Balance Sheet')">11 Balance Sheet</button><button class="action erpAction" data-search="day book" onclick="openERPFunction(this.dataset.search, 'Day Book')">12 Day Book</button><button class="action erpAction" data-search="bank reconciliation" onclick="openERPFunction(this.dataset.search, 'Bank Reconciliation')">13 Bank Reconciliation</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-gst" class="page erpModulePage">
+<div class="box">
+<h2>14 🇮🇳 GST / Tax</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="gst settings" onclick="openERPFunction(this.dataset.search, 'GST Settings')">01 GST Settings</button><button class="action erpAction" data-search="tax rates" onclick="openERPFunction(this.dataset.search, 'Tax Rates')">02 Tax Rates</button><button class="action erpAction" data-search="cgst" onclick="openERPFunction(this.dataset.search, 'CGST')">03 CGST</button><button class="action erpAction" data-search="sgst" onclick="openERPFunction(this.dataset.search, 'SGST')">04 SGST</button><button class="action erpAction" data-search="igst" onclick="openERPFunction(this.dataset.search, 'IGST')">05 IGST</button><button class="action erpAction" data-search="hsn/sac" onclick="openERPFunction(this.dataset.search, 'HSN/SAC')">06 HSN/SAC</button><button class="action erpAction" data-search="tax invoice" onclick="openERPFunction(this.dataset.search, 'Tax Invoice')">07 Tax Invoice</button><button class="action erpAction" data-search="credit note" onclick="openERPFunction(this.dataset.search, 'Credit Note')">08 Credit Note</button><button class="action erpAction" data-search="debit note" onclick="openERPFunction(this.dataset.search, 'Debit Note')">09 Debit Note</button><button class="action erpAction" data-search="gst reports" onclick="openERPFunction(this.dataset.search, 'GST Reports')">10 GST Reports</button><button class="action erpAction" data-search="tax summary" onclick="openERPFunction(this.dataset.search, 'Tax Summary')">11 Tax Summary</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-crm" class="page erpModulePage">
+<div class="box">
+<h2>15 🤝 CRM</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="leads" onclick="openERPFunction(this.dataset.search, 'Leads')">01 Leads</button><button class="action erpAction" data-search="enquiries" onclick="openERPFunction(this.dataset.search, 'Enquiries')">02 Enquiries</button><button class="action erpAction" data-search="follow-ups" onclick="openERPFunction(this.dataset.search, 'Follow-ups')">03 Follow-ups</button><button class="action erpAction" data-search="opportunities" onclick="openERPFunction(this.dataset.search, 'Opportunities')">04 Opportunities</button><button class="action erpAction" data-search="customer communication" onclick="openERPFunction(this.dataset.search, 'Customer Communication')">05 Customer Communication</button><button class="action erpAction" data-search="sales pipeline" onclick="openERPFunction(this.dataset.search, 'Sales Pipeline')">06 Sales Pipeline</button><button class="action erpAction" data-search="tasks" onclick="openERPFunction(this.dataset.search, 'Tasks')">07 Tasks</button><button class="action erpAction" data-search="reminders" onclick="openERPFunction(this.dataset.search, 'Reminders')">08 Reminders</button><button class="action erpAction" data-search="crm reports" onclick="openERPFunction(this.dataset.search, 'CRM Reports')">09 CRM Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-hr" class="page erpModulePage">
+<div class="box">
+<h2>16 👨‍💼 HR & Payroll</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="employee master" onclick="openERPFunction(this.dataset.search, 'Employee Master')">01 Employee Master</button><button class="action erpAction" data-search="departments" onclick="openERPFunction(this.dataset.search, 'Departments')">02 Departments</button><button class="action erpAction" data-search="designations" onclick="openERPFunction(this.dataset.search, 'Designations')">03 Designations</button><button class="action erpAction" data-search="attendance" onclick="openERPFunction(this.dataset.search, 'Attendance')">04 Attendance</button><button class="action erpAction" data-search="leave" onclick="openERPFunction(this.dataset.search, 'Leave')">05 Leave</button><button class="action erpAction" data-search="salary" onclick="openERPFunction(this.dataset.search, 'Salary')">06 Salary</button><button class="action erpAction" data-search="payroll" onclick="openERPFunction(this.dataset.search, 'Payroll')">07 Payroll</button><button class="action erpAction" data-search="advance" onclick="openERPFunction(this.dataset.search, 'Advance')">08 Advance</button><button class="action erpAction" data-search="incentive" onclick="openERPFunction(this.dataset.search, 'Incentive')">09 Incentive</button><button class="action erpAction" data-search="commission" onclick="openERPFunction(this.dataset.search, 'Commission')">10 Commission</button><button class="action erpAction" data-search="employee documents" onclick="openERPFunction(this.dataset.search, 'Employee Documents')">11 Employee Documents</button><button class="action erpAction" data-search="hr reports" onclick="openERPFunction(this.dataset.search, 'HR Reports')">12 HR Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-manufacturing" class="page erpModulePage">
+<div class="box">
+<h2>17 🏭 Manufacturing</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="bom" onclick="openERPFunction(this.dataset.search, 'BOM')">01 BOM</button><button class="action erpAction" data-search="production planning" onclick="openERPFunction(this.dataset.search, 'Production Planning')">02 Production Planning</button><button class="action erpAction" data-search="work order" onclick="openERPFunction(this.dataset.search, 'Work Order')">03 Work Order</button><button class="action erpAction" data-search="raw material" onclick="openERPFunction(this.dataset.search, 'Raw Material')">04 Raw Material</button><button class="action erpAction" data-search="production" onclick="openERPFunction(this.dataset.search, 'Production')">05 Production</button><button class="action erpAction" data-search="finished goods" onclick="openERPFunction(this.dataset.search, 'Finished Goods')">06 Finished Goods</button><button class="action erpAction" data-search="wastage" onclick="openERPFunction(this.dataset.search, 'Wastage')">07 Wastage</button><button class="action erpAction" data-search="job work" onclick="openERPFunction(this.dataset.search, 'Job Work')">08 Job Work</button><button class="action erpAction" data-search="production cost" onclick="openERPFunction(this.dataset.search, 'Production Cost')">09 Production Cost</button><button class="action erpAction" data-search="manufacturing reports" onclick="openERPFunction(this.dataset.search, 'Manufacturing Reports')">10 Manufacturing Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-service" class="page erpModulePage">
+<div class="box">
+<h2>18 🔧 Service Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="service request" onclick="openERPFunction(this.dataset.search, 'Service Request')">01 Service Request</button><button class="action erpAction" data-search="service ticket" onclick="openERPFunction(this.dataset.search, 'Service Ticket')">02 Service Ticket</button><button class="action erpAction" data-search="job card" onclick="openERPFunction(this.dataset.search, 'Job Card')">03 Job Card</button><button class="action erpAction" data-search="technician" onclick="openERPFunction(this.dataset.search, 'Technician')">04 Technician</button><button class="action erpAction" data-search="service schedule" onclick="openERPFunction(this.dataset.search, 'Service Schedule')">05 Service Schedule</button><button class="action erpAction" data-search="spare parts" onclick="openERPFunction(this.dataset.search, 'Spare Parts')">06 Spare Parts</button><button class="action erpAction" data-search="service invoice" onclick="openERPFunction(this.dataset.search, 'Service Invoice')">07 Service Invoice</button><button class="action erpAction" data-search="warranty" onclick="openERPFunction(this.dataset.search, 'Warranty')">08 Warranty</button><button class="action erpAction" data-search="amc" onclick="openERPFunction(this.dataset.search, 'AMC')">09 AMC</button><button class="action erpAction" data-search="service reports" onclick="openERPFunction(this.dataset.search, 'Service Reports')">10 Service Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-projects" class="page erpModulePage">
+<div class="box">
+<h2>19 📋 Project Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="projects" onclick="openERPFunction(this.dataset.search, 'Projects')">01 Projects</button><button class="action erpAction" data-search="tasks" onclick="openERPFunction(this.dataset.search, 'Tasks')">02 Tasks</button><button class="action erpAction" data-search="milestones" onclick="openERPFunction(this.dataset.search, 'Milestones')">03 Milestones</button><button class="action erpAction" data-search="team" onclick="openERPFunction(this.dataset.search, 'Team')">04 Team</button><button class="action erpAction" data-search="project expenses" onclick="openERPFunction(this.dataset.search, 'Project Expenses')">05 Project Expenses</button><button class="action erpAction" data-search="project billing" onclick="openERPFunction(this.dataset.search, 'Project Billing')">06 Project Billing</button><button class="action erpAction" data-search="project profitability" onclick="openERPFunction(this.dataset.search, 'Project Profitability')">07 Project Profitability</button><button class="action erpAction" data-search="project reports" onclick="openERPFunction(this.dataset.search, 'Project Reports')">08 Project Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-transport" class="page erpModulePage">
+<div class="box">
+<h2>20 🚛 Transport / Delivery</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="delivery planning" onclick="openERPFunction(this.dataset.search, 'Delivery Planning')">01 Delivery Planning</button><button class="action erpAction" data-search="vehicle" onclick="openERPFunction(this.dataset.search, 'Vehicle')">02 Vehicle</button><button class="action erpAction" data-search="driver" onclick="openERPFunction(this.dataset.search, 'Driver')">03 Driver</button><button class="action erpAction" data-search="dispatch" onclick="openERPFunction(this.dataset.search, 'Dispatch')">04 Dispatch</button><button class="action erpAction" data-search="delivery tracking" onclick="openERPFunction(this.dataset.search, 'Delivery Tracking')">05 Delivery Tracking</button><button class="action erpAction" data-search="transport charges" onclick="openERPFunction(this.dataset.search, 'Transport Charges')">06 Transport Charges</button><button class="action erpAction" data-search="delivery status" onclick="openERPFunction(this.dataset.search, 'Delivery Status')">07 Delivery Status</button><button class="action erpAction" data-search="transport reports" onclick="openERPFunction(this.dataset.search, 'Transport Reports')">08 Transport Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-expenses" class="page erpModulePage">
+<div class="box">
+<h2>21 💸 Expense Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="expense entry" onclick="openERPFunction(this.dataset.search, 'Expense Entry')">01 Expense Entry</button><button class="action erpAction" data-search="expense category" onclick="openERPFunction(this.dataset.search, 'Expense Category')">02 Expense Category</button><button class="action erpAction" data-search="employee expense" onclick="openERPFunction(this.dataset.search, 'Employee Expense')">03 Employee Expense</button><button class="action erpAction" data-search="business expense" onclick="openERPFunction(this.dataset.search, 'Business Expense')">04 Business Expense</button><button class="action erpAction" data-search="recurring expense" onclick="openERPFunction(this.dataset.search, 'Recurring Expense')">05 Recurring Expense</button><button class="action erpAction" data-search="expense approval" onclick="openERPFunction(this.dataset.search, 'Expense Approval')">06 Expense Approval</button><button class="action erpAction" data-search="expense reports" onclick="openERPFunction(this.dataset.search, 'Expense Reports')">07 Expense Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-assets" class="page erpModulePage">
+<div class="box">
+<h2>22 🏢 Asset Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="asset master" onclick="openERPFunction(this.dataset.search, 'Asset Master')">01 Asset Master</button><button class="action erpAction" data-search="asset allocation" onclick="openERPFunction(this.dataset.search, 'Asset Allocation')">02 Asset Allocation</button><button class="action erpAction" data-search="asset transfer" onclick="openERPFunction(this.dataset.search, 'Asset Transfer')">03 Asset Transfer</button><button class="action erpAction" data-search="maintenance" onclick="openERPFunction(this.dataset.search, 'Maintenance')">04 Maintenance</button><button class="action erpAction" data-search="depreciation" onclick="openERPFunction(this.dataset.search, 'Depreciation')">05 Depreciation</button><button class="action erpAction" data-search="asset disposal" onclick="openERPFunction(this.dataset.search, 'Asset Disposal')">06 Asset Disposal</button><button class="action erpAction" data-search="asset reports" onclick="openERPFunction(this.dataset.search, 'Asset Reports')">07 Asset Reports</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-reports" class="page erpModulePage">
+<div class="box">
+<h2>23 📈 Reports & Analytics</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="sales reports" onclick="openERPFunction(this.dataset.search, 'Sales Reports')">01 Sales Reports</button><button class="action erpAction" data-search="purchase reports" onclick="openERPFunction(this.dataset.search, 'Purchase Reports')">02 Purchase Reports</button><button class="action erpAction" data-search="stock reports" onclick="openERPFunction(this.dataset.search, 'Stock Reports')">03 Stock Reports</button><button class="action erpAction" data-search="accounts reports" onclick="openERPFunction(this.dataset.search, 'Accounts Reports')">04 Accounts Reports</button><button class="action erpAction" data-search="gst reports" onclick="openERPFunction(this.dataset.search, 'GST Reports')">05 GST Reports</button><button class="action erpAction" data-search="customer reports" onclick="openERPFunction(this.dataset.search, 'Customer Reports')">06 Customer Reports</button><button class="action erpAction" data-search="supplier reports" onclick="openERPFunction(this.dataset.search, 'Supplier Reports')">07 Supplier Reports</button><button class="action erpAction" data-search="hr reports" onclick="openERPFunction(this.dataset.search, 'HR Reports')">08 HR Reports</button><button class="action erpAction" data-search="expense reports" onclick="openERPFunction(this.dataset.search, 'Expense Reports')">09 Expense Reports</button><button class="action erpAction" data-search="profit reports" onclick="openERPFunction(this.dataset.search, 'Profit Reports')">10 Profit Reports</button><button class="action erpAction" data-search="business analytics" onclick="openERPFunction(this.dataset.search, 'Business Analytics')">11 Business Analytics</button><button class="action erpAction" data-search="custom reports" onclick="openERPFunction(this.dataset.search, 'Custom Reports')">12 Custom Reports</button><button class="action erpAction" data-search="excel export" onclick="openERPFunction(this.dataset.search, 'Excel Export')">13 Excel Export</button><button class="action erpAction" data-search="pdf export" onclick="openERPFunction(this.dataset.search, 'PDF Export')">14 PDF Export</button><button class="action erpAction" data-search="print" onclick="openERPFunction(this.dataset.search, 'Print')">15 Print</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-notifications" class="page erpModulePage">
+<div class="box">
+<h2>24 🔔 Notification Center</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="payment reminder" onclick="openERPFunction(this.dataset.search, 'Payment Reminder')">01 Payment Reminder</button><button class="action erpAction" data-search="stock alert" onclick="openERPFunction(this.dataset.search, 'Stock Alert')">02 Stock Alert</button><button class="action erpAction" data-search="order alert" onclick="openERPFunction(this.dataset.search, 'Order Alert')">03 Order Alert</button><button class="action erpAction" data-search="invoice alert" onclick="openERPFunction(this.dataset.search, 'Invoice Alert')">04 Invoice Alert</button><button class="action erpAction" data-search="task reminder" onclick="openERPFunction(this.dataset.search, 'Task Reminder')">05 Task Reminder</button><button class="action erpAction" data-search="subscription alert" onclick="openERPFunction(this.dataset.search, 'Subscription Alert')">06 Subscription Alert</button><button class="action erpAction" data-search="system notification" onclick="openERPFunction(this.dataset.search, 'System Notification')">07 System Notification</button><button class="action erpAction" data-search="email" onclick="openERPFunction(this.dataset.search, 'Email')">08 Email</button><button class="action erpAction" data-search="whatsapp notification" onclick="openERPFunction(this.dataset.search, 'WhatsApp Notification')">09 WhatsApp Notification</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-cloud" class="page erpModulePage">
+<div class="box">
+<h2>25 ☁️ Cloud & Database</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="cloud database" onclick="openERPFunction(this.dataset.search, 'Cloud Database')">01 Cloud Database</button><button class="action erpAction" data-search="data sync" onclick="openERPFunction(this.dataset.search, 'Data Sync')">02 Data Sync</button><button class="action erpAction" data-search="automatic backup" onclick="openERPFunction(this.dataset.search, 'Automatic Backup')">03 Automatic Backup</button><button class="action erpAction" data-search="manual backup" onclick="openERPFunction(this.dataset.search, 'Manual Backup')">04 Manual Backup</button><button class="action erpAction" data-search="restore" onclick="openERPFunction(this.dataset.search, 'Restore')">05 Restore</button><button class="action erpAction" data-search="database management" onclick="openERPFunction(this.dataset.search, 'Database Management')">06 Database Management</button><button class="action erpAction" data-search="data import" onclick="openERPFunction(this.dataset.search, 'Data Import')">07 Data Import</button><button class="action erpAction" data-search="data export" onclick="openERPFunction(this.dataset.search, 'Data Export')">08 Data Export</button><button class="action erpAction" data-search="storage management" onclick="openERPFunction(this.dataset.search, 'Storage Management')">09 Storage Management</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-integrations" class="page erpModulePage">
+<div class="box">
+<h2>26 🔗 Integrations</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="whatsapp" onclick="openERPFunction(this.dataset.search, 'WhatsApp')">01 WhatsApp</button><button class="action erpAction" data-search="email" onclick="openERPFunction(this.dataset.search, 'Email')">02 Email</button><button class="action erpAction" data-search="sms" onclick="openERPFunction(this.dataset.search, 'SMS')">03 SMS</button><button class="action erpAction" data-search="payment gateway" onclick="openERPFunction(this.dataset.search, 'Payment Gateway')">04 Payment Gateway</button><button class="action erpAction" data-search="printer" onclick="openERPFunction(this.dataset.search, 'Printer')">05 Printer</button><button class="action erpAction" data-search="barcode scanner" onclick="openERPFunction(this.dataset.search, 'Barcode Scanner')">06 Barcode Scanner</button><button class="action erpAction" data-search="qr scanner" onclick="openERPFunction(this.dataset.search, 'QR Scanner')">07 QR Scanner</button><button class="action erpAction" data-search="excel" onclick="openERPFunction(this.dataset.search, 'Excel')">08 Excel</button><button class="action erpAction" data-search="pdf" onclick="openERPFunction(this.dataset.search, 'PDF')">09 PDF</button><button class="action erpAction" data-search="api" onclick="openERPFunction(this.dataset.search, 'API')">10 API</button><button class="action erpAction" data-search="third-party integration" onclick="openERPFunction(this.dataset.search, 'Third-party Integration')">11 Third-party Integration</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-customization" class="page erpModulePage">
+<div class="box">
+<h2>27 🎨 Customization</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="company logo" onclick="openERPFunction(this.dataset.search, 'Company Logo')">01 Company Logo</button><button class="action erpAction" data-search="theme" onclick="openERPFunction(this.dataset.search, 'Theme')">02 Theme</button><button class="action erpAction" data-search="invoice design" onclick="openERPFunction(this.dataset.search, 'Invoice Design')">03 Invoice Design</button><button class="action erpAction" data-search="print format" onclick="openERPFunction(this.dataset.search, 'Print Format')">04 Print Format</button><button class="action erpAction" data-search="custom fields" onclick="openERPFunction(this.dataset.search, 'Custom Fields')">05 Custom Fields</button><button class="action erpAction" data-search="custom forms" onclick="openERPFunction(this.dataset.search, 'Custom Forms')">06 Custom Forms</button><button class="action erpAction" data-search="custom reports" onclick="openERPFunction(this.dataset.search, 'Custom Reports')">07 Custom Reports</button><button class="action erpAction" data-search="menu customization" onclick="openERPFunction(this.dataset.search, 'Menu Customization')">08 Menu Customization</button><button class="action erpAction" data-search="module on/off" onclick="openERPFunction(this.dataset.search, 'Module ON/OFF')">09 Module ON/OFF</button><button class="action erpAction" data-search="business-specific configuration" onclick="openERPFunction(this.dataset.search, 'Business-specific Configuration')">10 Business-specific Configuration</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-license" class="page erpModulePage">
+<div class="box">
+<h2>28 🔑 License Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="license creation" onclick="openERPFunction(this.dataset.search, 'License Creation')">01 License Creation</button><button class="action erpAction" data-search="license key" onclick="openERPFunction(this.dataset.search, 'License Key')">02 License Key</button><button class="action erpAction" data-search="activation" onclick="openERPFunction(this.dataset.search, 'Activation')">03 Activation</button><button class="action erpAction" data-search="deactivation" onclick="openERPFunction(this.dataset.search, 'Deactivation')">04 Deactivation</button><button class="action erpAction" data-search="device limit" onclick="openERPFunction(this.dataset.search, 'Device Limit')">05 Device Limit</button><button class="action erpAction" data-search="user limit" onclick="openERPFunction(this.dataset.search, 'User Limit')">06 User Limit</button><button class="action erpAction" data-search="branch limit" onclick="openERPFunction(this.dataset.search, 'Branch Limit')">07 Branch Limit</button><button class="action erpAction" data-search="module limit" onclick="openERPFunction(this.dataset.search, 'Module Limit')">08 Module Limit</button><button class="action erpAction" data-search="trial license" onclick="openERPFunction(this.dataset.search, 'Trial License')">09 Trial License</button><button class="action erpAction" data-search="license expiry" onclick="openERPFunction(this.dataset.search, 'License Expiry')">10 License Expiry</button><button class="action erpAction" data-search="license renewal" onclick="openERPFunction(this.dataset.search, 'License Renewal')">11 License Renewal</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-subscription" class="page erpModulePage">
+<div class="box">
+<h2>29 💎 Subscription & Plans</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="free trial" onclick="openERPFunction(this.dataset.search, 'Free Trial')">01 Free Trial</button><button class="action erpAction" data-search="basic plan" onclick="openERPFunction(this.dataset.search, 'Basic Plan')">02 Basic Plan</button><button class="action erpAction" data-search="standard plan" onclick="openERPFunction(this.dataset.search, 'Standard Plan')">03 Standard Plan</button><button class="action erpAction" data-search="professional plan" onclick="openERPFunction(this.dataset.search, 'Professional Plan')">04 Professional Plan</button><button class="action erpAction" data-search="enterprise plan" onclick="openERPFunction(this.dataset.search, 'Enterprise Plan')">05 Enterprise Plan</button><button class="action erpAction" data-search="monthly plan" onclick="openERPFunction(this.dataset.search, 'Monthly Plan')">06 Monthly Plan</button><button class="action erpAction" data-search="yearly plan" onclick="openERPFunction(this.dataset.search, 'Yearly Plan')">07 Yearly Plan</button><button class="action erpAction" data-search="add-on modules" onclick="openERPFunction(this.dataset.search, 'Add-on Modules')">08 Add-on Modules</button><button class="action erpAction" data-search="user add-ons" onclick="openERPFunction(this.dataset.search, 'User Add-ons')">09 User Add-ons</button><button class="action erpAction" data-search="branch add-ons" onclick="openERPFunction(this.dataset.search, 'Branch Add-ons')">10 Branch Add-ons</button><button class="action erpAction" data-search="plan upgrade/downgrade" onclick="openERPFunction(this.dataset.search, 'Plan Upgrade/Downgrade')">11 Plan Upgrade/Downgrade</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-payment" class="page erpModulePage">
+<div class="box">
+<h2>30 💰 Payment Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="subscription payment" onclick="openERPFunction(this.dataset.search, 'Subscription Payment')">01 Subscription Payment</button><button class="action erpAction" data-search="invoice" onclick="openERPFunction(this.dataset.search, 'Invoice')">02 Invoice</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">03 Payment History</button><button class="action erpAction" data-search="pending payment" onclick="openERPFunction(this.dataset.search, 'Pending Payment')">04 Pending Payment</button><button class="action erpAction" data-search="refund" onclick="openERPFunction(this.dataset.search, 'Refund')">05 Refund</button><button class="action erpAction" data-search="payment gateway" onclick="openERPFunction(this.dataset.search, 'Payment Gateway')">06 Payment Gateway</button><button class="action erpAction" data-search="transaction history" onclick="openERPFunction(this.dataset.search, 'Transaction History')">07 Transaction History</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-support" class="page erpModulePage">
+<div class="box">
+<h2>31 🎧 Support / Tickets</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="new ticket" onclick="openERPFunction(this.dataset.search, 'New Ticket')">01 New Ticket</button><button class="action erpAction" data-search="customer support" onclick="openERPFunction(this.dataset.search, 'Customer Support')">02 Customer Support</button><button class="action erpAction" data-search="ticket status" onclick="openERPFunction(this.dataset.search, 'Ticket Status')">03 Ticket Status</button><button class="action erpAction" data-search="priority" onclick="openERPFunction(this.dataset.search, 'Priority')">04 Priority</button><button class="action erpAction" data-search="assign staff" onclick="openERPFunction(this.dataset.search, 'Assign Staff')">05 Assign Staff</button><button class="action erpAction" data-search="support history" onclick="openERPFunction(this.dataset.search, 'Support History')">06 Support History</button><button class="action erpAction" data-search="knowledge base" onclick="openERPFunction(this.dataset.search, 'Knowledge Base')">07 Knowledge Base</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-logs" class="page erpModulePage">
+<div class="box">
+<h2>32 📝 Activity & Error Log</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="user activity" onclick="openERPFunction(this.dataset.search, 'User Activity')">01 User Activity</button><button class="action erpAction" data-search="login history" onclick="openERPFunction(this.dataset.search, 'Login History')">02 Login History</button><button class="action erpAction" data-search="data changes" onclick="openERPFunction(this.dataset.search, 'Data Changes')">03 Data Changes</button><button class="action erpAction" data-search="deleted records" onclick="openERPFunction(this.dataset.search, 'Deleted Records')">04 Deleted Records</button><button class="action erpAction" data-search="error logs" onclick="openERPFunction(this.dataset.search, 'Error Logs')">05 Error Logs</button><button class="action erpAction" data-search="api logs" onclick="openERPFunction(this.dataset.search, 'API Logs')">06 API Logs</button><button class="action erpAction" data-search="system logs" onclick="openERPFunction(this.dataset.search, 'System Logs')">07 System Logs</button><button class="action erpAction" data-search="security logs" onclick="openERPFunction(this.dataset.search, 'Security Logs')">08 Security Logs</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-app" class="page erpModulePage">
+<div class="box">
+<h2>33 📱 App Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="web app" onclick="openERPFunction(this.dataset.search, 'Web App')">01 Web App</button><button class="action erpAction" data-search="android app" onclick="openERPFunction(this.dataset.search, 'Android App')">02 Android App</button><button class="action erpAction" data-search="windows app" onclick="openERPFunction(this.dataset.search, 'Windows App')">03 Windows App</button><button class="action erpAction" data-search="app configuration" onclick="openERPFunction(this.dataset.search, 'App Configuration')">04 App Configuration</button><button class="action erpAction" data-search="app permissions" onclick="openERPFunction(this.dataset.search, 'App Permissions')">05 App Permissions</button><button class="action erpAction" data-search="app notifications" onclick="openERPFunction(this.dataset.search, 'App Notifications')">06 App Notifications</button><button class="action erpAction" data-search="app settings" onclick="openERPFunction(this.dataset.search, 'App Settings')">07 App Settings</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-apk" class="page erpModulePage">
+<div class="box">
+<h2>34 📦 APK Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="android app" onclick="openERPFunction(this.dataset.search, 'Android App')">01 Android App</button><button class="action erpAction" data-search="build" onclick="openERPFunction(this.dataset.search, 'Build')">02 Build</button><button class="action erpAction" data-search="version" onclick="openERPFunction(this.dataset.search, 'Version')">03 Version</button><button class="action erpAction" data-search="release" onclick="openERPFunction(this.dataset.search, 'Release')">04 Release</button><button class="action erpAction" data-search="update" onclick="openERPFunction(this.dataset.search, 'Update')">05 Update</button><button class="action erpAction" data-search="force update" onclick="openERPFunction(this.dataset.search, 'Force Update')">06 Force Update</button><button class="action erpAction" data-search="download control" onclick="openERPFunction(this.dataset.search, 'Download Control')">07 Download Control</button><button class="action erpAction" data-search="app configuration" onclick="openERPFunction(this.dataset.search, 'App Configuration')">08 App Configuration</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-exe" class="page erpModulePage">
+<div class="box">
+<h2>35 🖥️ EXE Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="windows exe" onclick="openERPFunction(this.dataset.search, 'Windows EXE')">01 Windows EXE</button><button class="action erpAction" data-search="build" onclick="openERPFunction(this.dataset.search, 'Build')">02 Build</button><button class="action erpAction" data-search="version" onclick="openERPFunction(this.dataset.search, 'Version')">03 Version</button><button class="action erpAction" data-search="release" onclick="openERPFunction(this.dataset.search, 'Release')">04 Release</button><button class="action erpAction" data-search="auto update" onclick="openERPFunction(this.dataset.search, 'Auto Update')">05 Auto Update</button><button class="action erpAction" data-search="configuration" onclick="openERPFunction(this.dataset.search, 'Configuration')">06 Configuration</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-updates" class="page erpModulePage">
+<div class="box">
+<h2>36 🔄 Version & Update Management</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="current version" onclick="openERPFunction(this.dataset.search, 'Current Version')">01 Current Version</button><button class="action erpAction" data-search="new version" onclick="openERPFunction(this.dataset.search, 'New Version')">02 New Version</button><button class="action erpAction" data-search="update notes" onclick="openERPFunction(this.dataset.search, 'Update Notes')">03 Update Notes</button><button class="action erpAction" data-search="force update" onclick="openERPFunction(this.dataset.search, 'Force Update')">04 Force Update</button><button class="action erpAction" data-search="optional update" onclick="openERPFunction(this.dataset.search, 'Optional Update')">05 Optional Update</button><button class="action erpAction" data-search="module update" onclick="openERPFunction(this.dataset.search, 'Module Update')">06 Module Update</button><button class="action erpAction" data-search="database migration" onclick="openERPFunction(this.dataset.search, 'Database Migration')">07 Database Migration</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-developer" class="page erpModulePage">
+<div class="box">
+<h2>37 🧑‍💻 Developer Console</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="customer management" onclick="openERPFunction(this.dataset.search, 'Customer Management')">01 Customer Management</button><button class="action erpAction" data-search="company management" onclick="openERPFunction(this.dataset.search, 'Company Management')">02 Company Management</button><button class="action erpAction" data-search="license management" onclick="openERPFunction(this.dataset.search, 'License Management')">03 License Management</button><button class="action erpAction" data-search="subscription management" onclick="openERPFunction(this.dataset.search, 'Subscription Management')">04 Subscription Management</button><button class="action erpAction" data-search="module management" onclick="openERPFunction(this.dataset.search, 'Module Management')">05 Module Management</button><button class="action erpAction" data-search="user management" onclick="openERPFunction(this.dataset.search, 'User Management')">06 User Management</button><button class="action erpAction" data-search="database management" onclick="openERPFunction(this.dataset.search, 'Database Management')">07 Database Management</button><button class="action erpAction" data-search="backup management" onclick="openERPFunction(this.dataset.search, 'Backup Management')">08 Backup Management</button><button class="action erpAction" data-search="apk management" onclick="openERPFunction(this.dataset.search, 'APK Management')">09 APK Management</button><button class="action erpAction" data-search="exe management" onclick="openERPFunction(this.dataset.search, 'EXE Management')">10 EXE Management</button><button class="action erpAction" data-search="version management" onclick="openERPFunction(this.dataset.search, 'Version Management')">11 Version Management</button><button class="action erpAction" data-search="feature control" onclick="openERPFunction(this.dataset.search, 'Feature Control')">12 Feature Control</button><button class="action erpAction" data-search="system logs" onclick="openERPFunction(this.dataset.search, 'System Logs')">13 System Logs</button><button class="action erpAction" data-search="error logs" onclick="openERPFunction(this.dataset.search, 'Error Logs')">14 Error Logs</button><button class="action erpAction" data-search="support" onclick="openERPFunction(this.dataset.search, 'Support')">15 Support</button><button class="action erpAction" data-search="notifications" onclick="openERPFunction(this.dataset.search, 'Notifications')">16 Notifications</button><button class="action erpAction" data-search="developer settings" onclick="openERPFunction(this.dataset.search, 'Developer Settings')">17 Developer Settings</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp-settings" class="page erpModulePage">
+<div class="box">
+<h2>38 ⚙️ System Settings</h2>
+<div class="erpTools">
+<input class="moduleSearch" placeholder="🔎 Search this module..." oninput="filterModule(this)">
+<button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
+</div>
+<div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
+<div class="actions"><button class="action erpAction" data-search="general settings" onclick="openERPFunction(this.dataset.search, 'General Settings')">01 General Settings</button><button class="action erpAction" data-search="security" onclick="openERPFunction(this.dataset.search, 'Security')">02 Security</button><button class="action erpAction" data-search="login" onclick="openERPFunction(this.dataset.search, 'Login')">03 Login</button><button class="action erpAction" data-search="password" onclick="openERPFunction(this.dataset.search, 'Password')">04 Password</button><button class="action erpAction" data-search="two-factor authentication" onclick="openERPFunction(this.dataset.search, 'Two-Factor Authentication')">05 Two-Factor Authentication</button><button class="action erpAction" data-search="tax" onclick="openERPFunction(this.dataset.search, 'Tax')">06 Tax</button><button class="action erpAction" data-search="invoice" onclick="openERPFunction(this.dataset.search, 'Invoice')">07 Invoice</button><button class="action erpAction" data-search="number series" onclick="openERPFunction(this.dataset.search, 'Number Series')">08 Number Series</button><button class="action erpAction" data-search="currency" onclick="openERPFunction(this.dataset.search, 'Currency')">09 Currency</button><button class="action erpAction" data-search="language" onclick="openERPFunction(this.dataset.search, 'Language')">10 Language</button><button class="action erpAction" data-search="date/time" onclick="openERPFunction(this.dataset.search, 'Date/Time')">11 Date/Time</button><button class="action erpAction" data-search="notification" onclick="openERPFunction(this.dataset.search, 'Notification')">12 Notification</button><button class="action erpAction" data-search="backup" onclick="openERPFunction(this.dataset.search, 'Backup')">13 Backup</button><button class="action erpAction" data-search="database" onclick="openERPFunction(this.dataset.search, 'Database')">14 Database</button><button class="action erpAction" data-search="api" onclick="openERPFunction(this.dataset.search, 'API')">15 API</button><button class="action erpAction" data-search="email/sms" onclick="openERPFunction(this.dataset.search, 'Email/SMS')">16 Email/SMS</button><button class="action erpAction" data-search="payment" onclick="openERPFunction(this.dataset.search, 'Payment')">17 Payment</button><button class="action erpAction" data-search="system preferences" onclick="openERPFunction(this.dataset.search, 'System Preferences')">18 System Preferences</button></div>
+</div>
+<div class="box">
+<h3>Quick Setup</h3>
+<p>Configure only what this business needs. Unused modules can be switched OFF from <b>Customization → Module ON/OFF</b>.</p>
+</div>
+</section>
+<section id="erp" class="page"><div class="box"><h2>🏢 ERP Software Developer</h2><p><b>This is the main ERP development area.</b> All 38 modules are grouped by their actual business purpose. Open a module to use its related functions without searching through unrelated options.</p>
+<div class="status">Commercial ERP principle: one module → all related functions → simple workflow → customer-wise ON/OFF.</div>
 <div class="actions">
 <div class="action" onclick="showPage('newerp')">01 ➕ New ERP Software</div>
 <div class="action" onclick="showPage('business')">02 🏪 Business Details</div>
@@ -213,7 +818,7 @@ background:#fafafa!important;color:#222;cursor:pointer}
 <section id="programs" class="page"><div class="box"><h2>🟢 Active Programs</h2><p>Real customer projects are managed here.</p></div></section>
 <section id="demo" class="page"><div class="box"><h2>🧪 Demo / Fictional Programs</h2><p>Testing and fictional projects are kept separately from active projects.</p></div></section>
 <section id="quick" class="page"><div class="box"><h2>⚡ Quick Action</h2><p>Fast access to the most-used development functions.</p></div></section>
-<section id="build" class="page"><div class="box"><h2>🛠️ Build Center</h2><div class="actions"><div class="action">🌐 Web ERP Build</div><div class="action">📱 Android APK</div><div class="action">💻 Windows EXE</div><div class="action">📦 Export Project</div></div></div></section>
+<section id="build" class="page"><div class="box"><h2>🛠️ Build Center</h2><div class="actions"><div class="action">🌐 Web ERP Build</div><div class="action">📱 Android APK</div><div class="action">💻 Windows EXE</div><div class="action" onclick="showPage('erp-developer')">🧑‍💻 Developer Console</div><div class="action">📦 Export Project</div></div></div></section>
 <section id="firebase" class="page"><div class="box"><h2>🔥 Firebase / Database</h2><p>Cloud database connection can be added here later without disturbing the ERP menu structure.</p></div></section>
 <section id="settings" class="page"><div class="box"><h2>⚙️ Settings</h2><p>Developer and application settings.</p></div></section>
 
@@ -260,6 +865,17 @@ function createERP(){var n=document.getElementById('pname').value.trim();if(!n){
 function createApp(){var n=document.getElementById('appname').value.trim();if(!n){alert('App Name required.');return}alert('Android App project created: '+n);showPage('appdev')}
 function logout(){if(confirm('Logout from Developer Console?')) alert('Logged out (demo mode).')}
 function filterText(){var q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.action').forEach(x=>x.style.display=(!q||x.innerText.toLowerCase().includes(q))?'block':'none')}
+
+function openERPFunction(key,label){
+  alert(label+" selected — demo mode. This function is placed inside its related ERP module.");
+}
+function filterModule(input){
+  const q=input.value.toLowerCase();
+  input.closest('.box').querySelectorAll('.erpAction').forEach(b=>{
+    b.style.display=(!q || b.dataset.search.includes(q))?'block':'none';
+  });
+}
+
 function toggleDev(id){
   const group=document.getElementById(id);
   if(!group)return;
