@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SANDIP S. SUTAR ERP Developer</title>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;font-family:Arial,sans-serif;background:#f4f6f9;color:#1f2937}
@@ -77,229 +75,27 @@ background:#fafafa!important;color:#222;cursor:pointer}
 
 </style>
 
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
 <style>
-/* V17 stability + mobile/PC responsive fixes */
-html,body{width:100%;min-height:100%;overflow-x:hidden}
-main{width:100%;min-height:calc(100vh - 220px)}
-.page.active{display:block!important}
-.header{width:100%;overflow:hidden}
-.header img{width:100%;height:auto;min-height:80px;object-fit:cover}
-.top{width:100%;flex-wrap:nowrap}
-.side{max-width:88vw}
-.action,.erpAction,.sub,.devMain,.topbtn,.menu{touch-action:manipulation}
-@media(max-width:560px){
-  .header img{max-height:150px;min-height:72px}
-  .top{height:58px;padding:6px 8px;gap:7px}
-  .menu{width:44px;height:44px;font-size:22px;flex:0 0 44px}
-  .brand{font-size:13px;overflow:hidden;text-overflow:ellipsis}
-  .badge{padding:5px 8px;font-size:11px;flex:0 0 auto}
-  main{padding:8px;min-height:calc(100vh - 210px)}
-  .hero,.box,.card{border-radius:10px}
-  .hero h1{font-size:20px;line-height:1.25}
-  .hero p{font-size:14px}
-  .actions,.grid,.formgrid{grid-template-columns:1fr!important}
-  table{font-size:13px}
-  th,td{padding:8px}
-}
-</style>
-
-
-<style id="v18-same-ui-responsive">
-/* V18: one master UI for PC + mobile */
-*,*:before,*:after{box-sizing:border-box}
-html,body{width:100%;max-width:100%;overflow-x:hidden}
-body{margin:0}
-.top,.nav,.header,main{width:100%;max-width:100%}
-main,.page,.box,.card,.hero,.action,.actions,.grid,.formgrid,.optionTable,.devSub{min-width:0;max-width:100%}
-img,video,canvas,iframe{max-width:100%}
-input,select,textarea,button{max-width:100%}
-table{width:100%;max-width:100%;overflow-wrap:anywhere}
-@media(max-width:700px){
-  .top{height:auto!important;min-height:56px!important;padding:7px 8px!important;gap:7px!important}
-  .brand{font-size:13px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .top .adminInfo{display:none!important}
-  .badge{font-size:10px!important;padding:5px 7px!important;white-space:nowrap}
-  .menu{flex:0 0 44px!important;width:44px!important;height:44px!important}
-  .side{width:min(330px,92vw)!important;max-width:92vw!important}
-  main{padding:10px!important}
-  .hero{padding:16px!important}
-  .hero h1{font-size:20px!important;line-height:1.25!important}
-  .hero p{font-size:13px!important}
-  .grid,.actions,.formgrid,.cards,.programs{grid-template-columns:1fr!important}
-  .action,.devMain,.sub,.item,button{min-height:44px}
-  .optionTable{overflow-x:auto}
-  table{display:block;overflow-x:auto;white-space:nowrap}
-}
-@media(min-width:701px){
-  main{padding-left:22px;padding-right:22px}
-}
-</style>
-
-<style id="v19-mobile-header">
-/* V19: Mobile header is the same PC header, compacted only by responsive sizing */
-@media(max-width:700px){
-  .header{display:block!important;width:100%!important}
-  .header img{display:block!important;width:100%!important;height:auto!important;max-height:145px!important;object-fit:cover!important}
-  .top,.nav{
-    display:flex!important;
-    align-items:center!important;
-    width:100%!important;
-    min-height:58px!important;
-    height:auto!important;
-    padding:7px 8px!important;
-    gap:7px!important;
-    overflow:hidden!important;
-  }
-  .brand{
-    display:block!important;
-    flex:1 1 auto!important;
-    min-width:0!important;
-    font-size:13px!important;
-    line-height:1.15!important;
-    white-space:nowrap!important;
-    overflow:hidden!important;
-    text-overflow:ellipsis!important;
-  }
-  .menu{
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    flex:0 0 44px!important;
-    width:44px!important;
-    height:44px!important;
-    min-width:44px!important;
-    padding:0!important;
-    font-size:23px!important;
-  }
-  .badge{
-    display:block!important;
-    flex:0 0 auto!important;
-    white-space:nowrap!important;
-    font-size:10px!important;
-    padding:5px 7px!important;
-  }
-  .adminInfo{font-size:11px!important}
-}
-@media(max-width:420px){
-  .header img{max-height:120px!important}
-  .top,.nav{gap:5px!important;padding:6px!important}
-  .brand{font-size:11px!important}
-  .badge{font-size:9px!important;padding:4px 6px!important}
-  .menu{flex-basis:42px!important;width:42px!important;height:42px!important;min-width:42px!important}
-}
-</style>
-<style id="v20-final-responsive">
-@media(max-width:700px){
-  body{font-size:15px;}
-  .header img{width:100%!important;height:auto!important;max-height:145px!important;object-fit:contain!important;background:#07182f;}
-  .top{position:relative!important;min-height:56px!important;overflow:visible!important;}
-  .topbtn{display:none!important;}
-  .brand{font-size:13px!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-  main{display:block!important;width:100%!important;padding:10px!important;}
-  .page.active{display:block!important;width:100%!important;}
-  .hero,.box{width:100%!important;}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
-  .actions{grid-template-columns:1fr 1fr!important;}
-  .action,.erpAction{width:100%!important;min-width:0!important;white-space:normal!important;}
-}
-@media(max-width:430px){
-  .header img{max-height:125px!important;}
-  .grid,.actions{grid-template-columns:1fr!important;}
-  .hero h1{font-size:19px!important;}
-}
-</style>
-
-<style id="final-responsive-system">
-/* FINAL responsive system: one UI for desktop + mobile, no header image dependency */
-html{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}
-body{width:100%;max-width:100%;min-width:0;overflow-x:hidden}
-.softwareHeader{width:100%;min-height:116px;padding:16px 22px;display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#fff 0%,#fbf6f0 55%,#fff 100%);border-bottom:3px solid #4a2108;box-sizing:border-box;overflow:hidden}
-.softwareLogo{width:76px;height:76px;flex:0 0 76px;border:3px solid #4a2108;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 3px 12px #0002;color:#4a2108;font-family:Georgia,serif;font-size:44px;font-weight:700}
-.softwareLogo span{transform:translateY(-2px)}
-.softwareLogo small{position:absolute;bottom:10px;font:700 8px Arial,sans-serif;letter-spacing:1px}
-.softwareTitle{min-width:0;flex:1}
-.softwareName{font-size:32px;line-height:1.05;font-weight:900;letter-spacing:1px;color:#0b2547;white-space:nowrap}
-.softwareRole{margin-top:5px;font-size:16px;font-weight:800;color:#1268b3;letter-spacing:.7px}
-.softwareTypes{display:flex;gap:10px;align-items:center;margin-top:9px;font-size:11px;font-weight:700;color:#555;white-space:nowrap}
-.softwareTypes i{color:#999;font-style:normal}
-.softwareRight{width:250px;flex:0 0 250px;text-align:left;display:flex;flex-direction:column;gap:3px}
-.softwareRight b{font-size:17px;color:#4a2108}.softwareRight strong{font-size:20px;color:#1268b3}.softwareRight span{font-size:11px;font-weight:700;color:#555}
-.top{position:sticky;top:0;z-index:50;width:100%;max-width:100%;min-width:0;box-sizing:border-box}
-main{width:100%;max-width:1250px;min-width:0;margin:0 auto;box-sizing:border-box}
-.page,.hero,.box,.card,.actions,.grid,.formgrid,.erpTools,.optionTable{min-width:0;max-width:100%}
-img,video,canvas,iframe{max-width:100%;height:auto}
-input,select,textarea,button{box-sizing:border-box;max-width:100%}
-button{touch-action:manipulation}
-@media(max-width:900px){
-  .softwareHeader{min-height:92px;padding:11px 14px;gap:12px}
-  .softwareLogo{width:62px;height:62px;flex-basis:62px;font-size:36px}
-  .softwareName{font-size:25px}.softwareRole{font-size:13px}.softwareTypes{font-size:9px;gap:7px}
-  .softwareRight{width:190px;flex-basis:190px}.softwareRight b{font-size:13px}.softwareRight strong{font-size:16px}.softwareRight span{font-size:9px}
-}
-@media(max-width:700px){
-  .softwareHeader{min-height:74px;padding:8px 10px;gap:9px;border-bottom-width:2px}
-  .softwareLogo{width:50px;height:50px;flex-basis:50px;border-width:2px;font-size:29px;box-shadow:none}
-  .softwareLogo small{bottom:6px;font-size:6px}
-  .softwareName{font-size:18px;letter-spacing:.4px}.softwareRole{font-size:10px;margin-top:3px}.softwareTypes{font-size:7px;gap:4px;margin-top:5px}
-  .softwareRight{display:none}
-  .top{position:sticky!important;min-height:56px!important;height:56px!important;padding:6px 8px!important;overflow:hidden!important}
-  .menu{flex:0 0 44px!important;width:44px!important;height:44px!important;min-width:44px!important}
-  .brand{font-size:13px!important;flex:1 1 auto!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
-  .top .adminInfo{display:none!important}.topbtn{display:none!important}.badge{flex:0 0 auto!important;font-size:10px!important}
-  main{padding:10px!important;width:100%!important;max-width:100%!important;margin:0!important}
-  .hero,.box{width:100%!important;padding:15px!important;border-radius:10px!important}
-  .hero h1{font-size:20px!important;line-height:1.25!important;overflow-wrap:anywhere}
-  .hero p{font-size:13px!important;overflow-wrap:anywhere}
-  .search{display:flex!important;width:100%!important;gap:7px!important}.search input{min-width:0!important;width:auto!important}.search .primary{flex:0 0 auto!important}
-  .grid,.actions,.formgrid{grid-template-columns:1fr!important;width:100%!important}
-  .card,.action,.erpAction{width:100%!important;min-width:0!important;overflow-wrap:anywhere}
-  .side{width:min(330px,88vw)!important;max-width:88vw!important;z-index:1000!important}
-  .overlay{z-index:900!important}
-  .erpModal{z-index:1100!important;padding:8px!important}.erpModalInner{width:100%!important;max-width:900px!important;margin:3vh auto!important;padding:15px!important}
-  table{display:block!important;width:100%!important;overflow-x:auto!important;white-space:nowrap!important}
-}
-@media(max-width:420px){
-  .softwareHeader{min-height:68px;padding:7px 8px}.softwareLogo{width:45px;height:45px;flex-basis:45px;font-size:26px}.softwareName{font-size:16px}.softwareRole{font-size:9px}.softwareTypes{font-size:6.5px}
-  .top{height:54px!important;min-height:54px!important}.menu{width:42px!important;height:42px!important;min-width:42px!important}.brand{font-size:12px!important}.badge{font-size:9px!important;padding:4px 6px!important}
-  main{padding:8px!important}.hero h1{font-size:19px!important}.hero p{font-size:12px!important}.search{flex-direction:column!important}.search input,.search .primary{width:100%!important}
-}
-</style>
-
-<style id="header-v21-final">
-/* V21 FINAL HEADER: software-built, no JPG dependency */
-.mobileHeaderMenu{display:none;border:0;border-radius:10px;background:#4a2108;color:#fff;width:44px;height:44px;flex:0 0 44px;font-size:23px;cursor:pointer}
-@media(max-width:700px){
-  .softwareHeader{height:72px!important;min-height:72px!important;padding:7px 8px!important;gap:9px!important;background:#fff!important;border-bottom:2px solid #4a2108!important}
-  .softwareLogo{width:50px!important;height:50px!important;flex:0 0 50px!important;font-size:29px!important;border:2px solid #4a2108!important}
-  .softwareLogo small{bottom:5px!important;font-size:6px!important}
-  .softwareTitle{min-width:0!important;overflow:hidden!important}
-  .softwareName{font-size:17px!important;line-height:1.05!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;color:#0b2547!important}
-  .softwareRole{font-size:9px!important;margin-top:3px!important;white-space:nowrap!important}
-  .softwareTypes{display:none!important}
-  .softwareRight{display:none!important}
-  .mobileHeaderMenu{display:flex!important;align-items:center!important;justify-content:center!important}
-  .top{display:none!important}
-}
-@media(max-width:420px){
-  .softwareHeader{height:64px!important;min-height:64px!important;padding:6px 7px!important;gap:7px!important}
-  .softwareLogo{width:44px!important;height:44px!important;flex-basis:44px!important;font-size:25px!important}
-  .softwareName{font-size:15px!important}.softwareRole{font-size:8px!important}
-  .mobileHeaderMenu{width:40px!important;height:40px!important;flex-basis:40px!important;font-size:21px!important}
-}
+.softwareHeader{min-height:126px;background:linear-gradient(135deg,#07182f 0%,#0b2b55 48%,#0a1730 100%);color:#fff;display:flex;align-items:center;gap:18px;padding:14px 20px;border-bottom:4px solid #f59e0b;overflow:hidden}
+.logoBox{width:92px;height:92px;flex:0 0 92px;border-radius:20px;overflow:hidden;background:#07182f;box-shadow:0 5px 18px #0005;border:2px solid #f59e0b}
+.logoBox img{width:100%;height:100%;display:block;object-fit:cover}
+.headerText{min-width:0}.headerTitle{font-size:clamp(24px,3.2vw,42px);font-weight:900;letter-spacing:.8px;line-height:1.05}.headerSub{font-size:clamp(13px,1.7vw,21px);font-weight:800;color:#39bdf8;margin-top:7px;letter-spacing:.7px}.headerTags{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:9px;font-size:clamp(10px,1.2vw,14px);font-weight:700;color:#e5edf7}.headerTags i{opacity:.55;font-style:normal}
+@media(max-width:560px){.softwareHeader{min-height:92px;padding:9px 10px;gap:10px;border-bottom-width:3px}.logoBox{width:66px;height:66px;flex-basis:66px;border-radius:14px}.headerTitle{font-size:20px;letter-spacing:.3px}.headerSub{font-size:11px;margin-top:4px}.headerTags{font-size:8px;gap:4px;margin-top:5px}.headerTags i{display:none}}
 </style>
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
 
-<header class="softwareHeader" aria-label="SANDIP S. SUTAR ERP Developer">
-  <div class="softwareLogo" aria-hidden="true"><span>S</span><small>SS</small></div>
-  <div class="softwareTitle">
-    <div class="softwareName">SANDIP S. SUTAR</div>
-    <div class="softwareRole">ERP &amp; APK DEVELOPER</div>
-    <div class="softwareTypes"><span>▣ ERP SOFTWARE</span><i>•</i><span>♟ ANDROID APK</span><i>•</i><span>▣ PC EXE SOFTWARE</span></div>
+<header class="softwareHeader">
+  <div class="logoBox"><img src="icon-192.png" alt="SANDIP S. SUTAR logo"></div>
+  <div class="headerText">
+    <div class="headerTitle">SANDIP S. SUTAR</div>
+    <div class="headerSub">ERP &amp; APK DEVELOPER</div>
+    <div class="headerTags"><span>▣ ERP SOFTWARE</span><i>|</i><span>🤖 ANDROID APK</span><i>|</i><span>▣ PC EXE SOFTWARE</span></div>
   </div>
-  <div class="softwareRight"><b>MULTI-BUSINESS</b><strong>ERP PLATFORM</strong><span>CREATE • MANAGE • GROW</span></div>
-  <button class="mobileHeaderMenu" type="button" onclick="openMenu()">☰</button>
 </header>
 
 <nav class="top">
@@ -366,15 +162,15 @@ button{touch-action:manipulation}
 <button class="devMain" onclick="toggleDev('appGroup')">📱 APP / APK DEVELOPER <span>▾</span></button>
 <div class="devSub">
 <div class="optionTable">
-<button class="sub" onclick="showPage('newapp')">➕ New Android App</button>
-<button class="sub" onclick="showPage('appdetails')">📋 App Details</button>
-<button class="sub" onclick="showPage('appscreens')">🖥️ App Screens / UI</button>
-<button class="sub" onclick="showPage('applogin')">🔐 App Login</button>
-<button class="sub" onclick="showPage('appfirebase')">🔥 Firebase</button>
-<button class="sub" onclick="showPage('appassets')">🎨 Logo & Assets</button>
-<button class="sub" onclick="showPage('apptest')">🧪 Test App</button>
-<button class="sub" onclick="showPage('apkbuild')">📦 Build APK</button>
-<button class="sub" onclick="showPage('appexport')">📤 Export App Project</button>
+<button class="sub" onclick="showPage('new-app')">➕ New Android App</button>
+<button class="sub" onclick="showPage('app-details')">📋 App Details</button>
+<button class="sub" onclick="showPage('app-ui')">🖥️ App Screens / UI</button>
+<button class="sub" onclick="showPage('app-login')">🔐 App Login</button>
+<button class="sub" onclick="showPage('app-firebase')">🔥 Firebase</button>
+<button class="sub" onclick="showPage('app-assets')">🎨 Logo & Assets</button>
+<button class="sub" onclick="showPage('app-test')">🧪 Test App</button>
+<button class="sub" onclick="showPage('app-build')">📦 Build APK</button>
+<button class="sub" onclick="showPage('app-export')">📤 Export App Project</button>
 </div>
 </div>
 </div>
@@ -383,16 +179,16 @@ button{touch-action:manipulation}
 <button class="devMain" onclick="toggleDev('pcGroup')">💻 PC EXE DEVELOPER <span>▾</span></button>
 <div class="devSub">
 <div class="optionTable">
-<button class="sub" onclick="showPage('pc-exe-developer')">➕ New PC Software</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">📋 Software Details</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">🖥️ Desktop UI</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">🗄️ Database</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">🧩 Modules</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">🔐 Users & Security</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">🧪 Testing</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">💾 Backup</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">📦 Build EXE</button>
-<button class="sub" onclick="showPage('pc-exe-developer')">📤 Release / Export</button>
+<button class="sub" onclick="showPage('pc-exe-new')">➕ New PC Software</button>
+<button class="sub" onclick="showPage('pc-exe-details')">📋 Software Details</button>
+<button class="sub" onclick="showPage('pc-exe-ui')">🖥️ Desktop UI</button>
+<button class="sub" onclick="showPage('pc-exe-database')">🗄️ Database</button>
+<button class="sub" onclick="showPage('pc-exe-modules')">🧩 Modules</button>
+<button class="sub" onclick="showPage('pc-exe-users')">🔐 Users & Security</button>
+<button class="sub" onclick="showPage('pc-exe-testing')">🧪 Testing</button>
+<button class="sub" onclick="showPage('pc-exe-backup')">💾 Backup</button>
+<button class="sub" onclick="showPage('pc-exe-build')">📦 Build EXE</button>
+<button class="sub" onclick="showPage('pc-exe-release')">📤 Release / Export</button>
 </div>
 </div>
 </div>
@@ -614,41 +410,219 @@ function printInvoice(d){
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script>
-<script id="final-boot-fix">
-(function(){
-  function ensureDashboard(){
-    try{
-      var pages=document.querySelectorAll('.page');
-      var active=document.querySelector('.page.active');
-      if(!active){var d=document.getElementById('dashboard');if(d)d.classList.add('active');}
-      document.documentElement.style.width='100%';document.body.style.width='100%';
-      document.body.style.overflowX='hidden';
-    }catch(e){console.error('ERP boot fix',e);}
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyDyMwQXALyHjvu-hOlt5RbhmFYtWwx_yQs",
+  authDomain:"sandip-s-sutar-erp.firebaseapp.com",
+  projectId:"sandip-s-sutar-erp",
+  storageBucket:"sandip-s-sutar-erp.firebasestorage.app",
+  messagingSenderId:"805539742021",
+  appId:"1:805539742021:web:5be8eeed81d6f4ba567e2c"
+};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app), db=getFirestore(app);
+window.ERP_FIREBASE={app,auth,db,firebaseConfig};
+
+window.firebaseTest=async function(){
+  const el=document.getElementById('firebaseStatus');
+  try{
+    await setDoc(doc(db,'system','connectionTest'),{status:'connected',updatedAt:serverTimestamp()},{merge:true});
+    el.textContent='✅ Firebase connected successfully — Firestore write test passed.';
+  }catch(e){
+    el.textContent='⚠️ Firebase SDK connected, but Firestore test failed: '+e.message;
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensureDashboard);else ensureDashboard();
-  window.addEventListener('pageshow',ensureDashboard);
-})();
+};
+window.firebaseSignUp=async function(){
+  const email=document.getElementById('fb_email').value.trim(), pass=document.getElementById('fb_pass').value;
+  const msg=document.getElementById('fb_msg');
+  if(!email||pass.length<6){msg.textContent='Enter a valid email and password (minimum 6 characters).';return;}
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    await setDoc(doc(db,'users',cred.user.uid),{email,role:'CustomerAdmin',createdAt:serverTimestamp()},{merge:true});
+    msg.textContent='✅ Account created and linked to Firebase.';
+  }catch(e){msg.textContent='⚠️ '+e.message;}
+};
+window.firebaseLogin=async function(){
+  const email=document.getElementById('fb_email').value.trim(), pass=document.getElementById('fb_pass').value, msg=document.getElementById('fb_msg');
+  try{const cred=await signInWithEmailAndPassword(auth,email,pass);msg.textContent='✅ Logged in: '+cred.user.email;}catch(e){msg.textContent='⚠️ '+e.message;}
+};
+window.firebaseLogout=async function(){try{await signOut(auth)}catch(e){alert(e.message)}};
+window.syncCurrentCustomer=async function(){
+  const s=typeof v13State==='function'?v13State():{};
+  const c=typeof v14State==='function'?v14State():{customers:[]};
+  const name=s.customerName||'Customer';
+  const id=s.customerId||('CUS-'+Date.now());
+  const payload={customerId:id,name,plan:s.plan||'Starter',license:s.license||'TRIAL',validTill:s.validTill||'',features:(typeof v12State==='function'?v12State().features:{}),updatedAt:serverTimestamp()};
+  try{await setDoc(doc(db,'customers',id),payload,{merge:true});document.getElementById('firebaseStatus').textContent='✅ Current customer synced to Firestore: '+id;}catch(e){document.getElementById('firebaseStatus').textContent='⚠️ Customer sync failed: '+e.message;}
+};
+onAuthStateChanged(auth,u=>{const e=document.getElementById('fb_user');if(e)e.textContent=u?'Signed in: '+u.email:'Not signed in';});
 </script>
-</body></html>`);
+
+</html>`);
   w.document.close();
+}
+function partyOutstanding(kind, party){
+  let total=0;
+  if(kind==="customer"){
+    (ERP_DB.sales||[]).forEach(x=>{if((x.customer||"").toLowerCase()===(party||"").toLowerCase()) total+=erpNum(x.amount)});
+  }else{
+    (ERP_DB.purchases||[]).forEach(x=>{if((x.supplier||"").toLowerCase()===(party||"").toLowerCase()) total+=erpNum(x.amount)});
+  }
+  return total;
+}
+function openOutstanding(kind){
+  const data=kind==="customer"?ERP_DB.sales:ERP_DB.purchases, key=kind==="customer"?"customer":"supplier";
+  const map={}; (data||[]).forEach(x=>{const p=x[key]||"Unknown";map[p]=(map[p]||0)+erpNum(x.amount)});
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Outstanding",Object.entries(map).map(([p,a])=>[p,a.toFixed(2)]),[kind==="customer"?"Customer":"Supplier","Outstanding"]);
 }
 </script>
 
+
 <script>
-/* V17 boot guard: preserve the existing dashboard and all existing programs. */
-(function(){
-  function ensureVisible(){
-    var pages=document.querySelectorAll('.page');
-    var active=document.querySelector('.page.active');
-    if(!active && pages.length){
-      var d=document.getElementById('dashboard') || pages[0];
-      d.classList.add('active');
-    }
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ensureVisible);
-  else ensureVisible();
-})();
+/* ===== Payments -> Outstanding -> Ledger V4 ===== */
+function openPaymentEntry(kind){
+  const sale=kind==="customer";
+  const el=document.getElementById("erp-data-modal");
+  const parties=sale?(ERP_DB.sales||[]).map(x=>x.customer).filter(Boolean): (ERP_DB.purchases||[]).map(x=>x.supplier).filter(Boolean);
+  const opts=[...new Set(parties)].map(p=>`<option>${esc(p)}</option>`).join("");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>${sale?"Customer Payment":"Supplier Payment"}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>${sale?"Customer":"Supplier"}</label><input id="pay_party" list="pay_parties"><datalist id="pay_parties">${opts}</datalist></div>
+  <div class="field"><label>Payment Amount</label><input id="pay_amount" type="number" min="0"></div>
+  <div class="field"><label>Payment Mode</label><select id="pay_mode"><option>Cash</option><option>Bank</option><option>UPI</option><option>Cheque</option></select></div>
+  <div class="field"><label>Date</label><input id="pay_date" type="date" value="${erpDate()}"></div>
+  <div class="field"><label>Reference / Note</label><input id="pay_note"></div>
+  </div>
+  <button class="primary" onclick="savePayment('${kind}')">Save Payment</button>
+  <div class="status">Automatic flow: Payment → Ledger → Outstanding Balance.</div></div>`;
+  el.classList.add("show");
+}
+function savePayment(kind){
+  const party=document.getElementById("pay_party").value.trim(), amount=erpNum(document.getElementById("pay_amount").value);
+  if(!party || amount<=0){alert("Enter party and valid payment amount.");return;}
+  ERP_DB.accounts.push({id:uid("pay"),category:kind==="customer"?"Customer Payment":"Supplier Payment",amount:-amount,date:document.getElementById("pay_date").value,note:(document.getElementById("pay_mode").value+" - "+party+" - "+document.getElementById("pay_note").value)});
+  if(!ERP_DB.payments)ERP_DB.payments=[];
+  ERP_DB.payments.push({id:uid("pmt"),kind,party,amount,mode:document.getElementById("pay_mode").value,date:document.getElementById("pay_date").value,note:document.getElementById("pay_note").value});
+  saveERP(); refreshERPCounters(); alert("Payment saved. Ledger and outstanding updated."); closeERPData();
+}
+function outstandingWithPayments(kind){
+  const key=kind==="customer"?"customer":"supplier", source=kind==="customer"?(ERP_DB.sales||[]):(ERP_DB.purchases||[]);
+  const map={};
+  source.forEach(x=>{const p=x[key]||"Unknown";map[p]=(map[p]||0)+erpNum(x.amount)});
+  (ERP_DB.payments||[]).filter(x=>x.kind===kind).forEach(x=>{map[x.party]=(map[x.party]||0)-erpNum(x.amount)});
+  return Object.entries(map).map(([p,a])=>[p,a.toFixed(2)]);
+}
+function openNetOutstanding(kind){
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Net Outstanding",
+    outstandingWithPayments(kind),
+    [kind==="customer"?"Customer":"Supplier","Balance"]);
+}
+function openPartyLedger(kind){
+  const key=kind==="customer"?"customer":"supplier", source=kind==="customer"?(ERP_DB.sales||[]):(ERP_DB.purchases||[]);
+  const rows=[];
+  source.forEach(x=>rows.push([x[key]||"",x.date||"",kind==="customer"?"Invoice":"Purchase",erpNum(x.amount).toFixed(2)]));
+  (ERP_DB.payments||[]).filter(x=>x.kind===kind).forEach(x=>rows.push([x.party,x.date,"Payment","-"+erpNum(x.amount).toFixed(2)]));
+  openLiveReport((kind==="customer"?"Customer":"Supplier")+" Ledger",rows,["Party","Date","Entry","Amount"]);
+}
+</script>
+
+
+<script>
+/* ===== Accounts + GST + Day Book V5 ===== */
+function accountTotals(){
+  let income=0, expense=0;
+  (ERP_DB.accounts||[]).forEach(x=>{
+    const a=erpNum(x.amount);
+    if(a>=0 && !String(x.category).toLowerCase().includes("purchase")) income+=a;
+    if(a<0 || String(x.category).toLowerCase().includes("purchase")) expense+=Math.abs(a);
+  });
+  return {income,expense,profit:income-expense};
+}
+function openPLReport(){
+  const t=accountTotals();
+  openLiveReport("Profit & Loss Summary",
+    [["Total Income","₹"+t.income.toFixed(2)],["Total Expense","₹"+t.expense.toFixed(2)],["Net Profit / Loss","₹"+t.profit.toFixed(2)]],
+    ["Particular","Amount"]);
+}
+function openDayBook(){
+  const rows=(ERP_DB.accounts||[]).map(x=>[x.date||"",x.category||"",erpNum(x.amount).toFixed(2),x.note||""]);
+  openLiveReport("Day Book",rows,["Date","Entry","Amount","Reference"]);
+}
+function openGSTSummary(){
+  let taxable=0,gst=0;
+  (ERP_DB.sales||[]).forEach(x=>{taxable+=erpNum(x.taxable||x.amount);gst+=erpNum(x.cgst)+erpNum(x.sgst)});
+  openLiveReport("GST Summary",
+    [["Sales Taxable Value","₹"+taxable.toFixed(2)],["GST Collected","₹"+gst.toFixed(2)]],
+    ["Particular","Amount"]);
+}
+function exportERPData(){
+  const blob=new Blob([JSON.stringify(ERP_DB,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="universal-erp-backup.json";a.click();URL.revokeObjectURL(a.href);
+}
+function importERPData(){
+  const input=document.createElement("input");input.type="file";input.accept=".json";
+  input.onchange=()=>{const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{ERP_DB=JSON.parse(r.result);saveERP();refreshERPCounters();alert("Backup restored successfully.");}catch(e){alert("Invalid backup file.");}};r.readAsText(f)};
+  input.click();
+}
+</script>
+
+
+<script>
+/* ===== Professional Documents & Print Center V6 ===== */
+function openDocumentCenter(type){
+  const titles={quotation:"Quotation",salesorder:"Sales Order",delivery:"Delivery Challan",salesinvoice:"Sales Invoice",purchaseorder:"Purchase Order",purchaseinvoice:"Purchase Invoice"};
+  const title=titles[type]||"ERP Document";
+  const prefix={quotation:"QT-",salesorder:"SO-",delivery:"DC-",salesinvoice:"SI-",purchaseorder:"PO-",purchaseinvoice:"PI-"}[type]||"DOC-";
+  const el=document.getElementById("erp-data-modal");
+  el.innerHTML=`<div class="erpModalInner"><div class="modalHead"><h2>📄 ${title}</h2><button onclick="closeERPData()">✕</button></div>
+  <div class="formgrid">
+  <div class="field"><label>Document No.</label><input id="doc_no" value="${prefix}${Date.now()}"></div>
+  <div class="field"><label>Party Name</label><input id="doc_party"></div>
+  <div class="field"><label>Item / Description</label><input id="doc_item"></div>
+  <div class="field"><label>Quantity</label><input id="doc_qty" type="number" value="1" min="0"></div>
+  <div class="field"><label>Rate</label><input id="doc_rate" type="number" value="0" min="0" oninput="calcDocTotal()"></div>
+  <div class="field"><label>GST %</label><input id="doc_gst" type="number" value="18" min="0" oninput="calcDocTotal()"></div>
+  <div class="field"><label>Date</label><input id="doc_date" type="date" value="${erpDate()}"></div>
+  <div class="field"><label>Notes / Terms</label><input id="doc_note"></div>
+  </div>
+  <div id="docTotal" class="status">Taxable: ₹0.00 | GST: ₹0.00 | Total: ₹0.00</div>
+  <button class="primary" onclick="saveProfessionalDocument('${type}')">Save & Print</button>
+  <button class="action" onclick="printProfessionalDocument('${type}',true)">Print Preview</button>
+  </div>`;
+  el.classList.add("show"); calcDocTotal();
+}
+function calcDocTotal(){
+  const q=erpNum(document.getElementById("doc_qty")?.value), r=erpNum(document.getElementById("doc_rate")?.value), g=erpNum(document.getElementById("doc_gst")?.value);
+  const taxable=q*r,tax=taxable*g/100,total=taxable+tax;
+  const e=document.getElementById("docTotal"); if(e)e.innerHTML=`Taxable: ₹${taxable.toFixed(2)} | GST: ₹${tax.toFixed(2)} | <b>Total: ₹${total.toFixed(2)}</b>`;
+}
+function saveProfessionalDocument(type){
+  const q=erpNum(document.getElementById("doc_qty").value),r=erpNum(document.getElementById("doc_rate").value),g=erpNum(document.getElementById("doc_gst").value),taxable=q*r,tax=taxable*g/100,total=taxable+tax;
+  if(!ERP_DB.documents)ERP_DB.documents=[];
+  const d={id:uid("doc"),type,no:document.getElementById("doc_no").value,party:document.getElementById("doc_party").value,item:document.getElementById("doc_item").value,qty:q,rate:r,gst:g,taxable,tax,total,date:document.getElementById("doc_date").value,note:document.getElementById("doc_note").value};
+  ERP_DB.documents.push(d);saveERP();alert("Document saved.");printProfessionalDocument(type,false,d);closeERPData();
+}
+function printProfessionalDocument(type,preview,d){
+  d=d||{no:document.getElementById("doc_no").value,party:document.getElementById("doc_party").value,item:document.getElementById("doc_item").value,qty:erpNum(document.getElementById("doc_qty").value),rate:erpNum(document.getElementById("doc_rate").value),gst:erpNum(document.getElementById("doc_gst").value),date:document.getElementById("doc_date").value,note:document.getElementById("doc_note").value};
+  const taxable=d.qty*d.rate,tax=taxable*d.gst/100,total=taxable+tax;
+  const labels={quotation:"QUOTATION",salesorder:"SALES ORDER",delivery:"DELIVERY CHALLAN",salesinvoice:"TAX INVOICE",purchaseorder:"PURCHASE ORDER",purchaseinvoice:"PURCHASE INVOICE"};
+  const w=window.open("","_blank");if(!w){alert("Please allow pop-ups.");return;}
+  w.document.write(`<html><head><title>${esc(d.no)}</title><style>
+  body{font-family:Arial;margin:35px;color:#222}.top{display:flex;justify-content:space-between;border-bottom:2px solid #222;padding-bottom:15px}
+  table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #aaa;padding:10px}th{background:#f2f2f2}.right{text-align:right}
+  .terms{margin-top:30px;border-top:1px solid #aaa;padding-top:15px}.sign{margin-top:70px;display:flex;justify-content:space-between}
+  </style></head><body><div class="top"><div><h1>COMMERCIAL UNIVERSAL ERP</h1><div>Professional Business Document</div></div><div><h2>${labels[type]||"DOCUMENT"}</h2><b>No:</b> ${esc(d.no)}<br><b>Date:</b> ${esc(d.date)}</div></div>
+  <p><b>Party:</b> ${esc(d.party)}</p><table><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Taxable</th><th>GST</th><th>Total</th></tr>
+  <tr><td>${esc(d.item)}</td><td>${d.qty}</td><td class="right">₹${d.rate.toFixed(2)}</td><td class="right">₹${taxable.toFixed(2)}</td><td class="right">₹${tax.toFixed(2)}</td><td class="right">₹${total.toFixed(2)}</td></tr></table>
+  <h3 class="right">Grand Total: ₹${total.toFixed(2)}</h3><div class="terms"><b>Notes / Terms:</b><br>${esc(d.note)}</div>
+  <div class="sign"><span>Customer / Party Signature</span><span>Authorized Signature</span></div><script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
 </script>
 
 
@@ -1020,7 +994,7 @@ function ownerExport(){
 
 
 <script type="module">
-import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile }
   from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
@@ -1034,7 +1008,7 @@ const firebaseConfig = {
   messagingSenderId:"805539742021",
   appId:"1:805539742021:web:5be8eeed81d6f4ba567e2c"
 };
-const appV16=getApps().length ? getApp() : initializeApp(firebaseConfig);
+const appV16=initializeApp(firebaseConfig);
 const authV16=getAuth(appV16), dbV16=getFirestore(appV16);
 
 window.v16OpenCustomerAccount=()=>{
@@ -1869,19 +1843,7 @@ onAuthStateChanged(authV16,user=>{
 <script>
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
 function closeMenu(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  var x=document.getElementById(id);
-  if(!x){
-    var fallback=document.getElementById('dashboard');
-    if(fallback) fallback.classList.add('active');
-    console.warn('Page not found:',id);
-  }else{
-    x.classList.add('active');
-  }
-  closeMenu();
-  window.scrollTo({top:0,left:0,behavior:'instant'});
-}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));var x=document.getElementById(id);if(x)x.classList.add('active');closeMenu();window.scrollTo(0,0)}
 function createERP(){var n=document.getElementById('pname').value.trim();if(!n){alert('ERP / Project Name required.');return}alert('ERP project created: '+n);showPage('erp')}
 function createApp(){var n=document.getElementById('appname').value.trim();if(!n){alert('App Name required.');return}alert('Android App project created: '+n);showPage('appdev')}
 function logout(){if(confirm('Logout from Developer Console?')) alert('Logged out (demo mode).')}
