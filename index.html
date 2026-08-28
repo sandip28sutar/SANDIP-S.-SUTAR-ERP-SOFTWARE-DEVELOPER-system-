@@ -85,6 +85,34 @@ background:#fafafa!important;color:#222;cursor:pointer}
 .headerText{min-width:0}.headerTitle{font-size:clamp(24px,3.2vw,42px);font-weight:900;letter-spacing:.8px;line-height:1.05}.headerSub{font-size:clamp(13px,1.7vw,21px);font-weight:800;color:#39bdf8;margin-top:7px;letter-spacing:.7px}.headerTags{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:9px;font-size:clamp(10px,1.2vw,14px);font-weight:700;color:#e5edf7}.headerTags i{opacity:.55;font-style:normal}
 @media(max-width:560px){.softwareHeader{min-height:92px;padding:9px 10px;gap:10px;border-bottom-width:3px}.logoBox{width:66px;height:66px;flex-basis:66px;border-radius:14px}.headerTitle{font-size:20px;letter-spacing:.3px}.headerSub{font-size:11px;margin-top:4px}.headerTags{font-size:8px;gap:4px;margin-top:5px}.headerTags i{display:none}}
 </style>
+
+<!-- SANDIP ERP responsive header v2026.08.28 -->
+<style>
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{min-width:0}
+.softwareHeader{width:100%;box-sizing:border-box}
+.logoBox{flex-shrink:0}
+.headerText{overflow:hidden}
+.headerTitle,.headerSub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top{width:100%;max-width:100%;overflow:hidden}
+.brand{overflow:hidden;text-overflow:ellipsis;min-width:0}
+@media (max-width:560px){
+  .softwareHeader{min-height:104px;height:auto;padding:10px 12px;gap:10px;align-items:center}
+  .logoBox{width:58px;height:58px;flex:0 0 58px;border-radius:12px}
+  .headerTitle{font-size:18px;line-height:1.1}
+  .headerSub{font-size:10px;margin-top:3px}
+  .headerTags{font-size:8px;line-height:1.2;gap:5px;white-space:nowrap;flex-wrap:nowrap}
+  .top{height:56px;padding:6px 8px;gap:7px}
+  .menu{width:42px;height:42px;flex:0 0 42px}
+  .brand{font-size:13px}
+  .topbtn,.badge{display:none!important}
+  main{width:100%;max-width:100%;padding:10px}
+  .hero,.box,.card{max-width:100%;overflow:hidden}
+}
+@media (min-width:561px){
+  .softwareHeader{min-height:126px}
+}
+</style>
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
