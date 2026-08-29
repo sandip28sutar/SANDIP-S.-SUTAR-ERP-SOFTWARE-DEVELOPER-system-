@@ -4520,6 +4520,61 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 })();
 </script>
 
+
+<style id="left-developer-menu-fixed">
+/* FINAL LEFT DEVELOPER MENU OPEN/CLOSE */
+.side{left:0!important;transform:translateX(0)!important;transition:transform .25s ease,left .25s ease!important}
+.side.left-menu-closed{left:0!important;transform:translateX(-100%)!important}
+#leftDevClose{display:block!important;width:100%;margin-top:10px;padding:9px 12px;border:1px solid #ffffff55;border-radius:8px;background:#ffffff18;color:#fff;font-weight:700;cursor:pointer}
+body.left-dev-closed main{margin-left:0!important;width:100%!important;max-width:none!important}
+body.left-dev-closed .side{left:0!important;transform:translateX(-100%)!important}
+@media(min-width:701px){
+  body:not(.left-dev-closed) main{margin-left:260px!important;width:calc(100% - 260px)!important;max-width:none!important}
+  body.left-dev-closed main{margin-left:0!important;width:100%!important}
+}
+@media(max-width:700px){
+  .side{width:min(320px,88vw)!important}
+  body.left-dev-closed .side{transform:translateX(-100%)!important}
+}
+</style>
+<script id="left-developer-menu-fixed-js">
+(function(){
+function init(){
+ var side=document.getElementById('side');
+ if(!side)return;
+ if(!document.getElementById('leftDevClose')){
+   var h=side.querySelector('.sidehead');
+   if(h){
+     var b=document.createElement('button');
+     b.id='leftDevClose'; b.type='button'; b.textContent='× Close Menu';
+     b.onclick=function(e){e.stopPropagation();window.closeMenu();};
+     h.appendChild(b);
+   }
+ }
+ window.openMenu=function(){
+   document.body.classList.remove('left-dev-closed');
+   side.classList.remove('left-menu-closed');
+   side.classList.add('open');
+   var ov=document.getElementById('overlay'); if(ov)ov.classList.add('show');
+ };
+ window.closeMenu=function(){
+   document.body.classList.add('left-dev-closed');
+   side.classList.add('left-menu-closed');
+   side.classList.remove('open');
+   var ov=document.getElementById('overlay'); if(ov)ov.classList.remove('show');
+ };
+ /* Start open on desktop, closed on mobile */
+ if(window.innerWidth<=700) window.closeMenu(); else window.openMenu();
+ window.addEventListener('resize',function(){
+   if(window.innerWidth>700 && document.body.classList.contains('left-dev-closed')===false) {
+     side.classList.remove('left-menu-closed');
+   }
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
 </body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
 })();
 </script>
