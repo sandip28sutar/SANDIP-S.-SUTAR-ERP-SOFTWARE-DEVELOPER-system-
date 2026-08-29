@@ -4461,7 +4461,60 @@ function draw(){
 window.Day2Recon={
 reconcile(){let tx=R(SK),sales=R(SA),pur=R(PU),refs=new Set(tx.map(x=>x.ref).filter(Boolean)),missing=[];sales.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Sales "+x.invoiceNo)});pur.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Purchase "+x.invoiceNo)});draw();alert(missing.length?"Reconciliation found "+missing.length+" invoice(s) without matching stock reference.":"Reconciliation OK: all saved sales/purchase invoice references have stock entries.")},
 alerts(){let a=calc().filter(x=>x.min>0&&x.qty<=x.min);rcTable.innerHTML=a.length?`<h3>⚠️ Low Stock Items</h3><div style="overflow:auto"><table><tr><th>Item</th><th>SKU</th><th>Current Qty</th><th>Minimum</th></tr>${a.map(x=>`<tr><td>${E(x.item)}</td><td>${E(x.sku)}</td><td>${x.qty}</td><td>${x.min}</td></tr>`).join("")}</table></div>`:"<p>✅ No low-stock items.</p>"},
-print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write("<html><body><h2>ERP Stock Reconciliation Report</h2>"+rcSummary.outerHTML+rcTable.outerHTML+"</body></html>");w.document.close();w.print()}
+print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write("<html><body><h2>ERP Stock Reconciliation Report</h2>"+rcSummary.outerHTML+rcTable.outerHTML+"
+<style id="developer-menu-toggle-style">
+#devMenuToggle{position:fixed;left:10px;top:10px;z-index:100000;border:0;border-radius:9px;padding:9px 12px;cursor:pointer;background:#222;color:#fff;box-shadow:0 2px 8px #0003}
+body.dev-menu-collapsed .sidebar,body.dev-menu-collapsed .side-bar,body.dev-menu-collapsed .developer-menu,body.dev-menu-collapsed .dev-menu,body.dev-menu-collapsed aside,body.dev-menu-collapsed nav{display:none!important}
+body.dev-menu-collapsed main,body.dev-menu-collapsed .main,body.dev-menu-collapsed .content{margin-left:0!important;width:100%!important;max-width:100%!important}
+@media(min-width:801px){#devMenuToggle{top:14px;left:14px}}
+</style>
+<script id="developer-menu-toggle-script">
+(function(){
+function findDev(){return Array.from(document.querySelectorAll("aside,.sidebar,.side-bar,.developer-menu,.dev-menu,nav")).find(e=>/developer|develop|admin|menu/i.test((e.innerText||"")))}
+function setup(){
+ if(document.getElementById("devMenuToggle"))return;
+ let b=document.createElement("button");b.id="devMenuToggle";b.textContent="☰ Developer Menu";
+ b.onclick=function(){document.body.classList.toggle("dev-menu-collapsed");b.textContent=document.body.classList.contains("dev-menu-collapsed")?"☰ Show Developer Menu":"✕ Hide Developer Menu"};
+ document.body.appendChild(b);
+}
+setTimeout(setup,400);
+})();
+</script>
+
+
+<style id="day2-cashbank-style">
+#day2CashBank{margin-bottom:16px}#day2CashBank .cbGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+#day2CashBank .cbCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2CashBank input,#day2CashBank select,#day2CashBank textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2CashBank button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.cbPrimary{background:#4a2108;color:#fff}
+#day2CashBank table{width:100%;border-collapse:collapse;font-size:13px}#day2CashBank th,#day2CashBank td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.cbStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2CashBank .cbGrid{grid-template-columns:1fr}#day2CashBank table{font-size:11px}}
+</style>
+<script id="day2-cashbank-script">
+(function(){
+const K="SANDIP_DAY2_CASH_BANK_V1";
+const R=()=>{try{return JSON.parse(localStorage.getItem(K)||"[]")}catch(e){return[]}},W=a=>localStorage.setItem(K,JSON.stringify(a));
+const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+function mount(){let e=document.getElementById("day2CashBank");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2CashBank";e.className="box";m.prepend(e);return e}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>💰 Cash & Bank Management / Cashbook / Bankbook</h2>
+<div class="cbGrid"><div class="cbCard"><h3>➕ Transaction Entry</h3>
+<input id="cbNo" placeholder="Transaction No."><input id="cbDate" type="date">
+<select id="cbAccount"><option>Cash</option><option>Bank</option><option>UPI</option><option>Card</option><option>Other</option></select>
+<select id="cbType"><option value="IN">Receipt / Money IN</option><option value="OUT">Payment / Money OUT</option></select>
+<input id="cbParty" placeholder="Party / Customer / Supplier"><input id="cbAmount" type="number" min="0" step=".01" placeholder="Amount ₹">
+<select id="cbCategory"><option>Sales Receipt</option><option>Purchase Payment</option><option>Expense</option><option>Customer Receipt</option><option>Supplier Payment</option><option>Capital</option><option>Transfer</option><option>Other</option></select>
+<input id="cbRef" placeholder="Reference / Invoice No."><textarea id="cbNote" rows="2" placeholder="Notes"></textarea>
+<button class="cbPrimary" onclick="Day2CashBank.save()">💾 Save Transaction</button><button onclick="Day2CashBank.clear()">Clear</button>
+<hr><input id="cbSearch" placeholder="Search transaction / party / reference" oninput="Day2CashBank.draw()"></div>
+<div class="cbCard"><h3>📊 Cash & Bank Summary</h3><div id="cbSummary"></div><h3>📒 Cashbook / Bankbook</h3><div id="cbTable"></div></div></div>`;cbDate.value=new Date().toISOString().slice(0,10);cbNo.value="CB-"+Date.now().toString().slice(-7);draw()}
+function draw(){let a=R(),q=(cbSearch?.value||"").toLowerCase().trim(),f=a.filter(x=>!q||[x.no,x.party,x.ref,x.category,x.account].join(" ").toLowerCase().includes(q));let cash=a.filter(x=>x.account==="Cash"),bank=a.filter(x=>x.account==="Bank"),bal=(arr)=>arr.reduce((z,x)=>z+(x.type==="IN"?+x.amount:-+x.amount),0),ci=bal(cash),bi=bal(bank);cbSummary.innerHTML=`<span class="cbStat">Cash Balance: ${M(ci)}</span><span class="cbStat">Bank Balance: ${M(bi)}</span><span class="cbStat">All Transactions: ${a.length}</span>`;cbTable.innerHTML=f.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>No.</th><th>Account</th><th>Type</th><th>Party</th><th>Category</th><th>Amount</th><th>Action</th></tr>${f.slice().reverse().map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.no)}</td><td>${E(x.account)}</td><td>${x.type==="IN"?"IN":"OUT"}</td><td>${E(x.party)}</td><td>${E(x.category)}</td><td>${M(x.amount)}</td><td><button onclick="Day2CashBank.print('${x.id}')">Print</button><button onclick="Day2CashBank.remove('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No transactions found.</p>"}
+window.Day2CashBank={save(){let amount=+cbAmount.value||0;if(amount<=0)return alert("Enter valid amount.");let a=R(),o={id:Date.now(),no:cbNo.value.trim()||"CB-"+Date.now(),date:cbDate.value,account:cbAccount.value,type:cbType.value,party:cbParty.value.trim(),amount,category:cbCategory.value,ref:cbRef.value.trim(),note:cbNote.value.trim(),createdAt:new Date().toISOString()};if(a.some(x=>x.no.toLowerCase()===o.no.toLowerCase()))return alert("Transaction number already exists.");a.push(o);W(a);render();alert("Cash/Bank transaction saved.")},remove(id){let a=R();if(confirm("Delete transaction?")){W(a.filter(x=>String(x.id)!==String(id)));draw()}},print(id){let x=R().find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Cash / Bank Voucher</h2><p>No: ${E(x.no)}<br>Date: ${E(x.date)}<br>Account: ${E(x.account)}<br>Type: ${x.type==="IN"?"Receipt":"Payment"}<br>Party: ${E(x.party)}<br>Category: ${E(x.category)}<br>Reference: ${E(x.ref)}</p><h3>Amount: ${M(x.amount)}</h3><p>${E(x.note)}</p></body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
+})();
+</script>
+
+</body></html>");w.document.close();w.print()}
 };setTimeout(render,100);
 })();
 </script>
