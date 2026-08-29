@@ -4400,6 +4400,72 @@ setTimeout(render,100);
 })();
 </script>
 
+
+<style id="erp-menu-hide-style">
+#erpMenuToggle{position:fixed;right:12px;top:12px;z-index:99999;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;background:#222;color:#fff}
+body.erp-menu-hidden nav,body.erp-menu-hidden header .menu,body.erp-menu-hidden .menu-bar,body.erp-menu-hidden .navbar,body.erp-menu-hidden .top-menu,body.erp-menu-hidden .sidebar{display:none!important}
+@media(max-width:800px){#erpMenuToggle{display:block}}
+</style>
+<script id="erp-menu-hide-script">
+(function(){
+function setup(){
+ if(document.getElementById("erpMenuToggle"))return;
+ let b=document.createElement("button");b.id="erpMenuToggle";b.textContent="☰ Menu";b.onclick=function(){
+   document.body.classList.toggle("erp-menu-hidden");
+   b.textContent=document.body.classList.contains("erp-menu-hidden")?"☰ Show Menu":"✕ Hide Menu";
+ };
+ document.body.appendChild(b);
+}
+setTimeout(setup,300);
+})();
+</script>
+
+
+<style id="day2-recon-style">
+#day2Recon{margin-bottom:16px}#day2Recon .rcGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+#day2Recon .rcCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Recon input,#day2Recon select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Recon button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.rcPrimary{background:#4a2108;color:#fff}
+#day2Recon table{width:100%;border-collapse:collapse;font-size:13px}#day2Recon th,#day2Recon td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.rcStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+.rcAlert{font-weight:700}.rcWarn{font-weight:700}
+@media(max-width:800px){#day2Recon .rcGrid{grid-template-columns:1fr}#day2Recon table{font-size:11px}}
+</style>
+<script id="day2-recon-script">
+(function(){
+const SK="SANDIP_DAY2_STOCK_TXNS_V1",SA="SANDIP_DAY2_SALES_INVOICES_V1",PU="SANDIP_DAY2_PURCHASE_INVOICES_V1",PK="SANDIP_DAY2_PRODUCT_MASTER_V1";
+const R=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Recon");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Recon";e.className="box";m.prepend(e);return e}
+function calc(){
+ let tx=R(SK),m={};
+ tx.forEach(x=>{let k=(x.item||"").toLowerCase();if(!m[k])m[k]={item:x.item,sku:x.sku||"",qty:0,min:+x.min||0};
+ if(x.type==="IN")m[k].qty+=+x.qty;else if(x.type==="OUT")m[k].qty-=+x.qty;else if(x.type==="ADJUST")m[k].qty=+x.qty;m[k].min=Math.max(m[k].min,+x.min||0)});
+ return Object.values(m)
+}
+function render(){
+ let e=mount();if(!e)return;e.innerHTML=`<h2>🔎 Stock Reconciliation & Low Stock Alerts</h2>
+ <div class="rcGrid"><div class="rcCard"><h3>⚙️ Reconciliation</h3>
+ <button class="rcPrimary" onclick="Day2Recon.reconcile()">🔄 Run Reconciliation</button>
+ <button onclick="Day2Recon.alerts()">⚠️ Low Stock Only</button>
+ <button onclick="Day2Recon.print()">🖨️ Print Report</button>
+ <p>System compares saved stock transactions with Sales and Purchase invoice references.</p>
+ </div><div class="rcCard"><h3>📊 Status</h3><div id="rcSummary"></div><div id="rcTable"></div></div></div>`;
+ draw()
+}
+function draw(){
+ let a=calc(),low=a.filter(x=>x.min>0&&x.qty<=x.min),neg=a.filter(x=>x.qty<0),sales=R(SA).length,pur=R(PU).length;
+ rcSummary.innerHTML=`<span class="rcStat">Items: ${a.length}</span><span class="rcStat">Low Stock: ${low.length}</span><span class="rcStat">Negative Stock: ${neg.length}</span><span class="rcStat">Sales Invoices: ${sales}</span><span class="rcStat">Purchase Invoices: ${pur}</span>`;
+ rcTable.innerHTML=`<div style="overflow:auto"><table><tr><th>Item</th><th>SKU</th><th>Qty</th><th>Min</th><th>Status</th></tr>${a.map(x=>`<tr><td>${E(x.item)}</td><td>${E(x.sku)}</td><td>${x.qty}</td><td>${x.min}</td><td>${x.qty<0?"🚨 NEGATIVE":x.min>0&&x.qty<=x.min?"⚠️ LOW":"✅ OK"}</td></tr>`).join("")}</table></div>`
+}
+window.Day2Recon={
+reconcile(){let tx=R(SK),sales=R(SA),pur=R(PU),refs=new Set(tx.map(x=>x.ref).filter(Boolean)),missing=[];sales.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Sales "+x.invoiceNo)});pur.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Purchase "+x.invoiceNo)});draw();alert(missing.length?"Reconciliation found "+missing.length+" invoice(s) without matching stock reference.":"Reconciliation OK: all saved sales/purchase invoice references have stock entries.")},
+alerts(){let a=calc().filter(x=>x.min>0&&x.qty<=x.min);rcTable.innerHTML=a.length?`<h3>⚠️ Low Stock Items</h3><div style="overflow:auto"><table><tr><th>Item</th><th>SKU</th><th>Current Qty</th><th>Minimum</th></tr>${a.map(x=>`<tr><td>${E(x.item)}</td><td>${E(x.sku)}</td><td>${x.qty}</td><td>${x.min}</td></tr>`).join("")}</table></div>`:"<p>✅ No low-stock items.</p>"},
+print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write("<html><body><h2>ERP Stock Reconciliation Report</h2>"+rcSummary.outerHTML+rcTable.outerHTML+"</body></html>");w.document.close();w.print()}
+};setTimeout(render,100);
+})();
+</script>
+
 </body></html>`);w.document.close();w.print()},clear(){render()},draw};
 setTimeout(render,100);
 })();
