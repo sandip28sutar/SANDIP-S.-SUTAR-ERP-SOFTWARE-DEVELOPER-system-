@@ -4820,6 +4820,153 @@ clearAll(){if(!confirm("Delete all ERP data stored by these modules? This cannot
 })();
 </script>
 
+
+<style id="demo101-style">
+#demo101{margin:16px 0;background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#demo101 .demoTabs{display:flex;gap:6px;overflow:auto;padding-bottom:8px}
+#demo101 .demoTabs button{white-space:nowrap;border:0;border-radius:8px;padding:9px 12px;cursor:pointer}
+#demo101 .demoBody{border:1px solid #eee;border-radius:12px;padding:14px}
+#demo101 input,#demo101 select{padding:9px;border:1px solid #ccc;border-radius:8px;margin:3px;width:calc(100% - 12px);box-sizing:border-box}
+#demo101 button.action{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}
+#demo101 table{width:100%;border-collapse:collapse;font-size:13px}#demo101 th,#demo101 td{padding:7px;border-bottom:1px solid #eee;text-align:left}
+</style>
+<script id="demo101-script">
+(function(){
+const KEY="SANDIP_ERP_DEMO_101";
+const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}};
+const write=x=>localStorage.setItem(KEY,JSON.stringify(x));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let x=document.getElementById("demo101");if(x)return x;let m=document.querySelector("main");if(!m)return null;x=document.createElement("section");x.id="demo101";m.prepend(x);return x}
+const tabs=[
+["dashboard","📊 Dashboard"],["inventory","📦 Inventory"],["purchase","🛒 Purchase"],["sales","🧾 Sales"],["crm","🤝 CRM"],["hr","👨‍💼 HR"],["finance","💰 Finance"],["gst","🧮 GST"],["reports","📈 Reports"],["settings","⚙️ Settings"]
+];
+function render(tab="dashboard"){let e=mount();if(!e)return;e.innerHTML=`<h2>🧪 One-by-One Working Demo</h2><p>प्रत्येक module चा छोटा live demo — data browser मध्ये save होतो.</p><div class="demoTabs">${tabs.map(t=>`<button onclick="ERP101Demo.open('${t[0]}')">${t[1]}</button>`).join("")}</div><div id="demoBody" class="demoBody"></div>`;show(tab)}
+function show(tab){let b=document.getElementById("demoBody");if(!b)return;
+const forms={
+dashboard:`<h3>📊 Dashboard Demo</h3><p>एक sample transaction तयार करून dashboard count तपासा.</p><button class="action" onclick="ERP101Demo.addDemo('Dashboard','Sample KPI')">➕ Add Demo KPI</button>`,
+inventory:`<h3>📦 Inventory Demo</h3><input id="dItem" placeholder="Item Name" value="Plywood 18mm"><input id="dQty" type="number" value="10"><input id="dRate" type="number" value="2500"><button class="action" onclick="ERP101Demo.save('Inventory',{item:dItem.value,qty:+dQty.value,rate:+dRate.value})">Save Stock</button>`,
+purchase:`<h3>🛒 Purchase Demo</h3><input id="dSup" placeholder="Supplier" value="ABC Supplier"><input id="dPItem" value="Plywood 18mm"><input id="dPQty" type="number" value="5"><input id="dPRate" type="number" value="2400"><button class="action" onclick="ERP101Demo.save('Purchase',{supplier:dSup.value,item:dPItem.value,qty:+dPQty.value,rate:+dPRate.value,total:(+dPQty.value)*(+dPRate.value)})">Save Purchase</button>`,
+sales:`<h3>🧾 Sales Invoice Demo</h3><input id="dCus" value="Demo Customer"><input id="dSItem" value="Plywood 18mm"><input id="dSQty" type="number" value="2"><input id="dSRate" type="number" value="3000"><button class="action" onclick="ERP101Demo.save('Sales',{customer:dCus.value,item:dSItem.value,qty:+dSQty.value,rate:+dSRate.value,total:(+dSQty.value)*(+dSRate.value)})">Save Invoice</button>`,
+crm:`<h3>🤝 CRM Demo</h3><input id="dLead" value="Demo Lead"><input id="dFollow" type="date"><select id="dStage"><option>NEW</option><option>CONTACTED</option><option>PROPOSAL</option><option>WON</option></select><button class="action" onclick="ERP101Demo.save('CRM',{lead:dLead.value,follow:dFollow.value,stage:dStage.value})">Save Follow-up</button>`,
+hr:`<h3>👨‍💼 HR Demo</h3><input id="dEmp" value="Demo Employee"><select id="dAtt"><option>PRESENT</option><option>ABSENT</option><option>HALF DAY</option><option>LEAVE</option></select><input id="dSalary" type="number" value="25000"><button class="action" onclick="ERP101Demo.save('HR',{employee:dEmp.value,attendance:dAtt.value,salary:+dSalary.value})">Save Employee Demo</button>`,
+finance:`<h3>💰 Finance Demo</h3><select id="dFinType"><option>INCOME</option><option>EXPENSE</option></select><input id="dFinCat" value="Demo Entry"><input id="dFinAmt" type="number" value="5000"><button class="action" onclick="ERP101Demo.save('Finance',{type:dFinType.value,category:dFinCat.value,amount:+dFinAmt.value})">Save Entry</button>`,
+gst:`<h3>🧮 GST Demo</h3><input id="dGSTAmt" type="number" value="10000"><input id="dGSTRate" type="number" value="18"><select id="dGSTMode"><option>CGST + SGST</option><option>IGST</option></select><button class="action" onclick="ERP101Demo.gst()">Calculate GST</button><div id="gstDemoResult"></div>`,
+reports:`<h3>📈 Reports Demo</h3><p>सर्व demo records ची संख्या:</p><div id="demoReport"></div>`,
+settings:`<h3>⚙️ Settings Demo</h3><input id="dCompany" value="Demo Company"><select id="dRole"><option>ADMIN</option><option>MANAGER</option><option>STAFF</option><option>VIEWER</option></select><button class="action" onclick="ERP101Demo.save('Settings',{company:dCompany.value,role:dRole.value})">Save Settings</button>`
+};
+b.innerHTML=forms[tab]||forms.dashboard;
+if(tab==="crm")dFollow.value=new Date().toISOString().slice(0,10);
+if(tab==="reports")report();
+}
+function save(module,data){let a=read();a.push({id:Date.now(),module,data,date:new Date().toISOString().slice(0,10)});write(a);alert(module+" demo saved successfully.");if(document.getElementById("demoReport"))report()}
+function report(){let a=read(),mods=[...new Set(a.map(x=>x.module))];document.getElementById("demoReport").innerHTML=`<table><tr><th>Module</th><th>Demo Records</th></tr>${mods.map(m=>`<tr><td>${esc(m)}</td><td>${a.filter(x=>x.module===m).length}</td></tr>`).join("")||"<tr><td colspan=2>No demo data yet.</td></tr>"}</table>`}
+window.ERP101Demo={open:show,save,addDemo:(m,v)=>save(m,{value:v}),gst(){let a=+dGSTAmt.value||0,r=+dGSTRate.value||0,t=a*r/100;let c=dGSTMode.value==="CGST + SGST"?t/2:0,s=c,i=dGSTMode.value==="IGST"?t:0;gstDemoResult.innerHTML=`<p>Taxable: ₹${a.toFixed(2)}<br>CGST: ₹${c.toFixed(2)}<br>SGST: ₹${s.toFixed(2)}<br>IGST: ₹${i.toFixed(2)}<br><b>Total GST: ₹${t.toFixed(2)}</b><br>Invoice Total: ₹${(a+t).toFixed(2)}</p>`}};
+setTimeout(()=>render(),100);
+})();
+</script>
+
+
+<style id="sandip-profile-style">
+#sandipProfile{margin:16px 0;background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#sandipProfile .spGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#sandipProfile .spBox{border:1px solid #eee;border-radius:10px;padding:12px}
+#sandipProfile button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin-top:8px}
+@media(max-width:700px){#sandipProfile .spGrid{grid-template-columns:1fr}}
+</style>
+<script id="sandip-profile-script">
+(function(){
+function mount(){
+ let m=document.querySelector("main"); if(!m || document.getElementById("sandipProfile")) return;
+ let s=document.createElement("section"); s.id="sandipProfile"; s.className="box";
+ s.innerHTML=`<h2>🏢 Sandip Plywood — Real Business Example</h2>
+ <div class="spGrid">
+ <div class="spBox"><b>Company Name</b><br>Sandip Technology</div>
+ <div class="spBox"><b>Business Type</b><br>Furniture Shop</div>
+ <div class="spBox"><b>Shop Name</b><br>Sandip Plywood</div>
+ </div>
+ <div class="spBox" style="margin-top:10px"><b>📦 Sample Stock</b><br>
+ Plywood • MDF • HDHMR • Laminate • Fevicol / Adhesive • Hardware • Edge Band • Furniture Accessories
+ <br><button onclick="SandipDemo.seed()">➕ Load Sample Stock & Transactions</button>
+ <button onclick="SandipDemo.clear()">Clear Sample Data</button>
+ <p id="sandipDemoStatus"></p></div>`;
+ m.prepend(s);
+}
+window.SandipDemo={
+seed(){
+ const stock=[
+ {item:"Plywood 18mm",sku:"PLY-18",qty:100,purchaseRate:2400,sellingRate:3000,gst:18},
+ {item:"MDF 18mm",sku:"MDF-18",qty:50,purchaseRate:1800,sellingRate:2300,gst:18},
+ {item:"HDHMR 18mm",sku:"HD-18",qty:40,purchaseRate:2100,sellingRate:2700,gst:18},
+ {item:"Laminate",sku:"LAM-01",qty:80,purchaseRate:900,sellingRate:1200,gst:18},
+ {item:"Fevicol / Adhesive",sku:"ADH-01",qty:30,purchaseRate:450,sellingRate:600,gst:18},
+ {item:"Hardware",sku:"HW-01",qty:100,purchaseRate:120,sellingRate:180,gst:18},
+ {item:"Edge Band",sku:"EB-01",qty:200,purchaseRate:25,sellingRate:40,gst:18},
+ {item:"Furniture Accessories",sku:"FA-01",qty:60,purchaseRate:300,sellingRate:450,gst:18}
+ ];
+ localStorage.setItem("SANDIP_BUSINESS_PROFILE_V1",JSON.stringify({
+  companyName:"Sandip Technology",businessType:"Furniture Shop",shopName:"Sandip Plywood"
+ }));
+ localStorage.setItem("SANDIP_SAMPLE_STOCK_V1",JSON.stringify(stock));
+ document.getElementById("sandipDemoStatus").innerHTML="✅ Sandip Plywood sample stock loaded successfully.";
+},
+clear(){
+ localStorage.removeItem("SANDIP_SAMPLE_STOCK_V1");
+ document.getElementById("sandipDemoStatus").innerHTML="Sample stock cleared.";
+}};
+setTimeout(mount,150);
+})();
+</script>
+
+
+<style id="fullcrud-style">
+#fullCrudERP{margin:16px 0;background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#fullCrudERP .fcTabs{display:flex;gap:6px;overflow:auto;padding-bottom:10px}
+#fullCrudERP .fcTabs button,#fullCrudERP button{border:0;border-radius:8px;padding:9px 12px;cursor:pointer;margin:3px}
+#fullCrudERP .fcBody{border:1px solid #eee;border-radius:12px;padding:14px}
+#fullCrudERP .fcForm{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#fullCrudERP input,#fullCrudERP select,#fullCrudERP textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ccc;border-radius:8px}
+#fullCrudERP .fcWide{grid-column:1/-1}
+#fullCrudERP .primary{background:#4a2108;color:#fff}.fcDanger{background:#8b0000;color:#fff}
+#fullCrudERP table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+#fullCrudERP th,#fullCrudERP td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+#fullCrudERP .fcActions button{padding:6px 8px}
+.fcBadge{display:inline-block;padding:9px 12px;border:1px solid #ddd;border-radius:9px;margin:3px}
+@media(max-width:800px){#fullCrudERP .fcForm{grid-template-columns:1fr 1fr}}@media(max-width:520px){#fullCrudERP .fcForm{grid-template-columns:1fr}#fullCrudERP table{font-size:11px}}
+</style>
+<script id="fullcrud-script">
+(function(){
+const ROOT="SANDIP_ERP_CRUD_";
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+const today=()=>new Date().toISOString().slice(0,10);
+const configs={
+company:{title:"🏢 Company / Shop",fields:[["name","Company Name","Sandip Technology"],["type","Business Type","Furniture Shop"],["shop","Shop Name","Sandip Plywood"],["mobile","Mobile",""],["email","Email",""],["address","Address",""]]},
+stock:{title:"📦 Stock / Inventory",fields:[["item","Item Name","Plywood 18mm"],["sku","SKU / Barcode","PLY-18"],["category","Category","Plywood"],["unit","Unit","Sheet"],["qty","Quantity","100"],["purchase","Purchase Rate","2400"],["sale","Selling Rate","3000"],["gst","GST %","18"],["min","Minimum Stock","10"]]},
+party:{title:"👥 Customer / Supplier",fields:[["name","Name","Demo Party"],["kind","Type","Customer"],["mobile","Mobile",""],["gstin","GSTIN",""],["address","Address",""],["opening","Opening Balance","0"],["limit","Credit Limit","0"]]},
+purchase:{title:"🛒 Purchase",fields:[["no","PO / Invoice No.","PUR-001"],["date","Date",today()],["supplier","Supplier","ABC Supplier"],["item","Item","Plywood 18mm"],["qty","Quantity","5"],["rate","Rate","2400"],["gst","GST %","18"],["stage","Stage","GRN"]]},
+sales:{title:"🧾 Sales",fields:[["no","Quotation / Invoice No.","INV-001"],["date","Date",today()],["customer","Customer","Demo Customer"],["item","Item","Plywood 18mm"],["qty","Quantity","2"],["rate","Rate","3000"],["gst","GST %","18"],["discount","Discount","0"],["stage","Stage","INVOICE"]]},
+crm:{title:"🤝 CRM / Follow-up",fields:[["name","Lead / Customer","Demo Lead"],["mobile","Mobile",""],["stage","Stage","NEW"],["follow","Follow-up Date",today()],["priority","Priority","HIGH"],["task","Task","Call customer"],["value","Expected Value","0"],["note","Notes",""]]},
+hr:{title:"👨‍💼 HR / Employee",fields:[["name","Employee Name","Demo Employee"],["code","Employee Code","EMP-001"],["department","Department","Sales"],["designation","Designation","Executive"],["joining","Joining Date",today()],["attendance","Attendance","PRESENT"],["leave","Leave","NONE"],["salary","Monthly Salary","25000"]]},
+finance:{title:"💰 Finance",fields:[["date","Date",today()],["type","Type","EXPENSE"],["category","Category","General"],["party","Party / Account",""],["amount","Amount","5000"],["mode","Mode","Cash"],["ref","Reference","VCH-001"],["note","Notes",""]]},
+gst:{title:"🧮 GST Entry",fields:[["date","Date",today()],["type","Type","SALES"],["party","Party","Demo Customer"],["taxable","Taxable Amount","10000"],["rate","GST Rate","18"],["mode","Tax Mode","CGST+SGST"],["invoice","Invoice No.","INV-001"]]},
+task:{title:"📋 Task / Communication",fields:[["title","Task Title","Follow-up Customer"],["assigned","Assigned To","Admin"],["date","Due Date",today()],["priority","Priority","HIGH"],["status","Status","PENDING"],["note","Notes",""]]},
+user:{title:"👤 User / Role",fields:[["name","User Name","Admin"],["role","Role","ADMIN"],["mobile","Mobile",""],["active","Status","ACTIVE"]]}
+};
+let active="stock",editId=null;
+function get(k){try{return JSON.parse(localStorage.getItem(ROOT+k)||"[]")}catch(e){return[]}}
+function set(k,v){localStorage.setItem(ROOT+k,JSON.stringify(v))}
+function mount(){let e=document.getElementById("fullCrudERP");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="fullCrudERP";e.className="box";m.prepend(e);return e}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🚀 Sandip Plywood ERP — Full CRUD</h2><p><b>Sandip Technology</b> • Furniture Shop • <b>Sandip Plywood</b></p>
+<div class="fcTabs">${Object.entries(configs).map(([k,v])=>`<button onclick="FullCRUD.open('${k}')">${v.title}</button>`).join("")}</div><div id="fcBody" class="fcBody"></div>`;show(active)}
+function inputField(f,val){let [k,label,def]=f;let v=val!==undefined?val:def;let special=k==="kind"?`<select id="fc_${k}"><option>Customer</option><option>Supplier</option><option>Both</option></select>`:k==="stage"&&active==="sales"?`<select id="fc_${k}"><option>QUOTATION</option><option>ORDER</option><option>DC</option><option>INVOICE</option><option>RETURN</option></select>`:k==="stage"&&active==="purchase"?`<select id="fc_${k}"><option>PO</option><option>GRN</option><option>INVOICE</option><option>RETURN</option></select>`:k==="role"?`<select id="fc_${k}"><option>ADMIN</option><option>MANAGER</option><option>STAFF</option><option>VIEWER</option></select>`:k==="type"&&active==="finance"?`<select id="fc_${k}"><option>INCOME</option><option>EXPENSE</option><option>CASH_IN</option><option>CASH_OUT</option><option>BANK_IN</option><option>BANK_OUT</option></select>`:`<input id="fc_${k}" placeholder="${esc(label)}" value="${esc(v)}" ${k==="date"||k==="follow"||k==="joining"?"type=date":""} ${["qty","purchase","sale","gst","min","rate","discount","value","salary","amount","taxable","limit","opening"].includes(k)?"type=number min=0 step=.01":""}>`;return `<label>${esc(label)}${special}</label>`}
+function show(k,id){active=k;editId=id||null;let c=configs[k],a=get(k),x=id?a.find(z=>String(z.id)===String(id)):null;fcBody.innerHTML=`<h3>${c.title}</h3><div class="fcForm">${c.fields.map(f=>inputField(f,x?x[f[0]]:undefined)).join("")}<div class="fcWide"><button class="primary" onclick="FullCRUD.save()">${x?"🔄 Update":"➕ Add / Save"}</button><button onclick="FullCRUD.cancel()">Cancel</button><input id="fcSearch" placeholder="🔍 Search records..." oninput="FullCRUD.draw()"></div></div><div id="fcStats"></div><div id="fcTable"></div>`;draw()}
+function draw(){let a=get(active),q=(document.getElementById("fcSearch")?.value||"").toLowerCase();let f=a.filter(x=>!q||Object.values(x).join(" ").toLowerCase().includes(q));fcStats.innerHTML=`<span class="fcBadge">Records: ${a.length}</span><span class="fcBadge">Showing: ${f.length}</span>`;fcTable.innerHTML=f.length?`<div style="overflow:auto"><table><tr>${configs[active].fields.map(x=>`<th>${esc(x[1])}</th>`).join("")}<th>Actions</th></tr>${f.slice().reverse().map(x=>`<tr>${configs[active].fields.map(y=>`<td>${esc(x[y[0]])}</td>`).join("")}<td class="fcActions"><button onclick="FullCRUD.edit('${x.id}')">✏️ Edit</button><button onclick="FullCRUD.del('${x.id}')">🗑️ Delete</button></td></tr>`).join("")}</table></div>`:"<p>No records found.</p>"}
+function save(){let obj={id:editId||Date.now()};configs[active].fields.forEach(([k])=>{let el=document.getElementById("fc_"+k);obj[k]=el?el.value:""});let a=get(active);if(editId){let i=a.findIndex(x=>String(x.id)===String(editId));if(i>=0)a[i]=obj}else a.push(obj);set(active,a);editId=null;show(active);alert("Record saved / updated successfully.")}
+window.FullCRUD={open:k=>show(k),edit:id=>show(active,id),save,cancel:()=>show(active),del:id=>{if(!confirm("Delete this record?"))return;set(active,get(active).filter(x=>String(x.id)!==String(id)));draw()}};
+setTimeout(render,120);
+})();
+</script>
+
 </body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
 })();
 </script>
