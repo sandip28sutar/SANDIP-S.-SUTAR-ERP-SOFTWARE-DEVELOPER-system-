@@ -1,202 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>SANDIP S. SUTAR ERP Developer Dashboard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SANDIP S. SUTAR — Developer System</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;color:#222}
-.header{background:#fff;padding:12px 20px;text-align:center;border-bottom:1px solid #ddd}
-.header h1{margin:0;color:#102b59;font-size:30px}
-.header p{margin:5px 0 0;color:#8b641f;font-weight:bold}
-.topbar{height:76px;background:#4a2108;color:#fff;display:flex;align-items:center;gap:18px;padding:0 20px;overflow:hidden}
-.brand{font-size:20px;font-weight:bold;white-space:nowrap}
-.menuBtn{background:#fff;border:0;border-radius:9px;font-size:30px;width:58px;height:52px;cursor:pointer}
-.admin{white-space:nowrap}
-.date{margin-left:auto;white-space:nowrap}
-.layout{display:flex;min-height:calc(100vh - 140px)}
-.sidebar{width:260px;background:#2f1607;color:#fff;padding:15px 10px;transition:.2s}
-.sidebar button{width:100%;padding:14px 15px;margin:3px 0;background:transparent;color:#fff;border:0;border-radius:7px;text-align:left;font-size:15px;cursor:pointer}
-.sidebar button:hover,.sidebar button.active{background:#6b3510}
-.content{flex:1;padding:22px;min-width:0}
-.pageTitle{margin-bottom:18px}
-.pageTitle h2{margin:0;color:#4a2108}.pageTitle p{color:#666}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
-.stat{background:#fff;padding:18px;border-radius:12px;box-shadow:0 2px 8px #0001}
-.stat .num{font-size:30px;font-weight:bold;color:#4a2108}.stat small{color:#777}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px #0001}
-.card .icon{font-size:40px}.card h3{color:#4a2108;margin:10px 0}.card p{color:#666;min-height:42px}
-.btn{background:#4a2108;color:#fff;border:0;border-radius:7px;padding:10px 15px;cursor:pointer}
-.section{display:none}.section.show{display:block}
-.panel{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px #0001}
-.list{display:grid;gap:10px}.listItem{padding:14px;border:1px solid #eee;border-radius:8px;background:#fafafa}
-@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:650px){
-.header h1{font-size:22px}.topbar{height:70px;padding:0 10px}.brand{font-size:16px}.date{display:none}
-.layout{display:block}.sidebar{display:none;width:100%}.sidebar.open{display:block}.content{padding:13px}
-.stats,.cards{grid-template-columns:1fr}.card{padding:17px}
-}
-</style>
-
-<style id="android-mobile-fix">
-html,body{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;margin:0}
-*{box-sizing:border-box}
-button,a,.menu,.action,.sub,.devMain,.tool{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-img{max-width:100%;height:auto}
-@media(max-width:700px){
- .nav{width:100%;min-width:0;padding:9px 10px;gap:8px;overflow:hidden}
- .brand{font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
- .menu{width:46px;height:46px;flex:0 0 46px}
- main{width:100%!important;padding:10px!important}
- .cards,.programs,.toolgrid,.actions,.grid,.formgrid{grid-template-columns:1fr!important;width:100%!important}
- .card,.box,.tools,.hero,.tool,.action{width:100%;min-width:0}
- .side{width:85vw;max-width:330px;height:100vh;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch}
- .optionTable{width:calc(100% - 20px);margin:0 10px 8px}
- .optionTable .sub{width:100%;min-height:46px;padding:12px 14px 12px 30px!important}
- input,select,textarea{max-width:100%;font-size:16px!important}
-}
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#e5e7eb;--accent:#2563eb;--side:#0f172a}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--text)}
+body.dark{--bg:#080d18;--card:#111827;--text:#f3f4f6;--muted:#9ca3af;--line:#253044;--side:#050914}
+.app{display:flex;min-height:100vh}.side{width:270px;background:var(--side);color:#fff;padding:22px 14px;position:fixed;top:0;bottom:0;overflow:auto}
+.brand{font-weight:800;font-size:19px;line-height:1.2;padding:8px 12px 22px}.brand small{display:block;color:#94a3b8;font-weight:500;margin-top:7px;font-size:11px}
+.nav button{width:100%;border:0;background:transparent;color:#cbd5e1;text-align:left;padding:11px 13px;border-radius:10px;margin:2px 0;cursor:pointer;font-size:14px}
+.nav button:hover,.nav button.active{background:#1e293b;color:#fff}.main{margin-left:270px;width:calc(100% - 270px);padding:26px;max-width:1500px}
+.top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:22px}.top h1{margin:0;font-size:26px}.actions{display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--text);padding:10px 14px;border-radius:9px;cursor:pointer}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 4px 18px #00000008}.stat b{display:block;font-size:25px;margin:8px 0}.muted{color:var(--muted);font-size:13px}
+.section{margin-top:18px}.section h2{font-size:17px;margin:0 0 12px}.modules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.module{display:flex;justify-content:space-between;align-items:center}.module h3{margin:0 0 5px;font-size:15px}.icon{font-size:26px}
+.toggle{position:relative;width:44px;height:24px}.toggle input{display:none}.slider{position:absolute;inset:0;background:#cbd5e1;border-radius:20px;cursor:pointer}.slider:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}.toggle input:checked+.slider{background:var(--accent)}.toggle input:checked+.slider:before{transform:translateX(20px)}
+.form{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.field input,.field select{width:100%;padding:11px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:9px}
+.builder{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:14px}.list button{width:100%;text-align:left;padding:10px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:8px;margin-bottom:7px;cursor:pointer}
+.badge{font-size:11px;padding:4px 8px;border-radius:99px;background:#dbeafe;color:#1d4ed8}.dark .badge{background:#172554;color:#93c5fd}
+.hidden{display:none}.toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;padding:12px 16px;border-radius:10px;display:none}
+@media(max-width:900px){.side{width:220px}.main{margin-left:220px;width:calc(100% - 220px)}.grid,.modules{grid-template-columns:1fr 1fr}.builder{grid-template-columns:1fr}.form{grid-template-columns:1fr}}
+@media(max-width:600px){.side{position:static;width:100%;min-height:auto}.app{display:block}.main{margin:0;width:100%;padding:16px}.grid,.modules{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
-
-<div class="header">
-<h1>SANDIP S. SUTAR</h1>
-<p>ERP & APK DEVELOPER &nbsp; | &nbsp; ERP SOFTWARE &nbsp; | &nbsp; ANDROID APK &nbsp; | &nbsp; PC EXE SOFTWARE</p>
-</div>
-
-<div class="topbar">
-<div class="brand">🏠 SANDIP S. SUTAR ERP</div>
-<button class="menuBtn" onclick="toggleSidebar()">☰</button>
-<div class="admin">👤 Administrator <b>Admin</b></div>
-<div class="date">📅 <span id="date"></span></div>
-</div>
-
-<div class="layout">
-<aside class="sidebar" id="sidebar">
-<button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button>
-<button onclick="openProjectModal('active')">🟢 New Active Program</button>
-<button onclick="openProjectModal('demo')">🧪 New Demo Program</button>
-<button onclick="show('android',this)">📱 New Android App</button>
-<button onclick="show('erp',this)">💼 New ERP Software</button>
-<button onclick="show('pc',this)">🖥️ New PC EXE Software</button>
-<button onclick="show('projects',this)">📁 My Projects</button>
-<button onclick="show('templates',this)">🧩 Templates</button>
-<button onclick="show('build',this)">🔨 Build Center</button>
-<button onclick="show('firebase',this)">🔥 Firebase / Database</button>
-<button onclick="show('settings',this)">⚙️ Advanced Settings</button>
-</aside>
-
-<main class="content">
-
-<section id="dashboard" class="section show">
-<div class="pageTitle"><h2>🚀 Developer Dashboard</h2><p>Create, manage and build your software projects from one place.</p></div>
-<div class="stats">
-<div class="stat"><div class="num">0</div><small>Android Apps</small></div>
-<div class="stat"><div class="num">0</div><small>ERP Projects</small></div>
-<div class="stat"><div class="num">0</div><small>PC EXE Projects</small></div>
-<div class="stat"><div class="num">0</div><small>Total Projects</small></div>
-</div>
-<div class="cards">
-<div class="card"><div class="icon">📱</div><h3>New Android App</h3><p>Start a new Android application project.</p><button class="btn" onclick="showById('android')">Create App</button></div>
-<div class="card"><div class="icon">💼</div><h3>New ERP Software</h3><p>Create sales, purchase, stock, accounts and reports.</p><button class="btn" onclick="showById('erp')">Create ERP</button></div>
-<div class="card"><div class="icon">🖥️</div><h3>New PC EXE Software</h3><p>Create Windows desktop software and EXE builds.</p><button class="btn" onclick="showById('pc')">Create EXE</button></div>
-</div>
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:20px">
-<div class="card" style="border-top-color:#25803d">
-<div class="icon">🟢</div><h3>Active Programs</h3>
-<p>Real projects for actual use, with database, login, build and export.</p>
-<button class="btn" onclick="openProjectModal('active')">+ New Active Program</button>
-</div>
-<div class="card" style="border-top-color:#a56b14">
-<div class="icon">🧪</div><h3>Demo / Fictional Programs</h3>
-<p>Safe testing projects with demo data, sample reports and resettable content.</p>
-<button class="btn" onclick="openProjectModal('demo')">+ New Demo Program</button>
-</div>
-</div>
-
-</section>
-
-<section id="android" class="section"><div class="panel"><h2>📱 New Android App</h2><p>Android project setup.</p><div class="list"><div class="listItem">🔐 Login & Authentication</div><div class="listItem">🎨 App Logo & Screens</div><div class="listItem">🔥 Firebase Integration</div><div class="listItem">📦 APK Build</div></div><br><button class="btn" onclick="alert('Android project setup ready.')">Start Project</button></div></section>
-
-<section id="erp" class="section"><div class="panel"><h2>💼 New ERP Software</h2><p>ERP project modules.</p><div class="list"><div class="listItem">👥 Customer & Supplier</div><div class="listItem">🛒 Sales & Purchase</div><div class="listItem">📦 Stock / Inventory</div><div class="listItem">🧾 Invoice & Accounts</div><div class="listItem">📊 Reports & Dashboard</div><div class="listItem">👤 Users & Permissions</div></div><br><button class="btn" onclick="alert('ERP project setup ready.')">Start ERP Project</button></div></section>
-
-<section id="pc" class="section"><div class="panel"><h2>🖥️ New PC EXE Software</h2><p>Windows desktop application setup.</p><div class="list"><div class="listItem">🗄️ Local Database</div><div class="listItem">🖨️ Print & Reports</div><div class="listItem">💾 Backup & Restore</div><div class="listItem">⚙️ Windows EXE Build</div></div><br><button class="btn" onclick="alert('PC EXE project setup ready.')">Start EXE Project</button></div></section>
-
-<section id="projects" class="section"><div class="panel"><h2>📁 My Projects</h2><p>Your projects will appear here. Firebase can be connected later.</p><div class="list"><div class="listItem">No projects created yet.</div></div></div></section>
-
-<section id="templates" class="section"><div class="panel"><h2>🧩 Templates</h2><div class="list"><div class="listItem">📱 Android App Template</div><div class="listItem">💼 ERP Template</div><div class="listItem">🖥️ PC EXE Template</div></div></div></section>
-
-<section id="build" class="section"><div class="panel"><h2>🔨 Build Center</h2><p>Build tools for future APK, ERP and Windows EXE projects.</p><div class="list"><div class="listItem">📱 APK Build — Ready for project</div><div class="listItem">🌐 Web/ERP Build — Ready for project</div><div class="listItem">🖥️ EXE Build — Ready for project</div></div></div></section>
-
-<section id="firebase" class="section"><div class="panel"><h2>🔥 Firebase / Database</h2><p>Firebase integration is intentionally kept for the next step.</p><p><b>Status:</b> Not connected yet</p><button class="btn" onclick="alert('Firebase will be connected after the dashboard is finalized.')">Connect Firebase Later</button></div></section>
-
-<section id="settings" class="section"><div class="panel"><h2>⚙️ Advanced Settings</h2><div class="list"><div class="listItem">🏷️ Branding</div><div class="listItem">👤 User & Access Settings</div><div class="listItem">💾 Backup Settings</div><div class="listItem">🔧 Developer Settings</div></div></div></section>
-
-
-<div id="projectModal" style="display:none;position:fixed;inset:0;background:#0008;z-index:50;align-items:center;justify-content:center;padding:15px">
-  <div style="background:#fff;border-radius:14px;padding:22px;width:min(520px,100%)">
-    <h2 id="modalTitle" style="color:#4a2108;margin-top:0">New Program</h2>
-    <label>Project Name</label>
-    <input id="projectName" placeholder="Enter project name" style="width:100%;padding:12px;margin:8px 0 12px;border:1px solid #ccc;border-radius:7px">
-    <label>Program Mode</label>
-    <select id="programMode" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:7px">
-      <option value="active">🟢 Active Program</option>
-      <option value="demo">🧪 Demo / Fictional Program</option>
-    </select>
-    <label>Program Type</label>
-    <select id="programType" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:7px">
-      <option>Android App</option>
-      <option>ERP Software</option>
-      <option>PC EXE Software</option>
-      <option>Fictional / Custom Program</option>
-    </select>
-    <div style="text-align:right;margin-top:15px">
-      <button class="btn" onclick="closeProjectModal()" style="background:#777">Cancel</button>
-      <button class="btn" onclick="createProgram()">Create Program</button>
-    </div>
+<div class="app">
+<aside class="side">
+  <div class="brand">SANDIP S. SUTAR<small>ERP • HRMS • CRM • BANKING<br>SOFTWARE DEVELOPER SYSTEM</small></div>
+  <div class="nav" id="nav">
+    <button class="active" data-page="dashboard">🏠 Dashboard</button>
+    <button data-page="projects">🧩 New Project</button>
+    <button data-page="erp">🏢 ERP</button>
+    <button data-page="hrms">👥 HRMS</button>
+    <button data-page="crm">🤝 CRM</button>
+    <button data-page="banking">🏦 Banking</button>
+    <button data-page="builder">🛠️ App Builder</button>
+    <button data-page="automation">🤖 AI & Automation</button>
+    <button data-page="cloud">☁️ Cloud</button>
+    <button data-page="security">🔐 Security</button>
+    <button data-page="advanced">⚙️ Advanced Settings</button>
   </div>
-</div>
-</main>
-</div>
+</aside>
+<main class="main">
+  <div class="top"><h1 id="title">Dashboard</h1><div class="actions"><button class="btn" onclick="toggleTheme()">◐ Theme</button><button class="btn primary" onclick="toast('Build configuration opened')">🚀 Build</button></div></div>
 
+  <section id="dashboard" class="page">
+    <div class="grid">
+      <div class="card stat">📦 <span class="muted">Projects</span><b>0</b><span class="muted">Create your first business app</span></div>
+      <div class="card stat">🧩 <span class="muted">Modules</span><b>10+</b><span class="muted">Independent & configurable</span></div>
+      <div class="card stat">👥 <span class="muted">Users</span><b>0</b><span class="muted">Role-based access ready</span></div>
+      <div class="card stat">🚀 <span class="muted">Build Targets</span><b>3</b><span class="muted">APK • EXE • Web</span></div>
+    </div>
+    <div class="section"><h2>Quick Start</h2><div class="grid">
+      <div class="card"><div class="icon">🧩</div><h3>Create New Business App</h3><p class="muted">Choose an industry and modules, then customize the app.</p><button class="btn primary" onclick="go('projects')">Start</button></div>
+      <div class="card"><div class="icon">🛠️</div><h3>App Builder</h3><p class="muted">Configure menus, forms, fields, workflows and reports.</p><button class="btn" onclick="go('builder')">Open Builder</button></div>
+      <div class="card"><div class="icon">🤖</div><h3>Automation</h3><p class="muted">Create IF → THEN business rules and notifications.</p><button class="btn" onclick="go('automation')">Configure</button></div>
+      <div class="card"><div class="icon">⚙️</div><h3>Advanced Settings</h3><p class="muted">Developer, database, API and deployment controls.</p><button class="btn" onclick="go('advanced')">Open</button></div>
+    </div></div>
+  </section>
+
+  <section id="projects" class="page hidden"><div class="card"><h2>Create New Project</h2><div class="form">
+    <div class="field"><label>Project / Company Name</label><input id="pname" placeholder="e.g. ABC Furniture ERP"></div>
+    <div class="field"><label>Industry</label><select><option>Furniture / Plywood</option><option>Retail</option><option>Manufacturing</option><option>Construction</option><option>Trading / Wholesale</option><option>Service Business</option><option>Banking / Finance Management</option><option>Custom</option></select></div>
+    <div class="field"><label>Primary Language</label><select><option>English</option><option>Marathi</option><option>Hindi</option><option>Multi-language</option></select></div>
+    <div class="field"><label>Deployment</label><select><option>Cloud + Offline</option><option>Cloud Only</option><option>On-Premise</option></select></div>
+  </div><div class="section"><h2>Select Modules</h2><div class="modules">
+    <div class="card module"><div><h3>ERP</h3><span class="muted">Sales, Purchase, Stock, Accounts</span></div><label class="toggle"><input checked type="checkbox"><span class="slider"></span></label></div>
+    <div class="card module"><div><h3>HRMS</h3><span class="muted">Employee, Attendance, Payroll</span></div><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="card module"><div><h3>CRM</h3><span class="muted">Leads, Customers, Follow-up</span></div><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="card module"><div><h3>Banking</h3><span class="muted">Bank ledger, reconciliation, loans</span></div><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="card module"><div><h3>AI & Automation</h3><span class="muted">Rules, alerts, smart assistant</span></div><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="card module"><div><h3>POS</h3><span class="muted">Counter billing & barcode</span></div><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+  </div></div><div class="section"><button class="btn primary" onclick="toast('Project configuration saved locally')">✓ Create Project</button></div></div></section>
+
+  <section id="erp" class="page hidden"><div class="modules">
+    <div class="card"><div class="icon">💰</div><h3>Sales</h3><p class="muted">Quotation • Order • Invoice • Receipt</p></div>
+    <div class="card"><div class="icon">🛒</div><h3>Purchase</h3><p class="muted">Supplier • PO • GRN • Bills</p></div>
+    <div class="card"><div class="icon">📦</div><h3>Inventory</h3><p class="muted">Items • Warehouse • Stock • Barcode</p></div>
+    <div class="card"><div class="icon">📒</div><h3>Accounts</h3><p class="muted">Ledger • Receivable • Payable • Reports</p></div>
+    <div class="card"><div class="icon">🏭</div><h3>Manufacturing</h3><p class="muted">BOM • Production • Job Work</p></div>
+    <div class="card"><div class="icon">🧾</div><h3>GST</h3><p class="muted">Tax setup • GST reports • Invoice configuration</p></div>
+  </div></section>
+
+  <section id="hrms" class="page hidden"><div class="modules">
+    <div class="card"><h3>👤 Employee Master</h3><p class="muted">Profile, documents, department, designation</p></div>
+    <div class="card"><h3>🕒 Attendance</h3><p class="muted">Attendance, shifts, biometric-ready integration</p></div>
+    <div class="card"><h3>🏖️ Leave</h3><p class="muted">Leave types, balances and approvals</p></div>
+    <div class="card"><h3>💵 Payroll</h3><p class="muted">Salary structure, payslip and payroll processing</p></div>
+    <div class="card"><h3>🎯 Performance</h3><p class="muted">Goals, reviews and performance tracking</p></div>
+    <div class="card"><h3>📋 Recruitment</h3><p class="muted">Candidates, interviews and onboarding</p></div>
+  </div></section>
+
+  <section id="crm" class="page hidden"><div class="modules">
+    <div class="card"><h3>🎯 Leads</h3><p class="muted">Lead capture, source and assignment</p></div>
+    <div class="card"><h3>👥 Customers</h3><p class="muted">Customer master and complete history</p></div>
+    <div class="card"><h3>📞 Follow-up</h3><p class="muted">Tasks, reminders and activities</p></div>
+    <div class="card"><h3>📝 Quotations</h3><p class="muted">Quote creation and approval</p></div>
+    <div class="card"><h3>📈 Sales Pipeline</h3><p class="muted">Stages, probability and forecast</p></div>
+    <div class="card"><h3>💬 Communication</h3><p class="muted">Email/SMS/WhatsApp integration-ready</p></div>
+  </div></section>
+
+  <section id="banking" class="page hidden"><div class="modules">
+    <div class="card"><h3>🏦 Bank Accounts</h3><p class="muted">Multiple banks, accounts and balances</p></div>
+    <div class="card"><h3>💳 Transactions</h3><p class="muted">Deposit, withdrawal, transfer and payment records</p></div>
+    <div class="card"><h3>🧾 Cheque Management</h3><p class="muted">Issued, received, deposited and cleared cheques</p></div>
+    <div class="card"><h3>🔄 Reconciliation</h3><p class="muted">Statement import and transaction matching</p></div>
+    <div class="card"><h3>🏷️ Loan / EMI</h3><p class="muted">Loan schedules, EMI and interest tracking</p></div>
+    <div class="card"><h3>📊 Banking Reports</h3><p class="muted">Cash flow, bank book and reconciliation reports</p></div>
+  </div></section>
+
+  <section id="builder" class="page hidden"><div class="builder">
+    <div class="card list"><h3>Builder</h3><button>📋 Pages</button><button>🧾 Forms</button><button>🔤 Fields</button><button>📊 Tables</button><button>🔁 Workflows</button><button>📈 Reports</button><button>📊 Dashboards</button></div>
+    <div class="card"><h3>Canvas</h3><div class="card" style="margin-top:12px;border-style:dashed;text-align:center;padding:60px 20px"><div class="icon">＋</div><h3>Drop components here</h3><p class="muted">This V1 provides the configuration shell for the visual builder.</p></div></div>
+    <div class="card"><h3>Properties</h3><div class="field"><label>Component Name</label><input placeholder="Customer Form"></div><div class="field" style="margin-top:12px"><label>Visibility</label><select><option>All Users</option><option>Selected Roles</option><option>Admin Only</option></select></div></div>
+  </div></section>
+
+  <section id="automation" class="page hidden"><div class="card"><h2>IF → THEN Automation Engine</h2><div class="form">
+    <div class="field"><label>IF Condition</label><select><option>Invoice amount > ₹1,00,000</option><option>Stock below minimum</option><option>Leave request submitted</option><option>Customer follow-up due</option></select></div>
+    <div class="field"><label>THEN Action</label><select><option>Send notification</option><option>Request approval</option><option>Create task</option><option>Send email</option><option>Update record</option></select></div>
+  </div><div class="section"><button class="btn primary" onclick="toast('Automation rule added')">＋ Add Rule</button></div></div></section>
+
+  <section id="cloud" class="page hidden"><div class="modules"><div class="card"><h3>☁️ Multi-Company</h3><p class="muted">Independent company configurations</p></div><div class="card"><h3>🏢 Multi-Branch</h3><p class="muted">Branch-level access and reporting</p></div><div class="card"><h3>🔄 Sync</h3><p class="muted">Offline-first sync configuration</p></div><div class="card"><h3>💾 Backup</h3><p class="muted">Scheduled backup and restore controls</p></div><div class="card"><h3>🔌 API</h3><p class="muted">REST API and webhook configuration</p></div><div class="card"><h3>📦 Versions</h3><p class="muted">Release and update management</p></div></div></section>
+
+  <section id="security" class="page hidden"><div class="modules"><div class="card"><h3>🔐 RBAC</h3><p class="muted">Role-based permissions</p></div><div class="card"><h3>🛡️ Field Security</h3><p class="muted">Field-level visibility and edit rights</p></div><div class="card"><h3>🧾 Audit Log</h3><p class="muted">Track important system actions</p></div><div class="card"><h3>📱 Device Control</h3><p class="muted">Manage authorized devices</p></div><div class="card"><h3>🔑 2FA</h3><p class="muted">Two-factor authentication configuration</p></div><div class="card"><h3>👤 Session Control</h3><p class="muted">Login/session policies</p></div></div></section>
+
+  <section id="advanced" class="page hidden"><div class="card"><h2>Advanced Settings</h2><div class="modules">
+    <div class="card"><h3>🗄️ Database</h3><p class="muted">Schema, backup, migration and connection settings</p></div>
+    <div class="card"><h3>🔌 Integrations</h3><p class="muted">Payment, GST, messaging, barcode and external APIs</p></div>
+    <div class="card"><h3>🎨 Branding</h3><p class="muted">Logo, colors, app name, invoice theme</p></div>
+    <div class="card"><h3>📱 APK Build</h3><p class="muted">Android package configuration</p></div>
+    <div class="card"><h3>💻 EXE Build</h3><p class="muted">Windows desktop package configuration</p></div>
+    <div class="card"><h3>🌐 Web Build</h3><p class="muted">Web deployment configuration</p></div>
+  </div><div class="section"><h2>Build Targets</h2><div class="actions"><button class="btn primary" onclick="toast('Android APK build queued')">📱 Build APK</button><button class="btn primary" onclick="toast('Windows EXE build queued')">💻 Build EXE</button><button class="btn primary" onclick="toast('Web build queued')">🌐 Build Web</button></div></div></div></section>
+</main></div>
+<div class="toast" id="toast"></div>
 <script>
-document.getElementById('date').textContent=new Date().toLocaleDateString('en-IN');
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
-function show(id,btn){
-document.querySelectorAll('.section').forEach(x=>x.classList.remove('show'));
-document.getElementById(id).classList.add('show');
-document.querySelectorAll('.sidebar button').forEach(x=>x.classList.remove('active'));
-if(btn)btn.classList.add('active');
-if(innerWidth<=650)document.getElementById('sidebar').classList.remove('open');
-}
-function showById(id){
-document.querySelectorAll('.section').forEach(x=>x.classList.remove('show'));
-document.getElementById(id).classList.add('show');
-document.querySelectorAll('.sidebar button').forEach(x=>x.classList.remove('active'));
-}
-
-function openProjectModal(mode){
-  document.getElementById('projectModal').style.display='flex';
-  document.getElementById('programMode').value=mode || 'active';
-  document.getElementById('modalTitle').textContent =
-    mode==='demo' ? '🧪 New Demo / Fictional Program' : '🟢 New Active Program';
-}
-function closeProjectModal(){document.getElementById('projectModal').style.display='none'}
-function createProgram(){
-  const name=document.getElementById('projectName').value.trim();
-  const mode=document.getElementById('programMode').value;
-  const type=document.getElementById('programType').value;
-  if(!name){alert('Project name required.');return}
-  const key='sutarProjects';
-  const list=JSON.parse(localStorage.getItem(key)||'[]');
-  list.push({name,mode,type,created:new Date().toLocaleString()});
-  localStorage.setItem(key,JSON.stringify(list));
-  closeProjectModal();
-  alert((mode==='demo'?'🧪 Demo Program':'🟢 Active Program')+' created: '+name);
-}
-
+const titles={dashboard:'Dashboard',projects:'New Project',erp:'ERP',hrms:'HRMS',crm:'CRM',banking:'Banking',builder:'App Builder',automation:'AI & Automation',cloud:'Cloud',security:'Security',advanced:'Advanced Settings'};
+function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(page).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));document.getElementById('title').textContent=titles[page]||page;window.scrollTo(0,0)}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function toggleTheme(){document.body.classList.toggle('dark');localStorage.setItem('dark',document.body.classList.contains('dark'))}
+if(localStorage.getItem('dark')==='true')document.body.classList.add('dark');
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
 </script>
-</body>
-</html>
+</body></html>
