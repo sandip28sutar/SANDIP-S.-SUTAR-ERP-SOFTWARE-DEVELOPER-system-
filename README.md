@@ -1,10 +1,10 @@
-# SANDIP S. SUTAR All-in-One Developer System V4
+# SANDIP S. SUTAR All-in-One Developer System V5
 
-Mobile UI correction:
-- Sidebar is closed automatically when the site opens.
-- Main dashboard gets the full mobile width.
-- Sidebar opens only from the hamburger button.
-- Sidebar overlays the page instead of squeezing the dashboard.
-- Desktop layout is retained.
+Final layout correction:
+- Sidebar is a drawer on phone, tablet and PC.
+- Sidebar is closed on initial load.
+- Dashboard/content uses the full available width.
+- Hamburger button opens the existing Developer Menu.
+- Existing ERP, HRMS, CRM, Banking, APK, EXE, Firebase and All-in-One features are retained.
 
-Replace only the repository `index.html` with this file.
+Replace the repository `index.html` with this file.
