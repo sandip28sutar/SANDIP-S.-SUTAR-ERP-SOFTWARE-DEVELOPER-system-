@@ -373,87 +373,40 @@ footer{margin-left:260px}
 </style>
 
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4a2108">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="icon-192.png">
-
-
-<style id="drawer-fullscreen-fix">
-/* FINAL: drawer menu never reserves screen space.
-   Closed = full-width content. Open = overlay drawer. */
-html, body {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
+<style id="sutar-final-fullscreen-fix">
+*{box-sizing:border-box}
+html,body{width:100%;min-width:0;max-width:100%;margin:0;overflow-x:hidden}
+body{background:#f4f6f9}
+.appHeader{width:100%!important;max-width:100vw!important}
+.appLogo{overflow:hidden!important;background:#fff!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.appLogo img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#fff!important}
+.appTitle{min-width:0!important}
+.appTitle strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+main{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important}
+@media(min-width:701px){
+  main{padding:18px 22px!important}
+  .appLogo{width:120px!important;height:82px!important;flex:0 0 120px!important;border-radius:4px!important}
+  .appHeader{min-height:96px!important;padding:10px 18px!important}
 }
-
-/* PC/tablet: menu is a true overlay drawer */
-@media (min-width: 701px) {
-  .side {
-    position: fixed !important;
-    top: 0 !important;
-    left: -330px !important;
-    width: 310px !important;
-    max-width: 88vw !important;
-    height: 100vh !important;
-    z-index: 1000 !important;
-    transition: left .25s ease !important;
-  }
-
-  .side.open {
-    left: 0 !important;
-  }
-
-  .top,
-  main,
-  footer {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .top {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 50 !important;
-  }
-
-  .overlay {
-    z-index: 999 !important;
-  }
+@media(max-width:700px){
+  .appHeader{width:100%!important;min-height:82px!important;height:auto!important;padding:8px 10px!important;gap:9px!important}
+  .appLogo{width:82px!important;height:62px!important;flex:0 0 82px!important;border-radius:4px!important}
+  .appTitle strong{font-size:16px!important}
+  .appTitle span{font-size:9px!important}
+  .appTechLinks{font-size:7px!important;white-space:nowrap}
+  .appMeta{display:none!important}
+  .appHeaderRight{font-size:8px!important}
+  .top{width:100%!important;min-width:0!important}
+  main{padding:10px!important}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .actions{grid-template-columns:1fr 1fr!important}
+  .box,.hero,.card,.page{width:100%!important;max-width:100%!important}
 }
-
-/* Mobile: same behavior, no reserved left space */
-@media (max-width: 700px) {
-  .side {
-    position: fixed !important;
-    top: 0 !important;
-    left: -100vw !important;
-    width: min(320px, 88vw) !important;
-    max-width: 88vw !important;
-    height: 100dvh !important;
-    z-index: 1000 !important;
-    transition: left .25s ease !important;
-  }
-
-  .side.open {
-    left: 0 !important;
-  }
-
-  .top,
-  main,
-  footer {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .overlay {
-    z-index: 999 !important;
-  }
+@media(max-width:430px){
+  .appLogo{width:74px!important;height:56px!important;flex-basis:74px!important}
+  .appTitle strong{font-size:14px!important}
+  .appTechLinks{font-size:6px!important}
+  .grid,.actions,.formgrid{grid-template-columns:1fr!important}
 }
 </style>
 
@@ -463,7 +416,7 @@ html, body {
 
 <header class="appHeader" role="banner">
   <div class="appLogo" aria-label="SANDIP S. SUTAR logo">
-    <img src="brand-logo.png" alt="SANDIP S. SUTAR logo"
+    <img src="data:image/jpeg;base64,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" alt="SANDIP S. SUTAR logo"
       onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('logoFallback')">
     <span class="logoFallbackText">S</span>
   </div>
@@ -499,6 +452,7 @@ html, body {
 
 <button onclick="showPage('dashboard')">🏠 Dashboard</button>
 <button onclick="showPage('quick')">⚡ Quick Action</button>
+<button onclick="showPage('allinone')">🚀 All-in-One Factory</button>
 
 <div class="devGroup" id="erpGroup">
 <button class="devMain" onclick="toggleDev('erpGroup')">🏢 ERP SOFTWARE DEVELOPER <span>▾</span></button>
@@ -796,48 +750,107 @@ function printInvoice(d){
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
   <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script>
+<!-- SANDIP V3 MOBILE SCREEN FIX -->
+<style id="sutar-v3-mobile-screen-fix">
+html,body{width:100%!important;min-width:0!important;overflow-x:hidden!important}
+main{position:relative!important;z-index:1!important;display:block!important;visibility:visible!important}
+#dashboard.page.active{display:block!important;visibility:visible!important;opacity:1!important}
+@media(max-width:700px){
+  main{display:block!important;width:100%!important;min-height:calc(100dvh - 155px)!important;padding:9px!important}
+  #dashboard{width:100%!important;min-height:1px!important}
+  #dashboard .hero,#dashboard .grid,#dashboard .box{display:block!important;visibility:visible!important;opacity:1!important}
+  #dashboard .grid{display:grid!important}
+  #dashboard .actions{display:grid!important}
+  .header,.header img,.top{position:relative!important}
+  .header{overflow:visible!important}
+  .header img{display:block!important;width:100%!important}
+  .top{z-index:50!important}
+}
+</style>
+<script id="sutar-v3-mobile-screen-fix-js">
+(function(){
+  function forceDashboard(){
+    var d=document.getElementById('dashboard'), m=document.querySelector('main');
+    if(!d || !m) return;
+    var hasVisibleContent = d.getBoundingClientRect().height > 20 &&
+      getComputedStyle(d).display !== 'none' &&
+      getComputedStyle(d).visibility !== 'hidden';
+    if(!hasVisibleContent){
+      document.querySelectorAll('.page').forEach(function(p){
+        p.classList.remove('active');
+        p.style.removeProperty('display');
+      });
+      d.classList.add('active');
+      d.style.setProperty('display','block','important');
+      d.style.setProperty('visibility','visible','important');
+      d.style.setProperty('opacity','1','important');
+    }
+  }
+  function boot(){
+    forceDashboard();
+    setTimeout(forceDashboard,150);
+    setTimeout(forceDashboard,700);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
+  else boot();
 
-<script id="pwa-install">
-(function () {
-  let deferredPrompt = null;
-  const btn = document.getElementById("installAppBtn");
-
-  window.addEventListener("beforeinstallprompt", function (event) {
-    event.preventDefault();
-    deferredPrompt = event;
-    if (btn) btn.style.display = "inline-block";
-  });
-
-  window.installERPApp = async function () {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    try {
-      await deferredPrompt.userChoice;
-    } catch (e) {}
-    deferredPrompt = null;
-    if (btn) btn.style.display = "none";
+  var oldShow=window.showPage;
+  window.showPage=function(id){
+    var d=document.getElementById('dashboard');
+    if(d) d.style.removeProperty('display');
+    if(typeof oldShow==='function') oldShow(id);
   };
-
-  window.addEventListener("appinstalled", function () {
-    deferredPrompt = null;
-    if (btn) btn.style.display = "none";
-  });
 })();
 </script>
 
-<script id="pwa-register">
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function () {
-    navigator.serviceWorker.register("./sw.js", {scope:"./"}).catch(function(err){
-      console.warn("PWA service worker registration failed:", err);
-    });
-  });
-}
-</script>
 
-</body></html>`);
-  w.document.close();
+<!-- SANDIP V4: clean mobile drawer + full-width content -->
+<style id="sutar-v4-mobile-ui">
+@media(max-width:700px){
+  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+  main{width:100%!important;max-width:100%!important;margin:0!important;padding:10px!important}
+  .header,.top{width:100%!important;max-width:100%!important}
+  .header img{width:100%!important;height:auto!important;max-height:145px!important;object-fit:contain!important}
+  .side{
+    position:fixed!important;
+    top:0!important;
+    left:-105vw!important;
+    width:min(310px,84vw)!important;
+    max-width:84vw!important;
+    height:100dvh!important;
+    z-index:2000!important;
+    box-shadow:8px 0 28px #0005!important;
+    transition:left .22s ease!important;
+  }
+  .side.open{left:0!important}
+  .overlay{z-index:1900!important}
+  .sidehead{display:flex!important;align-items:center!important;justify-content:space-between!important}
+  .sidehead:after{content:"✕  Close";font-size:12px;background:#fff2;padding:7px 9px;border-radius:7px}
+  .page.active{width:100%!important;max-width:100%!important}
+  .hero,.box,.card{max-width:100%!important}
 }
+</style>
+<script id="sutar-v4-mobile-ui-js">
+(function(){
+  function closeDrawer(){
+    var side=document.getElementById('side'), overlay=document.getElementById('overlay');
+    if(side) side.classList.remove('open');
+    if(overlay) overlay.classList.remove('show');
+  }
+  function resetMobileDrawer(){
+    if(window.innerWidth <= 700) closeDrawer();
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', resetMobileDrawer);
+  }else{
+    resetMobileDrawer();
+  }
+  window.addEventListener('resize', resetMobileDrawer);
+  document.addEventListener('click', function(e){
+    var h=e.target.closest && e.target.closest('.sidehead');
+    if(h && window.innerWidth<=700) closeDrawer();
+  });
+})();
 </script>
 
 <script>
@@ -2067,9 +2080,49 @@ onAuthStateChanged(authV16,user=>{
 </div>
 </section>
 
+
+<section id="allinone" class="page">
+<div class="box">
+<h2>🚀 ALL-IN-ONE SOFTWARE FACTORY</h2>
+<p>Build configurable business applications from one Developer Console.</p>
+<div class="actions">
+<div class="action" onclick="showPage('newapp')">🧩 <b>New Business App</b><br><small>Industry → Modules → Branding → Build</small></div>
+<div class="action" onclick="showPage('erp-developer')">🏢 <b>ERP Engine</b><br><small>Sales, purchase, stock, accounts & GST</small></div>
+<div class="action" onclick="showPage('appdev')">📱 <b>HRMS / CRM / APK</b><br><small>App modules and Android workflow</small></div>
+<div class="action" onclick="showPage('pc-exe-developer')">💻 <b>Windows EXE</b><br><small>Desktop software workflow</small></div>
+<div class="action" onclick="showPage('firebase')">☁️ <b>Cloud Center</b><br><small>Authentication, database & sync</small></div>
+<div class="action" onclick="showPage('build')">🚀 <b>Build Center</b><br><small>Web • APK • EXE • Export</small></div>
+</div>
+</div>
+
+<div class="box">
+<h2>🧠 Module Marketplace</h2>
+<div class="actions">
+<div class="action">👥 <b>HRMS</b><br><small>Employee • Attendance • Leave • Payroll • Recruitment</small></div>
+<div class="action">🤝 <b>CRM</b><br><small>Leads • Customers • Follow-up • Pipeline • Quotation</small></div>
+<div class="action">🏦 <b>Banking Management</b><br><small>Bank ledger • Reconciliation • Cheque • Loan/EMI</small></div>
+<div class="action">🛒 <b>POS</b><br><small>Billing • Barcode • Counter • Returns</small></div>
+<div class="action">🏭 <b>Manufacturing</b><br><small>BOM • Production • Job work • WIP</small></div>
+<div class="action">🏗️ <b>Projects</b><br><small>Tasks • Materials • Labour • Costing</small></div>
+</div>
+</div>
+
+<div class="box">
+<h2>⚙️ Developer Controls</h2>
+<div class="actions">
+<div class="action">🧱 <b>Form Builder</b><br><small>Custom fields, validation and layouts</small></div>
+<div class="action">☰ <b>Menu Builder</b><br><small>Drag modules into customer menu</small></div>
+<div class="action">🔁 <b>Workflow Builder</b><br><small>IF → THEN approval automation</small></div>
+<div class="action">📊 <b>Report Builder</b><br><small>Custom filters, columns and exports</small></div>
+<div class="action">🔐 <b>Permission Builder</b><br><small>Role, screen and field permissions</small></div>
+<div class="action">🎨 <b>Branding Builder</b><br><small>Logo, theme, invoice and app identity</small></div>
+</div>
+</div>
+</section>
+
 </main>
 
-<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b></footer>
+<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V2</small></footer>
 
 <script>
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
@@ -2119,6 +2172,336 @@ function refreshERPCounters(){
 document.addEventListener("DOMContentLoaded",refreshERPCounters);
 
 </script>
+
+<style id="sutar-mobile-final-v2">
+/* FINAL MOBILE / DESKTOP VIEWPORT FIX */
+html,body,#app,.app,.page,.shell{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;padding-left:0!important;padding-right:0!important;overflow-x:hidden!important}
+
+@media(max-width:700px){
+  /* Header: give the actual logo enough space and never crop it */
+  .appHeader{
+    width:100%!important;max-width:100vw!important;
+    min-height:88px!important;height:88px!important;
+    padding:7px 8px!important;gap:8px!important;
+    overflow:hidden!important;
+  }
+  .appLogo{
+    width:88px!important;height:70px!important;min-width:88px!important;
+    flex:0 0 88px!important;
+    overflow:hidden!important;background:#fff!important;
+    border-radius:4px!important;
+  }
+  .appLogo img{
+    width:100%!important;height:100%!important;
+    object-fit:contain!important;object-position:center!important;
+    display:block!important;background:#fff!important;
+  }
+  .appTitle{
+    min-width:0!important;flex:1 1 auto!important;
+    overflow:visible!important;padding:0!important;
+  }
+  .appTitle strong{
+    display:block!important;
+    font-size:19px!important;line-height:1.05!important;
+    letter-spacing:0!important;
+    white-space:normal!important;
+    overflow:visible!important;text-overflow:clip!important;
+  }
+  .appTitle span{
+    display:block!important;font-size:9px!important;
+    line-height:1.2!important;margin-top:5px!important;
+    white-space:nowrap!important;text-align:left!important;
+  }
+  .appTechLinks{
+    display:none!important;
+  }
+  .appMeta,.appHeaderRight{
+    display:none!important;
+  }
+
+  /* Brown ERP toolbar must start at x=0, not after the hidden drawer */
+  .top,.nav,.header{
+    width:100%!important;max-width:100vw!important;
+    margin-left:0!important;left:0!important;
+    transform:none!important;
+  }
+  .top{
+    min-height:54px!important;height:54px!important;
+    padding:6px 8px!important;
+  }
+  .top .brand{
+    min-width:0!important;flex:1!important;
+    white-space:nowrap!important;overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .menu{
+    width:42px!important;height:42px!important;
+    min-width:42px!important;flex:0 0 42px!important;
+  }
+
+  /* Dashboard uses every available mobile pixel */
+  main{
+    width:100%!important;max-width:100vw!important;
+    margin:0!important;padding:10px!important;
+  }
+  .box,.hero,.card,.actions,.grid,.formgrid{
+    width:100%!important;max-width:100%!important;
+  }
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .action{min-width:0!important}
+}
+
+@media(max-width:390px){
+  .appHeader{height:82px!important;min-height:82px!important;padding:6px!important}
+  .appLogo{width:78px!important;height:66px!important;min-width:78px!important;flex-basis:78px!important}
+  .appTitle strong{font-size:17px!important}
+  .appTitle span{font-size:8px!important}
+  main{padding:8px!important}
+}
+
+@media(min-width:701px){
+  .appHeader,.top,main{
+    width:100%!important;max-width:100vw!important;margin-left:0!important;
+  }
+  main{padding-left:22px!important;padding-right:22px!important}
+  .appLogo img{object-fit:contain!important;object-position:center!important}
+}
+</style>
+
+
+<style id="sutar-name-full-fix">
+@media(max-width:700px){
+  .appHeader{
+    height:96px!important;min-height:96px!important;
+    padding:7px 8px!important;gap:8px!important;
+  }
+  .appLogo{
+    width:86px!important;height:76px!important;
+    min-width:86px!important;flex:0 0 86px!important;
+  }
+  .appTitle{
+    flex:1 1 auto!important;min-width:0!important;
+    overflow:visible!important;
+  }
+  .appTitle strong{
+    display:block!important;
+    width:max-content!important;
+    max-width:none!important;
+    white-space:nowrap!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    font-size:18px!important;
+    line-height:1.1!important;
+    letter-spacing:0!important;
+  }
+  .appTitle span{
+    white-space:nowrap!important;
+    font-size:9px!important;
+  }
+  .appTechLinks{
+    display:block!important;
+    white-space:nowrap!important;
+    font-size:6px!important;
+    margin-top:5px!important;
+  }
+}
+@media(max-width:390px){
+  .appHeader{height:92px!important;min-height:92px!important}
+  .appLogo{width:80px!important;height:72px!important;min-width:80px!important;flex-basis:80px!important}
+  .appTitle strong{font-size:16px!important}
+  .appTitle span{font-size:8px!important}
+  .appTechLinks{font-size:5.5px!important}
+}
+</style>
+
+
+<style id="sutar-fullscreen-final">
+/* Full viewport layout — PC + Mobile */
+html,body{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  overflow-x:hidden!important;
+}
+body{
+  min-height:100dvh!important;
+}
+.appHeader,.header,.top,main{
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+main{
+  min-height:calc(100dvh - 150px)!important;
+  padding-left:clamp(8px,2vw,24px)!important;
+  padding-right:clamp(8px,2vw,24px)!important;
+}
+.page.active,.hero,.box,.card,.actions,.grid,.formgrid{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+}
+img,video,canvas,iframe{max-width:100%!important}
+
+@media(min-width:701px){
+  .appHeader{
+    min-height:100px!important;
+    padding:10px 18px!important;
+  }
+  .appLogo{
+    width:120px!important;height:80px!important;
+    flex:0 0 120px!important;
+  }
+  .appLogo img{
+    object-fit:contain!important;
+    object-position:center!important;
+  }
+  main{
+    min-height:calc(100dvh - 154px)!important;
+  }
+}
+
+@media(max-width:700px){
+  .appHeader{
+    width:100vw!important;
+    min-height:92px!important;
+    height:auto!important;
+    padding:7px 8px!important;
+  }
+  .appLogo{
+    width:82px!important;height:74px!important;
+    min-width:82px!important;
+    flex:0 0 82px!important;
+  }
+  .appLogo img{
+    object-fit:contain!important;
+    object-position:center!important;
+  }
+  .appTitle{min-width:0!important;flex:1 1 auto!important}
+  .appTitle strong{
+    white-space:nowrap!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    font-size:17px!important;
+  }
+  .appHeaderRight{display:none!important}
+  .top{
+    width:100vw!important;
+    min-height:54px!important;
+    height:54px!important;
+  }
+  main{
+    width:100vw!important;
+    min-height:calc(100dvh - 146px)!important;
+    padding:9px!important;
+  }
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .actions{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:390px){
+  .appHeader{min-height:88px!important}
+  .appLogo{width:76px!important;height:70px!important;min-width:76px!important;flex-basis:76px!important}
+  .appTitle strong{font-size:16px!important}
+  main{padding:7px!important}
+}
+</style>
+
+<script>
+/* User-triggered browser fullscreen. Browsers require a user gesture. */
+function sutarToggleFullscreen(){
+  const el=document.documentElement;
+  if(!document.fullscreenElement){
+    if(el.requestFullscreen) el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }else{
+    if(document.exitFullscreen) document.exitFullscreen();
+    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
+</script>
+
+
+<style id="sutar-persistent-auto-menu">
+/* Persistent menu + automatic screen reflow */
+:root{--sutar-menu-width:290px}
+.side{left:0!important;transform:translateX(-100%);transition:transform .22s ease!important;width:var(--sutar-menu-width)!important;max-width:var(--sutar-menu-width)!important}
+.side.open{left:0!important;transform:translateX(0)!important}
+.overlay{display:none!important}
+/* When drawer is open, the page automatically makes room for it. */
+body:has(.side.open) .appHeader,
+body:has(.side.open) .top,
+body:has(.side.open) main,
+body:has(.side.open) footer{width:calc(100% - var(--sutar-menu-width))!important;margin-left:var(--sutar-menu-width)!important;margin-right:0!important}
+body:has(.side.open) .appHeader,
+body:has(.side.open) .top{max-width:calc(100% - var(--sutar-menu-width))!important}
+body:has(.side.open) main{max-width:none!important}
+@media(max-width:700px){
+  :root{--sutar-menu-width:min(320px,78vw)}
+  .side{width:var(--sutar-menu-width)!important;max-width:var(--sutar-menu-width)!important}
+  body:has(.side.open) .appHeader,
+  body:has(.side.open) .top,
+  body:has(.side.open) main,
+  body:has(.side.open) footer{width:calc(100% - var(--sutar-menu-width))!important;margin-left:var(--sutar-menu-width)!important}
+  body:has(.side.open) .appHeader,
+  body:has(.side.open) .top{max-width:calc(100% - var(--sutar-menu-width))!important}
+  body:has(.side.open) main{padding:8px!important}
+}
+/* Keep menu open after selecting an item; only the menu button toggles it. */
+</style>
+<script id="sutar-persistent-menu-js">
+(function(){
+  function setup(){
+    var side=document.getElementById('side'), overlay=document.getElementById('overlay');
+    if(!side)return;
+    /* Remove older auto-close behavior from menu items. */
+    side.addEventListener('click',function(e){
+      var b=e.target.closest('button');
+      if(b && b.classList.contains('sub')){
+        e.stopPropagation();
+      }
+    },true);
+    if(overlay){overlay.onclick=function(){/* no auto-close */};}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
+</script>
+
+
+<script id="pwa-install">
+(function () {
+  let deferredPrompt = null;
+  const btn = document.getElementById("installAppBtn");
+
+  window.addEventListener("beforeinstallprompt", function (event) {
+    event.preventDefault();
+    deferredPrompt = event;
+    if (btn) btn.style.display = "inline-block";
+  });
+
+  window.installERPApp = async function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try { await deferredPrompt.userChoice; } catch (e) {}
+    deferredPrompt = null;
+    if (btn) btn.style.display = "none";
+  };
+
+  window.addEventListener("appinstalled", function () {
+    deferredPrompt = null;
+    if (btn) btn.style.display = "none";
+  });
+})();
+</script>
+
 </body>
 </html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
 <style id="mobile-final-v22">
@@ -2238,7 +2621,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
     side.addEventListener('click',function(e){
       var b=e.target.closest('button');
       if(b && b.classList.contains('sub')) setTimeout(function(){
-        side.classList.remove('open'); if(overlay)overlay.classList.remove('show');
+        /* keep drawer open */
       },30);
     });
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&typeof closeMenu==='function')closeMenu();});
@@ -2247,5 +2630,139 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
       var d=document.getElementById('dashboard');if(d)d.classList.add('active');
     }
   });
+})();
+</script>
+
+
+<style id="sutar-v5-fullscreen-ui">
+/* V5: drawer-based layout on mobile, tablet and PC */
+html,body{width:100%!important;min-width:0!important;overflow-x:hidden!important}
+main{margin-left:0!important;width:100%!important;max-width:1250px!important;box-sizing:border-box!important}
+footer{margin-left:0!important}
+.side{
+  position:fixed!important;
+  top:0!important;
+  left:-110vw!important;
+  width:min(320px,88vw)!important;
+  max-width:88vw!important;
+  height:100dvh!important;
+  z-index:3000!important;
+  overflow-y:auto!important;
+  transition:left .22s ease!important;
+}
+.side.open{left:0!important}
+.overlay{z-index:2900!important}
+.appHeader,.top{width:100%!important;max-width:100vw!important;box-sizing:border-box!important}
+@media(max-width:700px){
+  main{padding:10px!important}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .actions,.formgrid{grid-template-columns:1fr!important}
+  .hero,.box,.card{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+}
+@media(max-width:390px){
+  .grid{grid-template-columns:1fr!important}
+}
+</style>
+<script id="sutar-v5-fullscreen-js">
+(function(){
+  function forceDrawerClosed(){
+    var s=document.getElementById('side'), o=document.getElementById('overlay');
+    if(s) s.classList.remove('open');
+    if(o) o.classList.remove('show');
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',forceDrawerClosed);
+  }else{
+    forceDrawerClosed();
+  }
+  window.addEventListener('pageshow',forceDrawerClosed);
+})();
+</script>
+
+
+<style id="sutar-true-full-width-final">
+/* Final: use the complete available viewport on PC, tablet and mobile. */
+html,body{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;overflow-x:hidden!important}
+.appHeader,.top,main,footer{width:100%!important;max-width:none!important;box-sizing:border-box!important}
+main{margin-left:0!important;margin-right:0!important;padding:18px 22px!important}
+.page,.page.active,.hero,.box,.card{width:100%!important;max-width:none!important;box-sizing:border-box!important}
+.grid{width:100%!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.actions{width:100%!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.search{width:100%!important}
+.search input{min-width:0!important}
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:600px){
+  main{padding:10px!important}
+  .grid,.actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .hero,.box{padding:14px!important}
+}
+@media(max-width:430px){
+  .grid,.actions{grid-template-columns:1fr!important}
+}
+</style>
+
+<style id="sutar-final-device-menu-fix">
+/* FINAL DEVICE MENU BEHAVIOUR:
+   PC/tablet: drawer stays open and page makes room for it.
+   Mobile: drawer can open/close normally; selecting a menu item closes it. */
+@media (min-width:701px){
+  :root{--sutar-menu-width:290px}
+  .side{left:0!important;transform:none!important;width:var(--sutar-menu-width)!important;max-width:var(--sutar-menu-width)!important}
+  .side.open{left:0!important;transform:none!important}
+  body .appHeader, body .top, body main, body footer{
+    width:calc(100% - var(--sutar-menu-width))!important;
+    margin-left:var(--sutar-menu-width)!important;
+    margin-right:0!important;
+  }
+  body main{max-width:none!important}
+}
+@media (max-width:700px){
+  .side{left:-100vw!important;transform:none!important;width:min(320px,88vw)!important;max-width:88vw!important}
+  .side.open{left:0!important;transform:none!important}
+  body .appHeader,body .top,body main,body footer{width:100%!important;margin-left:0!important;margin-right:0!important}
+}
+</style>
+<script id="sutar-final-device-menu-js">
+(function(){
+  function setupDeviceMenu(){
+    var side=document.getElementById('side');
+    var overlay=document.getElementById('overlay');
+    if(!side) return;
+
+    function desktop(){ return window.matchMedia('(min-width:701px)').matches; }
+    function closeMobile(){
+      if(desktop()) return;
+      side.classList.remove('open');
+      if(overlay) overlay.classList.remove('show');
+    }
+
+    /* PC: always keep menu open. Mobile: start closed. */
+    if(desktop()) side.classList.add('open');
+    else side.classList.remove('open');
+
+    /* Selecting a menu item closes the drawer ONLY on mobile. */
+    side.addEventListener('click',function(e){
+      var b=e.target.closest('button');
+      if(!b) return;
+      if(!desktop() && b.classList.contains('sub')){
+        setTimeout(closeMobile,0);
+      }
+    },false);
+
+    window.addEventListener('resize',function(){
+      if(desktop()){
+        side.classList.add('open');
+        if(overlay) overlay.classList.remove('show');
+      }else{
+        side.classList.remove('open');
+        if(overlay) overlay.classList.remove('show');
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupDeviceMenu);
+  else setupDeviceMenu();
 })();
 </script>
