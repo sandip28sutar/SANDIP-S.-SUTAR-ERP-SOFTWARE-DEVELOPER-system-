@@ -3692,6 +3692,63 @@ const original=window.showPage;if(typeof original==="function"&&!window.__day2Sc
 })();
 </script>
 <script id="day2-statement-repair-script">(function(){const S="SANDIP_DAY2_SALES_V2",P="SANDIP_DAY2_PURCHASES_V1",PAY="SANDIP_DAY2_PAYMENTS_V1",CUS="SANDIP_DAY1_CUSTOMERS_V1",SUP="SANDIP_DAY1_SUPPLIERS_V1";const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});function render(){let q=document.getElementById("day2Statements");if(!q){let main=document.querySelector("main");if(!main)return;q=document.createElement("section");q.id="day2Statements";q.className="box";main.prepend(q)}q.innerHTML='<h2>👥 Customer / Supplier Statements</h2><select id="srType"><option value="c">Customer</option><option value="s">Supplier</option></select><select id="srParty"><option value="">Select Party</option></select><button id="srLoad">View Statement</button><button id="srPrint">Print</button><div id="srOut"></div>';const fill=()=>{let a=srType.value==='c'?read(CUS):read(SUP);srParty.innerHTML='<option value="">Select Party</option>'+a.map(x=>'<option value="'+x.id+'">'+String(x.name||'')+'</option>').join('')};const load=()=>{let id=Number(srParty.value),rows=[];if(!id){srOut.innerHTML='Select a party.';return}if(srType.value==='c'){read(S).filter(x=>x.customerId===id).forEach(x=>rows.push([x.date,'Sales',x.invoiceNo,Number(x.total||0),0]));read(PAY).filter(x=>x.type==='RECEIPT'&&x.partyId===id).forEach(x=>rows.push([x.date,'Receipt',x.reference||'',0,Number(x.amount||0)]))}else{read(P).filter(x=>x.supplierId===id).forEach(x=>rows.push([x.date,'Purchase',x.purchaseNo,0,Number(x.total||0)]));read(PAY).filter(x=>x.type==='SUPPLIER PAYMENT'&&x.partyId===id).forEach(x=>rows.push([x.date,'Payment',x.reference||'',Number(x.amount||0),0]))}let bal=0;srOut.innerHTML='<table><tr><th>Date</th><th>Type</th><th>Ref</th><th>Debit</th><th>Credit</th><th>Balance</th></tr>'+rows.map(x=>{bal+=x[3]-x[4];return '<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+money(x[3])+'</td><td>'+money(x[4])+'</td><td>'+money(Math.abs(bal))+'</td></tr>'}).join('')+'</table>'};srType.onchange=fill;srParty.onchange=load;srLoad.onclick=load;srPrint.onclick=()=>{let w=window.open('','_blank');if(w){w.document.body.innerHTML=srOut.outerHTML;w.print()}};fill()}setTimeout(render,100);window.Day2StatementRepair={render}})();</script>
+
+<style id="mobile-functions-final-css">
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font-size:16px}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media(max-width:700px){
+  main{padding:10px!important}
+  .page{width:100%!important;max-width:100%!important}
+  .box,.card,.hero,.panel{width:100%!important;max-width:100%!important}
+  table{min-width:650px}
+  .table-wrap,.table-responsive{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .side{z-index:9999!important}.overlay{z-index:9998!important}
+  .side button{min-height:44px}.actions button{min-height:44px}
+}
+</style>
+<script id="mobile-functions-final-js">
+(function(){
+  /* Android WebView does not reliably expose element IDs as JS globals.
+     The older ERP modules use IDs such as oProduct, rtType, dOrder, etc.
+     Create safe window getters so those existing functions work on mobile too. */
+  function exposeIds(){
+    document.querySelectorAll('[id]').forEach(function(el){
+      var id=el.id;
+      if(!id || !/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(id)) return;
+      try{
+        if(!Object.prototype.hasOwnProperty.call(window,id)){
+          Object.defineProperty(window,id,{configurable:true,get:function(){return document.getElementById(id);}});
+        }
+      }catch(e){}
+    });
+  }
+
+  function closeKeyboard(){
+    var a=document.activeElement;
+    if(a && (a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.tagName==='SELECT')) a.blur();
+  }
+
+  function mobileInit(){
+    exposeIds();
+    var obs=new MutationObserver(exposeIds);
+    obs.observe(document.documentElement,{subtree:true,childList:true});
+    document.addEventListener('click',function(e){
+      var b=e.target.closest && e.target.closest('button,[role="button"]');
+      if(b){
+        /* Let inline onclick / existing listeners run normally. */
+        setTimeout(exposeIds,0);
+      }
+    },true);
+    window.addEventListener('pageshow',exposeIds);
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',mobileInit);
+  else mobileInit();
+})();
+</script>
+
 </body>
 </html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
 <style id="mobile-final-v22">
