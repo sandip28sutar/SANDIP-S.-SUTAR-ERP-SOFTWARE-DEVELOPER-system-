@@ -1,13 +1,25 @@
 {
-  "name": "SANDIP S. SUTAR ERP",
-  "short_name": "SANDIP ERP",
+  "name": "SANDIP S. SUTAR ERP & APK DEVELOPER",
+  "short_name": "SANDIP S. SUTAR",
+  "description": "SANDIP S. SUTAR Developer Console for ERP, Android APK and PC EXE software.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3a1c08",
-  "description": "SANDIP S. SUTAR ERP & App Developer",
+  "background_color": "#f5f6f8",
+  "theme_color": "#4a2108",
+  "orientation": "any",
   "icons": [
-    {"src":"icon-192.png","sizes":"192x192","type":"image/png"},
-    {"src":"icon-512.png","sizes":"512x512","type":"image/png"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
