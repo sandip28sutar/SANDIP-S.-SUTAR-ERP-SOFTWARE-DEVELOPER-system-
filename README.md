@@ -1,22 +1,12 @@
-# SANDIP S. SUTAR — All-in-One Developer System V1
+# SANDIP S. SUTAR — All-in-One Developer System V2
 
-A modular business-software developer console for configuring ERP, HRMS, CRM, Banking and custom business applications.
+Upgraded from the supplied Developer Console.
 
-## Included
-- Dashboard
-- New Project / Industry selector
-- ERP
-- HRMS
-- CRM
-- Banking
-- App Builder
-- AI & Automation
-- Cloud
-- Security
-- Advanced Settings
-- APK / EXE / Web build configuration
+Added:
+- All-in-One Software Factory
+- HRMS / CRM / Banking / POS / Manufacturing / Projects module marketplace
+- Form, Menu, Workflow, Report, Permission and Branding builder controls
+- APK / EXE / Web build workflow remains available
+- Existing ERP, APK, PC EXE and Firebase sections retained
 
-## Run
 Open `index.html` in a browser.
-
-This V1 is a front-end prototype with working navigation, module toggles, project configuration, theme switch and build configuration UI.
