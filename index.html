@@ -3481,51 +3481,6 @@ setTimeout(()=>{if(document.readyState!=="loading")render();else document.addEve
 })();
 </script>
 
-
-<style id="day2-statement-style">
-#day2Statements{margin-bottom:16px}#day2Statements .stGrid{display:grid;grid-template-columns:1fr 1.8fr;gap:12px}
-#day2Statements .stCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
-#day2Statements input,#day2Statements select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
-#day2Statements button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.stPrimary{background:#4a2108;color:#fff}
-#day2Statements table{width:100%;border-collapse:collapse;font-size:13px}#day2Statements th,#day2Statements td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-.stStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}.stDue{font-weight:700}
-@media(max-width:800px){#day2Statements .stGrid{grid-template-columns:1fr}#day2Statements table{font-size:11px}}
-</style>
-<script id="day2-statement-script">
-(function(){
-const S="SANDIP_DAY2_SALES_V2",P="SANDIP_DAY2_PURCHASES_V1",PAY="SANDIP_DAY2_PAYMENTS_V1",CUS="SANDIP_DAY1_CUSTOMERS_V1",SUP="SANDIP_DAY1_SUPPLIERS_V1";
-const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
-function mount(){let e=document.getElementById("day2Statements");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Statements";e.className="box";m.prepend(e);return e}
-function render(){
- const e=mount();if(!e)return;const c=read(CUS),s=read(SUP);
- e.innerHTML=`<h2>👥 Customer & Supplier Statement / खाते उतारे</h2>
- <div class="stGrid"><div class="stCard"><h3>🔎 Select Account</h3>
- <select id="stType" onchange="Day2Statement.load()"><option value="customer">Customer</option><option value="supplier">Supplier</option></select>
- <select id="stParty" onchange="Day2Statement.load()"><option value="">Select Party</option>${c.map(x=>`<option value="${x.id}">${esc(x.name)} — ${esc(x.phone)}</option>`).join("")}</select>
- <button class="stPrimary" onclick="Day2Statement.print()">🖨️ Print Statement</button></div>
- <div class="stCard"><div id="stSummary"></div><div id="stTable"></div></div></div>`;
- load();
-}
-function load(){
- const type=stType.value,id=Number(stParty.value);if(type==="supplier")stParty.innerHTML=`<option value="">Select Party</option>${read(SUP).map(x=>`<option value="${x.id}">${esc(x.name)} — ${esc(x.phone||"")}</option>`).join("")}`,stParty.value=id||"";
- if(!id){stSummary.innerHTML="Select a party to view statement.";stTable.innerHTML="";return}
- const sales=read(S),purs=read(P),pay=read(PAY),rows=[];
- if(type==="customer"){
-  sales.filter(x=>x.customerId===id).forEach(x=>rows.push({date:x.date,type:"Sales Invoice",ref:x.invoiceNo,debit:Number(x.total||0),credit:0,note:"Invoice"}));
-  pay.filter(x=>x.type==="RECEIPT"&&x.partyId===id).forEach(x=>rows.push({date:x.date,type:"Receipt",ref:x.reference||"",debit:0,credit:Number(x.amount||0),note:x.note||"Payment"}));
- }else{
-  purs.filter(x=>x.supplierId===id).forEach(x=>rows.push({date:x.date,type:"Purchase",ref:x.purchaseNo,debit:0,credit:Number(x.total||0),note:"Purchase"}));
-  pay.filter(x=>x.type==="SUPPLIER PAYMENT"&&x.partyId===id).forEach(x=>rows.push({date:x.date,type:"Payment",ref:x.reference||"",debit:Number(x.amount||0),credit:0,note:x.note||"Payment"}));
- }
- rows.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
- let bal=0;rows.forEach(x=>{bal+=x.debit-x.credit;x.balance=bal});
- const party=(type==="customer"?read(CUS):read(SUP)).find(x=>x.id===id);
- stSummary.innerHTML=`<h3>${esc(party?.name||"Party")}</h3><span class="stStat">Transactions: ${rows.length}</span><span class="stStat">Debit: ${money(rows.reduce((z,x)=>z+x.debit,0))}</span><span class="stStat">Credit: ${money(rows.reduce((z,x)=>z+x.credit,0))}</span><span class="stStat">Balance: <b>${money(Math.abs(bal))}</b> ${bal>0?"Due":"Advance/Credit"}</span>`;
- stTable.innerHTML=rows.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Type</th><th>Reference</th><th>Debit</th><th>Credit</th><th>Balance</th><th>Narration</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.ref)}</td><td>${money(x.debit)}</td><td>${money(x.credit)}</td><td>${money(Math.abs(x.balance))}</td><td>${esc(x.note)}</td></tr>`).join("")}</table></div>`:"<p>No transactions found.</p>";
-}
-window.Day2Statement={load,print(){if(!stParty.value)return alert("Select a party first.");const w=window.open("","_blank");w.document.write("<html><head><title>Statement</title></head><body>"+document.getElementById("stSummary").outerHTML+document.getElementById("stTable").outerHTML+"
 <style id="day2-order-style">
 #day2Orders{margin-bottom:16px}#day2Orders .oGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
 #day2Orders .oCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
@@ -3534,6 +3489,42 @@ window.Day2Statement={load,print(){if(!stParty.value)return alert("Select a part
 #day2Orders table{width:100%;border-collapse:collapse;font-size:13px}#day2Orders th,#day2Orders td{padding:8px;border-bottom:1px solid #eee;text-align:left}
 .oStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
 @media(max-width:800px){#day2Orders .oGrid{grid-template-columns:1fr}#day2Orders table{font-size:11px}}
+</style>
+<style id="day2-delivery-style">
+#day2Delivery{margin-bottom:16px}#day2Delivery .dGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Delivery .dCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Delivery input,#day2Delivery select,#day2Delivery textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Delivery button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.dPrimary{background:#4a2108;color:#fff}
+#day2Delivery table{width:100%;border-collapse:collapse;font-size:13px}#day2Delivery th,#day2Delivery td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+.dStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Delivery .dGrid{grid-template-columns:1fr}#day2Delivery table{font-size:11px}}
+</style>
+<style id="day2-return-style">
+#day2Returns{margin-bottom:16px}#day2Returns .rtGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Returns .rtCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Returns input,#day2Returns select,#day2Returns textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Returns button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.rtPrimary{background:#4a2108;color:#fff}
+#day2Returns table{width:100%;border-collapse:collapse;font-size:13px}#day2Returns th,#day2Returns td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.rtStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Returns .rtGrid{grid-template-columns:1fr}#day2Returns table{font-size:11px}}
+</style>
+<style id="day2-stock-style">
+#day2Stock{margin-bottom:16px}#day2Stock .skGrid{display:grid;grid-template-columns:1fr 1.8fr;gap:12px}
+#day2Stock .skCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Stock input,#day2Stock select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Stock button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.skPrimary{background:#4a2108;color:#fff}
+#day2Stock table{width:100%;border-collapse:collapse;font-size:13px}#day2Stock th,#day2Stock td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.skStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}.skLow{font-weight:700}
+@media(max-width:800px){#day2Stock .skGrid{grid-template-columns:1fr}#day2Stock table{font-size:11px}}
+</style>
+<style id="day2-scan-style">
+#day2Scan{margin-bottom:16px}#day2Scan .bcGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Scan .bcCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Scan input,#day2Scan select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Scan button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.bcPrimary{background:#4a2108;color:#fff}
+#day2Scan table{width:100%;border-collapse:collapse;font-size:13px}#day2Scan th,#day2Scan td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.bcResult{padding:12px;border:1px dashed #aaa;border-radius:10px;margin-top:8px}.bcFound{font-weight:700}
+@media(max-width:800px){#day2Scan .bcGrid{grid-template-columns:1fr}#day2Scan table{font-size:11px}}
 </style>
 <script id="day2-order-script">
 (function(){
@@ -3574,53 +3565,7 @@ invoice(no){const a=read(O),x=a.find(q=>q.no===no);if(!x)return;const s=read(S);
 const original=window.showPage;if(typeof original==="function"&&!window.__day2OrderHook){window.__day2OrderHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-quotation"||id==="erp-sales-order"||id==="erp-orders")setTimeout(render,50);return r}}
 })();
 </script>
-
-
-<style id="day2-delivery-style">
-#day2Delivery{margin-bottom:16px}#day2Delivery .dGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
-#day2Delivery .dCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
-#day2Delivery input,#day2Delivery select,#day2Delivery textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
-#day2Delivery button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.dPrimary{background:#4a2108;color:#fff}
-#day2Delivery table{width:100%;border-collapse:collapse;font-size:13px}#day2Delivery th,#day2Delivery td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
-.dStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
-@media(max-width:800px){#day2Delivery .dGrid{grid-template-columns:1fr}#day2Delivery table{font-size:11px}}
-</style>
-<script id="day2-delivery-script">
-(function(){
-const O="SANDIP_DAY2_SALES_ORDERS_V1",D="SANDIP_DAY2_DELIVERY_CHALLANS_V1",S="SANDIP_DAY2_SALES_V2";
-const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-function mount(){let e=document.getElementById("day2Delivery");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Delivery";e.className="box";m.prepend(e);return e}
-function render(){
- const e=mount();if(!e)return;const orders=read(O),dc=read(D);
- e.innerHTML=`<h2>🚚 Delivery Challan + Dispatch / डिलिव्हरी व डिस्पॅच</h2>
- <p><span class="dStat">Challans: ${dc.length}</span><span class="dStat">Open Orders: ${orders.filter(x=>x.status==="Open").length}</span></p>
- <div class="dGrid"><div class="dCard"><h3>➕ Create Delivery Challan</h3>
- <select id="dOrder"><option value="">Select Sales Order</option>${orders.filter(x=>x.status==="Open").map(x=>`<option value="${x.no}">${esc(x.no)} — ${esc(x.customerName)} — ₹${Number(x.total||0).toFixed(2)}</option>`).join("")}</select>
- <input id="dDate" type="date" value="${new Date().toISOString().slice(0,10)}"><input id="dTransport" placeholder="Transport / Vehicle No.">
- <input id="dDriver" placeholder="Driver Name / Mobile"><textarea id="dAddress" rows="2" placeholder="Delivery Address"></textarea>
- <input id="dNote" placeholder="Dispatch Remarks"><button class="dPrimary" onclick="Day2Delivery.create()">💾 Create Challan</button></div>
- <div class="dCard"><h3>📋 Delivery Challans</h3><div id="dTable"></div><h3>🛒 Open Sales Orders</h3><div id="dOrders"></div></div></div>`;
- draw();
-}
-function draw(){
- const dc=read(D),orders=read(O);
- dTable.innerHTML=dc.length?`<div style="overflow:auto"><table><tr><th>Challan</th><th>Date</th><th>Order</th><th>Customer</th><th>Transport</th><th>Status</th><th>Action</th></tr>${dc.slice(-20).reverse().map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${esc(x.orderNo)}</td><td>${esc(x.customerName)}</td><td>${esc(x.transport||"-")}</td><td>${esc(x.status)}</td><td><button onclick="Day2Delivery.print('${x.no}')">🖨️ Print</button>${x.status==="Pending"?`<button class="dPrimary" onclick="Day2Delivery.dispatch('${x.no}')">Dispatch</button>`:""}</td></tr>`).join("")}</table></div>`:"<p>No delivery challans.</p>";
- dOrders.innerHTML=orders.filter(x=>x.status==="Open").length?`<table><tr><th>Order</th><th>Customer</th><th>Total</th><th>Items</th></tr>${orders.filter(x=>x.status==="Open").map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.customerName)}</td><td>₹${Number(x.total||0).toFixed(2)}</td><td>${(x.items||[]).reduce((z,i)=>z+Number(i.qty||0),0)}</td></tr>`).join("")}</table>`:"<p>No open orders.</p>";
-}
-window.Day2Delivery={
-create(){const no=dOrder.value;if(!no)return alert("Select Sales Order.");const o=read(O).find(x=>x.no===no);if(!o)return alert("Order not found.");const a=read(D);if(a.some(x=>x.orderNo===no&&x.status!=="Cancelled"))return alert("Delivery Challan already exists for this order.");a.push({id:Date.now(),no:"DC-"+String(a.length+1).padStart(4,"0"),date:dDate.value,orderNo:o.no,customerId:o.customerId,customerName:o.customerName,items:o.items,total:o.total,transport:dTransport.value.trim(),driver:dDriver.value.trim(),address:dAddress.value.trim(),note:dNote.value.trim(),status:"Pending"});save(D,a);render();alert("Delivery Challan created.")},
-dispatch(no){const a=read(D),x=a.find(q=>q.no===no);if(!x)return;x.status="Dispatched";x.dispatchedAt=new Date().toISOString();save(D,a);render();alert("Dispatch marked complete.")},
-print(no){const x=read(D).find(q=>q.no===no);if(!x)return;const rows=(x.items||[]).map(i=>`<tr><td>${esc(i.name)}</td><td>${i.qty}</td><td>${esc(i.unit||"")}</td><td>₹${Number(i.rate||0).toFixed(2)}</td></tr>`).join("");const w=window.open("","_blank");w.document.write(`<html><head><title>${esc(x.no)}</title></head><body><h2>Delivery Challan: ${esc(x.no)}</h2><p>Date: ${esc(x.date)}<br>Customer: ${esc(x.customerName)}<br>Order: ${esc(x.orderNo)}<br>Transport: ${esc(x.transport||"-")}<br>Driver: ${esc(x.driver||"-")}<br>Address: ${esc(x.address||"-")}</p><table border="1" cellpadding="8" cellspacing="0"><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Rate</th></tr>${rows}</table><p>Remarks: ${esc(x.note||"")}</p>
-<style id="day2-return-style">
-#day2Returns{margin-bottom:16px}#day2Returns .rtGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
-#day2Returns .rtCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
-#day2Returns input,#day2Returns select,#day2Returns textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
-#day2Returns button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.rtPrimary{background:#4a2108;color:#fff}
-#day2Returns table{width:100%;border-collapse:collapse;font-size:13px}#day2Returns th,#day2Returns td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-.rtStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
-@media(max-width:800px){#day2Returns .rtGrid{grid-template-columns:1fr}#day2Returns table{font-size:11px}}
-</style>
+<script id="day2-delivery-script">(function(){const O="SANDIP_DAY2_SALES_ORDERS_V1",D="SANDIP_DAY2_DELIVERY_CHALLANS_V1";const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));const esc=s=>String(s??"").replace(/[&<>\"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));function mount(){let e=document.getElementById("day2Delivery");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Delivery";e.className="box";m.prepend(e);return e}function render(){let e=mount();if(!e)return;let orders=read(O),dc=read(D);e.innerHTML='<h2>🚚 Delivery Challan + Dispatch</h2><select id="dOrder"><option value="">Select Sales Order</option>'+orders.filter(x=>x.status==="Open").map(x=>'<option value="'+x.no+'">'+esc(x.no)+' — '+esc(x.customerName||'')+'</option>').join('')+'</select><input id="dDate" type="date" value="'+new Date().toISOString().slice(0,10)+'"><input id="dTransport" placeholder="Transport / Vehicle No."><input id="dDriver" placeholder="Driver Name / Mobile"><input id="dAddress" placeholder="Delivery Address"><input id="dNote" placeholder="Remarks"><button onclick="Day2Delivery.create()">💾 Create Challan</button><div id="dTable"></div>';dTable.innerHTML=dc.length?'<div style="overflow:auto"><table><tr><th>Challan</th><th>Date</th><th>Order</th><th>Customer</th><th>Transport</th><th>Status</th><th>Action</th></tr>'+dc.slice(-20).reverse().map(x=>'<tr><td>'+esc(x.no)+'</td><td>'+esc(x.date)+'</td><td>'+esc(x.orderNo)+'</td><td>'+esc(x.customerName)+'</td><td>'+esc(x.transport||'-')+'</td><td>'+esc(x.status)+'</td><td><button onclick="Day2Delivery.print(\''+x.no+'\')">🖨️ Print</button>'+(x.status==="Pending"?'<button onclick="Day2Delivery.dispatch(\''+x.no+'\')">Dispatch</button>':'')+'</td></tr>').join('')+'</table></div>':'<p>No delivery challans.</p>'}window.Day2Delivery={create(){let no=dOrder.value,o=read(O).find(x=>x.no===no);if(!o)return alert("Select Sales Order.");let a=read(D);a.push({id:Date.now(),no:"DC-"+String(a.length+1).padStart(4,"0"),date:dDate.value,orderNo:o.no,customerId:o.customerId,customerName:o.customerName,items:o.items||[],total:o.total||0,transport:dTransport.value.trim(),driver:dDriver.value.trim(),address:dAddress.value.trim(),note:dNote.value.trim(),status:"Pending"});save(D,a);render();alert("Delivery Challan created.")},dispatch(no){let a=read(D),x=a.find(q=>q.no===no);if(!x)return;x.status="Dispatched";x.dispatchedAt=new Date().toISOString();save(D,a);render();alert("Dispatch marked complete.")},print(no){let x=read(D).find(q=>q.no===no);if(!x)return;let rows=(x.items||[]).map(i=>'<tr><td>'+esc(i.name)+'</td><td>'+i.qty+'</td><td>'+esc(i.unit||'')+'</td><td>₹'+Number(i.rate||0).toFixed(2)+'</td></tr>').join('');let w=window.open('','_blank');if(!w)return;w.document.body.innerHTML='<h2>Delivery Challan: '+esc(x.no)+'</h2><p>Date: '+esc(x.date)+'<br>Customer: '+esc(x.customerName)+'<br>Order: '+esc(x.orderNo)+'<br>Transport: '+esc(x.transport||'-')+'<br>Driver: '+esc(x.driver||'-')+'<br>Address: '+esc(x.address||'-')+'</p><table border="1" cellpadding="8"><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Rate</th></tr>'+rows+'</table><p>'+esc(x.note||'')+'</p>';w.print()}};setTimeout(render,100);const original=window.showPage;if(typeof original==="function"&&!window.__day2DeliveryHook){window.__day2DeliveryHook=true;window.showPage=function(id){let r=original.apply(this,arguments);if(id==="erp-delivery"||id==="erp-dispatch"||id==="erp-challan")setTimeout(render,50);return r}}})();</script>
 <script id="day2-return-script">
 (function(){
 const S="SANDIP_DAY2_SALES_V2",P="SANDIP_DAY2_PURCHASES_V1",R="SANDIP_DAY2_RETURNS_V1";
@@ -3668,17 +3613,6 @@ loadRefs,save(){
 const original=window.showPage;if(typeof original==="function"&&!window.__day2ReturnHook){window.__day2ReturnHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-sales-return"||id==="erp-purchase-return"||id==="erp-returns")setTimeout(render,50);return r}}
 })();
 </script>
-
-
-<style id="day2-stock-style">
-#day2Stock{margin-bottom:16px}#day2Stock .skGrid{display:grid;grid-template-columns:1fr 1.8fr;gap:12px}
-#day2Stock .skCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
-#day2Stock input,#day2Stock select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
-#day2Stock button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.skPrimary{background:#4a2108;color:#fff}
-#day2Stock table{width:100%;border-collapse:collapse;font-size:13px}#day2Stock th,#day2Stock td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-.skStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}.skLow{font-weight:700}
-@media(max-width:800px){#day2Stock .skGrid{grid-template-columns:1fr}#day2Stock table{font-size:11px}}
-</style>
 <script id="day2-stock-script">
 (function(){
 const P="SANDIP_DAY1_PRODUCTS_V1",L="SANDIP_DAY2_STOCK_LEDGER_V1",R="SANDIP_DAY2_RETURNS_V1";
@@ -3720,17 +3654,6 @@ window.Day2Stock={save(){
 const original=window.showPage;if(typeof original==="function"&&!window.__day2StockHook){window.__day2StockHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-inventory"||id==="erp-stock"||id==="erp-stock-ledger")setTimeout(render,50);return r}}
 })();
 </script>
-
-
-<style id="day2-scan-style">
-#day2Scan{margin-bottom:16px}#day2Scan .bcGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
-#day2Scan .bcCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
-#day2Scan input,#day2Scan select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
-#day2Scan button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.bcPrimary{background:#4a2108;color:#fff}
-#day2Scan table{width:100%;border-collapse:collapse;font-size:13px}#day2Scan th,#day2Scan td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-.bcResult{padding:12px;border:1px dashed #aaa;border-radius:10px;margin-top:8px}.bcFound{font-weight:700}
-@media(max-width:800px){#day2Scan .bcGrid{grid-template-columns:1fr}#day2Scan table{font-size:11px}}
-</style>
 <script id="day2-scan-script">
 (function(){
 const P="SANDIP_DAY1_PRODUCTS_V1",S="SANDIP_DAY2_SCAN_LOG_V1";
@@ -3768,18 +3691,7 @@ clear(){bcInput.value="";bcResult.innerHTML="Enter a barcode, QR value or SKU.";
 const original=window.showPage;if(typeof original==="function"&&!window.__day2ScanHook){window.__day2ScanHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-barcode"||id==="erp-qr"||id==="erp-scan")setTimeout(render,50);return r}}
 })();
 </script>
-
-</body></html>`);w.document.close();w.print()}
-};
-const original=window.showPage;if(typeof original==="function"&&!window.__day2DeliveryHook){window.__day2DeliveryHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-delivery"||id==="erp-dispatch"||id==="erp-challan")setTimeout(render,50);return r}}
-})();
-</script>
-
-</body></html>");w.document.close();w.print()}};
-const original=window.showPage;if(typeof original==="function"&&!window.__day2StatementHook){window.__day2StatementHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-customer-ledger"||id==="erp-supplier-ledger"||id==="erp-statements")setTimeout(render,50);return r}}
-})();
-</script>
-
+<script id="day2-statement-repair-script">(function(){const S="SANDIP_DAY2_SALES_V2",P="SANDIP_DAY2_PURCHASES_V1",PAY="SANDIP_DAY2_PAYMENTS_V1",CUS="SANDIP_DAY1_CUSTOMERS_V1",SUP="SANDIP_DAY1_SUPPLIERS_V1";const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});function render(){let q=document.getElementById("day2Statements");if(!q){let main=document.querySelector("main");if(!main)return;q=document.createElement("section");q.id="day2Statements";q.className="box";main.prepend(q)}q.innerHTML='<h2>👥 Customer / Supplier Statements</h2><select id="srType"><option value="c">Customer</option><option value="s">Supplier</option></select><select id="srParty"><option value="">Select Party</option></select><button id="srLoad">View Statement</button><button id="srPrint">Print</button><div id="srOut"></div>';const fill=()=>{let a=srType.value==='c'?read(CUS):read(SUP);srParty.innerHTML='<option value="">Select Party</option>'+a.map(x=>'<option value="'+x.id+'">'+String(x.name||'')+'</option>').join('')};const load=()=>{let id=Number(srParty.value),rows=[];if(!id){srOut.innerHTML='Select a party.';return}if(srType.value==='c'){read(S).filter(x=>x.customerId===id).forEach(x=>rows.push([x.date,'Sales',x.invoiceNo,Number(x.total||0),0]));read(PAY).filter(x=>x.type==='RECEIPT'&&x.partyId===id).forEach(x=>rows.push([x.date,'Receipt',x.reference||'',0,Number(x.amount||0)]))}else{read(P).filter(x=>x.supplierId===id).forEach(x=>rows.push([x.date,'Purchase',x.purchaseNo,0,Number(x.total||0)]));read(PAY).filter(x=>x.type==='SUPPLIER PAYMENT'&&x.partyId===id).forEach(x=>rows.push([x.date,'Payment',x.reference||'',Number(x.amount||0),0]))}let bal=0;srOut.innerHTML='<table><tr><th>Date</th><th>Type</th><th>Ref</th><th>Debit</th><th>Credit</th><th>Balance</th></tr>'+rows.map(x=>{bal+=x[3]-x[4];return '<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+money(x[3])+'</td><td>'+money(x[4])+'</td><td>'+money(Math.abs(bal))+'</td></tr>'}).join('')+'</table>'};srType.onchange=fill;srParty.onchange=load;srLoad.onclick=load;srPrint.onclick=()=>{let w=window.open('','_blank');if(w){w.document.body.innerHTML=srOut.outerHTML;w.print()}};fill()}setTimeout(render,100);window.Day2StatementRepair={render}})();</script>
 </body>
 </html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
 <style id="mobile-final-v22">
