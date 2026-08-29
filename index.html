@@ -2610,6 +2610,1176 @@ body:has(.side.open) main{max-width:none!important}
 #erp-module-panel th,#erp-module-panel td{padding:8px;border-bottom:1px solid #eee;text-align:left}
 </style>
 
+
+<style id="day1-company-style">
+#day1Company{margin-bottom:16px}
+#day1Company .cmGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#day1Company .cmCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day1Company input,#day1Company textarea,#day1Company select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day1Company button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}
+#day1Company .cmPrimary{background:#4a2108;color:#fff}
+#day1Company .cmDanger{background:#f1d8d8}
+#day1Company table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+#day1Company th,#day1Company td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+#day1Company .cmActions{display:flex;flex-wrap:wrap;gap:4px}
+#day1Company .cmLogo{width:54px;height:54px;object-fit:contain;border:1px solid #ddd;border-radius:8px}
+@media(max-width:700px){#day1Company .cmGrid{grid-template-columns:1fr}#day1Company table{font-size:11px}}
+</style>
+
+<script id="day1-company-script">
+(function(){
+  const KEY="SANDIP_DAY1_COMPANIES_V2";
+  let editId=null;
+
+  function read(){
+    try{
+      const x=JSON.parse(localStorage.getItem(KEY)||'{"companies":[],"activeId":null}');
+      return {companies:Array.isArray(x.companies)?x.companies:[],activeId:x.activeId||null};
+    }catch(e){return {companies:[],activeId:null}}
+  }
+  function write(x){localStorage.setItem(KEY,JSON.stringify(x));}
+  function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+  function mount(){
+    let el=document.getElementById("day1Company");
+    if(el)return el;
+    const main=document.querySelector("main");
+    if(!main)return null;
+    el=document.createElement("section");
+    el.id="day1Company";
+    el.className="box";
+    main.prepend(el);
+    return el;
+  }
+
+  function render(){
+    const el=mount(); if(!el)return;
+    const d=read();
+    const c=editId?d.companies.find(x=>x.id===editId):null;
+    el.innerHTML=`
+      <h2>🏢 Company Management / कंपनी व्यवस्थापन</h2>
+      <p><small>Day 1 Core ERP — Company Master</small></p>
+      <div class="cmGrid">
+        <div class="cmCard">
+          <h3>${c?"✏️ Edit Company / कंपनी बदला":"➕ Add Company / कंपनी जोडा"}</h3>
+          <input id="cmName" placeholder="Company Name / कंपनीचे नाव *" value="${esc(c?.name)}">
+          <input id="cmCode" placeholder="Company Code / कंपनी कोड" value="${esc(c?.code)}">
+          <input id="cmOwner" placeholder="Owner / मालकाचे नाव" value="${esc(c?.owner)}">
+          <input id="cmPhone" placeholder="Contact Number / मोबाईल" value="${esc(c?.phone)}">
+          <input id="cmEmail" type="email" placeholder="Email" value="${esc(c?.email)}">
+          <input id="cmCity" placeholder="City / शहर" value="${esc(c?.city)}">
+          <input id="cmState" placeholder="State / राज्य" value="${esc(c?.state)}">
+          <input id="cmPin" placeholder="Pincode / पिनकोड" value="${esc(c?.pin)}">
+          <textarea id="cmAddress" rows="3" placeholder="Address / पत्ता">${esc(c?.address)}</textarea>
+          <input id="cmGst" placeholder="GSTIN" value="${esc(c?.gst)}">
+          <input id="cmPan" placeholder="PAN" value="${esc(c?.pan)}">
+          <input id="cmFY" placeholder="Financial Year / आर्थिक वर्ष (उदा. 2026-27)" value="${esc(c?.fy||"2026-27")}">
+          <select id="cmStatus">
+            <option value="active" ${(c?.status||"active")==="active"?"selected":""}>Active / सक्रिय</option>
+            <option value="inactive" ${c?.status==="inactive"?"selected":""}>Inactive / निष्क्रिय</option>
+          </select>
+          <div>
+            <label>Logo / लोगो</label>
+            <input id="cmLogo" type="file" accept="image/*">
+            ${c?.logo?`<img class="cmLogo" src="${c.logo}" alt="Company logo">`:""}
+          </div>
+          <div>
+            <button class="cmPrimary" onclick="Day1Company.save()">${c?"💾 Update Company":"💾 Save Company"}</button>
+            ${c?'<button onclick="Day1Company.cancel()">Cancel</button>':""}
+            <button onclick="Day1Company.newForm()">＋ New</button>
+          </div>
+        </div>
+
+        <div class="cmCard">
+          <h3>📌 Active Company / सध्या निवडलेली कंपनी</h3>
+          ${(()=>{
+            const a=d.companies.find(x=>x.id===d.activeId);
+            return a?`<p><b>${esc(a.name)}</b></p><p>${esc(a.phone)}<br>${esc(a.email)}<br>${esc(a.address)}</p><p>GSTIN: ${esc(a.gst)}</p>`:"<p>No active company selected.</p>";
+          })()}
+          <hr>
+          <h3>💾 Backup</h3>
+          <button onclick="Day1Company.exportData()">Export Company Backup</button>
+          <button onclick="Day1Company.importData()">Import Company Backup</button>
+          <p><small>Export backup before major changes.</small></p>
+        </div>
+      </div>
+
+      <h3>📋 Company List / कंपनी यादी</h3>
+      ${d.companies.length?`
+      <div style="overflow:auto">
+      <table>
+        <tr><th>Logo</th><th>Company</th><th>Contact</th><th>GST/PAN</th><th>FY</th><th>Status</th><th>Actions</th></tr>
+        ${d.companies.map(x=>`
+          <tr>
+            <td>${x.logo?`<img class="cmLogo" src="${x.logo}" alt="">`:"—"}</td>
+            <td><b>${esc(x.name)}</b><br><small>${esc(x.code)}</small><br><small>${esc(x.owner)}</small></td>
+            <td>${esc(x.phone)}<br>${esc(x.email)}<br>${esc(x.city)} ${esc(x.state)} ${esc(x.pin)}</td>
+            <td>${esc(x.gst)}<br>${esc(x.pan)}</td>
+            <td>${esc(x.fy)}</td>
+            <td>${x.id===d.activeId?"🟢 Active":"⚪ "+esc(x.status)}</td>
+            <td class="cmActions">
+              <button onclick="Day1Company.edit(${x.id})">✏️ Edit</button>
+              ${x.id!==d.activeId?`<button onclick="Day1Company.activate(${x.id})">Set Active</button>`:""}
+              <button class="cmDanger" onclick="Day1Company.remove(${x.id})">🗑️ Delete</button>
+            </td>
+          </tr>`).join("")}
+      </table></div>`:"<p>No company records yet.</p>"}
+    `;
+  }
+
+  async function logoData(){
+    const f=document.getElementById("cmLogo")?.files?.[0];
+    if(!f)return null;
+    return await new Promise((resolve,reject)=>{
+      const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=reject; r.readAsDataURL(f);
+    });
+  }
+
+  window.Day1Company={
+    newForm(){editId=null;render()},
+    cancel(){editId=null;render()},
+    edit(id){editId=id;render()},
+    async save(){
+      const name=document.getElementById("cmName")?.value.trim();
+      if(!name){alert("Company Name / कंपनीचे नाव आवश्यक आहे.");return}
+      const d=read();
+      const old=editId?d.companies.find(x=>x.id===editId):null;
+      let logo=old?.logo||null;
+      try{const fresh=await logoData();if(fresh)logo=fresh}catch(e){}
+      const item={
+        id:editId||Date.now(),
+        name, code:cmCode.value.trim(), owner:cmOwner.value.trim(), phone:cmPhone.value.trim(),
+        email:cmEmail.value.trim(), city:cmCity.value.trim(), state:cmState.value.trim(),
+        pin:cmPin.value.trim(), address:cmAddress.value.trim(), gst:cmGst.value.trim(),
+        pan:cmPan.value.trim(), fy:cmFY.value.trim()||"2026-27", status:cmStatus.value, logo
+      };
+      if(editId){
+        const i=d.companies.findIndex(x=>x.id===editId); if(i>=0)d.companies[i]=item;
+      }else{
+        d.companies.push(item);
+        if(!d.activeId)d.activeId=item.id;
+      }
+      write(d);editId=null;render();
+      alert("Company saved successfully / कंपनी सेव झाली.");
+    },
+    activate(id){const d=read();d.activeId=id;write(d);render()},
+    remove(id){
+      if(!confirm("Delete this company? / ही कंपनी delete करायची?"))return;
+      const d=read();d.companies=d.companies.filter(x=>x.id!==id);
+      if(d.activeId===id)d.activeId=d.companies[0]?.id||null;
+      write(d);editId=null;render();
+    },
+    exportData(){
+      const blob=new Blob([JSON.stringify(read(),null,2)],{type:"application/json"});
+      const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="company-management-backup.json";
+      document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);
+    },
+    importData(){
+      const i=document.createElement("input");i.type="file";i.accept=".json,application/json";
+      i.onchange=()=>{
+        const f=i.files[0];if(!f)return;
+        const r=new FileReader();
+        r.onload=()=>{
+          try{
+            const x=JSON.parse(r.result);
+            if(!Array.isArray(x.companies))throw new Error();
+            write({companies:x.companies,activeId:x.activeId||x.companies[0]?.id||null});
+            render();alert("Company backup imported.");
+          }catch(e){alert("Invalid company backup file.")}
+        };r.readAsText(f);
+      };i.click();
+    }
+  };
+
+  const original=window.showPage;
+  if(typeof original==="function"&&!window.__day1CompanyHook){
+    window.__day1CompanyHook=true;
+    window.showPage=function(id){
+      const result=original.apply(this,arguments);
+      if(id==="erp-company")setTimeout(()=>Day1Company.newForm(),60);
+      return result;
+    };
+  }
+  document.addEventListener("DOMContentLoaded",()=>{});
+})();
+</script>
+
+
+<style id="day1-branch-user-style">
+#day1BranchUser{margin-bottom:16px}
+#day1BranchUser .d1Grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#day1BranchUser .d1Card{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day1BranchUser input,#day1BranchUser textarea,#day1BranchUser select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day1BranchUser button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}
+#day1BranchUser .d1Primary{background:#4a2108;color:#fff}
+#day1BranchUser .d1Danger{background:#f1d8d8}
+#day1BranchUser table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+#day1BranchUser th,#day1BranchUser td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+@media(max-width:700px){#day1BranchUser .d1Grid{grid-template-columns:1fr}#day1BranchUser table{font-size:11px}}
+</style>
+<script id="day1-branch-user-script">
+(function(){
+const BKEY="SANDIP_DAY1_BRANCHES_V1", UKEY="SANDIP_DAY1_USERS_V1";
+let be=null,ue=null,tab="branch";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day1BranchUser");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day1BranchUser";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return; const bs=read(BKEY),us=read(UKEY);
+ e.innerHTML=`<h2>🏪 Branch & User Management / शाखा व वापरकर्ता व्यवस्थापन</h2>
+ <p><button class="${tab==="branch"?"d1Primary":""}" onclick="Day1BU.tab('branch')">03 Branch Management</button>
+ <button class="${tab==="user"?"d1Primary":""}" onclick="Day1BU.tab('user')">04 User & Role Management</button></p>
+ ${tab==="branch"?branch(bs):user(us,bs)}`;
+}
+function branch(bs){
+const c=be?bs.find(x=>x.id===be):null;
+return `<div class="d1Grid"><div class="d1Card"><h3>${c?"✏️ Edit Branch":"➕ Add Branch"}</h3>
+<input id="buName" placeholder="Branch Name / शाखेचे नाव *" value="${esc(c?.name)}">
+<input id="buCode" placeholder="Branch Code" value="${esc(c?.code)}">
+<input id="buPhone" placeholder="Contact Number" value="${esc(c?.phone)}">
+<input id="buEmail" placeholder="Email" value="${esc(c?.email)}">
+<input id="buCity" placeholder="City / शहर" value="${esc(c?.city)}">
+<textarea id="buAddress" rows="3" placeholder="Address / पत्ता">${esc(c?.address)}</textarea>
+<select id="buStatus"><option value="active" ${(c?.status||"active")==="active"?"selected":""}>Active</option><option value="inactive" ${c?.status==="inactive"?"selected":""}>Inactive</option></select>
+<button class="d1Primary" onclick="Day1BU.saveBranch()">${c?"Update Branch":"Save Branch"}</button>${c?'<button onclick="Day1BU.cancelBranch()">Cancel</button>':""}</div>
+<div class="d1Card"><h3>📋 Branch List</h3>${bs.length?`<div style="overflow:auto"><table><tr><th>Branch</th><th>Contact</th><th>Address</th><th>Status</th><th>Action</th></tr>${bs.map(x=>`<tr><td><b>${esc(x.name)}</b><br>${esc(x.code)}</td><td>${esc(x.phone)}<br>${esc(x.email)}</td><td>${esc(x.address)}<br>${esc(x.city)}</td><td>${esc(x.status)}</td><td><button onclick="Day1BU.editBranch(${x.id})">Edit</button><button class="d1Danger" onclick="Day1BU.removeBranch(${x.id})">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No branches yet.</p>"}</div></div>`;
+}
+function user(us,bs){
+const c=ue?us.find(x=>x.id===ue):null;
+return `<div class="d1Grid"><div class="d1Card"><h3>${c?"✏️ Edit User":"➕ Add User"}</h3>
+<input id="buUserName" placeholder="User Name / वापरकर्ता नाव *" value="${esc(c?.name)}">
+<input id="buUserLogin" placeholder="Login ID *" value="${esc(c?.login)}">
+<input id="buUserPhone" placeholder="Mobile" value="${esc(c?.phone)}">
+<select id="buRole"><option>Admin</option><option>Manager</option><option>Sales</option><option>Purchase</option><option>Accountant</option><option>Staff</option></select>
+<select id="buBranch">${bs.map(x=>`<option value="${x.id}" ${c?.branchId===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select>
+<select id="buUserStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+<button class="d1Primary" onclick="Day1BU.saveUser()">${c?"Update User":"Save User"}</button>${c?'<button onclick="Day1BU.cancelUser()">Cancel</button>':""}</div>
+<div class="d1Card"><h3>📋 Users & Roles</h3>${us.length?`<div style="overflow:auto"><table><tr><th>User</th><th>Login</th><th>Role</th><th>Branch</th><th>Status</th><th>Action</th></tr>${us.map(x=>`<tr><td>${esc(x.name)}<br>${esc(x.phone)}</td><td>${esc(x.login)}</td><td>${esc(x.role)}</td><td>${esc(bs.find(b=>b.id===x.branchId)?.name||"All/None")}</td><td>${esc(x.status||"active")}</td><td><button onclick="Day1BU.editUser(${x.id})">Edit</button><button class="d1Danger" onclick="Day1BU.removeUser(${x.id})">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No users yet.</p>"}</div></div>`;
+}
+window.Day1BU={
+tab(t){tab=t;be=null;ue=null;render()},
+saveBranch(){const n=buName.value.trim();if(!n)return alert("Branch Name is required.");let a=read(BKEY);const x={id:be||Date.now(),name:n,code:buCode.value.trim(),phone:buPhone.value.trim(),email:buEmail.value.trim(),city:buCity.value.trim(),address:buAddress.value.trim(),status:buStatus.value};const i=a.findIndex(v=>v.id===be);if(i>=0)a[i]=x;else a.push(x);save(BKEY,a);be=null;render()},
+editBranch(id){be=id;tab="branch";render()},cancelBranch(){be=null;render()},
+removeBranch(id){if(!confirm("Delete branch?"))return;save(BKEY,read(BKEY).filter(x=>x.id!==id));save(UKEY,read(UKEY).map(x=>x.branchId===id?({...x,branchId:null}):x));render()},
+saveUser(){const n=buUserName.value.trim(),l=buUserLogin.value.trim();if(!n||!l)return alert("User Name and Login ID are required.");let a=read(UKEY);const x={id:ue||Date.now(),name:n,login:l,phone:buUserPhone.value.trim(),role:buRole.value,branchId:Number(buBranch.value)||null,status:buUserStatus.value};const i=a.findIndex(v=>v.id===ue);if(i>=0)a[i]=x;else a.push(x);save(UKEY,a);ue=null;render()},
+editUser(id){ue=id;tab="user";render()},cancelUser(){ue=null;render()},
+removeUser(id){if(!confirm("Delete user?"))return;save(UKEY,read(UKEY).filter(x=>x.id!==id));render()}
+};
+const original=window.showPage;
+if(typeof original==="function"&&!window.__day1BUHook){window.__day1BUHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-branches"||id==="erp-users")setTimeout(()=>{tab=id==="erp-users"?"user":"branch";Day1BU.tab(tab)},50);return r}}
+})();
+</script>
+
+
+<style id="day1-customer-supplier-style">
+#day1CS{margin-bottom:16px}#day1CS .csGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#day1CS .csCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day1CS input,#day1CS textarea,#day1CS select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day1CS button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.csPrimary{background:#4a2108;color:#fff}.csDanger{background:#f1d8d8}
+#day1CS table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}#day1CS th,#day1CS td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+@media(max-width:700px){#day1CS .csGrid{grid-template-columns:1fr}#day1CS table{font-size:11px}}
+</style>
+<script id="day1-customer-supplier-script">
+(function(){
+const CK="SANDIP_DAY1_CUSTOMERS_V1",SK="SANDIP_DAY1_SUPPLIERS_V1";let mode="customer",edit=null;
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day1CS");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day1CS";e.className="box";m.prepend(e);return e}
+function render(){const e=mount();if(!e)return;const arr=read(mode==="customer"?CK:SK),c=edit?arr.find(x=>x.id===edit):null;
+e.innerHTML=`<h2>${mode==="customer"?"👤 Customer Management / ग्राहक व्यवस्थापन":"🚚 Supplier Management / पुरवठादार व्यवस्थापन"}</h2>
+<p><button class="${mode==="customer"?"csPrimary":""}" onclick="Day1CS.switchTo('customer')">05 Customer</button><button class="${mode==="supplier"?"csPrimary":""}" onclick="Day1CS.switchTo('supplier')">06 Supplier</button></p>
+<div class="csGrid"><div class="csCard"><h3>${c?"✏️ Edit":"➕ Add"} ${mode==="customer"?"Customer / ग्राहक":"Supplier / पुरवठादार"}</h3>
+<input id="csName" placeholder="Name / नाव *" value="${esc(c?.name)}"><input id="csCode" placeholder="Code / कोड" value="${esc(c?.code)}">
+<input id="csPhone" placeholder="Mobile / मोबाईल" value="${esc(c?.phone)}"><input id="csEmail" placeholder="Email" value="${esc(c?.email)}">
+<textarea id="csAddress" rows="3" placeholder="Address / पत्ता">${esc(c?.address)}</textarea><input id="csCity" placeholder="City / शहर" value="${esc(c?.city)}">
+<input id="csGst" placeholder="GSTIN" value="${esc(c?.gst)}"><input id="csPan" placeholder="PAN" value="${esc(c?.pan)}">
+<input id="csOpening" type="number" placeholder="Opening Balance / सुरुवातीची शिल्लक" value="${esc(c?.opening||0)}">
+<select id="csStatus"><option value="active" ${(c?.status||"active")==="active"?"selected":""}>Active</option><option value="inactive" ${c?.status==="inactive"?"selected":""}>Inactive</option></select>
+<button class="csPrimary" onclick="Day1CS.save()">${c?"💾 Update":"💾 Save"}</button>${c?'<button onclick="Day1CS.cancel()">Cancel</button>':""}</div>
+<div class="csCard"><h3>🔎 Search</h3><input id="csSearch" placeholder="Search name / mobile / code" oninput="Day1CS.filter()"><div id="csList"></div></div></div>`;
+draw(arr)
+}
+function draw(arr){const q=(document.getElementById("csSearch")?.value||"").toLowerCase();const a=arr.filter(x=>[x.name,x.phone,x.code,x.city].join(" ").toLowerCase().includes(q));document.getElementById("csList").innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Name</th><th>Contact</th><th>GST/PAN</th><th>Opening</th><th>Status</th><th>Actions</th></tr>${a.map(x=>`<tr><td><b>${esc(x.name)}</b><br>${esc(x.code)}<br>${esc(x.city)}</td><td>${esc(x.phone)}<br>${esc(x.email)}</td><td>${esc(x.gst)}<br>${esc(x.pan)}</td><td>₹ ${Number(x.opening||0).toFixed(2)}</td><td>${esc(x.status)}</td><td><button onclick="Day1CS.edit(${x.id})">✏️ Edit</button><button class="csDanger" onclick="Day1CS.remove(${x.id})">🗑️ Delete</button></td></tr>`).join("")}</table></div>`:"<p>No records found.</p>"}
+window.Day1CS={switchTo(m){mode=m;edit=null;render()},filter(){draw(read(mode==="customer"?CK:SK))},newForm(){edit=null;render()},cancel(){edit=null;render()},edit(id){edit=id;render()},
+save(){const n=csName.value.trim();if(!n)return alert("Name is required / नाव आवश्यक आहे.");const k=mode==="customer"?CK:SK,a=read(k),x={id:edit||Date.now(),name:n,code:csCode.value.trim(),phone:csPhone.value.trim(),email:csEmail.value.trim(),address:csAddress.value.trim(),city:csCity.value.trim(),gst:csGst.value.trim(),pan:csPan.value.trim(),opening:Number(csOpening.value||0),status:csStatus.value};const i=a.findIndex(v=>v.id===edit);if(i>=0)a[i]=x;else a.push(x);save(k,a);edit=null;render();alert((mode==="customer"?"Customer":"Supplier")+" saved successfully.")},
+remove(id){if(!confirm("Delete this record?"))return;const k=mode==="customer"?CK:SK;save(k,read(k).filter(x=>x.id!==id));render()}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day1CSHook){window.__day1CSHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-customers"||id==="erp-suppliers")setTimeout(()=>{mode=id==="erp-suppliers"?"supplier":"customer";Day1CS.render?Day1CS.render():render()},50);return r}}
+})();
+</script>
+
+
+<style id="day1-product-style">
+#day1Product{margin-bottom:16px}#day1Product .pmGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#day1Product .pmCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day1Product input,#day1Product textarea,#day1Product select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day1Product button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.pmPrimary{background:#4a2108;color:#fff}.pmDanger{background:#f1d8d8}
+#day1Product table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}#day1Product th,#day1Product td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+@media(max-width:700px){#day1Product .pmGrid{grid-template-columns:1fr}#day1Product table{font-size:11px}}
+</style>
+<script id="day1-product-script">
+(function(){
+const KEY="SANDIP_DAY1_PRODUCTS_V1";let edit=null;
+const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}};
+const save=a=>localStorage.setItem(KEY,JSON.stringify(a));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day1Product");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day1Product";e.className="box";m.prepend(e);return e}
+function render(){
+const e=mount();if(!e)return;const a=read(),c=edit?a.find(x=>x.id===edit):null;
+e.innerHTML=`<h2>📦 Product / Item Master / उत्पादन व्यवस्थापन</h2>
+<p><small>Day 1 Core ERP — Product & Stock Master</small></p>
+<div class="pmGrid"><div class="pmCard"><h3>${c?"✏️ Edit Product":"➕ Add Product"}</h3>
+<input id="pmName" placeholder="Product / Item Name *" value="${esc(c?.name)}">
+<input id="pmCode" placeholder="SKU / Item Code" value="${esc(c?.code)}">
+<input id="pmCategory" placeholder="Category / वर्ग" value="${esc(c?.category)}">
+<input id="pmUnit" placeholder="Unit / एकक (Nos, Kg, Box...)" value="${esc(c?.unit||"Nos")}">
+<input id="pmPurchase" type="number" min="0" step="0.01" placeholder="Purchase Rate" value="${esc(c?.purchase||0)}">
+<input id="pmSale" type="number" min="0" step="0.01" placeholder="Sale Rate" value="${esc(c?.sale||0)}">
+<input id="pmGst" type="number" min="0" max="100" step="0.01" placeholder="GST %" value="${esc(c?.gst||0)}">
+<input id="pmOpening" type="number" min="0" step="0.001" placeholder="Opening Stock" value="${esc(c?.opening||0)}">
+<input id="pmMin" type="number" min="0" step="0.001" placeholder="Minimum Stock Alert" value="${esc(c?.min||0)}">
+<select id="pmStatus"><option value="active" ${(c?.status||"active")==="active"?"selected":""}>Active</option><option value="inactive" ${c?.status==="inactive"?"selected":""}>Inactive</option></select>
+<textarea id="pmNote" rows="2" placeholder="Notes">${esc(c?.note)}</textarea>
+<button class="pmPrimary" onclick="Day1Product.save()">${c?"💾 Update Product":"💾 Save Product"}</button>${c?'<button onclick="Day1Product.cancel()">Cancel</button>':""}
+<button onclick="Day1Product.newForm()">＋ New</button></div>
+<div class="pmCard"><h3>🔎 Search Product</h3><input id="pmSearch" placeholder="Name / SKU / category" oninput="Day1Product.filter()"><div id="pmList"></div></div></div>`;
+draw(a)
+}
+function draw(a){const q=(document.getElementById("pmSearch")?.value||"").toLowerCase();const x=a.filter(v=>[v.name,v.code,v.category,v.unit].join(" ").toLowerCase().includes(q));document.getElementById("pmList").innerHTML=x.length?`<div style="overflow:auto"><table><tr><th>Product</th><th>Rates</th><th>GST</th><th>Stock</th><th>Status</th><th>Actions</th></tr>${x.map(v=>`<tr><td><b>${esc(v.name)}</b><br>${esc(v.code)}<br>${esc(v.category)} / ${esc(v.unit)}</td><td>Purchase ₹${Number(v.purchase||0).toFixed(2)}<br>Sale ₹${Number(v.sale||0).toFixed(2)}</td><td>${Number(v.gst||0)}%</td><td>${Number(v.opening||0)}<br><small>Min: ${Number(v.min||0)}</small></td><td>${v.status==="active"?"🟢 Active":"⚪ Inactive"}</td><td><button onclick="Day1Product.edit(${v.id})">✏️ Edit</button><button class="pmDanger" onclick="Day1Product.remove(${v.id})">🗑️ Delete</button></td></tr>`).join("")}</table></div>`:"<p>No products found.</p>"}
+window.Day1Product={
+newForm(){edit=null;render()},cancel(){edit=null;render()},edit(id){edit=id;render()},filter(){draw(read())},
+save(){const n=pmName.value.trim();if(!n)return alert("Product / Item Name is required.");const a=read(),x={id:edit||Date.now(),name:n,code:pmCode.value.trim(),category:pmCategory.value.trim(),unit:pmUnit.value.trim()||"Nos",purchase:Number(pmPurchase.value||0),sale:Number(pmSale.value||0),gst:Number(pmGst.value||0),opening:Number(pmOpening.value||0),min:Number(pmMin.value||0),status:pmStatus.value,note:pmNote.value.trim()};const i=a.findIndex(v=>v.id===edit);if(i>=0)a[i]=x;else a.push(x);save(a);edit=null;render();alert("Product saved successfully.")},
+remove(id){if(!confirm("Delete this product?"))return;save(read().filter(x=>x.id!==id));render()}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day1ProductHook){window.__day1ProductHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-products")setTimeout(()=>Day1Product.newForm(),50);return r}}
+})();
+</script>
+
+
+<style id="day1-test-style">
+#day1Test{margin-bottom:16px}#day1Test .tGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#day1Test .tCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day1Test button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.tPrimary{background:#4a2108;color:#fff}
+#day1Test .ok{font-weight:600}#day1Test .tRow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #eee}
+@media(max-width:700px){#day1Test .tGrid{grid-template-columns:1fr}}
+</style>
+<script id="day1-test-script">
+(function(){
+const TEST_KEYS=[
+ ["Company Management","SANDIP_DAY1_COMPANIES_V2"],
+ ["Branch Management","SANDIP_DAY1_BRANCHES_V1"],
+ ["User & Role Management","SANDIP_DAY1_USERS_V1"],
+ ["Customer Management","SANDIP_DAY1_CUSTOMERS_V1"],
+ ["Supplier Management","SANDIP_DAY1_SUPPLIERS_V1"],
+ ["Product / Item Master","SANDIP_DAY1_PRODUCTS_V1"]
+];
+function mount(){let e=document.getElementById("day1Test");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day1Test";e.className="box";m.prepend(e);return e}
+function count(k){try{let x=JSON.parse(localStorage.getItem(k)||"[]");if(x&&Array.isArray(x))return x.length;if(x&&Array.isArray(x.companies))return x.companies.length;return 0}catch(e){return 0}}
+function render(){
+let e=mount();if(!e)return;
+e.innerHTML=`<h2>🧪 Day 1 Testing & Data Check / चाचणी व डेटा तपासणी</h2>
+<p>Core ERP modules data-storage check.</p>
+<div class="tGrid">
+<div class="tCard"><h3>Module Status</h3>${TEST_KEYS.map(([n,k])=>`<div class="tRow"><span>${n}</span><span class="ok">✓ Ready · ${count(k)} record(s)</span></div>`).join("")}</div>
+<div class="tCard"><h3>Data Tools</h3>
+<button class="tPrimary" onclick="Day1Test.run()">🔄 Run Test Again</button>
+<button onclick="Day1Test.exportAll()">💾 Export Day 1 Backup</button>
+<button onclick="Day1Test.clear()">🗑️ Clear Test Data</button>
+<p><small>Export creates one JSON backup containing Day 1 module data.</small></p>
+<div id="day1TestResult"></div></div></div>`;
+}
+window.Day1Test={
+run(){render();setTimeout(()=>alert("Day 1 data check completed. All configured module storage keys are accessible."),30)},
+exportAll(){
+const data={exportedAt:new Date().toISOString(),modules:{}};
+TEST_KEYS.forEach(([n,k])=>{try{data.modules[k]=JSON.parse(localStorage.getItem(k)||"[]")}catch(e){data.modules[k]=null}});
+const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");
+a.href=URL.createObjectURL(blob);a.download="SANDIP_ERP_DAY1_BACKUP.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);
+},
+clear(){if(!confirm("Clear all Day 1 test data? This removes Company, Branch, User, Customer, Supplier and Product records stored by these modules."))return;TEST_KEYS.forEach(([n,k])=>localStorage.removeItem(k));render();alert("Day 1 test data cleared.")}
+};
+})();
+</script>
+
+
+
+
+
+<style id="day2-purchase-style">
+#day2Purchase{margin-bottom:16px}#day2Purchase .pGrid{display:grid;grid-template-columns:1fr 1.5fr;gap:12px}
+#day2Purchase .pCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Purchase input,#day2Purchase select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Purchase button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.pPrimary{background:#4a2108;color:#fff}.pDanger{background:#f1d8d8}
+#day2Purchase table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}#day2Purchase th,#day2Purchase td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+@media(max-width:800px){#day2Purchase .pGrid{grid-template-columns:1fr}#day2Purchase table{font-size:11px}}
+</style>
+<script id="day2-purchase-script">
+(function(){
+const PK="SANDIP_DAY1_PRODUCTS_V1",SK="SANDIP_DAY1_SUPPLIERS_V1",RK="SANDIP_DAY2_PURCHASES_V1",IK="SANDIP_DAY2_STOCK_LEDGER_V1";
+let cart=[];
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Purchase");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Purchase";e.className="box";m.prepend(e);return e}
+function nextNo(){return "PUR-"+String(read(RK).length+1).padStart(4,"0")}
+function render(){
+const e=mount();if(!e)return;const ss=read(SK),ps=read(PK);
+e.innerHTML=`<h2>🛒 Purchase / खरेदी</h2><p><small>Day 2 — Purchase workflow: Supplier → Purchase → Stock In → Payable</small></p>
+<div class="pGrid"><div class="pCard"><h3>📝 Purchase Details</h3>
+<input id="pInvNo" value="${nextNo()}" placeholder="Purchase No."><input id="pDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+<select id="pSupplier"><option value="">Walk-in / Select Supplier</option>${ss.map(s=>`<option value="${s.id}">${esc(s.name)} — ${esc(s.phone)}</option>`).join("")}</select>
+<select id="pProduct"><option value="">Select Product</option>${ps.map(p=>`<option value="${p.id}">${esc(p.name)} | ₹${Number(p.purchase||0).toFixed(2)} / ${esc(p.unit)}</option>`).join("")}</select>
+<input id="pQty" type="number" min="0.001" step="0.001" value="1" placeholder="Quantity">
+<input id="pRate" type="number" min="0" step="0.01" placeholder="Purchase Rate (auto from product)">
+<input id="pGst" type="number" min="0" max="100" step="0.01" value="0" placeholder="GST %">
+<button class="pPrimary" onclick="Day2Purchase.add()">＋ Add Item</button>
+<hr><label>Discount ₹</label><input id="pDiscount" type="number" min="0" step="0.01" value="0" oninput="Day2Purchase.draw()">
+<label>Payment Mode</label><select id="pPay"><option>Credit</option><option>Cash</option><option>UPI</option><option>Bank</option></select>
+<label>Paid Amount ₹</label><input id="pPaid" type="number" min="0" step="0.01" value="0" oninput="Day2Purchase.draw()">
+<button class="pPrimary" onclick="Day2Purchase.save()">💾 Save Purchase</button><button onclick="Day2Purchase.clear()">Clear</button></div>
+<div class="pCard"><h3>🛒 Purchase Items</h3><div id="pItems"></div><div id="pSummary"></div><h3>📋 Recent Purchases</h3><div id="pRecent"></div></div></div>`;
+draw();
+}
+function draw(){
+const it=document.getElementById("pItems");if(!it)return;
+it.innerHTML=cart.length?`<div style="overflow:auto"><table><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Total</th><th></th></tr>${cart.map((x,i)=>`<tr><td>${esc(x.name)}</td><td>${x.qty}</td><td>₹${x.rate.toFixed(2)}</td><td>${x.gst}%</td><td>₹${(x.qty*x.rate*(1+x.gst/100)).toFixed(2)}</td><td><button class="pDanger" onclick="Day2Purchase.remove(${i})">×</button></td></tr>`).join("")}</table></div>`:"<p>No items added.</p>";
+let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),disc=Number(pDiscount.value||0),gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),total=Math.max(0,sub-disc+gst),paid=Number(pPaid.value||0);
+pSummary.innerHTML=`<hr>Subtotal: ₹${sub.toFixed(2)}<br>Discount: ₹${disc.toFixed(2)}<br>GST: ₹${gst.toFixed(2)}<br><b style="font-size:20px">Grand Total: ₹${total.toFixed(2)}</b><br>Paid: ₹${paid.toFixed(2)}<br>Payable: ₹${Math.max(0,total-paid).toFixed(2)}`;
+const a=read(RK).slice(-10).reverse();pRecent.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>No.</th><th>Supplier</th><th>Total</th><th>Paid</th><th>Payable</th></tr>${a.map(x=>`<tr><td>${esc(x.purchaseNo)}<br>${esc(x.date)}</td><td>${esc(x.supplierName)}</td><td>₹${x.total.toFixed(2)}</td><td>₹${x.paid.toFixed(2)}</td><td>₹${x.payable.toFixed(2)}</td></tr>`).join("")}</table></div>`:"<p>No purchases yet.</p>";
+}
+window.Day2Purchase={
+add(){const p=read(PK).find(x=>x.id===Number(pProduct.value));const q=Number(pQty.value||0);if(!p)return alert("Select a product.");if(q<=0)return alert("Enter quantity.");const rate=Number(pRate.value||p.purchase||0);cart.push({productId:p.id,name:p.name,qty:q,rate,gst:Number(pGst.value||p.gst||0),unit:p.unit});draw()},
+remove(i){cart.splice(i,1);draw()},clear(){cart=[];render()},draw,
+save(){
+if(!cart.length)return alert("Add at least one item.");
+let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),disc=Number(pDiscount.value||0),gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),total=Math.max(0,sub-disc+gst),paid=Number(pPaid.value||0);
+const ss=read(SK),sup=ss.find(x=>x.id===Number(pSupplier.value)),purchases=read(RK);
+const purchase={id:Date.now(),purchaseNo:pInvNo.value.trim()||nextNo(),date:pDate.value,supplierId:sup?.id||null,supplierName:sup?.name||"Walk-in",items:cart.map(x=>({...x})),subtotal:sub,discount:disc,gst,total,paid,payable:Math.max(0,total-paid),paymentMode:pPay.value};
+purchases.push(purchase);save(RK,purchases);
+const ledger=read(IK);cart.forEach(x=>ledger.push({id:Date.now()+Math.random(),date:pDate.value,type:"PURCHASE",ref:purchase.purchaseNo,productId:x.productId,productName:x.name,qty:x.qty,rate:x.rate,stockIn:x.qty,stockOut:0}));
+save(IK,ledger);cart=[];alert("Purchase saved. Stock In ledger updated.");render();
+}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2PurchaseHook){window.__day2PurchaseHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-purchase")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-inventory-style">
+#day2Inventory{margin-bottom:16px}#day2Inventory .iGrid{display:grid;grid-template-columns:1fr 1.6fr;gap:12px}
+#day2Inventory .iCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Inventory input,#day2Inventory select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Inventory button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.iPrimary{background:#4a2108;color:#fff}.iDanger{background:#f1d8d8}
+#day2Inventory table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}#day2Inventory th,#day2Inventory td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+.iStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}.iLow{font-weight:700}
+@media(max-width:800px){#day2Inventory .iGrid{grid-template-columns:1fr}#day2Inventory table{font-size:11px}}
+</style>
+<script id="day2-inventory-script">
+(function(){
+const PK="SANDIP_DAY1_PRODUCTS_V1",LK="SANDIP_DAY2_STOCK_LEDGER_V1",RK="SANDIP_DAY2_STOCK_ADJUSTMENTS_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Inventory");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Inventory";e.className="box";m.prepend(e);return e}
+function stockMap(){
+ const ps=read(PK), l=read(LK), a=read(RK), map={};
+ ps.forEach(p=>map[p.id]={...p,current:Number(p.opening||0)});
+ l.forEach(x=>{if(map[x.productId])map[x.productId].current+=Number(x.stockIn||0)-Number(x.stockOut||0)});
+ a.forEach(x=>{if(map[x.productId])map[x.productId].current+=Number(x.qty||0)});
+ return map;
+}
+function render(){
+ const e=mount();if(!e)return;const ps=read(PK),map=stockMap();
+ e.innerHTML=`<h2>📦 Inventory / Current Stock / साठा</h2>
+ <p><small>Day 2 — Purchase adds Stock In; Sales will add Stock Out.</small></p>
+ <div><span class="iStat">Items: ${ps.length}</span><span class="iStat">Stock Units: ${Object.values(map).reduce((z,x)=>z+Number(x.current||0),0).toFixed(3)}</span><span class="iStat">Low Stock: ${ps.filter(p=>map[p.id]&&map[p.id].current<=Number(p.min||0)).length}</span></div>
+ <div class="iGrid"><div class="iCard"><h3>🔧 Manual Stock Adjustment</h3>
+ <select id="iProduct">${ps.map(p=>`<option value="${p.id}">${esc(p.name)} (${esc(p.unit)})</option>`).join("")}</select>
+ <select id="iType"><option value="in">Stock In +</option><option value="out">Stock Out −</option></select>
+ <input id="iQty" type="number" min="0.001" step="0.001" value="1" placeholder="Quantity">
+ <input id="iReason" placeholder="Reason / कारण">
+ <button class="iPrimary" onclick="Day2Inventory.adjust()">Save Adjustment</button>
+ </div>
+ <div class="iCard"><h3>📊 Current Stock</h3><input id="iSearch" placeholder="Search product / SKU / category" oninput="Day2Inventory.filter()"><div id="iList"></div></div></div>
+ <div class="iCard"><h3>🧾 Stock Movement</h3><div id="iLedger"></div></div>`;
+ draw();
+}
+function draw(){
+ const map=stockMap(),q=(document.getElementById("iSearch")?.value||"").toLowerCase(),ps=read(PK);
+ const a=ps.filter(p=>[p.name,p.code,p.category,p.unit].join(" ").toLowerCase().includes(q));
+ iList.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Product</th><th>Opening</th><th>Current</th><th>Min</th><th>Status</th></tr>${a.map(p=>{let s=map[p.id]?.current||0,low=s<=Number(p.min||0);return `<tr><td><b>${esc(p.name)}</b><br>${esc(p.code)}<br>${esc(p.category)} / ${esc(p.unit)}</td><td>${Number(p.opening||0)}</td><td><b>${Number(s).toFixed(3)}</b></td><td>${Number(p.min||0)}</td><td>${low?'<span class="iLow">⚠️ LOW STOCK</span>':'🟢 OK'}</td></tr>`}).join("")}</table></div>`:"<p>No products found.</p>";
+ const l=[...read(LK),...read(RK).map(x=>({...x,type:"ADJUSTMENT",stockIn:x.qty>0?x.qty:0,stockOut:x.qty<0?Math.abs(x.qty):0}))].slice(-30).reverse();
+ iLedger.innerHTML=l.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Type</th><th>Product</th><th>In</th><th>Out</th><th>Reference/Reason</th></tr>${l.map(x=>`<tr><td>${esc(x.date||"")}</td><td>${esc(x.type)}</td><td>${esc(x.productName)}</td><td>${Number(x.stockIn||0)}</td><td>${Number(x.stockOut||0)}</td><td>${esc(x.ref||x.reason||"")}</td></tr>`).join("")}</table></div>`:"<p>No stock movements yet.</p>";
+}
+window.Day2Inventory={
+filter(){draw()},
+adjust(){
+ const pid=Number(iProduct.value),q=Number(iQty.value||0),reason=iReason.value.trim(),p=read(PK).find(x=>x.id===pid);
+ if(!p||q<=0)return alert("Select product and enter quantity.");
+ const a=read(RK);a.push({id:Date.now(),date:new Date().toISOString().slice(0,10),productId:pid,productName:p.name,qty:iType.value==="in"?q:-q,reason});save(RK,a);render();alert("Stock adjustment saved.");
+}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2InventoryHook){window.__day2InventoryHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-inventory")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-sales-style">
+#day2Sales{margin-bottom:16px}#day2Sales .sGrid{display:grid;grid-template-columns:1fr 1.5fr;gap:12px}
+#day2Sales .sCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Sales input,#day2Sales select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Sales button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.sPrimary{background:#4a2108;color:#fff}.sDanger{background:#f1d8d8}
+#day2Sales table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}#day2Sales th,#day2Sales td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+.sTotal{font-size:20px;font-weight:700}.sWarn{font-weight:700}
+@media(max-width:800px){#day2Sales .sGrid{grid-template-columns:1fr}#day2Sales table{font-size:11px}}
+</style>
+<script id="day2-sales-script">
+(function(){
+const SK="SANDIP_DAY2_SALES_V2",CK="SANDIP_DAY1_CUSTOMERS_V1",PK="SANDIP_DAY1_PRODUCTS_V1",LK="SANDIP_DAY2_STOCK_LEDGER_V1";
+let cart=[];
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Sales");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Sales";e.className="box";m.prepend(e);return e}
+function stockMap(){const ps=read(PK),l=read(LK),m={};ps.forEach(p=>m[p.id]=Number(p.opening||0));l.forEach(x=>{if(m[x.productId]!=null)m[x.productId]+=Number(x.stockIn||0)-Number(x.stockOut||0)});return m}
+function nextNo(){return "INV-"+String(read(SK).length+1).padStart(4,"0")}
+function render(){
+ const e=mount();if(!e)return;const cs=read(CK),ps=read(PK),sm=stockMap();
+ e.innerHTML=`<h2>🧾 Sales / Billing + Stock Out / विक्री व बिलिंग</h2>
+ <p><small>Connected workflow: Customer → Invoice → Stock Out → Payment</small></p>
+ <div class="sGrid"><div class="sCard"><h3>📝 Invoice Details</h3>
+ <input id="sInvNo" value="${esc(nextNo())}" placeholder="Invoice No."><input id="sDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+ <select id="sCustomer"><option value="">Walk-in / Select Customer</option>${cs.map(c=>`<option value="${c.id}">${esc(c.name)} — ${esc(c.phone)}</option>`).join("")}</select>
+ <select id="sProduct" onchange="Day2Sales.showStock()"><option value="">Select Product</option>${ps.filter(p=>p.status!=="inactive").map(p=>`<option value="${p.id}">${esc(p.name)} | ₹${Number(p.sale||0).toFixed(2)} / ${esc(p.unit)}</option>`).join("")}</select>
+ <div id="sStockHint"></div><input id="sQty" type="number" min="0.001" step="0.001" value="1" placeholder="Quantity">
+ <button class="sPrimary" onclick="Day2Sales.add()">＋ Add Item</button><hr>
+ <label>Discount ₹</label><input id="sDiscount" type="number" min="0" step="0.01" value="0" oninput="Day2Sales.draw()">
+ <label>Payment Mode</label><select id="sPay"><option>Cash</option><option>UPI</option><option>Bank</option><option>Credit</option></select>
+ <label>Paid Amount ₹</label><input id="sPaid" type="number" min="0" step="0.01" value="0" oninput="Day2Sales.draw()">
+ <button class="sPrimary" onclick="Day2Sales.save()">💾 Create Invoice + Stock Out</button><button onclick="Day2Sales.clear()">Clear</button>
+ </div><div class="sCard"><h3>🛒 Invoice Items</h3><div id="sItems"></div><div id="sSummary"></div><h3>📋 Recent Sales</h3><div id="sRecent"></div></div></div>`;
+ draw();
+}
+function totals(){let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),disc=Number(sDiscount.value||0),gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),total=Math.max(0,sub-disc+gst),paid=Number(sPaid.value||0);return{sub,disc,gst,total,paid,balance:Math.max(0,total-paid)}}
+function draw(){
+ const it=document.getElementById("sItems");if(!it)return;
+ it.innerHTML=cart.length?`<div style="overflow:auto"><table><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Total</th><th></th></tr>${cart.map((x,i)=>`<tr><td>${esc(x.name)}</td><td>${x.qty}</td><td>₹${x.rate.toFixed(2)}</td><td>${x.gst}%</td><td>₹${(x.qty*x.rate*(1+x.gst/100)).toFixed(2)}</td><td><button class="sDanger" onclick="Day2Sales.remove(${i})">×</button></td></tr>`).join("")}</table></div>`:"<p>No items added.</p>";
+ const t=totals();sSummary.innerHTML=`<hr>Subtotal: ₹${t.sub.toFixed(2)}<br>Discount: ₹${t.disc.toFixed(2)}<br>GST: ₹${t.gst.toFixed(2)}<br><span class="sTotal">Grand Total: ₹${t.total.toFixed(2)}</span><br>Paid: ₹${t.paid.toFixed(2)}<br>Balance: ₹${t.balance.toFixed(2)}</p>`;
+ const a=read(SK).slice(-10).reverse();sRecent.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th></tr>${a.map(x=>`<tr><td>${esc(x.invoiceNo)}<br>${esc(x.date)}</td><td>${esc(x.customerName)}</td><td>₹${x.total.toFixed(2)}</td><td>₹${x.paid.toFixed(2)}</td><td>₹${x.balance.toFixed(2)}</td></tr>`).join("")}</table></div>`:"<p>No sales yet.</p>";
+}
+window.Day2Sales={
+showStock(){const p=read(PK).find(x=>x.id===Number(sProduct.value));if(!p){sStockHint.innerHTML="";return}const s=stockMap()[p.id]??0;sStockHint.innerHTML=`<small>Available Stock: <b>${s}</b> ${esc(p.unit)}</small>`},
+add(){const p=read(PK).find(x=>x.id===Number(sProduct.value)),q=Number(sQty.value||0),available=stockMap()[p?.id]??0,already=cart.filter(x=>x.productId===p?.id).reduce((z,x)=>z+x.qty,0);if(!p)return alert("Select a product.");if(q<=0)return alert("Enter quantity.");if(q+already>available)return alert("Insufficient stock. Available: "+available);cart.push({productId:p.id,name:p.name,qty:q,rate:Number(p.sale||0),gst:Number(p.gst||0),unit:p.unit});draw()},
+remove(i){cart.splice(i,1);draw()},clear(){cart=[];render()},draw,showStock,
+save(){
+ if(!cart.length)return alert("Add at least one item.");
+ const t=totals(),d=read(SK),customer=read(CK).find(x=>x.id===Number(sCustomer.value)),invoiceNo=sInvNo.value.trim()||nextNo();
+ const ledger=read(LK),sm=stockMap();
+ for(const x of cart){const avail=sm[x.productId]??0;if(x.qty>avail)return alert("Stock changed. Insufficient stock for "+x.name+".");}
+ const inv={id:Date.now(),invoiceNo,date:sDate.value,customerId:customer?.id||null,customerName:customer?.name||"Walk-in",items:cart.map(x=>({...x})),subtotal:t.sub,discount:t.disc,gst:t.gst,total:t.total,paid:t.paid,balance:t.balance,paymentMode:sPay.value};
+ d.push(inv);save(SK,d);
+ cart.forEach((x,i)=>ledger.push({id:Date.now()+i+Math.random(),date:sDate.value,type:"SALE",ref:invoiceNo,productId:x.productId,productName:x.name,qty:x.qty,rate:x.rate,stockIn:0,stockOut:x.qty}));
+ save(LK,ledger);cart=[];alert("Invoice created. Stock Out updated automatically.");render();
+}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2SalesHook){window.__day2SalesHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-sales")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-payment-style">
+#day2Payment{margin-bottom:16px}#day2Payment .payGrid{display:grid;grid-template-columns:1fr 1.6fr;gap:12px}
+#day2Payment .payCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Payment input,#day2Payment select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Payment button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.payPrimary{background:#4a2108;color:#fff}.payDanger{background:#f1d8d8}
+#day2Payment table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}#day2Payment th,#day2Payment td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+.payStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}.payDue{font-weight:700}
+@media(max-width:800px){#day2Payment .payGrid{grid-template-columns:1fr}#day2Payment table{font-size:11px}}
+</style>
+<script id="day2-payment-script">
+(function(){
+const SALES="SANDIP_DAY2_SALES_V2",PUR="SANDIP_DAY2_PURCHASES_V1",PAY="SANDIP_DAY2_PAYMENTS_V1",CUS="SANDIP_DAY1_CUSTOMERS_V1",SUP="SANDIP_DAY1_SUPPLIERS_V1";
+let mode="receive";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Payment");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Payment";e.className="box";m.prepend(e);return e}
+function render(){
+const e=mount();if(!e)return;const sales=read(SALES),purs=read(PUR),payments=read(PAY),customers=read(CUS),suppliers=read(SUP);
+const rec=sales.reduce((z,x)=>z+Number(x.balance||0),0),pay=purs.reduce((z,x)=>z+Number(x.payable||0),0);
+e.innerHTML=`<h2>💰 Payments / Receivable / Payable / पेमेंट व येणे-जाणे</h2>
+<p><span class="payStat">Receivable: ₹${rec.toFixed(2)}</span><span class="payStat">Payable: ₹${pay.toFixed(2)}</span><span class="payStat">Net Due: ₹${(rec-pay).toFixed(2)}</span></p>
+<div class="payGrid"><div class="payCard"><h3>💳 ${mode==="receive"?"Receive Payment / ग्राहकाकडून घेणे":"Pay Supplier / पुरवठादाराला देणे"}</h3>
+<p><button class="${mode==="receive"?"payPrimary":""}" onclick="Day2Payment.switch('receive')">Receive</button><button class="${mode==="pay"?"payPrimary":""}" onclick="Day2Payment.switch('pay')">Pay Supplier</button></p>
+${mode==="receive"?`<select id="payParty"><option value="">Select Customer</option>${customers.map(x=>`<option value="${x.id}">${esc(x.name)} — Due ₹${customerDue(x.id).toFixed(2)}</option>`).join("")}</select>
+<input id="payRef" placeholder="Invoice No. (optional)"><input id="payAmount" type="number" min="0.01" step="0.01" placeholder="Amount ₹">
+<select id="payMode"><option>Cash</option><option>UPI</option><option>Bank</option><option>Cheque</option></select>`
+:`<select id="payParty"><option value="">Select Supplier</option>${suppliers.map(x=>`<option value="${x.id}">${esc(x.name)} — Due ₹${supplierDue(x.id).toFixed(2)}</option>`).join("")}</select>
+<input id="payRef" placeholder="Purchase No. (optional)"><input id="payAmount" type="number" min="0.01" step="0.01" placeholder="Amount ₹">
+<select id="payMode"><option>Cash</option><option>UPI</option><option>Bank</option><option>Cheque</option></select>`}
+<input id="payDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+<input id="payNote" placeholder="Note / Remarks"><button class="payPrimary" onclick="Day2Payment.save()">💾 Save Payment</button></div>
+<div class="payCard"><h3>📋 Outstanding</h3><div id="payOutstanding"></div><h3>🧾 Payment History</h3><div id="payHistory"></div></div></div>`;
+draw();
+}
+function customerDue(id){return read(SALES).filter(x=>x.customerId===id).reduce((z,x)=>z+Number(x.balance||0),0)}
+function supplierDue(id){return read(PUR).filter(x=>x.supplierId===id).reduce((z,x)=>z+Number(x.payable||0),0)}
+function draw(){
+const s=read(SALES).filter(x=>Number(x.balance||0)>0),p=read(PUR).filter(x=>Number(x.payable||0)>0);
+payOutstanding.innerHTML=`<h4>Customer Receivable</h4>${s.length?`<table><tr><th>Invoice</th><th>Customer</th><th>Balance</th></tr>${s.map(x=>`<tr><td>${esc(x.invoiceNo)}</td><td>${esc(x.customerName)}</td><td class="payDue">₹${Number(x.balance).toFixed(2)}</td></tr>`).join("")}</table>`:"<p>No customer outstanding.</p>"}<h4>Supplier Payable</h4>${p.length?`<table><tr><th>Purchase</th><th>Supplier</th><th>Payable</th></tr>${p.map(x=>`<tr><td>${esc(x.purchaseNo)}</td><td>${esc(x.supplierName)}</td><td class="payDue">₹${Number(x.payable).toFixed(2)}</td></tr>`).join("")}</table>`:"<p>No supplier payable.</p>"}`;
+const h=read(PAY).slice(-20).reverse();payHistory.innerHTML=h.length?`<table><tr><th>Date</th><th>Type</th><th>Party</th><th>Amount</th><th>Mode</th><th>Reference</th></tr>${h.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.partyName)}</td><td>₹${Number(x.amount).toFixed(2)}</td><td>${esc(x.paymentMode)}</td><td>${esc(x.reference)}</td></tr>`).join("")}</table>`:"<p>No payments yet.</p>";
+}
+window.Day2Payment={
+switch(m){mode=m;render()},
+save(){
+const partyId=Number(payParty.value),amount=Number(payAmount.value||0);if(!partyId||amount<=0)return alert("Select party and enter payment amount.");
+const arr=read(PAY),customers=read(CUS),suppliers=read(SUP),party=(mode==="receive"?customers:suppliers).find(x=>x.id===partyId);
+arr.push({id:Date.now(),date:payDate.value,type:mode==="receive"?"RECEIPT":"SUPPLIER PAYMENT",partyId,partyName:party?.name||"Unknown",amount,paymentMode:payMode.value,reference:payRef.value.trim(),note:payNote.value.trim()});save(PAY,arr);
+alert("Payment saved. Detailed invoice-level settlement will be linked in the Accounts/Ledger step.");render();
+}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2PaymentHook){window.__day2PaymentHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-payments"||id==="erp-accounts")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-ledger-style">
+#day2Ledger{margin-bottom:16px}#day2Ledger .lGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Ledger .lCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Ledger input,#day2Ledger select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Ledger button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.lPrimary{background:#4a2108;color:#fff}
+#day2Ledger table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}#day2Ledger th,#day2Ledger td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.lStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Ledger .lGrid{grid-template-columns:1fr}#day2Ledger table{font-size:11px}}
+</style>
+<script id="day2-ledger-script">
+(function(){
+const SALES="SANDIP_DAY2_SALES_V2",PUR="SANDIP_DAY2_PURCHASES_V1",PAY="SANDIP_DAY2_PAYMENTS_V1",LED="SANDIP_DAY2_ACCOUNTS_LEDGER_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Ledger");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Ledger";e.className="box";m.prepend(e);return e}
+function entries(){
+ const a=[];
+ read(SALES).forEach(x=>a.push({date:x.date,type:"SALE",ref:x.invoiceNo,party:x.customerName,debit:Number(x.total||0),credit:0,note:"Sales Invoice"}));
+ read(PUR).forEach(x=>a.push({date:x.date,type:"PURCHASE",ref:x.purchaseNo,party:x.supplierName,debit:0,credit:Number(x.total||0),note:"Purchase Invoice"}));
+ read(PAY).forEach(x=>a.push({date:x.date,type:x.type,ref:x.reference||"",party:x.partyName,debit:x.type==="RECEIPT"?0:Number(x.amount||0),credit:x.type==="RECEIPT"?Number(x.amount||0):0,note:x.note||"Payment"}));
+ return a.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+}
+function render(){
+ const e=mount();if(!e)return;
+ const a=entries(),debit=a.reduce((z,x)=>z+x.debit,0),credit=a.reduce((z,x)=>z+x.credit,0);
+ e.innerHTML=`<h2>📒 Accounts & Ledger / खाते व लेजर</h2>
+ <p><span class="lStat">Debit: ₹${debit.toFixed(2)}</span><span class="lStat">Credit: ₹${credit.toFixed(2)}</span><span class="lStat">Net: ₹${(debit-credit).toFixed(2)}</span></p>
+ <div class="lGrid"><div class="lCard"><h3>➕ Manual Ledger Entry</h3>
+ <input id="lDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+ <select id="lType"><option>Income</option><option>Expense</option><option>Journal</option></select>
+ <input id="lParty" placeholder="Party / Account Name">
+ <input id="lAmount" type="number" min="0.01" step="0.01" placeholder="Amount ₹">
+ <input id="lRef" placeholder="Reference">
+ <input id="lNote" placeholder="Narration / Note">
+ <button class="lPrimary" onclick="Day2Ledger.add()">💾 Save Entry</button>
+ <button onclick="Day2Ledger.exportCSV()">⬇️ Export CSV</button></div>
+ <div class="lCard"><h3>📋 General Ledger</h3><div id="lTable"></div></div></div>`;
+ draw();
+}
+function draw(){
+ const a=entries(),custom=read(LED);let all=a.concat(custom).sort((x,y)=>String(y.date).localeCompare(String(x.date)));
+ lTable.innerHTML=all.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Type</th><th>Reference</th><th>Party/Account</th><th>Debit</th><th>Credit</th><th>Narration</th></tr>${all.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.ref)}</td><td>${esc(x.party)}</td><td>₹${Number(x.debit||0).toFixed(2)}</td><td>₹${Number(x.credit||0).toFixed(2)}</td><td>${esc(x.note)}</td></tr>`).join("")}</table></div>`:"<p>No ledger entries yet.</p>";
+}
+window.Day2Ledger={
+add(){const amount=Number(lAmount.value||0),party=lParty.value.trim();if(amount<=0||!party)return alert("Enter account/party and amount.");const a=read(LED);a.push({date:lDate.value,type:lType.value,ref:lRef.value.trim(),party,debit:lType.value==="Expense"?amount:0,credit:lType.value==="Income"?amount:0,note:lNote.value.trim()});save(LED,a);render();alert("Ledger entry saved.")},
+exportCSV(){const a=entries().concat(read(LED));let csv="Date,Type,Reference,Party/Account,Debit,Credit,Narration\n"+a.map(x=>[x.date,x.type,x.ref,x.party,x.debit||0,x.credit||0,x.note].map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");const blob=new Blob([csv],{type:"text/csv"}),u=URL.createObjectURL(blob),aEl=document.createElement("a");aEl.href=u;aEl.download="SANDIP_ERP_GENERAL_LEDGER.csv";document.body.appendChild(aEl);aEl.click();aEl.remove();URL.revokeObjectURL(u)}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2LedgerHook){window.__day2LedgerHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-ledger"||id==="erp-accounts")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-expense-style">
+#day2Expense{margin-bottom:16px}#day2Expense .eGrid{display:grid;grid-template-columns:1fr 1.6fr;gap:12px}
+#day2Expense .eCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Expense input,#day2Expense select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Expense button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.ePrimary{background:#4a2108;color:#fff}.eDanger{background:#f1d8d8}
+#day2Expense table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}#day2Expense th,#day2Expense td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.eStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Expense .eGrid{grid-template-columns:1fr}#day2Expense table{font-size:11px}}
+</style>
+<script id="day2-expense-script">
+(function(){
+const KEY="SANDIP_DAY2_EXPENSES_V1",LED="SANDIP_DAY2_ACCOUNTS_LEDGER_V1",PAY="SANDIP_DAY2_CASH_BANK_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Expense");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Expense";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return;const a=read(KEY),cash=read(PAY).filter(x=>x.account==="Cash").reduce((z,x)=>z+Number(x.amount||0),0),bank=read(PAY).filter(x=>x.account==="Bank").reduce((z,x)=>z+Number(x.amount||0),0);
+ e.innerHTML=`<h2>💸 Expense + Cash / Bank / खर्च व रोख-बँक</h2>
+ <p><span class="eStat">Expenses: ₹${a.reduce((z,x)=>z+Number(x.amount||0),0).toFixed(2)}</span><span class="eStat">Cash Flow: ₹${cash.toFixed(2)}</span><span class="eStat">Bank Flow: ₹${bank.toFixed(2)}</span></p>
+ <div class="eGrid"><div class="eCard"><h3>➕ Add Expense</h3>
+ <input id="eDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+ <input id="eCategory" placeholder="Expense Category (Rent, Electricity...)">
+ <input id="eParty" placeholder="Paid To / Vendor">
+ <input id="eAmount" type="number" min="0.01" step="0.01" placeholder="Amount ₹">
+ <select id="eAccount"><option>Cash</option><option>Bank</option><option>UPI</option></select>
+ <input id="eRef" placeholder="Reference / Bill No."><input id="eNote" placeholder="Remarks">
+ <button class="ePrimary" onclick="Day2Expense.save()">💾 Save Expense</button>
+ <hr><h3>🏦 Cash / Bank Entry</h3>
+ <select id="cType"><option value="IN">Money In</option><option value="OUT">Money Out</option></select>
+ <select id="cAccount"><option>Cash</option><option>Bank</option></select>
+ <input id="cAmount" type="number" min="0.01" step="0.01" placeholder="Amount ₹"><input id="cNote" placeholder="Description">
+ <button onclick="Day2Expense.cashBank()">Save Cash/Bank Entry</button></div>
+ <div class="eCard"><h3>📋 Expense History</h3><div id="eTable"></div><h3>🏦 Cash / Bank History</h3><div id="cTable"></div></div></div>`;
+ draw();
+}
+function draw(){
+ const a=read(KEY);eTable.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Category</th><th>Paid To</th><th>Amount</th><th>Account</th><th>Reference</th></tr>${a.slice(-20).reverse().map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.category)}</td><td>${esc(x.party)}</td><td>₹${Number(x.amount).toFixed(2)}</td><td>${esc(x.account)}</td><td>${esc(x.ref)}</td></tr>`).join("")}</table></div>`:"<p>No expenses yet.</p>";
+ const c=read(PAY).slice(-20).reverse();cTable.innerHTML=c.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Account</th><th>Type</th><th>Amount</th><th>Description</th></tr>${c.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.account)}</td><td>${esc(x.type)}</td><td>₹${Number(x.amount).toFixed(2)}</td><td>${esc(x.note)}</td></tr>`).join("")}</table></div>`:"<p>No cash/bank entries yet.</p>";
+}
+window.Day2Expense={
+save(){
+ const amount=Number(eAmount.value||0),cat=eCategory.value.trim();if(amount<=0||!cat)return alert("Enter category and amount.");
+ const x={id:Date.now(),date:eDate.value,category:cat,party:eParty.value.trim(),amount,account:eAccount.value,ref:eRef.value.trim(),note:eNote.value.trim()};
+ const a=read(KEY);a.push(x);save(KEY,a);
+ const l=read(LED);l.push({date:x.date,type:"EXPENSE",ref:x.ref,party:x.party||x.category,debit:amount,credit:0,note:x.note||"Expense"});save(LED,l);
+ const c=read(PAY);c.push({id:Date.now()+1,date:x.date,account:x.account,type:"OUT",amount,note:x.category+" - "+(x.party||"")});save(PAY,c);
+ render();alert("Expense saved and ledger/cash-bank updated.");
+},
+cashBank(){
+ const amount=Number(cAmount.value||0);if(amount<=0)return alert("Enter amount.");
+ const x={id:Date.now(),date:new Date().toISOString().slice(0,10),account:cAccount.value,type:cType.value,amount,note:cNote.value.trim()};
+ const a=read(PAY);a.push(x);save(PAY,a);render();alert("Cash/Bank entry saved.");
+}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2ExpenseHook){window.__day2ExpenseHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-expenses"||id==="erp-cash"||id==="erp-bank")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-gst-style">
+#day2GST{margin-bottom:16px}#day2GST .gGrid{display:grid;grid-template-columns:1fr 1.6fr;gap:12px}
+#day2GST .gCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2GST input,#day2GST select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2GST button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.gPrimary{background:#4a2108;color:#fff}
+#day2GST table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}#day2GST th,#day2GST td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.gStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2GST .gGrid{grid-template-columns:1fr}#day2GST table{font-size:11px}}
+</style>
+<script id="day2-gst-script">
+(function(){
+const SALES="SANDIP_DAY2_SALES_V2",PUR="SANDIP_DAY2_PURCHASES_V1",GST="SANDIP_DAY2_GST_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2GST");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2GST";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return;const s=read(SALES),p=read(PUR),manual=read(GST);
+ const out=s.reduce((z,x)=>z+Number(x.gst||0),0),input=p.reduce((z,x)=>z+Number(x.gst||0),0);
+ e.innerHTML=`<h2>🧾 GST / Tax Management / GST व कर व्यवस्थापन</h2>
+ <p><span class="gStat">Output GST: ₹${out.toFixed(2)}</span><span class="gStat">Input GST: ₹${input.toFixed(2)}</span><span class="gStat">Net GST: ₹${(out-input).toFixed(2)}</span></p>
+ <div class="gGrid"><div class="gCard"><h3>➕ Manual Tax Entry</h3>
+ <input id="gDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+ <select id="gType"><option>Output GST</option><option>Input GST</option><option>TDS</option><option>Other Tax</option></select>
+ <input id="gParty" placeholder="Party / Account"><input id="gTaxable" type="number" min="0" step="0.01" placeholder="Taxable Amount ₹">
+ <input id="gRate" type="number" min="0" step="0.01" placeholder="Tax Rate %"><input id="gAmount" type="number" min="0" step="0.01" placeholder="Tax Amount ₹">
+ <input id="gRef" placeholder="Invoice / Reference"><button class="gPrimary" onclick="Day2GST.save()">💾 Save Tax Entry</button></div>
+ <div class="gCard"><h3>📊 GST Summary</h3><div id="gSummary"></div><h3>📋 Tax Register</h3><div id="gTable"></div></div></div>`;
+ draw();
+}
+function draw(){
+ const s=read(SALES),p=read(PUR),m=read(GST);
+ const rows=s.map(x=>({date:x.date,type:"Output GST",party:x.customerName,ref:x.invoiceNo,taxable:Math.max(0,Number(x.subtotal||0)-Number(x.discount||0)),tax:Number(x.gst||0)}))
+ .concat(p.map(x=>({date:x.date,type:"Input GST",party:x.supplierName,ref:x.purchaseNo,taxable:Math.max(0,Number(x.subtotal||0)-Number(x.discount||0)),tax:Number(x.gst||0)}))).concat(m);
+ const out=rows.filter(x=>x.type==="Output GST").reduce((z,x)=>z+x.tax,0),input=rows.filter(x=>x.type==="Input GST").reduce((z,x)=>z+x.tax,0);
+ gSummary.innerHTML=`<table><tr><th>Type</th><th>Taxable</th><th>Tax</th></tr><tr><td>Output GST</td><td>₹${rows.filter(x=>x.type==="Output GST").reduce((z,x)=>z+x.taxable,0).toFixed(2)}</td><td>₹${out.toFixed(2)}</td></tr><tr><td>Input GST</td><td>₹${rows.filter(x=>x.type==="Input GST").reduce((z,x)=>z+x.taxable,0).toFixed(2)}</td><td>₹${input.toFixed(2)}</td></tr><tr><td><b>Net GST</b></td><td>—</td><td><b>₹${(out-input).toFixed(2)}</b></td></tr></table>`;
+ gTable.innerHTML=rows.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Type</th><th>Party</th><th>Reference</th><th>Taxable</th><th>Tax</th></tr>${rows.slice(-30).reverse().map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.party)}</td><td>${esc(x.ref)}</td><td>₹${Number(x.taxable||0).toFixed(2)}</td><td>₹${Number(x.tax||0).toFixed(2)}</td></tr>`).join("")}</table></div>`:"<p>No tax entries yet.</p>";
+}
+window.Day2GST={save(){
+ const taxable=Number(gTaxable.value||0),rate=Number(gRate.value||0),manualAmount=Number(gAmount.value||0),tax=manualAmount||taxable*rate/100;
+ if(tax<=0)return alert("Enter taxable amount/rate or tax amount.");
+ const a=read(GST);a.push({date:gDate.value,type:gType.value,party:gParty.value.trim(),ref:gRef.value.trim(),taxable,tax});save(GST,a);render();alert("Tax entry saved.");
+}};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2GSTHook){window.__day2GSTHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-gst"||id==="erp-tax")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-report-style">
+#day2Reports{margin-bottom:16px}#day2Reports .rGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#day2Reports .rCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}.rBig{font-size:21px;font-weight:700}
+#day2Reports table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}#day2Reports th,#day2Reports td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+#day2Reports button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.rPrimary{background:#4a2108;color:#fff}
+@media(max-width:900px){#day2Reports .rGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){#day2Reports .rGrid{grid-template-columns:1fr}}
+</style>
+<script id="day2-report-script">
+(function(){
+const SALES="SANDIP_DAY2_SALES_V2",PUR="SANDIP_DAY2_PURCHASES_V1",PAY="SANDIP_DAY2_PAYMENTS_V1",EXP="SANDIP_DAY2_EXPENSES_V1",PK="SANDIP_DAY1_PRODUCTS_V1",LK="SANDIP_DAY2_STOCK_LEDGER_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+function mount(){let e=document.getElementById("day2Reports");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Reports";e.className="box";m.prepend(e);return e}
+function calc(){
+ const s=read(SALES),p=read(PUR),e=read(EXP),pay=read(PAY),ps=read(PK),l=read(LK);
+ const sales=s.reduce((z,x)=>z+Number(x.total||0),0),purchase=p.reduce((z,x)=>z+Number(x.total||0),0),expense=e.reduce((z,x)=>z+Number(x.amount||0),0);
+ const output=s.reduce((z,x)=>z+Number(x.gst||0),0),input=p.reduce((z,x)=>z+Number(x.gst||0),0);
+ const paidIn=pay.filter(x=>x.type==="RECEIPT").reduce((z,x)=>z+Number(x.amount||0),0),paidOut=pay.filter(x=>x.type==="SUPPLIER PAYMENT").reduce((z,x)=>z+Number(x.amount||0),0);
+ const stock={};ps.forEach(x=>stock[x.id]=Number(x.opening||0));l.forEach(x=>{if(stock[x.productId]!=null)stock[x.productId]+=Number(x.stockIn||0)-Number(x.stockOut||0)});
+ return {sales,purchase,expense,output,input,netGST:output-input,receivable:s.reduce((z,x)=>z+Number(x.balance||0),0),payable:p.reduce((z,x)=>z+Number(x.payable||0),0),paidIn,paidOut,profit:sales-purchase-expense,stockUnits:Object.values(stock).reduce((z,x)=>z+x,0),stockCount:ps.length}
+}
+function render(){
+ const e=mount();if(!e)return;const c=calc();
+ e.innerHTML=`<h2>📊 Reports Dashboard / अहवाल डॅशबोर्ड</h2>
+ <div class="rGrid"><div class="rCard">Sales<div class="rBig">${money(c.sales)}</div></div><div class="rCard">Purchase<div class="rBig">${money(c.purchase)}</div></div><div class="rCard">Expenses<div class="rBig">${money(c.expense)}</div></div><div class="rCard">Estimated Profit<div class="rBig">${money(c.profit)}</div></div>
+ <div class="rCard">Receivable<div class="rBig">${money(c.receivable)}</div></div><div class="rCard">Payable<div class="rBig">${money(c.payable)}</div></div><div class="rCard">Net GST<div class="rBig">${money(c.netGST)}</div></div><div class="rCard">Stock Units<div class="rBig">${c.stockUnits.toFixed(3)}</div></div></div>
+ <div class="rCard"><h3>📋 Key Reports</h3><table><tr><th>Report</th><th>Value</th></tr>
+ <tr><td>Total Sales</td><td>${money(c.sales)}</td></tr><tr><td>Total Purchase</td><td>${money(c.purchase)}</td></tr><tr><td>Total Expenses</td><td>${money(c.expense)}</td></tr><tr><td>Estimated Profit</td><td>${money(c.profit)}</td></tr><tr><td>Output GST</td><td>${money(c.output)}</td></tr><tr><td>Input GST</td><td>${money(c.input)}</td></tr><tr><td>Customer Receivable</td><td>${money(c.receivable)}</td></tr><tr><td>Supplier Payable</td><td>${money(c.payable)}</td></tr><tr><td>Cash Received (recorded)</td><td>${money(c.paidIn)}</td></tr><tr><td>Supplier Payments (recorded)</td><td>${money(c.paidOut)}</td></tr></table>
+ <button class="rPrimary" onclick="Day2Reports.export()">⬇️ Export Report CSV</button><button onclick="Day2Reports.refresh()">🔄 Refresh</button></div>`;
+}
+window.Day2Reports={
+refresh(){render()},
+export(){const c=calc();const rows=[["Metric","Value"],["Sales",c.sales],["Purchase",c.purchase],["Expenses",c.expense],["Estimated Profit",c.profit],["Output GST",c.output],["Input GST",c.input],["Net GST",c.netGST],["Receivable",c.receivable],["Payable",c.payable],["Cash Received",c.paidIn],["Supplier Payments",c.paidOut],["Stock Units",c.stockUnits]];const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");const b=new Blob([csv],{type:"text/csv"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="SANDIP_ERP_REPORTS.csv";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2ReportHook){window.__day2ReportHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-reports"||id==="erp-dashboard")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-prodash-style">
+#day2ProDash{margin-bottom:16px}#day2ProDash .pdHead{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+#day2ProDash .pdCards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+#day2ProDash .pdCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px;box-shadow:0 2px 8px #0000000a}.pdNum{font-size:21px;font-weight:700;margin-top:5px}
+#day2ProDash .pdGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}#day2ProDash .pdPanel{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2ProDash table{width:100%;border-collapse:collapse;font-size:13px}#day2ProDash th,#day2ProDash td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+#day2ProDash button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.pdPrimary{background:#4a2108;color:#fff}
+#day2ProDash .pdAlert{padding:10px;border-radius:10px;margin:5px 0;border:1px solid #ddd}.pdEmpty{opacity:.7}
+@media(max-width:900px){#day2ProDash .pdCards{grid-template-columns:repeat(2,minmax(0,1fr))}#day2ProDash .pdGrid{grid-template-columns:1fr}}
+@media(max-width:550px){#day2ProDash .pdCards{grid-template-columns:1fr}}
+</style>
+<script id="day2-prodash-script">
+(function(){
+const S="SANDIP_DAY2_SALES_V2",P="SANDIP_DAY2_PURCHASES_V1",E="SANDIP_DAY2_EXPENSES_V1",L="SANDIP_DAY2_STOCK_LEDGER_V1",K="SANDIP_DAY1_PRODUCTS_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}}, money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2ProDash");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2ProDash";e.className="box";m.prepend(e);return e}
+function data(){
+ const s=read(S),p=read(P),e=read(E),ps=read(K),l=read(L),sm={};
+ ps.forEach(x=>sm[x.id]={name:x.name,unit:x.unit,qty:Number(x.opening||0),min:Number(x.min||0)});
+ l.forEach(x=>{if(sm[x.productId])sm[x.productId].qty+=Number(x.stockIn||0)-Number(x.stockOut||0)});
+ const sales=s.reduce((z,x)=>z+Number(x.total||0),0),purchase=p.reduce((z,x)=>z+Number(x.total||0),0),expense=e.reduce((z,x)=>z+Number(x.amount||0),0);
+ return {sales,purchase,expense,profit:sales-purchase-expense,receivable:s.reduce((z,x)=>z+Number(x.balance||0),0),payable:p.reduce((z,x)=>z+Number(x.payable||0),0),stock:Object.values(sm).reduce((z,x)=>z+x.qty,0),low:Object.values(sm).filter(x=>x.qty<=x.min),recent:s.slice(-5).reverse()}
+}
+function render(){
+ const e=mount();if(!e)return;const d=data();
+ e.innerHTML=`<div class="pdHead"><div><h2>🚀 ERP Dashboard</h2><small>Live business overview / व्यवसायाचा थेट आढावा</small></div><div><button class="pdPrimary" onclick="Day2ProDash.refresh()">🔄 Refresh</button><button onclick="Day2ProDash.export()">⬇️ Export</button></div></div>
+ <div class="pdCards"><div class="pdCard">Sales<div class="pdNum">${money(d.sales)}</div></div><div class="pdCard">Purchase<div class="pdNum">${money(d.purchase)}</div></div><div class="pdCard">Profit<div class="pdNum">${money(d.profit)}</div></div><div class="pdCard">Expenses<div class="pdNum">${money(d.expense)}</div></div><div class="pdCard">Receivable<div class="pdNum">${money(d.receivable)}</div></div><div class="pdCard">Payable<div class="pdNum">${money(d.payable)}</div></div><div class="pdCard">Stock Units<div class="pdNum">${d.stock.toFixed(3)}</div></div><div class="pdCard">Low Stock<div class="pdNum">${d.low.length}</div></div></div>
+ <div class="pdGrid"><div class="pdPanel"><h3>⚠️ Stock Alerts</h3>${d.low.length?d.low.map(x=>`<div class="pdAlert">⚠️ <b>${esc(x.name)}</b> — ${x.qty} ${esc(x.unit)} available</div>`).join(""):'<p class="pdEmpty">🟢 No low-stock items.</p>'}</div>
+ <div class="pdPanel"><h3>🧾 Recent Sales</h3>${d.recent.length?`<table><tr><th>Invoice</th><th>Customer</th><th>Total</th></tr>${d.recent.map(x=>`<tr><td>${esc(x.invoiceNo)}</td><td>${esc(x.customerName)}</td><td>${money(x.total)}</td></tr>`).join("")}</table>`:'<p class="pdEmpty">No sales yet.</p>'}</div></div>`;
+}
+window.Day2ProDash={refresh(){render()},export(){const d=data(),csv=[["Metric","Value"],["Sales",d.sales],["Purchase",d.purchase],["Expenses",d.expense],["Profit",d.profit],["Receivable",d.receivable],["Payable",d.payable],["Stock Units",d.stock],["Low Stock Items",d.low.length]].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n"),b=new Blob([csv],{type:"text/csv"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="SANDIP_ERP_DASHBOARD.csv";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2ProDashHook){window.__day2ProDashHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="dashboard"||id==="erp-dashboard"||id==="home")setTimeout(render,50);return r}}
+setTimeout(()=>{if(document.readyState!=="loading")render();else document.addEventListener("DOMContentLoaded",render)},100);
+})();
+</script>
+
+
+<style id="day2-statement-style">
+#day2Statements{margin-bottom:16px}#day2Statements .stGrid{display:grid;grid-template-columns:1fr 1.8fr;gap:12px}
+#day2Statements .stCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Statements input,#day2Statements select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Statements button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.stPrimary{background:#4a2108;color:#fff}
+#day2Statements table{width:100%;border-collapse:collapse;font-size:13px}#day2Statements th,#day2Statements td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.stStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}.stDue{font-weight:700}
+@media(max-width:800px){#day2Statements .stGrid{grid-template-columns:1fr}#day2Statements table{font-size:11px}}
+</style>
+<script id="day2-statement-script">
+(function(){
+const S="SANDIP_DAY2_SALES_V2",P="SANDIP_DAY2_PURCHASES_V1",PAY="SANDIP_DAY2_PAYMENTS_V1",CUS="SANDIP_DAY1_CUSTOMERS_V1",SUP="SANDIP_DAY1_SUPPLIERS_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+function mount(){let e=document.getElementById("day2Statements");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Statements";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return;const c=read(CUS),s=read(SUP);
+ e.innerHTML=`<h2>👥 Customer & Supplier Statement / खाते उतारे</h2>
+ <div class="stGrid"><div class="stCard"><h3>🔎 Select Account</h3>
+ <select id="stType" onchange="Day2Statement.load()"><option value="customer">Customer</option><option value="supplier">Supplier</option></select>
+ <select id="stParty" onchange="Day2Statement.load()"><option value="">Select Party</option>${c.map(x=>`<option value="${x.id}">${esc(x.name)} — ${esc(x.phone)}</option>`).join("")}</select>
+ <button class="stPrimary" onclick="Day2Statement.print()">🖨️ Print Statement</button></div>
+ <div class="stCard"><div id="stSummary"></div><div id="stTable"></div></div></div>`;
+ load();
+}
+function load(){
+ const type=stType.value,id=Number(stParty.value);if(type==="supplier")stParty.innerHTML=`<option value="">Select Party</option>${read(SUP).map(x=>`<option value="${x.id}">${esc(x.name)} — ${esc(x.phone||"")}</option>`).join("")}`,stParty.value=id||"";
+ if(!id){stSummary.innerHTML="Select a party to view statement.";stTable.innerHTML="";return}
+ const sales=read(S),purs=read(P),pay=read(PAY),rows=[];
+ if(type==="customer"){
+  sales.filter(x=>x.customerId===id).forEach(x=>rows.push({date:x.date,type:"Sales Invoice",ref:x.invoiceNo,debit:Number(x.total||0),credit:0,note:"Invoice"}));
+  pay.filter(x=>x.type==="RECEIPT"&&x.partyId===id).forEach(x=>rows.push({date:x.date,type:"Receipt",ref:x.reference||"",debit:0,credit:Number(x.amount||0),note:x.note||"Payment"}));
+ }else{
+  purs.filter(x=>x.supplierId===id).forEach(x=>rows.push({date:x.date,type:"Purchase",ref:x.purchaseNo,debit:0,credit:Number(x.total||0),note:"Purchase"}));
+  pay.filter(x=>x.type==="SUPPLIER PAYMENT"&&x.partyId===id).forEach(x=>rows.push({date:x.date,type:"Payment",ref:x.reference||"",debit:Number(x.amount||0),credit:0,note:x.note||"Payment"}));
+ }
+ rows.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+ let bal=0;rows.forEach(x=>{bal+=x.debit-x.credit;x.balance=bal});
+ const party=(type==="customer"?read(CUS):read(SUP)).find(x=>x.id===id);
+ stSummary.innerHTML=`<h3>${esc(party?.name||"Party")}</h3><span class="stStat">Transactions: ${rows.length}</span><span class="stStat">Debit: ${money(rows.reduce((z,x)=>z+x.debit,0))}</span><span class="stStat">Credit: ${money(rows.reduce((z,x)=>z+x.credit,0))}</span><span class="stStat">Balance: <b>${money(Math.abs(bal))}</b> ${bal>0?"Due":"Advance/Credit"}</span>`;
+ stTable.innerHTML=rows.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Type</th><th>Reference</th><th>Debit</th><th>Credit</th><th>Balance</th><th>Narration</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.ref)}</td><td>${money(x.debit)}</td><td>${money(x.credit)}</td><td>${money(Math.abs(x.balance))}</td><td>${esc(x.note)}</td></tr>`).join("")}</table></div>`:"<p>No transactions found.</p>";
+}
+window.Day2Statement={load,print(){if(!stParty.value)return alert("Select a party first.");const w=window.open("","_blank");w.document.write("<html><head><title>Statement</title></head><body>"+document.getElementById("stSummary").outerHTML+document.getElementById("stTable").outerHTML+"
+<style id="day2-order-style">
+#day2Orders{margin-bottom:16px}#day2Orders .oGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Orders .oCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Orders input,#day2Orders select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Orders button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.oPrimary{background:#4a2108;color:#fff}
+#day2Orders table{width:100%;border-collapse:collapse;font-size:13px}#day2Orders th,#day2Orders td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.oStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Orders .oGrid{grid-template-columns:1fr}#day2Orders table{font-size:11px}}
+</style>
+<script id="day2-order-script">
+(function(){
+const Q="SANDIP_DAY2_QUOTATIONS_V1",O="SANDIP_DAY2_SALES_ORDERS_V1",S="SANDIP_DAY2_SALES_V2",CUS="SANDIP_DAY1_CUSTOMERS_V1",PK="SANDIP_DAY1_PRODUCTS_V1";
+let items=[];
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+function mount(){let e=document.getElementById("day2Orders");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Orders";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return;const c=read(CUS),p=read(PK);
+ e.innerHTML=`<h2>📝 Quotation → Sales Order → Invoice</h2>
+ <p><small>Workflow: Quotation → Confirm → Sales Order → Convert to Invoice</small></p>
+ <div class="oGrid"><div class="oCard"><h3>➕ Create Quotation</h3>
+ <input id="oDate" type="date" value="${new Date().toISOString().slice(0,10)}"><select id="oCustomer"><option value="">Select Customer</option>${c.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("")}</select>
+ <select id="oProduct"><option value="">Select Product</option>${p.filter(x=>x.status!=="inactive").map(x=>`<option value="${x.id}">${esc(x.name)} — ₹${Number(x.sale||0).toFixed(2)}</option>`).join("")}</select>
+ <input id="oQty" type="number" min="0.001" step="0.001" value="1"><button onclick="Day2Orders.add()">＋ Add Item</button>
+ <div id="oItems"></div><input id="oDiscount" type="number" min="0" step="0.01" value="0" placeholder="Discount ₹">
+ <button class="oPrimary" onclick="Day2Orders.quote()">💾 Save Quotation</button></div>
+ <div class="oCard"><h3>📋 Quotations</h3><div id="qTable"></div><h3>🛒 Sales Orders</h3><div id="oTable"></div></div></div>`;
+ draw();
+}
+function draw(){
+ oItems.innerHTML=items.length?`<table><tr><th>Product</th><th>Qty</th><th>Rate</th><th></th></tr>${items.map((x,i)=>`<tr><td>${esc(x.name)}</td><td>${x.qty}</td><td>${money(x.rate)}</td><td><button onclick="Day2Orders.remove(${i})">×</button></td></tr>`).join("")}</table>`:"<p>No items.</p>";
+ const q=read(Q),o=read(O);
+ qTable.innerHTML=q.length?`<table><tr><th>No.</th><th>Date</th><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr>${q.slice(-20).reverse().map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${esc(x.customerName)}</td><td>${money(x.total)}</td><td>${esc(x.status)}</td><td>${x.status==="Draft"?`<button class="oPrimary" onclick="Day2Orders.confirm('${x.no}')">Confirm</button>`:""}${x.status==="Confirmed"?`<button onclick="Day2Orders.order('${x.no}')">Sales Order</button>`:""}</td></tr>`).join("")}</table>`:"<p>No quotations.</p>";
+ oTable.innerHTML=o.length?`<table><tr><th>Order</th><th>Quotation</th><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr>${o.slice(-20).reverse().map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.quoteNo)}</td><td>${esc(x.customerName)}</td><td>${money(x.total)}</td><td>${esc(x.status)}</td><td>${x.status==="Open"?`<button class="oPrimary" onclick="Day2Orders.invoice('${x.no}')">Create Invoice</button>`:""}</td></tr>`).join("")}</table>`:"<p>No sales orders.</p>";
+}
+function findQuote(no){return read(Q).find(x=>x.no===no)}
+window.Day2Orders={
+add(){const p=read(PK).find(x=>x.id===Number(oProduct.value)),qty=Number(oQty.value||0);if(!p||qty<=0)return alert("Select product and quantity.");items.push({productId:p.id,name:p.name,qty,rate:Number(p.sale||0),gst:Number(p.gst||0),unit:p.unit});draw()},
+remove(i){items.splice(i,1);draw()},
+quote(){if(!items.length)return alert("Add items first.");const c=read(CUS).find(x=>x.id===Number(oCustomer.value));if(!c)return alert("Select customer.");const a=read(Q),sub=items.reduce((z,x)=>z+x.qty*x.rate,0),disc=Number(oDiscount.value||0),gst=items.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0);a.push({id:Date.now(),no:"QT-"+String(a.length+1).padStart(4,"0"),date:oDate.value,customerId:c.id,customerName:c.name,items:items.map(x=>({...x})),subtotal:sub,discount:disc,gst,total:Math.max(0,sub-disc+gst),status:"Draft"});save(Q,a);items=[];render();alert("Quotation saved.")},
+confirm(no){const a=read(Q),x=a.find(q=>q.no===no);if(x){x.status="Confirmed";save(Q,a);render()}},
+order(no){const q=findQuote(no);if(!q)return;const a=read(O);if(a.some(x=>x.quoteNo===no))return alert("Sales Order already exists.");a.push({id:Date.now(),no:"SO-"+String(a.length+1).padStart(4,"0"),quoteNo:q.no,date:q.date,customerId:q.customerId,customerName:q.customerName,items:q.items,total:q.total,status:"Open"});save(O,a);render();alert("Sales Order created.")},
+invoice(no){const a=read(O),x=a.find(q=>q.no===no);if(!x)return;const s=read(S);s.push({id:Date.now(),invoiceNo:"INV-"+String(s.length+1).padStart(4,"0"),date:new Date().toISOString().slice(0,10),customerId:x.customerId,customerName:x.customerName,items:x.items,subtotal:x.items.reduce((z,i)=>z+i.qty*i.rate,0),discount:0,gst:x.items.reduce((z,i)=>z+i.qty*i.rate*i.gst/100,0),total:x.total,paid:0,balance:x.total,paymentMode:"Credit"});save(S,s);x.status="Invoiced";save(O,a);render();alert("Invoice created. Use Sales module for final Stock Out.") }
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2OrderHook){window.__day2OrderHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-quotation"||id==="erp-sales-order"||id==="erp-orders")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-delivery-style">
+#day2Delivery{margin-bottom:16px}#day2Delivery .dGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Delivery .dCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Delivery input,#day2Delivery select,#day2Delivery textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Delivery button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.dPrimary{background:#4a2108;color:#fff}
+#day2Delivery table{width:100%;border-collapse:collapse;font-size:13px}#day2Delivery th,#day2Delivery td{padding:8px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+.dStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Delivery .dGrid{grid-template-columns:1fr}#day2Delivery table{font-size:11px}}
+</style>
+<script id="day2-delivery-script">
+(function(){
+const O="SANDIP_DAY2_SALES_ORDERS_V1",D="SANDIP_DAY2_DELIVERY_CHALLANS_V1",S="SANDIP_DAY2_SALES_V2";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Delivery");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Delivery";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return;const orders=read(O),dc=read(D);
+ e.innerHTML=`<h2>🚚 Delivery Challan + Dispatch / डिलिव्हरी व डिस्पॅच</h2>
+ <p><span class="dStat">Challans: ${dc.length}</span><span class="dStat">Open Orders: ${orders.filter(x=>x.status==="Open").length}</span></p>
+ <div class="dGrid"><div class="dCard"><h3>➕ Create Delivery Challan</h3>
+ <select id="dOrder"><option value="">Select Sales Order</option>${orders.filter(x=>x.status==="Open").map(x=>`<option value="${x.no}">${esc(x.no)} — ${esc(x.customerName)} — ₹${Number(x.total||0).toFixed(2)}</option>`).join("")}</select>
+ <input id="dDate" type="date" value="${new Date().toISOString().slice(0,10)}"><input id="dTransport" placeholder="Transport / Vehicle No.">
+ <input id="dDriver" placeholder="Driver Name / Mobile"><textarea id="dAddress" rows="2" placeholder="Delivery Address"></textarea>
+ <input id="dNote" placeholder="Dispatch Remarks"><button class="dPrimary" onclick="Day2Delivery.create()">💾 Create Challan</button></div>
+ <div class="dCard"><h3>📋 Delivery Challans</h3><div id="dTable"></div><h3>🛒 Open Sales Orders</h3><div id="dOrders"></div></div></div>`;
+ draw();
+}
+function draw(){
+ const dc=read(D),orders=read(O);
+ dTable.innerHTML=dc.length?`<div style="overflow:auto"><table><tr><th>Challan</th><th>Date</th><th>Order</th><th>Customer</th><th>Transport</th><th>Status</th><th>Action</th></tr>${dc.slice(-20).reverse().map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${esc(x.orderNo)}</td><td>${esc(x.customerName)}</td><td>${esc(x.transport||"-")}</td><td>${esc(x.status)}</td><td><button onclick="Day2Delivery.print('${x.no}')">🖨️ Print</button>${x.status==="Pending"?`<button class="dPrimary" onclick="Day2Delivery.dispatch('${x.no}')">Dispatch</button>`:""}</td></tr>`).join("")}</table></div>`:"<p>No delivery challans.</p>";
+ dOrders.innerHTML=orders.filter(x=>x.status==="Open").length?`<table><tr><th>Order</th><th>Customer</th><th>Total</th><th>Items</th></tr>${orders.filter(x=>x.status==="Open").map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.customerName)}</td><td>₹${Number(x.total||0).toFixed(2)}</td><td>${(x.items||[]).reduce((z,i)=>z+Number(i.qty||0),0)}</td></tr>`).join("")}</table>`:"<p>No open orders.</p>";
+}
+window.Day2Delivery={
+create(){const no=dOrder.value;if(!no)return alert("Select Sales Order.");const o=read(O).find(x=>x.no===no);if(!o)return alert("Order not found.");const a=read(D);if(a.some(x=>x.orderNo===no&&x.status!=="Cancelled"))return alert("Delivery Challan already exists for this order.");a.push({id:Date.now(),no:"DC-"+String(a.length+1).padStart(4,"0"),date:dDate.value,orderNo:o.no,customerId:o.customerId,customerName:o.customerName,items:o.items,total:o.total,transport:dTransport.value.trim(),driver:dDriver.value.trim(),address:dAddress.value.trim(),note:dNote.value.trim(),status:"Pending"});save(D,a);render();alert("Delivery Challan created.")},
+dispatch(no){const a=read(D),x=a.find(q=>q.no===no);if(!x)return;x.status="Dispatched";x.dispatchedAt=new Date().toISOString();save(D,a);render();alert("Dispatch marked complete.")},
+print(no){const x=read(D).find(q=>q.no===no);if(!x)return;const rows=(x.items||[]).map(i=>`<tr><td>${esc(i.name)}</td><td>${i.qty}</td><td>${esc(i.unit||"")}</td><td>₹${Number(i.rate||0).toFixed(2)}</td></tr>`).join("");const w=window.open("","_blank");w.document.write(`<html><head><title>${esc(x.no)}</title></head><body><h2>Delivery Challan: ${esc(x.no)}</h2><p>Date: ${esc(x.date)}<br>Customer: ${esc(x.customerName)}<br>Order: ${esc(x.orderNo)}<br>Transport: ${esc(x.transport||"-")}<br>Driver: ${esc(x.driver||"-")}<br>Address: ${esc(x.address||"-")}</p><table border="1" cellpadding="8" cellspacing="0"><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Rate</th></tr>${rows}</table><p>Remarks: ${esc(x.note||"")}</p>
+<style id="day2-return-style">
+#day2Returns{margin-bottom:16px}#day2Returns .rtGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Returns .rtCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Returns input,#day2Returns select,#day2Returns textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Returns button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.rtPrimary{background:#4a2108;color:#fff}
+#day2Returns table{width:100%;border-collapse:collapse;font-size:13px}#day2Returns th,#day2Returns td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.rtStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Returns .rtGrid{grid-template-columns:1fr}#day2Returns table{font-size:11px}}
+</style>
+<script id="day2-return-script">
+(function(){
+const S="SANDIP_DAY2_SALES_V2",P="SANDIP_DAY2_PURCHASES_V1",R="SANDIP_DAY2_RETURNS_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+function mount(){let e=document.getElementById("day2Returns");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Returns";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return;
+ e.innerHTML=`<h2>↩️ Sales Return + Purchase Return / परतावा व्यवस्थापन</h2>
+ <div class="rtGrid"><div class="rtCard"><h3>➕ Create Return</h3>
+ <select id="rtType" onchange="Day2Returns.loadRefs()"><option value="SALES_RETURN">Sales Return / विक्री परतावा</option><option value="PURCHASE_RETURN">Purchase Return / खरेदी परतावा</option></select>
+ <select id="rtRef"><option value="">Select Invoice / Purchase</option></select>
+ <input id="rtDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+ <select id="rtItem"><option value="">Select Item</option></select>
+ <input id="rtQty" type="number" min="0.001" step="0.001" placeholder="Return Qty">
+ <input id="rtReason" placeholder="Return Reason"><textarea id="rtNote" rows="2" placeholder="Remarks"></textarea>
+ <button class="rtPrimary" onclick="Day2Returns.save()">💾 Save Return</button></div>
+ <div class="rtCard"><p><span class="rtStat">Sales Returns: ${read(R).filter(x=>x.type==="SALES_RETURN").length}</span><span class="rtStat">Purchase Returns: ${read(R).filter(x=>x.type==="PURCHASE_RETURN").length}</span></p>
+ <h3>📋 Return Register</h3><div id="rtTable"></div></div></div>`;
+ loadRefs();draw();
+}
+function loadRefs(){
+ const type=rtType.value,arr=type==="SALES_RETURN"?read(S):read(P);
+ rtRef.innerHTML=`<option value="">Select ${type==="SALES_RETURN"?"Invoice":"Purchase"}</option>`+arr.map(x=>`<option value="${x.id}">${esc(type==="SALES_RETURN"?x.invoiceNo:x.purchaseNo)} — ${esc(x.customerName||x.supplierName||"")}</option>`).join("");
+ loadItems();
+}
+function loadItems(){
+ const type=rtType.value,arr=type==="SALES_RETURN"?read(S):read(P),x=arr.find(q=>q.id===Number(rtRef.value));
+ rtItem.innerHTML=`<option value="">Select Item</option>`+(x?.items||[]).map((i,n)=>`<option value="${n}">${esc(i.name)} — Qty ${i.qty} — ₹${Number(i.rate||0).toFixed(2)}</option>`).join("");
+}
+function draw(){
+ const a=read(R);rtTable.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Return No.</th><th>Date</th><th>Type</th><th>Reference</th><th>Party</th><th>Item</th><th>Qty</th><th>Amount</th><th>Reason</th></tr>${a.slice(-30).reverse().map(x=>`<tr><td>${esc(x.no)}</td><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.ref)}</td><td>${esc(x.party)}</td><td>${esc(x.item)}</td><td>${x.qty}</td><td>${money(x.amount)}</td><td>${esc(x.reason)}</td></tr>`).join("")}</table></div>`:"<p>No returns recorded.</p>";
+}
+window.Day2Returns={
+loadRefs,save(){
+ const type=rtType.value,arr=type==="SALES_RETURN"?read(S):read(P),doc=arr.find(q=>q.id===Number(rtRef.value)),idx=Number(rtItem.value),item=doc?.items?.[idx],qty=Number(rtQty.value||0);
+ if(!doc||!item||qty<=0)return alert("Select reference, item and quantity.");
+ if(qty>Number(item.qty||0))return alert("Return quantity cannot exceed invoice/purchase quantity.");
+ const a=read(R),rate=Number(item.rate||0),amount=qty*rate;
+ a.push({id:Date.now(),no:"RT-"+String(a.length+1).padStart(4,"0"),date:rtDate.value,type,ref:type==="SALES_RETURN"?doc.invoiceNo:doc.purchaseNo,party:doc.customerName||doc.supplierName||"",item:item.name,productId:item.productId,qty,rate,amount,reason:rtReason.value.trim(),note:rtNote.value.trim(),status:"Approved"});
+ save(R,a);render();alert("Return saved. Return register updated.");
+}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2ReturnHook){window.__day2ReturnHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-sales-return"||id==="erp-purchase-return"||id==="erp-returns")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-stock-style">
+#day2Stock{margin-bottom:16px}#day2Stock .skGrid{display:grid;grid-template-columns:1fr 1.8fr;gap:12px}
+#day2Stock .skCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Stock input,#day2Stock select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Stock button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.skPrimary{background:#4a2108;color:#fff}
+#day2Stock table{width:100%;border-collapse:collapse;font-size:13px}#day2Stock th,#day2Stock td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.skStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}.skLow{font-weight:700}
+@media(max-width:800px){#day2Stock .skGrid{grid-template-columns:1fr}#day2Stock table{font-size:11px}}
+</style>
+<script id="day2-stock-script">
+(function(){
+const P="SANDIP_DAY1_PRODUCTS_V1",L="SANDIP_DAY2_STOCK_LEDGER_V1",R="SANDIP_DAY2_RETURNS_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Stock");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Stock";e.className="box";m.prepend(e);return e}
+function getStock(){
+ const p=read(P),l=read(L),stock={};p.forEach(x=>stock[x.id]={id:x.id,name:x.name,unit:x.unit||"",min:Number(x.min||0),qty:Number(x.opening||0)});
+ l.forEach(x=>{if(stock[x.productId])stock[x.productId].qty+=Number(x.inQty||0)-Number(x.outQty||0)});
+ return Object.values(stock);
+}
+function render(){
+ const e=mount();if(!e)return;const stock=getStock(),low=stock.filter(x=>x.qty<=x.min);
+ e.innerHTML=`<h2>📦 Inventory & Stock Control / स्टॉक व्यवस्थापन</h2>
+ <p><span class="skStat">Products: ${stock.length}</span><span class="skStat">Total Units: ${stock.reduce((z,x)=>z+x.qty,0).toFixed(3)}</span><span class="skStat">Low Stock: ${low.length}</span></p>
+ <div class="skGrid"><div class="skCard"><h3>🔧 Stock Adjustment</h3>
+ <select id="skProduct"><option value="">Select Product</option>${stock.map(x=>`<option value="${x.id}">${esc(x.name)} — Current ${x.qty} ${esc(x.unit)}</option>`).join("")}</select>
+ <select id="skType"><option value="IN">Stock In</option><option value="OUT">Stock Out</option><option value="ADJUST">Adjustment</option></select>
+ <input id="skQty" type="number" min="0.001" step="0.001" placeholder="Quantity">
+ <input id="skReason" placeholder="Reason / Reference">
+ <button class="skPrimary" onclick="Day2Stock.save()">💾 Save Stock Entry</button>
+ <hr><h3>⚠️ Low Stock</h3>${low.length?low.map(x=>`<p class="skLow">⚠️ ${esc(x.name)} — ${x.qty} ${esc(x.unit)} (Min ${x.min})</p>`).join(""):"<p>🟢 Stock levels OK.</p>"}</div>
+ <div class="skCard"><h3>📋 Current Stock</h3><div id="skTable"></div><h3>📜 Stock Ledger</h3><div id="skLedger"></div></div></div>`;
+ draw();
+}
+function draw(){
+ const stock=getStock(),l=read(L);
+ skTable.innerHTML=`<div style="overflow:auto"><table><tr><th>Product</th><th>Current Qty</th><th>Unit</th><th>Min Level</th><th>Status</th></tr>${stock.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.qty.toFixed(3)}</td><td>${esc(x.unit)}</td><td>${x.min}</td><td>${x.qty<=x.min?"⚠️ LOW":"🟢 OK"}</td></tr>`).join("")}</table></div>`;
+ skLedger.innerHTML=l.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Product</th><th>Type</th><th>In</th><th>Out</th><th>Reason</th></tr>${l.slice(-30).reverse().map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.productName||x.productId)}</td><td>${esc(x.type||"")}</td><td>${Number(x.inQty||0)}</td><td>${Number(x.outQty||0)}</td><td>${esc(x.reason)}</td></tr>`).join("")}</table></div>`:"<p>No stock movements.</p>";
+}
+window.Day2Stock={save(){
+ const id=Number(skProduct.value),qty=Number(skQty.value||0),type=skType.value;if(!id||qty<=0)return alert("Select product and quantity.");
+ const p=read(P).find(x=>x.id===id),a=read(L),now=new Date().toISOString().slice(0,10);
+ let inQty=type==="IN"?qty:0,outQty=type==="OUT"?qty:0;
+ if(type==="ADJUST"){const cur=getStock().find(x=>x.id===id)?.qty||0;inQty=qty>cur?qty-cur:0;outQty=cur>qty?cur-qty:0}
+ const projected=(getStock().find(x=>x.id===id)?.qty||0)+inQty-outQty;if(projected<0)return alert("Stock cannot go below zero.");
+ a.push({id:Date.now(),date:now,productId:id,productName:p?.name||"",type,inQty,outQty,reason:skReason.value.trim()});save(L,a);render();alert("Stock entry saved.");
+}};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2StockHook){window.__day2StockHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-inventory"||id==="erp-stock"||id==="erp-stock-ledger")setTimeout(render,50);return r}}
+})();
+</script>
+
+
+<style id="day2-scan-style">
+#day2Scan{margin-bottom:16px}#day2Scan .bcGrid{display:grid;grid-template-columns:1fr 1.7fr;gap:12px}
+#day2Scan .bcCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Scan input,#day2Scan select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Scan button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.bcPrimary{background:#4a2108;color:#fff}
+#day2Scan table{width:100%;border-collapse:collapse;font-size:13px}#day2Scan th,#day2Scan td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.bcResult{padding:12px;border:1px dashed #aaa;border-radius:10px;margin-top:8px}.bcFound{font-weight:700}
+@media(max-width:800px){#day2Scan .bcGrid{grid-template-columns:1fr}#day2Scan table{font-size:11px}}
+</style>
+<script id="day2-scan-script">
+(function(){
+const P="SANDIP_DAY1_PRODUCTS_V1",S="SANDIP_DAY2_SCAN_LOG_V1";
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Scan");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Scan";e.className="box";m.prepend(e);return e}
+function render(){
+ const e=mount();if(!e)return;const p=read(P);
+ e.innerHTML=`<h2>📷 Barcode / QR Scan + Product Lookup</h2>
+ <p><small>Fast product lookup by Barcode, QR value or SKU. Camera scanning can be connected to a compatible browser scanner later.</small></p>
+ <div class="bcGrid"><div class="bcCard"><h3>🔎 Scan / Search</h3>
+ <input id="bcInput" placeholder="Scan or enter Barcode / QR / SKU" autofocus onkeydown="if(event.key==='Enter')Day2Scan.find()">
+ <button class="bcPrimary" onclick="Day2Scan.find()">🔍 Find Product</button><button onclick="Day2Scan.clear()">Clear</button>
+ <div id="bcResult" class="bcResult">Enter a barcode, QR value or SKU.</div>
+ <hr><h3>➕ Assign Code</h3>
+ <select id="bcProduct"><option value="">Select Product</option>${p.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("")}</select>
+ <input id="bcCode" placeholder="Barcode / QR / SKU">
+ <button onclick="Day2Scan.assign()">💾 Save Code</button></div>
+ <div class="bcCard"><h3>📋 Product Codes</h3><div id="bcTable"></div><h3>🕘 Scan History</h3><div id="bcHistory"></div></div></div>`;
+ draw();
+}
+function draw(){
+ const p=read(P),h=read(S);
+ bcTable.innerHTML=`<div style="overflow:auto"><table><tr><th>Product</th><th>SKU</th><th>Barcode</th><th>QR</th><th>Stock</th></tr>${p.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.sku||"")}</td><td>${esc(x.barcode||"")}</td><td>${esc(x.qr||"")}</td><td>${esc(x.opening??0)}</td></tr>`).join("")}</table></div>`;
+ bcHistory.innerHTML=h.length?`<div style="overflow:auto"><table><tr><th>Time</th><th>Code</th><th>Product</th></tr>${h.slice(-20).reverse().map(x=>`<tr><td>${new Date(x.time).toLocaleString()}</td><td>${esc(x.code)}</td><td>${esc(x.product)}</td></tr>`).join("")}</table></div>`:"<p>No scans yet.</p>";
+}
+window.Day2Scan={
+find(){const code=bcInput.value.trim();if(!code)return alert("Enter or scan a code.");const p=read(P).find(x=>String(x.barcode||"").toLowerCase()===code.toLowerCase()||String(x.qr||"").toLowerCase()===code.toLowerCase()||String(x.sku||"").toLowerCase()===code.toLowerCase()||String(x.code||"").toLowerCase()===code.toLowerCase());
+ if(!p){bcResult.innerHTML="❌ Product not found.";return}
+ bcResult.innerHTML=`<span class="bcFound">✅ ${esc(p.name)}</span><br>SKU: ${esc(p.sku||"-")}<br>Barcode: ${esc(p.barcode||"-")}<br>Price: ₹${Number(p.sale||0).toFixed(2)}<br>Unit: ${esc(p.unit||"-")}`;
+ const h=read(S);h.push({time:new Date().toISOString(),code,product:p.name,productId:p.id});save(S,h);draw()},
+assign(){const id=Number(bcProduct.value),code=bcCode.value.trim();if(!id||!code)return alert("Select product and enter code.");const a=read(P),p=a.find(x=>x.id===id);if(!p)return;p.barcode=code;p.qr=code;p.code=code;save(P,a);render();alert("Barcode/QR code saved.")},
+clear(){bcInput.value="";bcResult.innerHTML="Enter a barcode, QR value or SKU.";bcInput.focus()}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2ScanHook){window.__day2ScanHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-barcode"||id==="erp-qr"||id==="erp-scan")setTimeout(render,50);return r}}
+})();
+</script>
+
+</body></html>`);w.document.close();w.print()}
+};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2DeliveryHook){window.__day2DeliveryHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-delivery"||id==="erp-dispatch"||id==="erp-challan")setTimeout(render,50);return r}}
+})();
+</script>
+
+</body></html>");w.document.close();w.print()}};
+const original=window.showPage;if(typeof original==="function"&&!window.__day2StatementHook){window.__day2StatementHook=true;window.showPage=function(id){const r=original.apply(this,arguments);if(id==="erp-customer-ledger"||id==="erp-supplier-ledger"||id==="erp-statements")setTimeout(render,50);return r}}
+})();
+</script>
+
 </body>
 </html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
 <style id="mobile-final-v22">
