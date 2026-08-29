@@ -410,6 +410,80 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 }
 </style>
 
+
+<style id="auto-screen-adjust">
+/* Auto screen adjustment: preserve all existing UI, only make viewport fluid */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+* { box-sizing: border-box; }
+
+.appHeader, .top, main, footer {
+  max-width: 100% !important;
+}
+
+.appHeader {
+  width: 100% !important;
+}
+
+.appTitle {
+  min-width: 0 !important;
+}
+
+.appTitle strong,
+.brand {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+main {
+  width: 100% !important;
+}
+
+.grid, .actions {
+  width: 100%;
+  max-width: 100%;
+}
+
+img, video, iframe, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 700px) {
+  .appHeader {
+    width: 100% !important;
+    overflow: hidden;
+  }
+  .appTitle strong {
+    white-space: nowrap !important;
+    font-size: clamp(15px, 5vw, 20px) !important;
+  }
+  .appTechLinks {
+    font-size: clamp(5px, 1.8vw, 8px) !important;
+  }
+  .top {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  main {
+    padding-left: clamp(8px, 2.5vw, 15px) !important;
+    padding-right: clamp(8px, 2.5vw, 15px) !important;
+  }
+}
+
+@media (min-width: 701px) {
+  .appHeader, .top, main {
+    width: 100% !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
@@ -2122,7 +2196,7 @@ onAuthStateChanged(authV16,user=>{
 
 </main>
 
-<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V2</small></footer>
+<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V2</small><br>Contact: <a href="tel:9096136898">9096136898</a></footer>
 
 <script>
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
