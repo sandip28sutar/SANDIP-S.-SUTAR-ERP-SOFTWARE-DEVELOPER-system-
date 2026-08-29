@@ -2268,6 +2268,52 @@ html,body,#app,.app,.page,.shell{width:100%!important;max-width:100%!important;m
 }
 </style>
 
+
+<style id="sutar-name-full-fix">
+@media(max-width:700px){
+  .appHeader{
+    height:96px!important;min-height:96px!important;
+    padding:7px 8px!important;gap:8px!important;
+  }
+  .appLogo{
+    width:86px!important;height:76px!important;
+    min-width:86px!important;flex:0 0 86px!important;
+  }
+  .appTitle{
+    flex:1 1 auto!important;min-width:0!important;
+    overflow:visible!important;
+  }
+  .appTitle strong{
+    display:block!important;
+    width:max-content!important;
+    max-width:none!important;
+    white-space:nowrap!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    font-size:18px!important;
+    line-height:1.1!important;
+    letter-spacing:0!important;
+  }
+  .appTitle span{
+    white-space:nowrap!important;
+    font-size:9px!important;
+  }
+  .appTechLinks{
+    display:block!important;
+    white-space:nowrap!important;
+    font-size:6px!important;
+    margin-top:5px!important;
+  }
+}
+@media(max-width:390px){
+  .appHeader{height:92px!important;min-height:92px!important}
+  .appLogo{width:80px!important;height:72px!important;min-width:80px!important;flex-basis:80px!important}
+  .appTitle strong{font-size:16px!important}
+  .appTitle span{font-size:8px!important}
+  .appTechLinks{font-size:5.5px!important}
+}
+</style>
+
 </body>
 </html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
 <style id="mobile-final-v22">
