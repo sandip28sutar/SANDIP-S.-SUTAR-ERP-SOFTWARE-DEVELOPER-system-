@@ -411,75 +411,30 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 </style>
 
 
-<style id="auto-screen-adjust">
-/* Auto screen adjustment: preserve all existing UI, only make viewport fluid */
-html, body {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+<style id="menu-scroll-fix">
+/* Keep every menu option accessible: scroll only the menu, not the page. */
+.side{
+  max-height:100vh !important;
+  height:100vh !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:auto;
+  overscroll-behavior:contain;
+  padding-bottom:40px !important;
 }
-* { box-sizing: border-box; }
-
-.appHeader, .top, main, footer {
-  max-width: 100% !important;
+.side .devSub{
+  max-height:none !important;
+  overflow:visible !important;
 }
-
-.appHeader {
-  width: 100% !important;
+.side .optionTable{
+  overflow:visible !important;
 }
-
-.appTitle {
-  min-width: 0 !important;
-}
-
-.appTitle strong,
-.brand {
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-main {
-  width: 100% !important;
-}
-
-.grid, .actions {
-  width: 100%;
-  max-width: 100%;
-}
-
-img, video, iframe, canvas {
-  max-width: 100%;
-  height: auto;
-}
-
-@media (max-width: 700px) {
-  .appHeader {
-    width: 100% !important;
-    overflow: hidden;
-  }
-  .appTitle strong {
-    white-space: nowrap !important;
-    font-size: clamp(15px, 5vw, 20px) !important;
-  }
-  .appTechLinks {
-    font-size: clamp(5px, 1.8vw, 8px) !important;
-  }
-  .top {
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-  main {
-    padding-left: clamp(8px, 2.5vw, 15px) !important;
-    padding-right: clamp(8px, 2.5vw, 15px) !important;
-  }
-}
-
-@media (min-width: 701px) {
-  .appHeader, .top, main {
-    width: 100% !important;
+@media (max-width:700px){
+  .side{
+    max-height:100dvh !important;
+    height:100dvh !important;
+    overflow-y:auto !important;
   }
 }
 </style>
@@ -2196,7 +2151,7 @@ onAuthStateChanged(authV16,user=>{
 
 </main>
 
-<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V2</small><br>Contact: <a href="tel:9096136898">9096136898</a></footer>
+<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V2</small></footer>
 
 <script>
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
@@ -2575,6 +2530,85 @@ body:has(.side.open) main{max-width:none!important}
   });
 })();
 </script>
+
+
+<script id="erp-module-routing-v1">
+(function(){
+  const routes={
+    "erp-company":["🏢 Company Management","company"],
+    "erp-customers":["👤 Customer Management","customers"],
+    "erp-suppliers":["🚚 Supplier Management","suppliers"],
+    "erp-products":["📦 Product / Item Master","products"],
+    "erp-sales":["🛒 Sales","sales"],
+    "erp-purchase":["🧾 Purchase","purchase"],
+    "erp-inventory":["📊 Inventory","inventory"],
+    "erp-accounts":["💳 Accounts","accounts"],
+    "erp-gst":["🇮🇳 GST / Tax","gst"],
+    "erp-crm":["🤝 CRM","crm"],
+    "erp-hr":["👨‍💼 HR & HRMS","hr"]
+  };
+  const oldShow=window.showPage;
+  window.showPage=function(id){
+    if(routes[id]){
+      const result=oldShow.apply(this,arguments);
+      setTimeout(()=>ERPModulePanel.open(routes[id][0],routes[id][1]),30);
+      return result;
+    }
+    return oldShow.apply(this,arguments);
+  };
+
+  const KEY="SANDIP_ERP_MODULE_DATA_V1";
+  const getDB=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{"companies":[],"customers":[],"suppliers":[],"products":[],"sales":[]}')}catch(e){return {companies:[],customers:[],suppliers:[],products:[],sales:[]}}};
+  const save=db=>localStorage.setItem(KEY,JSON.stringify(db));
+  const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+
+  window.ERPModulePanel={
+    open(title,type){
+      let box=document.getElementById("erp-module-panel");
+      if(!box){
+        box=document.createElement("section");
+        box.id="erp-module-panel";
+        box.className="box";
+        const main=document.querySelector("main");
+        if(main) main.prepend(box);
+      }
+      const db=getDB();
+      const forms={
+        company:`<h2>${title}</h2><input id="emName" placeholder="Company name"><button class="primary" onclick="ERPModulePanel.add('companies','emName')">Add Company</button>`,
+        customers:`<h2>${title}</h2><input id="emName" placeholder="Customer name"><input id="emPhone" placeholder="Mobile number"><button class="primary" onclick="ERPModulePanel.addCustomer()">Add Customer</button>`,
+        suppliers:`<h2>${title}</h2><input id="emName" placeholder="Supplier name"><input id="emPhone" placeholder="Mobile number"><button class="primary" onclick="ERPModulePanel.addSupplier()">Add Supplier</button>`,
+        products:`<h2>${title}</h2><input id="emName" placeholder="Product / Item"><input id="emPrice" type="number" min="0" placeholder="Price"><input id="emStock" type="number" min="0" placeholder="Stock"><button class="primary" onclick="ERPModulePanel.addProduct()">Add Product</button>`,
+        sales:`<h2>${title}</h2><select id="emCustomer"></select><select id="emProduct"></select><input id="emQty" type="number" min="1" value="1" placeholder="Quantity"><button class="primary" onclick="ERPModulePanel.sale()">Create Sale</button>`,
+        purchase:`<h2>${title}</h2><p>Purchase entry module — connect supplier and product records here.</p>`,
+        inventory:`<h2>${title}</h2><p>Live product stock is shown below.</p>`,
+        accounts:`<h2>${title}</h2><p>Accounts workspace ready for transaction records.</p>`,
+        gst:`<h2>${title}</h2><p>GST / Tax workspace ready for tax configuration and reports.</p>`,
+        crm:`<h2>${title}</h2><p>CRM workspace ready for customer follow-up and activity.</p>`,
+        hr:`<h2>${title}</h2><p>HR & HRMS workspace ready for employee records.</p>`
+      };
+      box.innerHTML=forms[type]||`<h2>${title}</h2>`;
+      if(type==="sales"){
+        emCustomer.innerHTML='<option value="">Select Customer</option>'+db.customers.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+        emProduct.innerHTML='<option value="">Select Product</option>'+db.products.map(x=>`<option value="${x.id}">${esc(x.name)} — ₹${x.price}</option>`).join("");
+      }
+      if(type==="inventory") box.innerHTML+=this.table(db.products,["name","price","stock"]);
+      if(["company","customers","suppliers","products","sales"].includes(type)) box.innerHTML+=this.table(db[type==="company"?"companies":type],type==="customers"||type==="suppliers"?["name","phone"]:type==="products"?["name","price","stock"]:["name"]);
+    },
+    table(arr,cols){return arr.length?`<table><tr>${cols.map(c=>`<th>${c}</th>`).join("")}</tr>${arr.slice().reverse().map(x=>`<tr>${cols.map(c=>`<td>${esc(x[c])}</td>`).join("")}</tr>`).join("")}</table>`:"<p>No records yet.</p>"},
+    add(k,id){const v=document.getElementById(id).value.trim();if(!v)return alert("Enter name.");const db=getDB();db[k].push({id:Date.now(),name:v});save(db);this.open(k,k==="companies"?"company":k);},
+    addCustomer(){const n=emName.value.trim();if(!n)return alert("Customer name required.");const db=getDB();db.customers.push({id:Date.now(),name:n,phone:emPhone.value.trim()});save(db);this.open("👤 Customer Management","customers")},
+    addSupplier(){const n=emName.value.trim();if(!n)return alert("Supplier name required.");const db=getDB();db.suppliers.push({id:Date.now(),name:n,phone:emPhone.value.trim()});save(db);this.open("🚚 Supplier Management","suppliers")},
+    addProduct(){const n=emName.value.trim();if(!n)return alert("Product name required.");const db=getDB();db.products.push({id:Date.now(),name:n,price:Number(emPrice.value||0),stock:Number(emStock.value||0)});save(db);this.open("📦 Product / Item Master","products")},
+    sale(){const db=getDB(),c=Number(emCustomer.value),p=Number(emProduct.value),q=Number(emQty.value||1),prod=db.products.find(x=>x.id===p);if(!c||!p||!prod)return alert("Select customer and product.");if(q<1||prod.stock<q)return alert("Insufficient stock.");prod.stock-=q;db.sales.push({id:Date.now(),customerId:c,productId:p,qty:q,total:q*prod.price,date:new Date().toISOString()});save(db);this.open("🛒 Sales","sales")}
+  };
+})();
+</script>
+<style id="erp-module-routing-style">
+#erp-module-panel{margin-bottom:14px}
+#erp-module-panel input,#erp-module-panel select{padding:9px;margin:4px;width:min(100%,280px);border:1px solid #ccc;border-radius:8px}
+#erp-module-panel table{width:100%;border-collapse:collapse;margin-top:12px}
+#erp-module-panel th,#erp-module-panel td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+</style>
 
 </body>
 </html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
