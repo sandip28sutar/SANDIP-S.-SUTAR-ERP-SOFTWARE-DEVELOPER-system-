@@ -4632,6 +4632,198 @@ window.addEventListener('resize',applyMenuState);
 })();
 </script>
 
+
+<style id="day2-pos-style">
+#day2POS{margin-bottom:16px}#day2POS .posGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+#day2POS .posCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2POS input,#day2POS select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2POS button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.posPrimary{background:#4a2108;color:#fff}
+#day2POS table{width:100%;border-collapse:collapse;font-size:13px}#day2POS th,#day2POS td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.posStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+#posCart td{vertical-align:middle}.posQty{width:70px!important}
+@media(max-width:800px){#day2POS .posGrid{grid-template-columns:1fr}#day2POS table{font-size:11px}}
+</style>
+<script id="day2-pos-script">
+(function(){
+const K="SANDIP_DAY2_POS_BILLING_V1",ST="SANDIP_DAY2_STOCK_TXNS_V1";
+const R=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+let cart=[];
+function mount(){let e=document.getElementById("day2POS");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2POS";e.className="box";m.prepend(e);return e}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🧾 POS / Billing Counter — Barcode Ready</h2>
+<div class="posGrid"><div class="posCard"><h3>🔎 Add Product</h3>
+<input id="posBill" placeholder="Bill No."><input id="posDate" type="date"><input id="posCustomer" placeholder="Customer Name (optional)">
+<input id="posBarcode" placeholder="Barcode / SKU / Item Name" onkeydown="if(event.key==='Enter'){event.preventDefault();Day2POS.addBySearch()}">
+<input id="posItem" placeholder="Product Name *"><input id="posQty" class="posQty" type="number" min=".01" step=".01" value="1"><input id="posRate" type="number" min="0" step=".01" placeholder="Selling Rate ₹"><input id="posGST" type="number" min="0" max="100" step=".01" value="0" placeholder="GST %">
+<button class="posPrimary" onclick="Day2POS.add()">➕ Add to Cart</button>
+<button onclick="Day2POS.addBySearch()">🔍 Search / Barcode</button>
+<hr><input id="posDiscount" type="number" min="0" step=".01" value="0" placeholder="Discount ₹">
+<select id="posMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Bank</option><option>Credit</option></select>
+<button class="posPrimary" onclick="Day2POS.checkout()">💾 Complete Bill + Stock OUT</button><button onclick="Day2POS.clear()">Clear</button>
+<hr><input id="posSearchBill" placeholder="Search bills" oninput="Day2POS.draw()"></div>
+<div class="posCard"><h3>🛒 Current Cart</h3><div id="posCart"></div><h3>📊 Billing Summary</h3><div id="posSummary"></div><h3>📋 Recent Bills</h3><div id="posBills"></div></div></div>`;posDate.value=new Date().toISOString().slice(0,10);posBill.value="POS-"+Date.now().toString().slice(-7);cart=[];draw()}
+function add(){let item=posItem.value.trim(),qty=+posQty.value||0,rate=+posRate.value||0,gst=+posGST.value||0;if(!item||qty<=0||rate<0)return alert("Product, quantity and valid rate are required.");cart.push({item,qty,rate,gst,barcode:posBarcode.value.trim()});drawCart()}
+function addBySearch(){let q=posBarcode.value.trim().toLowerCase();if(!q)return posBarcode.focus();let found=R(ST).filter(x=>x.type==="IN").find(x=>(x.sku||"").toLowerCase()===q||(x.item||"").toLowerCase()===q||(x.item||"").toLowerCase().includes(q));if(found){posItem.value=found.item;posRate.value=found.rate||0;posBarcode.value=found.sku||q;posQty.focus()}else alert("Product not found in stock transactions. Enter product details manually.")}
+function drawCart(){let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),disc=+posDiscount?.value||0,total=Math.max(0,sub-disc+gst);posCart.innerHTML=cart.length?`<div style="overflow:auto"><table><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Total</th><th></th></tr>${cart.map((x,i)=>`<tr><td>${E(x.item)}</td><td>${x.qty}</td><td>${M(x.rate)}</td><td>${x.gst}%</td><td>${M(x.qty*x.rate*(1+x.gst/100))}</td><td><button onclick="Day2POS.remove(${i})">✕</button></td></tr>`).join("")}</table></div>`:"<p>Cart is empty.</p>";posSummary.innerHTML=`<span class="posStat">Items: ${cart.reduce((z,x)=>z+x.qty,0)}</span><span class="posStat">Subtotal: ${M(sub)}</span><span class="posStat">GST: ${M(gst)}</span><span class="posStat">Discount: ${M(disc)}</span><span class="posStat"><b>Total: ${M(total)}</b></span>`}
+function draw(){let a=R(K),q=(posSearchBill?.value||"").toLowerCase().trim(),f=a.filter(x=>!q||[x.no,x.customer,x.mode].join(" ").toLowerCase().includes(q));posBills.innerHTML=f.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Bill</th><th>Customer</th><th>Mode</th><th>Total</th><th>Action</th></tr>${f.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.no)}</td><td>${E(x.customer)||"Walk-in"}</td><td>${E(x.mode)}</td><td>${M(x.total)}</td><td><button onclick="Day2POS.print('${x.id}')">Print</button></td></tr>`).join("")}</table></div>`:"<p>No bills found.</p>";drawCart()}
+window.Day2POS={add,addBySearch,remove(i){cart.splice(i,1);drawCart()},checkout(){if(!cart.length)return alert("Cart is empty.");let st=R(ST),bal={};st.forEach(x=>{let k=(x.item||"").toLowerCase();bal[k]=(bal[k]||0)+(x.type==="IN"?+x.qty:x.type==="OUT"?-+x.qty:0)});let shortage=cart.find(x=>(bal[x.item.toLowerCase()]||0)<x.qty);if(shortage)return alert("Insufficient stock: "+shortage.item);let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),disc=+posDiscount.value||0,gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),o={id:Date.now(),no:posBill.value.trim()||"POS-"+Date.now(),date:posDate.value,customer:posCustomer.value.trim(),items:cart.slice(),subtotal:sub,discount:disc,gst,total:Math.max(0,sub-disc+gst),mode:posMode.value};let a=R(K);if(a.some(x=>x.no.toLowerCase()===o.no.toLowerCase()))return alert("Bill number already exists.");a.push(o);W(K,a);cart.forEach(x=>st.push({id:Date.now()+Math.random(),item:x.item,sku:x.barcode||"",type:"OUT",qty:x.qty,rate:x.rate,min:0,date:o.date,ref:o.no,note:"POS Billing Stock OUT"}));W(ST,st);render();alert("Bill completed successfully.")},print(id){let x=R(K).find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body style="font-family:Arial;padding:20px;max-width:500px;margin:auto"><h2>POS BILL</h2><p>Bill: ${E(x.no)}<br>Date: ${E(x.date)}<br>Customer: ${E(x.customer)||"Walk-in"}</p><table width="100%" border="1" cellpadding="6" cellspacing="0"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${x.items.map(i=>`<tr><td>${E(i.item)}</td><td>${i.qty}</td><td>${M(i.rate)}</td><td>${M(i.qty*i.rate*(1+i.gst/100))}</td></tr>`).join("")}</table><p>Subtotal: ${M(x.subtotal)}<br>Discount: ${M(x.discount)}<br>GST: ${M(x.gst)}<br><b>Grand Total: ${M(x.total)}</b><br>Payment: ${E(x.mode)}</p><p>Thank you!</p>
+<style id="day2-warehouse-style">
+#day2Warehouse{margin-bottom:16px}#day2Warehouse .whGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+#day2Warehouse .whCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Warehouse input,#day2Warehouse select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Warehouse button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.whPrimary{background:#4a2108;color:#fff}
+#day2Warehouse table{width:100%;border-collapse:collapse;font-size:13px}#day2Warehouse th,#day2Warehouse td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.whStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Warehouse .whGrid{grid-template-columns:1fr}#day2Warehouse table{font-size:11px}}
+</style>
+<script id="day2-warehouse-script">
+(function(){
+const K="SANDIP_DAY2_WAREHOUSE_V1",TR="SANDIP_DAY2_STOCK_TRANSFERS_V1",ST="SANDIP_DAY2_STOCK_TXNS_V1";
+const R=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function mount(){let e=document.getElementById("day2Warehouse");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Warehouse";e.className="box";m.prepend(e);return e}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🏭 Warehouse / Rack / Bin + Stock Transfer</h2>
+<div class="whGrid"><div class="whCard"><h3>🏷️ Warehouse / Location</h3>
+<input id="whCode" placeholder="Warehouse Code"><input id="whName" placeholder="Warehouse Name *"><input id="whAddress" placeholder="Address"><input id="whManager" placeholder="Manager / Contact">
+<button class="whPrimary" onclick="Day2Warehouse.saveWarehouse()">💾 Save Warehouse</button><button onclick="Day2Warehouse.clearWarehouse()">Clear</button>
+<hr><h3>📦 Rack / Bin</h3><input id="whRack" placeholder="Rack No."><input id="whBin" placeholder="Bin No."><select id="whWarehouse"></select><button class="whPrimary" onclick="Day2Warehouse.saveLocation()">Save Location</button>
+<hr><h3>🔄 Stock Transfer</h3><input id="whItem" placeholder="Product / Item *"><input id="whSKU" placeholder="SKU / Barcode"><input id="whQty" type="number" min=".01" step=".01" placeholder="Quantity *"><select id="whFrom"></select><select id="whTo"></select><input id="whRef" placeholder="Transfer No. / Reference"><input id="whDate" type="date"><button class="whPrimary" onclick="Day2Warehouse.transfer()">🚚 Transfer Stock</button>
+</div><div class="whCard"><h3>📊 Warehouse Summary</h3><div id="whSummary"></div><h3>🏭 Warehouses & Locations</h3><div id="whTable"></div><h3>🔄 Transfer Register</h3><div id="whTransfers"></div></div></div>`;
+whDate.value=new Date().toISOString().slice(0,10);whDate.dispatchEvent(new Event("change"));refreshSelectors();draw()}
+function refreshSelectors(){let a=R(K),opts=a.map(x=>`<option value="${E(x.id)}">${E(x.code||x.name)}</option>`).join("");[whWarehouse,whFrom,whTo].forEach(s=>s.innerHTML=opts||'<option value="">No warehouse</option>')}
+function draw(){let a=R(K),t=R(TR);whSummary.innerHTML=`<span class="whStat">Warehouses: ${a.length}</span><span class="whStat">Locations: ${a.reduce((z,x)=>z+(x.locations?.length||0),0)}</span><span class="whStat">Transfers: ${t.length}</span>`;
+whTable.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Code</th><th>Warehouse</th><th>Manager</th><th>Racks/Bins</th><th>Action</th></tr>${a.map(x=>`<tr><td>${E(x.code)}</td><td>${E(x.name)}</td><td>${E(x.manager)}</td><td>${(x.locations||[]).map(l=>E(l.rack)+(l.bin?"/"+E(l.bin):"")).join(", ")||"-"}</td><td><button onclick="Day2Warehouse.remove('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No warehouses created.</p>";
+whTransfers.innerHTML=t.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Transfer</th><th>Item</th><th>Qty</th><th>From</th><th>To</th></tr>${t.slice().reverse().map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.ref)}</td><td>${E(x.item)}</td><td>${x.qty}</td><td>${E(x.fromName)}</td><td>${E(x.toName)}</td></tr>`).join("")}</table></div>`:"<p>No transfers yet.</p>"}
+window.Day2Warehouse={saveWarehouse(){let name=whName.value.trim();if(!name)return alert("Warehouse name is required.");let a=R(K);a.push({id:Date.now(),code:whCode.value.trim()||"WH-"+(a.length+1),name,address:whAddress.value.trim(),manager:whManager.value.trim(),locations:[]});W(K,a);render();alert("Warehouse saved.")},clearWarehouse(){whCode.value="";whName.value="";whAddress.value="";whManager.value=""},saveLocation(){let id=whWarehouse.value,rack=whRack.value.trim(),bin=whBin.value.trim();if(!id||(!rack&&!bin))return alert("Select warehouse and enter Rack or Bin.");let a=R(K),x=a.find(z=>String(z.id)===String(id));if(!x)return;x.locations=x.locations||[];x.locations.push({rack,bin});W(K,a);render();alert("Rack/Bin saved.")},transfer(){let item=whItem.value.trim(),qty=+whQty.value||0,from=whFrom.value,to=whTo.value;if(!item||qty<=0||!from||!to||from===to)return alert("Enter item, quantity, From and To warehouses.");let a=R(K),f=a.find(x=>String(x.id)===String(from)),tt=a.find(x=>String(x.id)===String(to)),tr=R(TR);tr.push({id:Date.now(),date:whDate.value,item,sku:whSKU.value.trim(),qty,from,to,fromName:f?.name||from,toName:tt?.name||to,ref:whRef.value.trim()||"TR-"+Date.now()});W(TR,tr);let st=R(ST);st.push({id:Date.now()+Math.random(),item,sku:whSKU.value.trim(),type:"OUT",qty,rate:0,min:0,date:whDate.value,ref:whRef.value.trim()||"TRANSFER",note:"Warehouse transfer OUT: "+(f?.name||from)});st.push({id:Date.now()+Math.random(),item,sku:whSKU.value.trim(),type:"IN",qty,rate:0,min:0,date:whDate.value,ref:whRef.value.trim()||"TRANSFER",note:"Warehouse transfer IN: "+(tt?.name||to)});W(ST,st);render();alert("Stock transferred successfully.")},remove(id){if(!confirm("Delete warehouse?"))return;W(K,R(K).filter(x=>String(x.id)!==String(id)));render()}};
+setTimeout(render,100);
+})();
+</script>
+
+
+<style id="day2-hr-style">
+#day2HR{margin-bottom:16px}#day2HR .hrGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+#day2HR .hrCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2HR input,#day2HR select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2HR button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.hrPrimary{background:#4a2108;color:#fff}
+#day2HR table{width:100%;border-collapse:collapse;font-size:13px}#day2HR th,#day2HR td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.hrStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2HR .hrGrid{grid-template-columns:1fr}#day2HR table{font-size:11px}}
+</style>
+<script id="day2-hr-script">
+(function(){
+const K="SANDIP_DAY2_HR_MASTER_V1",A="SANDIP_DAY2_ATTENDANCE_V1",L="SANDIP_DAY2_LEAVE_V1",S="SANDIP_DAY2_SALARY_V1";
+const R=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+function mount(){let e=document.getElementById("day2HR");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2HR";e.className="box";m.prepend(e);return e}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>👨‍💼 HR / Employee / Attendance / Salary — Updates 72–76</h2>
+<div class="hrGrid"><div class="hrCard"><h3>👤 Employee Master</h3>
+<input id="hrCode" placeholder="Employee Code"><input id="hrName" placeholder="Employee Name *"><input id="hrMobile" placeholder="Mobile"><input id="hrDept" placeholder="Department">
+<input id="hrRole" placeholder="Designation"><input id="hrJoin" type="date"><input id="hrSalary" type="number" min="0" step=".01" placeholder="Monthly Salary ₹">
+<select id="hrStatus"><option>ACTIVE</option><option>INACTIVE</option></select>
+<button class="hrPrimary" onclick="Day2HR.saveEmployee()">💾 Save Employee</button><button onclick="Day2HR.clear()">Clear</button>
+<hr><h3>🕘 Attendance</h3><select id="hrEmpAtt"></select><input id="hrAttDate" type="date"><select id="hrAttStatus"><option>PRESENT</option><option>ABSENT</option><option>HALF DAY</option><option>LEAVE</option></select><button class="hrPrimary" onclick="Day2HR.saveAttendance()">Save Attendance</button>
+<hr><h3>🏖️ Leave</h3><select id="hrEmpLeave"></select><input id="hrLeaveDate" type="date"><select id="hrLeaveType"><option>CASUAL</option><option>SICK</option><option>PAID</option><option>UNPAID</option><option>OTHER</option></select><button class="hrPrimary" onclick="Day2HR.saveLeave()">Save Leave</button>
+<hr><h3>💰 Salary</h3><select id="hrEmpSalary"></select><input id="hrMonth" type="month"><input id="hrBasic" type="number" min="0" step=".01" placeholder="Basic Salary ₹"><input id="hrAllow" type="number" min="0" step=".01" placeholder="Allowances ₹"><input id="hrDeduct" type="number" min="0" step=".01" placeholder="Deductions ₹"><button class="hrPrimary" onclick="Day2HR.saveSalary()">Save Salary</button>
+</div><div class="hrCard"><h3>📊 HR Summary</h3><div id="hrSummary"></div><h3>👥 Employee Master</h3><div id="hrEmployees"></div><h3>🕘 Attendance</h3><div id="hrAttendance"></div><h3>🏖️ Leave Register</h3><div id="hrLeaves"></div><h3>💰 Salary Register</h3><div id="hrSalaries"></div></div></div>`;
+let today=new Date().toISOString().slice(0,10);hrJoin.value=today;hrAttDate.value=today;hrLeaveDate.value=today;hrMonth.value=today.slice(0,7);refreshSelectors();draw()}
+function refreshSelectors(){let a=R(K),o=a.map(x=>`<option value="${E(x.id)}">${E(x.code+" - "+x.name)}</option>`).join("")||'<option value="">No employees</option>';hrEmpAtt.innerHTML=o;hrEmpLeave.innerHTML=o;hrEmpSalary.innerHTML=o}
+function emp(id){return R(K).find(x=>String(x.id)===String(id))}
+function draw(){let a=R(K),at=R(A),lv=R(L),sa=R(S);hrSummary.innerHTML=`<span class="hrStat">Employees: ${a.length}</span><span class="hrStat">Active: ${a.filter(x=>x.status==="ACTIVE").length}</span><span class="hrStat">Present Entries: ${at.filter(x=>x.status==="PRESENT").length}</span><span class="hrStat">Leave Entries: ${lv.length}</span><span class="hrStat">Salary Records: ${sa.length}</span>`;
+hrEmployees.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Code</th><th>Name</th><th>Department</th><th>Role</th><th>Salary</th><th>Status</th><th>Action</th></tr>${a.map(x=>`<tr><td>${E(x.code)}</td><td>${E(x.name)}</td><td>${E(x.dept)}</td><td>${E(x.role)}</td><td>${M(x.salary)}</td><td>${E(x.status)}</td><td><button onclick="Day2HR.removeEmployee('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No employees.</p>";
+hrAttendance.innerHTML=at.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Employee</th><th>Status</th></tr>${at.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.date)}</td><td>${E(emp(x.empId)?.name||x.empId)}</td><td>${E(x.status)}</td></tr>`).join("")}</table></div>`:"<p>No attendance.</p>";
+hrLeaves.innerHTML=lv.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Employee</th><th>Type</th></tr>${lv.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.date)}</td><td>${E(emp(x.empId)?.name||x.empId)}</td><td>${E(x.type)}</td></tr>`).join("")}</table></div>`:"<p>No leave entries.</p>";
+hrSalaries.innerHTML=sa.length?`<div style="overflow:auto"><table><tr><th>Month</th><th>Employee</th><th>Basic</th><th>Allow</th><th>Deduct</th><th>Net</th></tr>${sa.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.month)}</td><td>${E(emp(x.empId)?.name||x.empId)}</td><td>${M(x.basic)}</td><td>${M(x.allow)}</td><td>${M(x.deduct)}</td><td><b>${M(x.net)}</b></td></tr>`).join("")}</table></div>`:"<p>No salary records.</p>"}
+}
+window.Day2HR={saveEmployee(){let name=hrName.value.trim();if(!name)return alert("Employee name is required.");let a=R(K),o={id:Date.now(),code:hrCode.value.trim()||"EMP-"+(a.length+1),name,mobile:hrMobile.value.trim(),dept:hrDept.value.trim(),role:hrRole.value.trim(),join:hrJoin.value,salary:+hrSalary.value||0,status:hrStatus.value};if(a.some(x=>x.code.toLowerCase()===o.code.toLowerCase()))return alert("Employee code already exists.");a.push(o);W(K,a);render();alert("Employee saved.")},removeEmployee(id){if(!confirm("Delete employee?"))return;W(K,R(K).filter(x=>String(x.id)!==String(id)));draw()},saveAttendance(){if(!hrEmpAtt.value)return alert("Add employee first.");let a=R(A);a.push({id:Date.now(),empId:hrEmpAtt.value,date:hrAttDate.value,status:hrAttStatus.value});W(A,a);draw();alert("Attendance saved.")},saveLeave(){if(!hrEmpLeave.value)return alert("Add employee first.");let a=R(L);a.push({id:Date.now(),empId:hrEmpLeave.value,date:hrLeaveDate.value,type:hrLeaveType.value});W(L,a);draw();alert("Leave saved.")},saveSalary(){if(!hrEmpSalary.value)return alert("Add employee first.");let b=+hrBasic.value||0,al=+hrAllow.value||0,d=+hrDeduct.value||0;if(b<=0)return alert("Enter basic salary.");let a=R(S);a.push({id:Date.now(),empId:hrEmpSalary.value,month:hrMonth.value,basic:b,allow:al,deduct:d,net:Math.max(0,b+al-d)});W(S,a);draw();alert("Salary record saved.")},clear(){render()}};
+setTimeout(render,100);
+})();
+</script>
+
+
+<style id="day2-fin-style">
+#day2Finance{margin-bottom:16px}#day2Finance .fiGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+#day2Finance .fiCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Finance input,#day2Finance select,#day2Finance textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Finance button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.fiPrimary{background:#4a2108;color:#fff}
+#day2Finance table{width:100%;border-collapse:collapse;font-size:13px}#day2Finance th,#day2Finance td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.fiStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+@media(max-width:800px){#day2Finance .fiGrid{grid-template-columns:1fr}#day2Finance table{font-size:11px}}
+</style>
+<script id="day2-fin-script">
+(function(){
+const K="SANDIP_DAY2_FINANCE_LEDGER_V1";
+const R=()=>{try{return JSON.parse(localStorage.getItem(K)||"[]")}catch(e){return[]}},W=a=>localStorage.setItem(K,JSON.stringify(a));
+const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+function mount(){let e=document.getElementById("day2Finance");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Finance";e.className="box";m.prepend(e);return e}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>💰 Finance / Expense / Cash / Profit-Loss — Updates 77–81</h2>
+<div class="fiGrid"><div class="fiCard"><h3>➕ Financial Entry</h3>
+<input id="fiDate" type="date"><select id="fiType"><option value="EXPENSE">Expense</option><option value="INCOME">Income</option><option value="CASH_IN">Cash In</option><option value="CASH_OUT">Cash Out</option><option value="BANK_IN">Bank In</option><option value="BANK_OUT">Bank Out</option></select>
+<input id="fiCategory" placeholder="Category"><input id="fiParty" placeholder="Party / Account"><input id="fiAmount" type="number" min="0" step=".01" placeholder="Amount ₹"><select id="fiMode"><option>Cash</option><option>Bank</option><option>UPI</option><option>Card</option><option>Other</option></select>
+<input id="fiRef" placeholder="Reference / Voucher No."><textarea id="fiNote" rows="2" placeholder="Notes"></textarea>
+<button class="fiPrimary" onclick="Day2Finance.save()">💾 Save Entry</button><button onclick="Day2Finance.clear()">Clear</button>
+<hr><input id="fiSearch" placeholder="Search category / party / reference" oninput="Day2Finance.draw()"></div>
+<div class="fiCard"><h3>📊 Financial Dashboard</h3><div id="fiSummary"></div><h3>📈 Profit / Loss</h3><div id="fiPL"></div><h3>📋 Ledger</h3><div id="fiLedger"></div></div></div>`;
+fiDate.value=new Date().toISOString().slice(0,10);draw()}
+function draw(){let a=R(),q=(fiSearch?.value||"").toLowerCase().trim(),f=a.filter(x=>!q||[x.category,x.party,x.ref,x.note,x.type].join(" ").toLowerCase().includes(q));let inc=a.filter(x=>x.type==="INCOME").reduce((z,x)=>z+x.amount,0),exp=a.filter(x=>x.type==="EXPENSE").reduce((z,x)=>z+x.amount,0),ci=a.filter(x=>x.type==="CASH_IN").reduce((z,x)=>z+x.amount,0),co=a.filter(x=>x.type==="CASH_OUT").reduce((z,x)=>z+x.amount,0),bi=a.filter(x=>x.type==="BANK_IN").reduce((z,x)=>z+x.amount,0),bo=a.filter(x=>x.type==="BANK_OUT").reduce((z,x)=>z+x.amount,0);
+fiSummary.innerHTML=`<span class="fiStat">Income: ${M(inc)}</span><span class="fiStat">Expense: ${M(exp)}</span><span class="fiStat">Profit/Loss: ${M(inc-exp)}</span><span class="fiStat">Cash: ${M(ci-co)}</span><span class="fiStat">Bank: ${M(bi-bo)}</span>`;
+fiPL.innerHTML=`<p><b>Gross Income:</b> ${M(inc)}<br><b>Total Expenses:</b> ${M(exp)}<br><b>Net Profit / Loss:</b> <b>${M(inc-exp)}</b></p>`;
+fiLedger.innerHTML=f.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Type</th><th>Category</th><th>Party</th><th>Mode</th><th>Amount</th><th>Ref</th><th>Action</th></tr>${f.slice().reverse().slice(0,50).map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.type)}</td><td>${E(x.category)}</td><td>${E(x.party)}</td><td>${E(x.mode)}</td><td>${M(x.amount)}</td><td>${E(x.ref)}</td><td><button onclick="Day2Finance.remove('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No financial entries.</p>"}
+window.Day2Finance={save(){let amt=+fiAmount.value||0;if(amt<=0)return alert("Enter a valid amount.");let a=R();a.push({id:Date.now(),date:fiDate.value,type:fiType.value,category:fiCategory.value.trim()||"General",party:fiParty.value.trim(),amount:amt,mode:fiMode.value,ref:fiRef.value.trim()||"VCH-"+Date.now().toString().slice(-7),note:fiNote.value.trim()});W(a);render();alert("Financial entry saved.")},remove(id){if(!confirm("Delete this entry?"))return;W(R().filter(x=>String(x.id)!==String(id)));draw()},clear(){render()},draw};setTimeout(render,100);
+})();
+</script>
+
+
+<style id="day2-admin-style">
+#day2Admin{margin-bottom:16px}#day2Admin .adGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+#day2Admin .adCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#day2Admin input,#day2Admin select,#day2Admin textarea{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}
+#day2Admin button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.adPrimary{background:#4a2108;color:#fff}
+#day2Admin table{width:100%;border-collapse:collapse;font-size:13px}#day2Admin th,#day2Admin td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.adStat{display:inline-block;padding:10px 14px;border:1px solid #ddd;border-radius:10px;margin:3px}
+.adDanger{background:#8b0000;color:#fff}
+@media(max-width:800px){#day2Admin .adGrid{grid-template-columns:1fr}#day2Admin table{font-size:11px}}
+</style>
+<script id="day2-admin-script">
+(function(){
+const PREFIX="SANDIP_DAY2_";
+const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+const keys=["SANDIP_DAY2_GST_TAX_V1","SANDIP_DAY2_PARTY_MASTER_V1","SANDIP_DAY2_HR_MASTER_V1","SANDIP_DAY2_ATTENDANCE_V1","SANDIP_DAY2_LEAVE_V1","SANDIP_DAY2_SALARY_V1","SANDIP_DAY2_FINANCE_LEDGER_V1","SANDIP_DAY2_PURCHASE_V1","SANDIP_DAY2_SALES_DOCS_V1","SANDIP_DAY2_CRM_V1"];
+function R(k){try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}}
+function mount(){let e=document.getElementById("day2Admin");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Admin";e.className="box";m.prepend(e);return e}
+function escJSON(o){return JSON.stringify(o).replace(/</g,"\\u003c")}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>📊 Reports / Backup / Roles / Settings — Updates 97–101</h2>
+<div class="adGrid"><div class="adCard"><h3>⚙️ System Tools</h3>
+<button class="adPrimary" onclick="Day2Admin.backup()">⬇️ Backup All Data</button>
+<input id="adFile" type="file" accept=".json,application/json" onchange="Day2Admin.restore(event)">
+<button onclick="Day2Admin.exportCSV()">📄 Export Summary CSV</button>
+<hr><h3>👤 User Role</h3><input id="adUser" placeholder="User Name"><select id="adRole"><option>ADMIN</option><option>MANAGER</option><option>STAFF</option><option>VIEWER</option></select><button class="adPrimary" onclick="Day2Admin.saveRole()">Save Role</button>
+<hr><h3>🏢 Company Settings</h3><input id="adCompany" placeholder="Company Name"><input id="adPhone" placeholder="Company Mobile"><input id="adEmail" type="email" placeholder="Company Email"><button class="adPrimary" onclick="Day2Admin.saveSettings()">Save Settings</button>
+<hr><button class="adDanger" onclick="Day2Admin.clearAll()">⚠️ Clear ERP Data</button></div>
+<div class="adCard"><h3>📈 Final Dashboard</h3><div id="adSummary"></div><h3>📋 Data Reports</h3><div id="adReports"></div><h3>👥 User Roles</h3><div id="adRoles"></div><h3>🏢 Company Settings</h3><div id="adSettings"></div></div></div>`;
+let s=JSON.parse(localStorage.getItem("SANDIP_DAY2_SYSTEM_SETTINGS_V1")||"{}");adCompany.value=s.company||"";adPhone.value=s.phone||"";adEmail.value=s.email||"";draw()}
+function draw(){let counts=keys.map(k=>({k,n:R(k).length}));let total=counts.reduce((z,x)=>z+x.n,0);
+adSummary.innerHTML=`<span class="adStat">Modules: ${keys.length}</span><span class="adStat">Stored Records: ${total}</span><span class="adStat">Local Backup: Ready</span>`;
+adReports.innerHTML=`<div style="overflow:auto"><table><tr><th>Module</th><th>Records</th></tr>${counts.map(x=>`<tr><td>${E(x.k.replace("SANDIP_DAY2_","").replace("_V1",""))}</td><td>${x.n}</td></tr>`).join("")}</table></div>`;
+let roles=R("SANDIP_DAY2_USER_ROLES_V1");adRoles.innerHTML=roles.length?`<table><tr><th>User</th><th>Role</th></tr>${roles.map(x=>`<tr><td>${E(x.user)}</td><td>${E(x.role)}</td></tr>`).join("")}</table>`:"<p>No user roles configured.</p>";
+let s=JSON.parse(localStorage.getItem("SANDIP_DAY2_SYSTEM_SETTINGS_V1")||"{}");adSettings.innerHTML=`<p><b>Company:</b> ${E(s.company)||"-"}<br><b>Mobile:</b> ${E(s.phone)||"-"}<br><b>Email:</b> ${E(s.email)||"-"}</p>`}
+window.Day2Admin={
+backup(){let data={version:"DAY2-97-101",createdAt:new Date().toISOString(),storage:{}};keys.concat(["SANDIP_DAY2_USER_ROLES_V1","SANDIP_DAY2_SYSTEM_SETTINGS_V1"]).forEach(k=>data.storage[k]=localStorage.getItem(k));let b=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="ERP_FULL_BACKUP_"+new Date().toISOString().slice(0,10)+".json";a.click();setTimeout(()=>URL.revokeObjectURL(u),100)},
+restore(ev){let f=ev.target.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.storage)throw Error();Object.entries(d.storage).forEach(([k,v])=>{if(k.startsWith(PREFIX)&&v!==null)localStorage.setItem(k,v)});render();alert("Backup restored successfully.")}catch(x){alert("Invalid ERP backup file.")}};r.readAsText(f)},
+exportCSV(){let rows=[["Module","Records"],...keys.map(k=>[k.replace("SANDIP_DAY2_","").replace("_V1",""),R(k).length])];let csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\\n"),b=new Blob([csv],{type:"text/csv"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="ERP_MODULE_SUMMARY.csv";a.click();setTimeout(()=>URL.revokeObjectURL(u),100)},
+saveRole(){let user=adUser.value.trim();if(!user)return alert("Enter user name.");let a=R("SANDIP_DAY2_USER_ROLES_V1");a.push({id:Date.now(),user,role:adRole.value});localStorage.setItem("SANDIP_DAY2_USER_ROLES_V1",JSON.stringify(a));adUser.value="";draw();alert("User role saved.")},
+saveSettings(){let s={company:adCompany.value.trim(),phone:adPhone.value.trim(),email:adEmail.value.trim()};localStorage.setItem("SANDIP_DAY2_SYSTEM_SETTINGS_V1",JSON.stringify(s));draw();alert("Company settings saved.")},
+clearAll(){if(!confirm("Delete all ERP data stored by these modules? This cannot be undone."))return;keys.concat(["SANDIP_DAY2_USER_ROLES_V1","SANDIP_DAY2_SYSTEM_SETTINGS_V1"]).forEach(k=>localStorage.removeItem(k));render();alert("ERP module data cleared.")}
+};setTimeout(render,100);
+})();
+</script>
+
+</body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
+})();
+</script>
+
 </body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
 })();
 </script>
