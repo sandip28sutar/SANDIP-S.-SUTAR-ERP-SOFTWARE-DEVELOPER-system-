@@ -4462,24 +4462,7 @@ window.Day2Recon={
 reconcile(){let tx=R(SK),sales=R(SA),pur=R(PU),refs=new Set(tx.map(x=>x.ref).filter(Boolean)),missing=[];sales.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Sales "+x.invoiceNo)});pur.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Purchase "+x.invoiceNo)});draw();alert(missing.length?"Reconciliation found "+missing.length+" invoice(s) without matching stock reference.":"Reconciliation OK: all saved sales/purchase invoice references have stock entries.")},
 alerts(){let a=calc().filter(x=>x.min>0&&x.qty<=x.min);rcTable.innerHTML=a.length?`<h3>⚠️ Low Stock Items</h3><div style="overflow:auto"><table><tr><th>Item</th><th>SKU</th><th>Current Qty</th><th>Minimum</th></tr>${a.map(x=>`<tr><td>${E(x.item)}</td><td>${E(x.sku)}</td><td>${x.qty}</td><td>${x.min}</td></tr>`).join("")}</table></div>`:"<p>✅ No low-stock items.</p>"},
 print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write("<html><body><h2>ERP Stock Reconciliation Report</h2>"+rcSummary.outerHTML+rcTable.outerHTML+"
-<style id="developer-menu-toggle-style">
-#devMenuToggle{position:fixed;left:10px;top:10px;z-index:100000;border:0;border-radius:9px;padding:9px 12px;cursor:pointer;background:#222;color:#fff;box-shadow:0 2px 8px #0003}
-body.dev-menu-collapsed .sidebar,body.dev-menu-collapsed .side-bar,body.dev-menu-collapsed .developer-menu,body.dev-menu-collapsed .dev-menu,body.dev-menu-collapsed aside,body.dev-menu-collapsed nav{display:none!important}
-body.dev-menu-collapsed main,body.dev-menu-collapsed .main,body.dev-menu-collapsed .content{margin-left:0!important;width:100%!important;max-width:100%!important}
-@media(min-width:801px){#devMenuToggle{top:14px;left:14px}}
-</style>
-<script id="developer-menu-toggle-script">
-(function(){
-function findDev(){return Array.from(document.querySelectorAll("aside,.sidebar,.side-bar,.developer-menu,.dev-menu,nav")).find(e=>/developer|develop|admin|menu/i.test((e.innerText||"")))}
-function setup(){
- if(document.getElementById("devMenuToggle"))return;
- let b=document.createElement("button");b.id="devMenuToggle";b.textContent="☰ Developer Menu";
- b.onclick=function(){document.body.classList.toggle("dev-menu-collapsed");b.textContent=document.body.classList.contains("dev-menu-collapsed")?"☰ Show Developer Menu":"✕ Hide Developer Menu"};
- document.body.appendChild(b);
-}
-setTimeout(setup,400);
-})();
-</script>
+
 
 
 <style id="day2-cashbank-style">
@@ -4510,7 +4493,34 @@ function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>💰 Cash & Bank M
 <hr><input id="cbSearch" placeholder="Search transaction / party / reference" oninput="Day2CashBank.draw()"></div>
 <div class="cbCard"><h3>📊 Cash & Bank Summary</h3><div id="cbSummary"></div><h3>📒 Cashbook / Bankbook</h3><div id="cbTable"></div></div></div>`;cbDate.value=new Date().toISOString().slice(0,10);cbNo.value="CB-"+Date.now().toString().slice(-7);draw()}
 function draw(){let a=R(),q=(cbSearch?.value||"").toLowerCase().trim(),f=a.filter(x=>!q||[x.no,x.party,x.ref,x.category,x.account].join(" ").toLowerCase().includes(q));let cash=a.filter(x=>x.account==="Cash"),bank=a.filter(x=>x.account==="Bank"),bal=(arr)=>arr.reduce((z,x)=>z+(x.type==="IN"?+x.amount:-+x.amount),0),ci=bal(cash),bi=bal(bank);cbSummary.innerHTML=`<span class="cbStat">Cash Balance: ${M(ci)}</span><span class="cbStat">Bank Balance: ${M(bi)}</span><span class="cbStat">All Transactions: ${a.length}</span>`;cbTable.innerHTML=f.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>No.</th><th>Account</th><th>Type</th><th>Party</th><th>Category</th><th>Amount</th><th>Action</th></tr>${f.slice().reverse().map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.no)}</td><td>${E(x.account)}</td><td>${x.type==="IN"?"IN":"OUT"}</td><td>${E(x.party)}</td><td>${E(x.category)}</td><td>${M(x.amount)}</td><td><button onclick="Day2CashBank.print('${x.id}')">Print</button><button onclick="Day2CashBank.remove('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No transactions found.</p>"}
-window.Day2CashBank={save(){let amount=+cbAmount.value||0;if(amount<=0)return alert("Enter valid amount.");let a=R(),o={id:Date.now(),no:cbNo.value.trim()||"CB-"+Date.now(),date:cbDate.value,account:cbAccount.value,type:cbType.value,party:cbParty.value.trim(),amount,category:cbCategory.value,ref:cbRef.value.trim(),note:cbNote.value.trim(),createdAt:new Date().toISOString()};if(a.some(x=>x.no.toLowerCase()===o.no.toLowerCase()))return alert("Transaction number already exists.");a.push(o);W(a);render();alert("Cash/Bank transaction saved.")},remove(id){let a=R();if(confirm("Delete transaction?")){W(a.filter(x=>String(x.id)!==String(id)));draw()}},print(id){let x=R().find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Cash / Bank Voucher</h2><p>No: ${E(x.no)}<br>Date: ${E(x.date)}<br>Account: ${E(x.account)}<br>Type: ${x.type==="IN"?"Receipt":"Payment"}<br>Party: ${E(x.party)}<br>Category: ${E(x.category)}<br>Reference: ${E(x.ref)}</p><h3>Amount: ${M(x.amount)}</h3><p>${E(x.note)}</p></body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
+window.Day2CashBank={save(){let amount=+cbAmount.value||0;if(amount<=0)return alert("Enter valid amount.");let a=R(),o={id:Date.now(),no:cbNo.value.trim()||"CB-"+Date.now(),date:cbDate.value,account:cbAccount.value,type:cbType.value,party:cbParty.value.trim(),amount,category:cbCategory.value,ref:cbRef.value.trim(),note:cbNote.value.trim(),createdAt:new Date().toISOString()};if(a.some(x=>x.no.toLowerCase()===o.no.toLowerCase()))return alert("Transaction number already exists.");a.push(o);W(a);render();alert("Cash/Bank transaction saved.")},remove(id){let a=R();if(confirm("Delete transaction?")){W(a.filter(x=>String(x.id)!==String(id)));draw()}},print(id){let x=R().find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Cash / Bank Voucher</h2><p>No: ${E(x.no)}<br>Date: ${E(x.date)}<br>Account: ${E(x.account)}<br>Type: ${x.type==="IN"?"Receipt":"Payment"}<br>Party: ${E(x.party)}<br>Category: ${E(x.category)}<br>Reference: ${E(x.ref)}</p><h3>Amount: ${M(x.amount)}</h3><p>${E(x.note)}</p>
+<style id="left-menu-toggle-v2">
+#leftMenuToggle{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:100001;border:0;border-radius:0 10px 10px 0;padding:12px 9px;cursor:pointer;background:#222;color:#fff;box-shadow:2px 2px 9px #0003;font-weight:700}
+body.left-menu-hidden .sidebar,body.left-menu-hidden .side-bar,body.left-menu-hidden .developer-menu,body.left-menu-hidden .dev-menu,body.left-menu-hidden aside{display:none!important}
+body.left-menu-hidden main,body.left-menu-hidden .main,body.left-menu-hidden .content{margin-left:0!important;width:100%!important;max-width:100%!important}
+@media(max-width:800px){#leftMenuToggle{top:50%;padding:14px 8px;font-size:12px}}
+</style>
+<script id="left-menu-toggle-script-v2">
+(function(){
+function setup(){
+ if(document.getElementById("leftMenuToggle"))return;
+ const b=document.createElement("button");
+ b.id="leftMenuToggle";
+ b.type="button";
+ b.title="Open / Close Left Menu";
+ b.textContent="☰";
+ b.onclick=function(){
+   document.body.classList.toggle("left-menu-hidden");
+   b.textContent=document.body.classList.contains("left-menu-hidden")?"☰":"×";
+   b.title=document.body.classList.contains("left-menu-hidden")?"Open Left Menu":"Close Left Menu";
+ };
+ document.body.appendChild(b);
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
+})();
+</script>
+
+</body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
 })();
 </script>
 
