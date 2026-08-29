@@ -4575,6 +4575,63 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<style id="menu-layout-final-fix">
+/* FINAL: left developer drawer controls the layout only on desktop */
+@media(min-width:701px){
+  body:not(.left-dev-closed) .appHeader,
+  body:not(.left-dev-closed) .top{
+    margin-left:260px!important;width:calc(100% - 260px)!important;
+  }
+  body:not(.left-dev-closed) main{
+    margin-left:260px!important;width:calc(100% - 260px)!important;max-width:none!important;
+  }
+  body:not(.left-dev-closed) footer{margin-left:260px!important}
+  body.left-dev-closed .appHeader,
+  body.left-dev-closed .top,
+  body.left-dev-closed main,
+  body.left-dev-closed footer{
+    margin-left:0!important;width:100%!important;max-width:none!important;
+  }
+  body.left-dev-closed .side{
+    left:0!important;transform:translateX(-100%)!important;
+  }
+  body:not(.left-dev-closed) .side{
+    left:0!important;transform:translateX(0)!important;
+  }
+}
+@media(max-width:700px){
+  .appHeader,.top,main,footer{margin-left:0!important;width:100%!important;max-width:100%!important}
+  .side{left:0!important;transform:translateX(0)!important;width:min(290px,88vw)!important}
+  body.left-dev-closed .side{transform:translateX(-105%)!important}
+}
+#leftDevClose{position:relative!important;z-index:5}
+</style>
+<script id="menu-layout-final-js">
+(function(){
+function applyMenuState(){
+ var side=document.getElementById('side');
+ if(!side)return;
+ var closed=document.body.classList.contains('left-dev-closed');
+ side.classList.toggle('left-menu-closed',closed);
+ side.classList.toggle('open',!closed);
+ var ov=document.getElementById('overlay');
+ if(ov)ov.classList.toggle('show',!closed && window.innerWidth<=700);
+}
+var oldOpen=window.openMenu, oldClose=window.closeMenu;
+window.openMenu=function(){
+ document.body.classList.remove('left-dev-closed');
+ applyMenuState();
+};
+window.closeMenu=function(){
+ document.body.classList.add('left-dev-closed');
+ applyMenuState();
+};
+document.addEventListener('DOMContentLoaded',applyMenuState);
+window.addEventListener('resize',applyMenuState);
+})();
+</script>
+
 </body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
 })();
 </script>
