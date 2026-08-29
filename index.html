@@ -2314,6 +2314,120 @@ html,body,#app,.app,.page,.shell{width:100%!important;max-width:100%!important;m
 }
 </style>
 
+
+<style id="sutar-fullscreen-final">
+/* Full viewport layout — PC + Mobile */
+html,body{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  overflow-x:hidden!important;
+}
+body{
+  min-height:100dvh!important;
+}
+.appHeader,.header,.top,main{
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+main{
+  min-height:calc(100dvh - 150px)!important;
+  padding-left:clamp(8px,2vw,24px)!important;
+  padding-right:clamp(8px,2vw,24px)!important;
+}
+.page.active,.hero,.box,.card,.actions,.grid,.formgrid{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+}
+img,video,canvas,iframe{max-width:100%!important}
+
+@media(min-width:701px){
+  .appHeader{
+    min-height:100px!important;
+    padding:10px 18px!important;
+  }
+  .appLogo{
+    width:120px!important;height:80px!important;
+    flex:0 0 120px!important;
+  }
+  .appLogo img{
+    object-fit:contain!important;
+    object-position:center!important;
+  }
+  main{
+    min-height:calc(100dvh - 154px)!important;
+  }
+}
+
+@media(max-width:700px){
+  .appHeader{
+    width:100vw!important;
+    min-height:92px!important;
+    height:auto!important;
+    padding:7px 8px!important;
+  }
+  .appLogo{
+    width:82px!important;height:74px!important;
+    min-width:82px!important;
+    flex:0 0 82px!important;
+  }
+  .appLogo img{
+    object-fit:contain!important;
+    object-position:center!important;
+  }
+  .appTitle{min-width:0!important;flex:1 1 auto!important}
+  .appTitle strong{
+    white-space:nowrap!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    font-size:17px!important;
+  }
+  .appHeaderRight{display:none!important}
+  .top{
+    width:100vw!important;
+    min-height:54px!important;
+    height:54px!important;
+  }
+  main{
+    width:100vw!important;
+    min-height:calc(100dvh - 146px)!important;
+    padding:9px!important;
+  }
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .actions{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:390px){
+  .appHeader{min-height:88px!important}
+  .appLogo{width:76px!important;height:70px!important;min-width:76px!important;flex-basis:76px!important}
+  .appTitle strong{font-size:16px!important}
+  main{padding:7px!important}
+}
+</style>
+
+<script>
+/* User-triggered browser fullscreen. Browsers require a user gesture. */
+function sutarToggleFullscreen(){
+  const el=document.documentElement;
+  if(!document.fullscreenElement){
+    if(el.requestFullscreen) el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }else{
+    if(document.exitFullscreen) document.exitFullscreen();
+    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
+</script>
+
 </body>
 </html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
 <style id="mobile-final-v22">
