@@ -35,40 +35,6 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
 footer{text-align:center;padding:25px;color:#667085}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.actions{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.brand{font-size:14px}.topbtn.hideMob{display:none}main{padding:10px}.grid,.actions,.formgrid{grid-template-columns:1fr}.hero{padding:16px}.hero h1{font-size:21px}.header img{max-height:145px}}
-
-/* RESPONSIVE FULL-SCREEN MENU FIX */
-html,body{width:100%;min-width:0;overflow-x:hidden}
-body{margin:0;padding:0}
-.appHeader{width:100%;max-width:none}
-.top{width:100%;max-width:none}
-main{width:100%;max-width:none;margin:0;padding:16px}
-.page{width:100%;max-width:none}
-.hero,.box,.grid{width:100%;max-width:none}
-.overlay{z-index:90}
-.side{z-index:100}
-@media(min-width:769px){
-  main{padding:18px 24px}
-  .side.open + *{}
-}
-@media(max-width:768px){
-  main{width:100%;padding:10px;margin:0}
-  .appHeader{width:100%;overflow:hidden}
-  .appTitle{min-width:0;overflow:hidden}
-  .appTitle strong{white-space:nowrap;overflow:visible;display:block}
-  .top{width:100%;padding:7px 10px}
-  .brand{overflow:hidden;text-overflow:ellipsis}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .hero,.box,.card{min-width:0}
-}
-@media(max-width:430px){
-  main{width:100vw;padding:8px}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .action{min-width:0;overflow-wrap:anywhere}
-}
-/* Closing menu must restore the full viewport immediately */
-
 </style>
 
 
@@ -407,75 +373,86 @@ footer{margin-left:260px}
 </style>
 
 
-<style id="final-menu-auto-fix">
-/* FINAL MENU AUTO FIX
-   Menu is hidden by default. No permanent 260px blank area.
-   Opening the menu overlays it above the page without pushing content.
-*/
-html,body{
-  width:100%!important;
-  max-width:100%!important;
-  overflow-x:hidden!important;
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4a2108">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+
+<style id="drawer-fullscreen-fix">
+/* FINAL: drawer menu never reserves screen space.
+   Closed = full-width content. Open = overlay drawer. */
+html, body {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
 }
 
-.top,
-main,
-footer{
-  margin-left:0!important;
-  width:100%!important;
-  max-width:100%!important;
-}
-
-.side{
-  position:fixed!important;
-  left:-310px!important;
-  top:0!important;
-  width:min(310px,88vw)!important;
-  max-width:88vw!important;
-  height:100vh!important;
-  z-index:1000!important;
-  transition:left .25s ease!important;
-  margin:0!important;
-  visibility:hidden!important;
-}
-
-.side.open{
-  left:0!important;
-  visibility:visible!important;
-}
-
-.overlay{
-  z-index:999!important;
-}
-
-@media(min-width:901px){
-  .top{
-    width:100%!important;
-    margin-left:0!important;
+/* PC/tablet: menu is a true overlay drawer */
+@media (min-width: 701px) {
+  .side {
+    position: fixed !important;
+    top: 0 !important;
+    left: -330px !important;
+    width: 310px !important;
+    max-width: 88vw !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
+    transition: left .25s ease !important;
   }
-  main{
-    width:100%!important;
-    margin-left:0!important;
-    padding-left:22px!important;
-    padding-right:22px!important;
+
+  .side.open {
+    left: 0 !important;
   }
-  footer{
-    margin-left:0!important;
+
+  .top,
+  main,
+  footer {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .top {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+  }
+
+  .overlay {
+    z-index: 999 !important;
   }
 }
 
-@media(max-width:900px){
-  .top,main{
-    width:100%!important;
-    margin-left:0!important;
+/* Mobile: same behavior, no reserved left space */
+@media (max-width: 700px) {
+  .side {
+    position: fixed !important;
+    top: 0 !important;
+    left: -100vw !important;
+    width: min(320px, 88vw) !important;
+    max-width: 88vw !important;
+    height: 100dvh !important;
+    z-index: 1000 !important;
+    transition: left .25s ease !important;
   }
-}
 
-@media(max-width:600px){
-  main{
-    width:100%!important;
-    margin-left:0!important;
-    padding:10px!important;
+  .side.open {
+    left: 0 !important;
+  }
+
+  .top,
+  main,
+  footer {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .overlay {
+    z-index: 999 !important;
   }
 }
 </style>
@@ -486,7 +463,7 @@ footer{
 
 <header class="appHeader" role="banner">
   <div class="appLogo" aria-label="SANDIP S. SUTAR logo">
-    <img src="icon-192.png" alt="SANDIP S. SUTAR logo"
+    <img src="brand-logo.png" alt="SANDIP S. SUTAR logo"
       onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('logoFallback')">
     <span class="logoFallbackText">S</span>
   </div>
@@ -509,6 +486,7 @@ footer{
 <button class="menu" onclick="openMenu()">☰</button>
 <div class="brand">SANDIP S. SUTAR ERP</div>
 <div class="grow"></div>
+<button id="installAppBtn" class="topbtn" style="display:none" onclick="installERPApp()">📲 Install App</button>
 <button class="topbtn hideMob" onclick="location.reload()">↻ Refresh</button>
 <button class="topbtn" onclick="logout()">↪ Logout</button>
 <span class="badge">Admin</span>
@@ -817,7 +795,47 @@ function printInvoice(d){
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body></html>`);
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script>
+
+<script id="pwa-install">
+(function () {
+  let deferredPrompt = null;
+  const btn = document.getElementById("installAppBtn");
+
+  window.addEventListener("beforeinstallprompt", function (event) {
+    event.preventDefault();
+    deferredPrompt = event;
+    if (btn) btn.style.display = "inline-block";
+  });
+
+  window.installERPApp = async function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try {
+      await deferredPrompt.userChoice;
+    } catch (e) {}
+    deferredPrompt = null;
+    if (btn) btn.style.display = "none";
+  };
+
+  window.addEventListener("appinstalled", function () {
+    deferredPrompt = null;
+    if (btn) btn.style.display = "none";
+  });
+})();
+</script>
+
+<script id="pwa-register">
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js", {scope:"./"}).catch(function(err){
+      console.warn("PWA service worker registration failed:", err);
+    });
+  });
+}
+</script>
+
+</body></html>`);
   w.document.close();
 }
 </script>
@@ -2054,25 +2072,8 @@ onAuthStateChanged(authV16,user=>{
 <footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b></footer>
 
 <script>
-function openMenu(){
-  const side=document.getElementById('side'), overlay=document.getElementById('overlay');
-  if(side) side.classList.add('open');
-  if(overlay) overlay.classList.add('show');
-  document.body.classList.add('menu-open');
-}
-function closeMenu(){
-  const side=document.getElementById('side'), overlay=document.getElementById('overlay');
-  if(side) side.classList.remove('open');
-  if(overlay) overlay.classList.remove('show');
-  document.body.classList.remove('menu-open');
-  requestAnimationFrame(()=>{
-    document.documentElement.style.width='100%';
-    document.body.style.width='100%';
-    const main=document.querySelector('main');
-    if(main){main.style.width='100%';main.style.maxWidth='none';}
-    window.dispatchEvent(new Event('resize'));
-  });
-}
+function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
+function closeMenu(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   var x=document.getElementById(id);
