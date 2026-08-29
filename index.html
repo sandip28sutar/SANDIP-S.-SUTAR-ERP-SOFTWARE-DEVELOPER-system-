@@ -439,6 +439,10 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 }
 </style>
 
+
+<style id="v22-developer-tools">
+.devToolsGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.devToolCard{background:#fff;border:1px solid #e1e5ea;border-radius:12px;padding:16px}.devToolCard h3{margin:0 0 7px;color:#301706}.devToolCard p{margin:0 0 12px;color:#667085;font-size:13px;line-height:1.45}.toolRow{display:flex;gap:8px;flex-wrap:wrap}.toolInput{padding:10px;border:1px solid #ccd2da;border-radius:7px;width:100%}.checkList{margin:0;padding-left:20px;line-height:1.9}.moduleSwitch{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}.moduleSwitch:last-child{border-bottom:0}.moduleSwitch input{width:20px;height:20px}@media(max-width:850px){.devToolsGrid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.devToolsGrid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
@@ -526,6 +530,8 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 <button class="sub" onclick="showPage('erp-settings')">38 ⚙️ System Settings</button>
 </div></div></div>
 
+
+<button onclick="showPage('devtools')">🧰 Developer Tools</button>
 <div class="devGroup" id="appGroup">
 <button class="devMain" onclick="toggleDev('appGroup')">📱 APP / APK DEVELOPER <span>▾</span></button>
 <div class="devSub">
@@ -2150,6 +2156,18 @@ onAuthStateChanged(authV16,user=>{
 </section>
 
 </main>
+
+
+<section id="devtools" class="page">
+<div class="box"><h2>🧰 Developer Tools Center</h2><p>Advanced tools for building, checking, backing up and configuring customer-specific ERP / APK / EXE projects.</p>
+<div class="devToolsGrid">
+<div class="devToolCard"><h3>🧪 Project Validator</h3><p>Run a quick structural check before build or export.</p><button class="primary" onclick="runProjectValidator()">Run Validation</button><div id="validatorResult" class="status" style="margin-top:12px">Ready to validate.</div></div>
+<div class="devToolCard"><h3>💾 Project Backup</h3><p>Export the current browser-stored ERP data as a JSON backup file.</p><button class="primary" onclick="backupERPData()">Export Backup</button></div>
+<div class="devToolCard"><h3>📥 Restore Backup</h3><p>Restore a previously exported JSON backup in this browser.</p><input id="restoreERPFile" class="toolInput" type="file" accept="application/json,.json"><div class="toolRow" style="margin-top:10px"><button class="primary" onclick="restoreERPData()">Restore Data</button></div></div>
+<div class="devToolCard"><h3>⚙️ Module ON / OFF</h3><p>Save which major developer areas are enabled for this console.</p><div id="moduleSwitches"></div></div>
+<div class="devToolCard"><h3>🧹 Clear Demo Data</h3><p>Remove stored ERP demo records from this browser. Use only when resetting a test project.</p><button class="primary" onclick="clearERPData()">Clear Demo Data</button></div>
+<div class="devToolCard"><h3>📋 Build Checklist</h3><ul class="checkList"><li>Company & branch configured</li><li>User roles configured</li><li>Core modules selected</li><li>Cloud / database checked</li><li>Web / APK / EXE build tested</li><li>Version & update plan ready</li></ul></div>
+</div></div></section>
 
 <footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V2</small></footer>
 
@@ -4975,4 +4993,205 @@ window.FullCRUD={open:k=>show(k),edit:id=>show(active,id),save,cancel:()=>show(a
 setTimeout(render,120);
 })();
 </script>
+
+
+<style id="v23-file-vault-style">
+#projectFileVault{margin:16px 0;background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
+#projectFileVault .fvGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+#projectFileVault input,#projectFileVault select{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ccc;border-radius:8px}
+#projectFileVault .fvWide{grid-column:1/-1}
+#projectFileVault button{border:0;border-radius:8px;padding:9px 12px;cursor:pointer;margin:3px}
+#projectFileVault .primary{background:#4a2108;color:#fff}
+#projectFileVault table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+#projectFileVault th,#projectFileVault td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.fvBadge{display:inline-block;padding:7px 10px;border:1px solid #ddd;border-radius:9px;margin:3px}
+.fvNote{padding:10px;border-radius:9px;background:#f7f7f7;margin:10px 0}
+@media(max-width:800px){#projectFileVault .fvGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#projectFileVault .fvGrid{grid-template-columns:1fr}#projectFileVault table{font-size:11px}}
+</style>
+<script id="v23-file-vault-js">
+(function(){
+ const DB='SANDIP_PROJECT_FILE_VAULT_V1', STORE='files';
+ function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+ async function all(){const db=await openDB();return new Promise((res,rej)=>{const q=db.transaction(STORE,'readonly').objectStore(STORE).getAll();q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+ async function add(rec){const db=await openDB();return new Promise((res,rej)=>{const q=db.transaction(STORE,'readwrite').objectStore(STORE).add(rec);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+ async function del(id){const db=await openDB();return new Promise((res,rej)=>{const q=db.transaction(STORE,'readwrite').objectStore(STORE).delete(id);q.onsuccess=()=>res();q.onerror=()=>rej(q.error)})}
+ function mount(){if(document.getElementById('projectFileVault'))return;const m=document.querySelector('main');if(!m)return;const s=document.createElement('section');s.id='projectFileVault';s.className='box';s.innerHTML=`<h2>🗂️ Project File Vault — ERP / APK / EXE</h2>
+ <p>Created or imported project files are saved in this browser's local project storage.</p>
+ <div class="fvNote">⚠️ <b>Important:</b> This Developer Console can save APK/EXE files after you import them. Actual APK/EXE compilation requires a build toolchain; this HTML console does not compile native binaries by itself.</div>
+ <div class="fvGrid">
+  <label>Project Name<input id="fvName" placeholder="My ERP Project"></label>
+  <label>File Type<select id="fvType"><option>ERP</option><option>APK</option><option>EXE</option><option>Web</option><option>Project</option><option>Backup</option></select></label>
+  <label>Version<input id="fvVersion" value="1.0.0"></label>
+  <label>Choose File<input id="fvFile" type="file" accept=".apk,.exe,.html,.htm,.json,.zip,.txt,.pdf"></label>
+  <div class="fvWide"><button class="primary" onclick="ProjectVault.saveFile()">💾 Save Project File</button><button onclick="ProjectVault.saveCurrentERP()">📄 Save Current ERP HTML</button><button onclick="ProjectVault.exportIndexBackup()">🗃️ Save Console Backup</button><input id="fvSearch" placeholder="🔎 Search saved files..." oninput="ProjectVault.render()"></div>
+ </div>
+ <div id="fvStats"></div><div id="fvTable"></div>`;m.prepend(s);ProjectVault.render()}
+ async function saveFile(){const f=document.getElementById('fvFile')?.files?.[0];const name=(document.getElementById('fvName')?.value||'Untitled Project').trim();const type=document.getElementById('fvType')?.value||'Project';const version=document.getElementById('fvVersion')?.value||'1.0.0';if(!f)return alert('Choose a file first.');await add({project:name,type,version,fileName:f.name,size:f.size,mime:f.type||'application/octet-stream',blob:f,createdAt:new Date().toISOString()});document.getElementById('fvFile').value='';alert('✅ File saved in Project File Vault.');render()}
+ async function saveCurrentERP(){const name=(document.getElementById('fvName')?.value||'ERP Project').trim();const type=document.getElementById('fvType')?.value||'ERP';const version=document.getElementById('fvVersion')?.value||'1.0.0';const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});await add({project:name,type,version,fileName:name.replace(/[^a-z0-9_-]+/gi,'-')+'-ERP.html',size:blob.size,mime:'text/html',blob,createdAt:new Date().toISOString()});alert('✅ Current ERP HTML saved.');render()}
+ async function exportIndexBackup(){const data={version:'SANDIP-CONSOLE-BACKUP-V1',createdAt:new Date().toISOString(),localStorage:{}};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);data.localStorage[k]=localStorage.getItem(k)}const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});await add({project:(document.getElementById('fvName')?.value||'ERP Console').trim(),type:'Backup',version:'1.0.0',fileName:'sutar-console-backup-'+new Date().toISOString().slice(0,10)+'.json',size:blob.size,mime:'application/json',blob,createdAt:new Date().toISOString()});alert('✅ Console backup saved.');render()}
+ async function download(id){const a=await all(),x=a.find(z=>z.id===id);if(!x)return;const u=URL.createObjectURL(x.blob);const el=document.createElement('a');el.href=u;el.download=x.fileName;el.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+ async function remove(id){if(!confirm('Delete this saved project file?'))return;await del(id);render()}
+ async function render(){const el=document.getElementById('fvTable');if(!el)return;const q=(document.getElementById('fvSearch')?.value||'').toLowerCase().trim();let a=await all();a=a.filter(x=>!q||[x.project,x.type,x.version,x.fileName].join(' ').toLowerCase().includes(q));const st=document.getElementById('fvStats');if(st)st.innerHTML=`<span class="fvBadge">Saved Files: ${a.length}</span><span class="fvBadge">ERP: ${a.filter(x=>x.type==='ERP').length}</span><span class="fvBadge">APK: ${a.filter(x=>x.type==='APK').length}</span><span class="fvBadge">EXE: ${a.filter(x=>x.type==='EXE').length}</span>`;el.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Project</th><th>Type</th><th>Version</th><th>File</th><th>Size</th><th>Saved</th><th>Action</th></tr>${a.slice().reverse().map(x=>`<tr><td>${esc(x.project)}</td><td>${esc(x.type)}</td><td>${esc(x.version)}</td><td>${esc(x.fileName)}</td><td>${(x.size/1024).toFixed(1)} KB</td><td>${new Date(x.createdAt).toLocaleString()}</td><td><button onclick="ProjectVault.download(${x.id})">⬇️ Download</button><button onclick="ProjectVault.del(${x.id})">🗑️ Delete</button></td></tr>`).join('')}</table></div>`:'<p>No saved project files yet.</p>'}
+ function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+ window.ProjectVault={saveFile,saveCurrentERP,exportIndexBackup,download,del:remove,render};setTimeout(mount,250)
+})();
+</script>
+<script id="v22-developer-tools-js">
+(function(){
+ const keys=['companies','customers','suppliers','products','sales','purchases','inventory','employees'];
+ const modules=[['ERP Core','erp-core'],['APP / APK','app-apk'],['PC EXE','pc-exe'],['Cloud','cloud'],['Reports','reports'],['CRM','crm']];
+ window.runProjectValidator=function(){
+   const missing=[]; ['side','dashboard','erp','firebase','devtools'].forEach(id=>{if(!document.getElementById(id))missing.push(id)});
+   const r=document.getElementById('validatorResult'); if(!r)return;
+   r.textContent=missing.length?'⚠️ Missing: '+missing.join(', '):'✅ Validation passed — core console sections are present.';
+ };
+ window.backupERPData=function(){
+   const data={version:'SANDIP-ERP-BACKUP-V1',createdAt:new Date().toISOString(),data:{}};
+   keys.forEach(k=>{try{data.data[k]=JSON.parse(localStorage.getItem(k)||'[]')}catch(e){data.data[k]=[]}});
+   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sutar-erp-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);
+ };
+ window.restoreERPData=function(){
+   const f=document.getElementById('restoreERPFile')?.files?.[0]; if(!f){alert('Select a JSON backup file first.');return}
+   const rd=new FileReader();rd.onload=function(){try{const x=JSON.parse(rd.result);if(!x.data)throw Error('Invalid backup');keys.forEach(k=>{if(Array.isArray(x.data[k]))localStorage.setItem(k,JSON.stringify(x.data[k]))});alert('Backup restored successfully. Reloading...');location.reload()}catch(e){alert('Invalid ERP backup file.')}};rd.readAsText(f);
+ };
+ window.clearERPData=function(){if(!confirm('Clear all stored ERP demo data from this browser?'))return;keys.forEach(k=>localStorage.removeItem(k));alert('Demo data cleared. Reloading...');location.reload()};
+ window.renderModuleSwitches=function(){const el=document.getElementById('moduleSwitches');if(!el)return;el.innerHTML=modules.map(m=>{const on=localStorage.getItem('sutar-module-'+m[1])!=='off';return '<label class="moduleSwitch"><span>'+m[0]+'</span><input type="checkbox" '+(on?'checked':'')+' onchange="localStorage.setItem(\'sutar-module-'+m[1]+'\',this.checked?\'on\':\'off\')"></label>'}).join('')};
+ document.addEventListener('DOMContentLoaded',renderModuleSwitches);
+})();
+</script>
 </body></html>
+
+<!-- ===== V24 FUNCTION ACTIVATION PATCH ===== -->
+<style id="v24-function-center-style">
+#v24Modal{position:fixed;inset:0;background:#0008;z-index:9999;display:none;align-items:center;justify-content:center;padding:14px}
+#v24Modal.show{display:flex}.v24Inner{background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:16px;box-shadow:0 20px 60px #0005;padding:18px}.v24Head{display:flex;align-items:center;justify-content:space-between;gap:10px}.v24Head h2{margin:0;color:#4a2108}.v24Close{border:0;background:#eee;border-radius:8px;padding:8px 12px;font-size:18px}.v24Grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}.v24Field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.v24Field input,.v24Field select,.v24Field textarea{width:100%;padding:10px;border:1px solid #ccd2da;border-radius:8px}.v24Field textarea{min-height:80px}.v24Actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.v24Table{width:100%;border-collapse:collapse;margin-top:15px}.v24Table th,.v24Table td{border-bottom:1px solid #eee;padding:8px;text-align:left;font-size:13px}.v24Hint{background:#f6f8fb;padding:10px;border-radius:9px;color:#475467;margin:10px 0}
+@media(max-width:560px){.v24Grid{grid-template-columns:1fr}.v24Inner{padding:14px}}
+</style>
+<div id="v24Modal"></div>
+<script id="v24-function-activation">
+(function(){
+  const STORE='SANDIP_ERP_FUNCTION_DATA_V24';
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const read=()=>{try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){return{}}};
+  const write=x=>localStorage.setItem(STORE,JSON.stringify(x));
+  const db=()=>read();
+  const fieldsFor=(label)=>{
+    const l=label.toLowerCase();
+    if(/customer/.test(l)) return [['name','Customer Name','text'],['mobile','Mobile','tel'],['gst','GST / Tax ID','text'],['address','Address','text']];
+    if(/supplier|vendor/.test(l)) return [['name','Supplier Name','text'],['mobile','Mobile','tel'],['gst','GST / Tax ID','text'],['address','Address','text']];
+    if(/product|item|material|stock/.test(l)) return [['name','Item / Product','text'],['sku','SKU / Barcode','text'],['qty','Quantity','number'],['unit','Unit','text'],['price','Price','number']];
+    if(/sale|invoice|quotation|order/.test(l)) return [['number','Document No.','text'],['party','Customer / Party','text'],['amount','Amount','number'],['date','Date','date'],['status','Status','text']];
+    if(/purchase|payable/.test(l)) return [['number','Document No.','text'],['party','Supplier / Party','text'],['amount','Amount','number'],['date','Date','date'],['status','Status','text']];
+    if(/employee|attendance|leave|salary|payroll|recruit/.test(l)) return [['name','Employee','text'],['date','Date / Month','date'],['department','Department','text'],['amount','Amount','number'],['status','Status','text']];
+    if(/branch/.test(l)) return [['name','Branch Name','text'],['code','Branch Code','text'],['manager','Manager','text'],['address','Address','text']];
+    if(/user|role|permission|access/.test(l)) return [['name','User / Role','text'],['role','Role','text'],['access','Access / Permission','text'],['status','Status','text']];
+    if(/expense|payment|receipt|income|ledger|account/.test(l)) return [['party','Party / Account','text'],['amount','Amount','number'],['date','Date','date'],['note','Note','text']];
+    if(/project|task|job card|service|ticket/.test(l)) return [['name','Name / Subject','text'],['party','Customer / Project','text'],['date','Date','date'],['status','Status','text'],['note','Details','text']];
+    if(/version|update|release|build|apk|exe|app/.test(l)) return [['version','Version','text'],['date','Date','date'],['status','Status','text'],['note','Notes','text']];
+    return [['name','Name / Title','text'],['value','Value / Details','text'],['date','Date','date'],['status','Status','text'],['note','Notes','text']];
+  };
+  function close(){const m=document.getElementById('v24Modal');if(m)m.classList.remove('show');}
+  window.closeV24=close;
+  function open(title, fields, key){
+    const data=db()[key]||[];
+    const f=fields.map(x=>`<div class="v24Field"><label>${esc(x[1])}</label><input id="v24_${esc(x[0])}" type="${x[2]}" ${x[2]==='date'?'value="'+new Date().toISOString().slice(0,10)+'"':''}></div>`).join('');
+    const rows=data.slice().reverse().slice(0,30).map(r=>`<tr>${fields.map(x=>`<td>${esc(r[x[0]])}</td>`).join('')}<td><button class="action" onclick="v24Delete('${esc(key)}','${esc(r.id)}')">Delete</button></td></tr>`).join('');
+    const head=fields.map(x=>`<th>${esc(x[1])}</th>`).join('');
+    document.getElementById('v24Modal').innerHTML=`<div class="v24Inner"><div class="v24Head"><h2>⚙️ ${esc(title)}</h2><button class="v24Close" onclick="closeV24()">✕</button></div><div class="v24Hint">✅ This function is active. Data is saved in this browser and remains available after refresh.</div><div class="v24Grid">${f}</div><div class="v24Actions"><button class="primary" onclick="v24Save('${esc(key)}',${JSON.stringify(fields).replace(/</g,'\\u003c')})">💾 Save</button><button class="action" onclick="v24Export('${esc(key)}')">📤 Export JSON</button><button class="action" onclick="closeV24()">Close</button></div><div class="tableWrap"><table class="v24Table"><tr>${head}<th>Action</th></tr>${rows||`<tr><td colspan="${fields.length+1}">No records yet</td></tr>`}</table></div></div>`;
+    document.getElementById('v24Modal').classList.add('show');
+  }
+  window.v24Save=function(key,fields){const d=db();d[key]=d[key]||[];const r={id:key+'_'+Date.now()};fields.forEach(x=>r[x[0]]=document.getElementById('v24_'+x[0])?.value||'');d[key].push(r);write(d);alert('Saved successfully / डेटा सेव झाला.');open('⚙️ '+key,fields,key)};
+  window.v24Delete=function(key,id){if(!confirm('Delete this record? / हा record delete करायचा?'))return;const d=db();d[key]=(d[key]||[]).filter(x=>x.id!==id);write(d);open('⚙️ '+key,fieldsFor(key),key)};
+  window.v24Export=function(key){const payload=key==='all-functions'?db():(db()[key]||[]);const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(key==='all-functions'?'developer-console-backup':key)+'-backup.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
+
+  const previous=window.openERPFunction;
+  window.openERPFunction=function(key,label){
+    // Use already-built real CRUD screens whenever available.
+    try{const d=window.dataFor&&window.dataFor(label);if(d&&typeof window.openERPData==='function'){window.openERPData(d[0],d[1],d[2]);return;}}catch(e){}
+    try{if(typeof window.openOperational==='function'&&window.openOperational(label))return;}catch(e){}
+    try{if(typeof window.openV9==='function'&&/salary|payroll|bom|production|raw material|asset|allocation|expense/i.test(label)){window.openV9(label);return;}}catch(e){}
+
+    const l=label.toLowerCase();
+    // Dashboard/report functions become useful summaries instead of demo alerts.
+    if(/overview|dashboard|summary|analytics|report|statement|ledger|outstanding|history|logs|activity/.test(l)){
+      const base=db();
+      const entries=Object.entries(base).filter(([,v])=>Array.isArray(v));
+      const rows=entries.map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v.length}</td></tr>`).join('');
+      document.getElementById('v24Modal').innerHTML=`<div class="v24Inner"><div class="v24Head"><h2>📊 ${esc(label)}</h2><button class="v24Close" onclick="closeV24()">✕</button></div><div class="v24Hint">Live local summary from records created in the Developer Console.</div><table class="v24Table"><tr><th>Data Area</th><th>Records</th></tr>${rows||'<tr><td colspan="2">No saved records</td></tr>'}</table><div class="v24Actions"><button class="action" onclick="v24Export('all-functions')">📤 Export Current Data</button></div></div>`;
+      document.getElementById('v24Modal').classList.add('show');return;
+    }
+    // All remaining menu functions are activated as real, persistent forms.
+    open(label,fieldsFor(label),label.replace(/[^a-z0-9]+/gi,'_').toLowerCase());
+  };
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+})();
+</script>
+<!-- ===== END V24 FUNCTION ACTIVATION PATCH ===== -->
+
+<!-- ===== V25: ACTIVATE ALL 38 ERP MODULES ===== -->
+<style id="v25-all-38-live-style">
+.v25LiveBar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0;padding:10px 12px;border:1px solid #d8dee8;border-radius:10px;background:#f7fafc}
+.v25LiveBadge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#e8f7ee;color:#087443;font-weight:800;font-size:12px}
+.v25LiveDot{width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block}
+.v25Tools{display:flex;gap:7px;flex-wrap:wrap}.v25Tools button{border:1px solid #ccd4df;background:#fff;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}
+.v25Count{font-size:12px;color:#667085}
+</style>
+<script id="v25-all-38-live">
+(function(){
+  const modules=[
+    ['erp-dashboard','01','Dashboard'],['erp-company','02','Company Management'],['erp-branch','03','Branch Management'],
+    ['erp-users','04','User & Role Management'],['erp-customers','05','Customer Management'],['erp-suppliers','06','Supplier Management'],
+    ['erp-products','07','Product / Item Master'],['erp-sales','08','Sales'],['erp-purchase','09','Purchase'],['erp-inventory','10','Inventory'],
+    ['erp-warehouse','11','Warehouse'],['erp-pos','12','POS / Billing'],['erp-accounts','13','Accounts'],['erp-gst','14','GST / Tax'],
+    ['erp-crm','15','CRM'],['erp-hr','16','HR & Payroll'],['erp-manufacturing','17','Manufacturing'],['erp-service','18','Service Management'],
+    ['erp-projects','19','Project Management'],['erp-transport','20','Transport / Delivery'],['erp-expenses','21','Expense Management'],['erp-assets','22','Asset Management'],
+    ['erp-reports','23','Reports & Analytics'],['erp-notifications','24','Notification Center'],['erp-cloud','25','Cloud & Database'],
+    ['erp-integrations','26','Integrations'],['erp-customization','27','Customization'],['erp-license','28','License Management'],
+    ['erp-subscription','29','Subscription & Plans'],['erp-payment','30','Payment Management'],['erp-support','31','Support / Tickets'],
+    ['erp-logs','32','Activity & Error Log'],['erp-app','33','App Management'],['erp-apk','34','APK Management'],['erp-exe','35','EXE Management'],
+    ['erp-updates','36','Version & Update Management'],['erp-developer','37','Developer Console'],['erp-settings','38','System Settings']
+  ];
+  const norm=s=>String(s||'').replace(/[^a-z0-9]+/gi,'_').toLowerCase();
+  const storeKey='SANDIP_ERP_FUNCTION_DATA_V24';
+  function read(){try{return JSON.parse(localStorage.getItem(storeKey)||'{}')}catch(e){return{}}}
+  function save(x){localStorage.setItem(storeKey,JSON.stringify(x))}
+  function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+  // Turn every one of the 38 modules ON.
+  modules.forEach(m=>localStorage.setItem('sutar-module-'+m[1],'on'));
+
+  window.v25ExportAll38=function(){
+    const payload={version:'V25',exportedAt:new Date().toISOString(),modules:modules.map(m=>({id:m[0],number:m[1],name:m[2],enabled:true})),functionData:read()};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SANDIP-ERP-38-MODULES-BACKUP.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);
+  };
+  window.v25ModuleSummary=function(){
+    const d=read(), rows=Object.entries(d).filter(([,v])=>Array.isArray(v)).map(([k,v])=>'<tr><td>'+esc(k)+'</td><td>'+v.length+'</td></tr>').join('');
+    const m=document.getElementById('v24Modal');if(!m)return;
+    m.innerHTML='<div class="v24Inner"><div class="v24Head"><h2>📊 38 Module Live Summary</h2><button class="v24Close" onclick="closeV24()">✕</button></div><div class="v24Hint">All 38 ERP modules are enabled. Records created inside module functions are stored in this browser.</div><table class="v24Table"><tr><th>Function Data</th><th>Records</th></tr>'+(rows||'<tr><td colspan="2">No records yet</td></tr>')+'</table><div class="v24Actions"><button class="primary" onclick="v25ExportAll38()">📤 Export 38-Module Backup</button><button class="action" onclick="closeV24()">Close</button></div></div>';
+    m.classList.add('show');
+  };
+
+  function addBar(section,id,num,name){
+    if(!section || section.querySelector('.v25LiveBar'))return;
+    const first=section.querySelector('.box'); if(!first)return;
+    const bar=document.createElement('div');bar.className='v25LiveBar';
+    bar.innerHTML='<span class="v25LiveBadge"><span class="v25LiveDot"></span> MODULE '+num+' — LIVE</span><span class="v25Count">'+esc(name)+' • Data Save ON</span><div class="v25Tools"><button onclick="openERPFunction(\'module_quick_add\',\''+esc(name)+' Master\')">➕ New</button><button onclick="v25ModuleSummary()">📊 Summary</button><button onclick="v25ExportAll38()">💾 Backup</button></div>';
+    const tools=first.querySelector('.erpTools');
+    if(tools) tools.after(bar); else first.prepend(bar);
+  }
+
+  function activate(){
+    modules.forEach(m=>addBar(document.getElementById(m[0]),m[0],m[1],m[2]));
+    const main=document.getElementById('erp');
+    if(main && !main.querySelector('.v25All38Banner')){
+      const b=document.createElement('div');b.className='v25LiveBar v25All38Banner';
+      b.innerHTML='<span class="v25LiveBadge"><span class="v25LiveDot"></span> ALL 38 ERP MODULES ACTIVE</span><span class="v25Count">Create • Save • Search • Delete • Export</span><div class="v25Tools"><button onclick="v25ModuleSummary()">📊 Live Summary</button><button onclick="v25ExportAll38()">💾 Backup</button></div>';
+      const status=main.querySelector('.status'); if(status) status.after(b); else main.prepend(b);
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',activate);else activate();
+})();
+</script>
+<!-- ===== END V25 ===== -->
