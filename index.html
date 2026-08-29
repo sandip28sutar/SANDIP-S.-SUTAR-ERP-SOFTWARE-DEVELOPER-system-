@@ -710,7 +710,111 @@ function printInvoice(d){
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script></body></html>`);
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script>
+<!-- SANDIP V3 MOBILE SCREEN FIX -->
+<style id="sutar-v3-mobile-screen-fix">
+html,body{width:100%!important;min-width:0!important;overflow-x:hidden!important}
+main{position:relative!important;z-index:1!important;display:block!important;visibility:visible!important}
+#dashboard.page.active{display:block!important;visibility:visible!important;opacity:1!important}
+@media(max-width:700px){
+  main{display:block!important;width:100%!important;min-height:calc(100dvh - 155px)!important;padding:9px!important}
+  #dashboard{width:100%!important;min-height:1px!important}
+  #dashboard .hero,#dashboard .grid,#dashboard .box{display:block!important;visibility:visible!important;opacity:1!important}
+  #dashboard .grid{display:grid!important}
+  #dashboard .actions{display:grid!important}
+  .header,.header img,.top{position:relative!important}
+  .header{overflow:visible!important}
+  .header img{display:block!important;width:100%!important}
+  .top{z-index:50!important}
+}
+</style>
+<script id="sutar-v3-mobile-screen-fix-js">
+(function(){
+  function forceDashboard(){
+    var d=document.getElementById('dashboard'), m=document.querySelector('main');
+    if(!d || !m) return;
+    var hasVisibleContent = d.getBoundingClientRect().height > 20 &&
+      getComputedStyle(d).display !== 'none' &&
+      getComputedStyle(d).visibility !== 'hidden';
+    if(!hasVisibleContent){
+      document.querySelectorAll('.page').forEach(function(p){
+        p.classList.remove('active');
+        p.style.removeProperty('display');
+      });
+      d.classList.add('active');
+      d.style.setProperty('display','block','important');
+      d.style.setProperty('visibility','visible','important');
+      d.style.setProperty('opacity','1','important');
+    }
+  }
+  function boot(){
+    forceDashboard();
+    setTimeout(forceDashboard,150);
+    setTimeout(forceDashboard,700);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
+  else boot();
+
+  var oldShow=window.showPage;
+  window.showPage=function(id){
+    var d=document.getElementById('dashboard');
+    if(d) d.style.removeProperty('display');
+    if(typeof oldShow==='function') oldShow(id);
+  };
+})();
+</script>
+
+
+<!-- SANDIP V4: clean mobile drawer + full-width content -->
+<style id="sutar-v4-mobile-ui">
+@media(max-width:700px){
+  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+  main{width:100%!important;max-width:100%!important;margin:0!important;padding:10px!important}
+  .header,.top{width:100%!important;max-width:100%!important}
+  .header img{width:100%!important;height:auto!important;max-height:145px!important;object-fit:contain!important}
+  .side{
+    position:fixed!important;
+    top:0!important;
+    left:-105vw!important;
+    width:min(310px,84vw)!important;
+    max-width:84vw!important;
+    height:100dvh!important;
+    z-index:2000!important;
+    box-shadow:8px 0 28px #0005!important;
+    transition:left .22s ease!important;
+  }
+  .side.open{left:0!important}
+  .overlay{z-index:1900!important}
+  .sidehead{display:flex!important;align-items:center!important;justify-content:space-between!important}
+  .sidehead:after{content:"✕  Close";font-size:12px;background:#fff2;padding:7px 9px;border-radius:7px}
+  .page.active{width:100%!important;max-width:100%!important}
+  .hero,.box,.card{max-width:100%!important}
+}
+</style>
+<script id="sutar-v4-mobile-ui-js">
+(function(){
+  function closeDrawer(){
+    var side=document.getElementById('side'), overlay=document.getElementById('overlay');
+    if(side) side.classList.remove('open');
+    if(overlay) overlay.classList.remove('show');
+  }
+  function resetMobileDrawer(){
+    if(window.innerWidth <= 700) closeDrawer();
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', resetMobileDrawer);
+  }else{
+    resetMobileDrawer();
+  }
+  window.addEventListener('resize', resetMobileDrawer);
+  document.addEventListener('click', function(e){
+    var h=e.target.closest && e.target.closest('.sidehead');
+    if(h && window.innerWidth<=700) closeDrawer();
+  });
+})();
+</script>
+
+</body></html>`);
   w.document.close();
 }
 </script>

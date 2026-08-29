@@ -1,12 +1,10 @@
-# SANDIP S. SUTAR — All-in-One Developer System V2
+# SANDIP S. SUTAR All-in-One Developer System V4
 
-Upgraded from the supplied Developer Console.
+Mobile UI correction:
+- Sidebar is closed automatically when the site opens.
+- Main dashboard gets the full mobile width.
+- Sidebar opens only from the hamburger button.
+- Sidebar overlays the page instead of squeezing the dashboard.
+- Desktop layout is retained.
 
-Added:
-- All-in-One Software Factory
-- HRMS / CRM / Banking / POS / Manufacturing / Projects module marketplace
-- Form, Menu, Workflow, Report, Permission and Branding builder controls
-- APK / EXE / Web build workflow remains available
-- Existing ERP, APK, PC EXE and Firebase sections retained
-
-Open `index.html` in a browser.
+Replace only the repository `index.html` with this file.
