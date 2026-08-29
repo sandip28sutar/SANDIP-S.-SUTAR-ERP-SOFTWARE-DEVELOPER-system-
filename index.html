@@ -4918,6 +4918,7 @@ setTimeout(mount,150);
 </script>
 
 
+
 <style id="fullcrud-style">
 #fullCrudERP{margin:16px 0;background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
 #fullCrudERP .fcTabs{display:flex;gap:6px;overflow:auto;padding-bottom:10px}
@@ -4929,353 +4930,49 @@ setTimeout(mount,150);
 #fullCrudERP .primary{background:#4a2108;color:#fff}.fcDanger{background:#8b0000;color:#fff}
 #fullCrudERP table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
 #fullCrudERP th,#fullCrudERP td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-#fullCrudERP .fcActions button{padding:6px 8px}
+#fullCrudERP .fcActions{white-space:nowrap}
 .fcBadge{display:inline-block;padding:9px 12px;border:1px solid #ddd;border-radius:9px;margin:3px}
-@media(max-width:800px){#fullCrudERP .fcForm{grid-template-columns:1fr 1fr}}@media(max-width:520px){#fullCrudERP .fcForm{grid-template-columns:1fr}#fullCrudERP table{font-size:11px}}
+@media(max-width:800px){#fullCrudERP .fcForm{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#fullCrudERP .fcForm{grid-template-columns:1fr}#fullCrudERP table{font-size:11px}}
 </style>
 <script id="fullcrud-script">
 (function(){
 const ROOT="SANDIP_ERP_CRUD_";
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
-const today=()=>new Date().toISOString().slice(0,10);
 const configs={
 company:{title:"🏢 Company / Shop",fields:[["name","Company Name","Sandip Technology"],["type","Business Type","Furniture Shop"],["shop","Shop Name","Sandip Plywood"],["mobile","Mobile",""],["email","Email",""],["address","Address",""]]},
 stock:{title:"📦 Stock / Inventory",fields:[["item","Item Name","Plywood 18mm"],["sku","SKU / Barcode","PLY-18"],["category","Category","Plywood"],["unit","Unit","Sheet"],["qty","Quantity","100"],["purchase","Purchase Rate","2400"],["sale","Selling Rate","3000"],["gst","GST %","18"],["min","Minimum Stock","10"]]},
 party:{title:"👥 Customer / Supplier",fields:[["name","Name","Demo Party"],["kind","Type","Customer"],["mobile","Mobile",""],["gstin","GSTIN",""],["address","Address",""],["opening","Opening Balance","0"],["limit","Credit Limit","0"]]},
-purchase:{title:"🛒 Purchase",fields:[["no","PO / Invoice No.","PUR-001"],["date","Date",today()],["supplier","Supplier","ABC Supplier"],["item","Item","Plywood 18mm"],["qty","Quantity","5"],["rate","Rate","2400"],["gst","GST %","18"],["stage","Stage","GRN"]]},
-sales:{title:"🧾 Sales",fields:[["no","Quotation / Invoice No.","INV-001"],["date","Date",today()],["customer","Customer","Demo Customer"],["item","Item","Plywood 18mm"],["qty","Quantity","2"],["rate","Rate","3000"],["gst","GST %","18"],["discount","Discount","0"],["stage","Stage","INVOICE"]]},
-crm:{title:"🤝 CRM / Follow-up",fields:[["name","Lead / Customer","Demo Lead"],["mobile","Mobile",""],["stage","Stage","NEW"],["follow","Follow-up Date",today()],["priority","Priority","HIGH"],["task","Task","Call customer"],["value","Expected Value","0"],["note","Notes",""]]},
-hr:{title:"👨‍💼 HR / Employee",fields:[["name","Employee Name","Demo Employee"],["code","Employee Code","EMP-001"],["department","Department","Sales"],["designation","Designation","Executive"],["joining","Joining Date",today()],["attendance","Attendance","PRESENT"],["leave","Leave","NONE"],["salary","Monthly Salary","25000"]]},
-finance:{title:"💰 Finance",fields:[["date","Date",today()],["type","Type","EXPENSE"],["category","Category","General"],["party","Party / Account",""],["amount","Amount","5000"],["mode","Mode","Cash"],["ref","Reference","VCH-001"],["note","Notes",""]]},
-gst:{title:"🧮 GST Entry",fields:[["date","Date",today()],["type","Type","SALES"],["party","Party","Demo Customer"],["taxable","Taxable Amount","10000"],["rate","GST Rate","18"],["mode","Tax Mode","CGST+SGST"],["invoice","Invoice No.","INV-001"]]},
-task:{title:"📋 Task / Communication",fields:[["title","Task Title","Follow-up Customer"],["assigned","Assigned To","Admin"],["date","Due Date",today()],["priority","Priority","HIGH"],["status","Status","PENDING"],["note","Notes",""]]},
+purchase:{title:"🛒 Purchase",fields:[["no","PO / Invoice No.","PUR-001"],["date","Date",new Date().toISOString().slice(0,10)],["supplier","Supplier","ABC Supplier"],["item","Item","Plywood 18mm"],["qty","Quantity","5"],["rate","Rate","2400"],["gst","GST %","18"],["stage","Stage","GRN"]]},
+sales:{title:"🧾 Sales",fields:[["no","Quotation / Invoice No.","INV-001"],["date","Date",new Date().toISOString().slice(0,10)],["customer","Customer","Demo Customer"],["item","Item","Plywood 18mm"],["qty","Quantity","2"],["rate","Rate","3000"],["gst","GST %","18"],["discount","Discount","0"],["stage","Stage","INVOICE"]]},
+crm:{title:"🤝 CRM / Follow-up",fields:[["name","Lead / Customer","Demo Lead"],["mobile","Mobile",""],["stage","Stage","NEW"],["follow","Follow-up Date",new Date().toISOString().slice(0,10)],["priority","Priority","HIGH"],["task","Task","Call customer"],["value","Expected Value","0"],["note","Notes",""]]},
+hr:{title:"👨‍💼 HR / Employee",fields:[["name","Employee Name","Demo Employee"],["code","Employee Code","EMP-001"],["department","Department","Sales"],["designation","Designation","Executive"],["joining","Joining Date",new Date().toISOString().slice(0,10)],["attendance","Attendance","PRESENT"],["leave","Leave","NONE"],["salary","Monthly Salary","25000"]]},
+finance:{title:"💰 Finance",fields:[["date","Date",new Date().toISOString().slice(0,10)],["type","Type","EXPENSE"],["category","Category","General"],["party","Party / Account",""],["amount","Amount","5000"],["mode","Mode","Cash"],["ref","Reference","VCH-001"],["note","Notes",""]]},
+gst:{title:"🧮 GST Entry",fields:[["date","Date",new Date().toISOString().slice(0,10)],["type","Type","SALES"],["party","Party","Demo Customer"],["taxable","Taxable Amount","10000"],["rate","GST Rate","18"],["mode","Tax Mode","CGST+SGST"],["invoice","Invoice No.","INV-001"]]},
+task:{title:"📋 Task / Communication",fields:[["title","Task Title","Follow-up Customer"],["assigned","Assigned To","Admin"],["date","Due Date",new Date().toISOString().slice(0,10)],["priority","Priority","HIGH"],["status","Status","PENDING"],["note","Notes",""]]},
 user:{title:"👤 User / Role",fields:[["name","User Name","Admin"],["role","Role","ADMIN"],["mobile","Mobile",""],["active","Status","ACTIVE"]]}
 };
 let active="stock",editId=null;
 function get(k){try{return JSON.parse(localStorage.getItem(ROOT+k)||"[]")}catch(e){return[]}}
 function set(k,v){localStorage.setItem(ROOT+k,JSON.stringify(v))}
 function mount(){let e=document.getElementById("fullCrudERP");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="fullCrudERP";e.className="box";m.prepend(e);return e}
-function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🚀 Sandip Plywood ERP — Full CRUD</h2><p><b>Sandip Technology</b> • Furniture Shop • <b>Sandip Plywood</b></p>
-<div class="fcTabs">${Object.entries(configs).map(([k,v])=>`<button onclick="FullCRUD.open('${k}')">${v.title}</button>`).join("")}</div><div id="fcBody" class="fcBody"></div>`;show(active)}
-function inputField(f,val){let [k,label,def]=f;let v=val!==undefined?val:def;let special=k==="kind"?`<select id="fc_${k}"><option>Customer</option><option>Supplier</option><option>Both</option></select>`:k==="stage"&&active==="sales"?`<select id="fc_${k}"><option>QUOTATION</option><option>ORDER</option><option>DC</option><option>INVOICE</option><option>RETURN</option></select>`:k==="stage"&&active==="purchase"?`<select id="fc_${k}"><option>PO</option><option>GRN</option><option>INVOICE</option><option>RETURN</option></select>`:k==="role"?`<select id="fc_${k}"><option>ADMIN</option><option>MANAGER</option><option>STAFF</option><option>VIEWER</option></select>`:k==="type"&&active==="finance"?`<select id="fc_${k}"><option>INCOME</option><option>EXPENSE</option><option>CASH_IN</option><option>CASH_OUT</option><option>BANK_IN</option><option>BANK_OUT</option></select>`:`<input id="fc_${k}" placeholder="${esc(label)}" value="${esc(v)}" ${k==="date"||k==="follow"||k==="joining"?"type=date":""} ${["qty","purchase","sale","gst","min","rate","discount","value","salary","amount","taxable","limit","opening"].includes(k)?"type=number min=0 step=.01":""}>`;return `<label>${esc(label)}${special}</label>`}
-function show(k,id){active=k;editId=id||null;let c=configs[k],a=get(k),x=id?a.find(z=>String(z.id)===String(id)):null;fcBody.innerHTML=`<h3>${c.title}</h3><div class="fcForm">${c.fields.map(f=>inputField(f,x?x[f[0]]:undefined)).join("")}<div class="fcWide"><button class="primary" onclick="FullCRUD.save()">${x?"🔄 Update":"➕ Add / Save"}</button><button onclick="FullCRUD.cancel()">Cancel</button><input id="fcSearch" placeholder="🔍 Search records..." oninput="FullCRUD.draw()"></div></div><div id="fcStats"></div><div id="fcTable"></div>`;draw()}
-function draw(){let a=get(active),q=(document.getElementById("fcSearch")?.value||"").toLowerCase();let f=a.filter(x=>!q||Object.values(x).join(" ").toLowerCase().includes(q));fcStats.innerHTML=`<span class="fcBadge">Records: ${a.length}</span><span class="fcBadge">Showing: ${f.length}</span>`;fcTable.innerHTML=f.length?`<div style="overflow:auto"><table><tr>${configs[active].fields.map(x=>`<th>${esc(x[1])}</th>`).join("")}<th>Actions</th></tr>${f.slice().reverse().map(x=>`<tr>${configs[active].fields.map(y=>`<td>${esc(x[y[0]])}</td>`).join("")}<td class="fcActions"><button onclick="FullCRUD.edit('${x.id}')">✏️ Edit</button><button onclick="FullCRUD.del('${x.id}')">🗑️ Delete</button></td></tr>`).join("")}</table></div>`:"<p>No records found.</p>"}
-function save(){let obj={id:editId||Date.now()};configs[active].fields.forEach(([k])=>{let el=document.getElementById("fc_"+k);obj[k]=el?el.value:""});let a=get(active);if(editId){let i=a.findIndex(x=>String(x.id)===String(editId));if(i>=0)a[i]=obj}else a.push(obj);set(active,a);editId=null;show(active);alert("Record saved / updated successfully.")}
-window.FullCRUD={open:k=>show(k),edit:id=>show(active,id),save,cancel:()=>show(active),del:id=>{if(!confirm("Delete this record?"))return;set(active,get(active).filter(x=>String(x.id)!==String(id)));draw()}};
+function field(f,val){
+ const k=f[0],label=f[1],def=f[2],v=val!==undefined?val:def;
+ let h=`<input id="fc_${k}" placeholder="${esc(label)}" value="${esc(v)}">`;
+ if(["qty","purchase","sale","gst","min","rate","discount","value","salary","amount","taxable","limit","opening"].includes(k))h=`<input id="fc_${k}" type="number" min="0" step=".01" placeholder="${esc(label)}" value="${esc(v)}">`;
+ if(["date","follow","joining"].includes(k))h=`<input id="fc_${k}" type="date" value="${esc(v)}">`;
+ if(k==="kind")h=`<select id="fc_kind"><option>Customer</option><option>Supplier</option><option>Both</option></select>`;
+ if(k==="role")h=`<select id="fc_role"><option>ADMIN</option><option>MANAGER</option><option>STAFF</option><option>VIEWER</option></select>`;
+ if(k==="stage"&&active==="sales")h=`<select id="fc_stage"><option>QUOTATION</option><option>ORDER</option><option>DC</option><option>INVOICE</option><option>RETURN</option></select>`;
+ if(k==="stage"&&active==="purchase")h=`<select id="fc_stage"><option>PO</option><option>GRN</option><option>INVOICE</option><option>RETURN</option></select>`;
+ return `<label>${esc(label)}${h}</label>`;
+}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🚀 Sandip Plywood ERP — Full CRUD</h2><p><b>Sandip Technology</b> • Furniture Shop • <b>Sandip Plywood</b></p><div class="fcTabs">${Object.entries(configs).map(([k,v])=>`<button onclick="FullCRUD.open('${k}')">${v.title}</button>`).join("")}</div><div id="fcBody" class="fcBody"></div>`;show(active)}
+function show(k,id){active=k;editId=id||null;let c=configs[k],a=get(k),x=id?a.find(z=>String(z.id)===String(id)):null;fcBody.innerHTML=`<h3>${c.title}</h3><div class="fcForm">${c.fields.map(f=>field(f,x?x[f[0]]:undefined)).join("")}<div class="fcWide"><button class="primary" onclick="FullCRUD.save()">${x?"🔄 Update Record":"➕ Add / Save Record"}</button><button onclick="FullCRUD.cancel()">Cancel</button><input id="fcSearch" placeholder="🔍 Search records..." oninput="FullCRUD.draw()"></div></div><div id="fcStats"></div><div id="fcTable"></div>`;draw()}
+function draw(){let a=get(active),q=(document.getElementById("fcSearch")?.value||"").toLowerCase().trim(),f=a.filter(x=>!q||Object.values(x).join(" ").toLowerCase().includes(q));fcStats.innerHTML=`<span class="fcBadge">Total: ${a.length}</span><span class="fcBadge">Showing: ${f.length}</span>`;fcTable.innerHTML=f.length?`<div style="overflow:auto"><table><tr>${configs[active].fields.map(x=>`<th>${esc(x[1])}</th>`).join("")}<th>Actions</th></tr>${f.slice().reverse().map(x=>`<tr>${configs[active].fields.map(y=>`<td>${esc(x[y[0]])}</td>`).join("")}<td class="fcActions"><button onclick="FullCRUD.edit('${x.id}')">✏️ Edit</button><button onclick="FullCRUD.del('${x.id}')">🗑️ Delete</button></td></tr>`).join("")}</table></div>`:"<p>No records found.</p>"}
+function save(){let obj={id:editId||Date.now()};configs[active].fields.forEach(([k])=>{let el=document.getElementById("fc_"+k);obj[k]=el?el.value:""});let a=get(active);if(editId){let i=a.findIndex(x=>String(x.id)===String(editId));if(i>=0)a[i]=obj}else a.push(obj);set(active,a);let wasEdit=!!editId;editId=null;show(active);alert(wasEdit?"Record updated successfully.":"Record added successfully.")}
+window.FullCRUD={open:k=>show(k),edit:id=>show(active,id),save,cancel:()=>show(active),draw,del:id=>{if(!confirm("Delete this record?"))return;set(active,get(active).filter(x=>String(x.id)!==String(id)));draw()}};
 setTimeout(render,120);
 })();
 </script>
-
-</body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
-})();
-</script>
-
-</body></html>`);w.document.close();w.print()},clear(){render()},draw};setTimeout(render,100);
-})();
-</script>
-
-</body></html>");w.document.close();w.print()}
-};setTimeout(render,100);
-})();
-</script>
-
-</body></html>`);w.document.close();w.print()},clear(){render()},draw};
-setTimeout(render,100);
-})();
-</script>
-
-</body></html>");w.document.close();w.print()}
-};
-setTimeout(render,100);
-})();
-</script>
-
-</body></html>`);w.document.close();w.print()}
-};
-setTimeout(render,100);
-})();
-</script>
-
-</body></html>`);w.document.close();w.print()}
-};
-setTimeout(render,100);
-})();
-</script>
-
-</body></html>");w.document.close();w.print()}};
-setTimeout(()=>{if(document.readyState!=="loading")render();else document.addEventListener("DOMContentLoaded",render)},80);
-})();
-</script>
-
-</body></html>`);w.document.close();w.print()},
-csv(){run();const rows=window.__day2GSTReportRows||[];if(!rows.length)return alert("No records to export.");const head=["Date","Type","Reference","Taxable","GST","CGST","SGST","Total"];const csv=[head,...rows.map(x=>[x.date,x.type,x.ref,x.taxable,x.gst,x.cgst,x.sgst,x.total])].map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="GST_Tax_Report.csv";a.click();URL.revokeObjectURL(a.href)}
-};
-setTimeout(()=>{if(document.readyState!=="loading")render();else document.addEventListener("DOMContentLoaded",render)},80);
-})();
-</script>
-
-</body>
-</html><script>document.addEventListener("DOMContentLoaded",()=>{const s=v11State();if(!s.session){/* login remains optional in this demo build */}applyV11Access();});</script>
-<style id="mobile-final-v22">
-/* FINAL MOBILE-FIRST LAYOUT — keeps the same functions and PC layout */
-html{width:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%}
-body{width:100%;min-width:0;overflow-x:hidden}
-.appHeader,.top,main,footer{max-width:100vw}
-.appHeader img,.appLogo img{max-width:100%;}
-button,a,input,select,textarea{touch-action:manipulation}
-button{cursor:pointer;-webkit-tap-highlight-color:transparent}
-
-@media (max-width:700px){
-  .appHeader{
-    height:108px!important;min-height:108px!important;width:100%!important;
-    padding:8px 10px 28px!important;gap:9px!important;overflow:hidden!important;
-    display:flex!important;align-items:flex-start!important;
-  }
-  .appLogo{
-    width:64px!important;height:64px!important;min-width:64px!important;flex:0 0 64px!important;
-    margin-top:2px!important;border-radius:10px!important;
-  }
-  .appLogo img{width:100%!important;height:100%!important;object-fit:contain!important}
-  .appTitle{min-width:0!important;flex:1 1 auto!important;padding-top:2px!important}
-  .appTitle strong{
-    display:block!important;font-size:18px!important;line-height:1.1!important;
-    white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
-  }
-  .appTitle span{font-size:9px!important;margin-top:5px!important;white-space:nowrap!important}
-  .appTechLinks{
-    font-size:7px!important;line-height:1.4!important;margin-top:8px!important;
-    white-space:normal!important;overflow:hidden!important;
-  }
-  .appMeta{
-    position:absolute!important;left:10px!important;right:10px!important;bottom:3px!important;
-    height:22px!important;margin:0!important;display:flex!important;align-items:center!important;
-    justify-content:flex-end!important;gap:8px!important;font-size:8px!important;
-  }
-  .appMeta>div{gap:3px!important;white-space:nowrap!important}
-  .appMeta>div:first-child{display:none!important}
-  .appMeta i{display:none!important}
-  .appMeta small{font-size:8px!important}
-  .appMeta em{font-size:7px!important;padding:3px 6px!important}
-
-  .top{
-    position:relative!important;top:auto!important;left:auto!important;margin:0!important;
-    width:100%!important;height:54px!important;min-height:54px!important;
-    padding:5px 7px!important;display:flex!important;align-items:center!important;
-    gap:7px!important;overflow:hidden!important;
-  }
-  .menu{width:42px!important;height:42px!important;min-width:42px!important;flex:0 0 42px!important;font-size:22px!important}
-  .brand{font-size:13px!important;line-height:1!important;min-width:0!important;flex:1 1 auto!important;overflow:hidden!important;text-overflow:ellipsis!important}
-  .topbtn{display:none!important}
-  .badge{display:block!important;flex:0 0 auto!important;font-size:9px!important;padding:5px 7px!important}
-
-  .side{top:0!important;left:-100vw!important;width:min(320px,88vw)!important;max-width:88vw!important;height:100dvh!important;z-index:1000!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
-  .side.open{left:0!important}
-  .overlay{z-index:999!important}
-  .sidehead{height:64px!important;padding:16px!important}
-  .side>button,.side .devMain{min-height:48px!important;padding:12px 16px!important}
-  .optionTable .sub{min-height:46px!important;padding:11px 12px 11px 30px!important}
-
-  main{margin:0!important;width:100%!important;max-width:100%!important;padding:9px!important;min-height:calc(100dvh - 162px)!important}
-  .page,.page.active{width:100%!important;max-width:100%!important;min-width:0!important}
-  .hero,.box,.card{width:100%!important;max-width:100%!important;min-width:0!important}
-  .hero{padding:15px!important}
-  .hero h1{font-size:20px!important;line-height:1.25!important;overflow-wrap:anywhere!important}
-  .hero p{font-size:13px!important;line-height:1.45!important}
-  .search,.erpTools{display:flex!important;flex-direction:column!important;width:100%!important;gap:8px!important}
-  .search input,.moduleSearch{width:100%!important;min-width:0!important;height:48px!important}
-  .search .primary,.search button{width:100%!important;height:48px!important}
-  .grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
-  .actions{display:grid!important;grid-template-columns:1fr!important;gap:9px!important}
-  .formgrid{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
-  .card{padding:13px!important;min-height:100px!important}
-  .action,.erpAction{width:100%!important;min-width:0!important;min-height:48px!important;padding:13px!important;white-space:normal!important;overflow-wrap:anywhere!important}
-  .field input,.field select,.field textarea{width:100%!important;min-width:0!important;height:46px!important}
-  .primary{min-height:46px!important;width:auto;max-width:100%;}
-  .tableWrap{width:100%!important;max-width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
-  table{width:max-content!important;min-width:100%!important;max-width:none!important;font-size:12px!important}
-  th,td{padding:8px!important;white-space:nowrap!important}
-  .erpModal{padding:8px!important}
-  .erpModalInner{width:100%!important;max-width:100%!important;margin:2vh auto!important;padding:14px!important;border-radius:12px!important}
-  .modalHead{gap:8px!important}
-  .modalHead h2{font-size:18px!important;overflow-wrap:anywhere!important}
-  footer{margin:0!important;width:100%!important;padding:20px 10px!important;font-size:12px!important}
-}
-
-@media (max-width:430px){
-  .appHeader{height:100px!important;min-height:100px!important;padding-bottom:25px!important}
-  .appLogo{width:58px!important;height:58px!important;min-width:58px!important;flex-basis:58px!important}
-  .appTitle strong{font-size:16px!important}
-  .appTitle span{font-size:8px!important}
-  .appTechLinks{font-size:6px!important;margin-top:6px!important}
-  .appMeta{font-size:7px!important}
-  .appMeta small{font-size:7px!important}
-  .top{height:52px!important;min-height:52px!important}
-  .menu{width:40px!important;height:40px!important;min-width:40px!important;flex-basis:40px!important}
-  .brand{font-size:12px!important}
-  .badge{font-size:8px!important;padding:4px 6px!important}
-  main{padding:7px!important}
-  .grid{grid-template-columns:1fr!important}
-  .hero h1{font-size:19px!important}
-}
-
-@media (min-width:701px){
-  .appHeader{margin-left:0!important}
-}
-</style>
-
-<script id="mobile-final-js">
-/* Safe mobile navigation: never leaves the screen blank and closes the drawer after selection. */
-(function(){
-  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn);else fn();}
-  ready(function(){
-    var side=document.getElementById('side'), overlay=document.getElementById('overlay');
-    if(!side)return;
-    side.addEventListener('click',function(e){
-      var b=e.target.closest('button');
-      if(b && b.classList.contains('sub')) setTimeout(function(){
-        /* keep drawer open */
-      },30);
-    });
-    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&typeof closeMenu==='function')closeMenu();});
-    /* Make sure a page is visible even if an older script failed during startup. */
-    if(!document.querySelector('.page.active')){
-      var d=document.getElementById('dashboard');if(d)d.classList.add('active');
-    }
-  });
-})();
-</script>
-
-
-<style id="sutar-v5-fullscreen-ui">
-/* V5: drawer-based layout on mobile, tablet and PC */
-html,body{width:100%!important;min-width:0!important;overflow-x:hidden!important}
-main{margin-left:0!important;width:100%!important;max-width:1250px!important;box-sizing:border-box!important}
-footer{margin-left:0!important}
-.side{
-  position:fixed!important;
-  top:0!important;
-  left:-110vw!important;
-  width:min(320px,88vw)!important;
-  max-width:88vw!important;
-  height:100dvh!important;
-  z-index:3000!important;
-  overflow-y:auto!important;
-  transition:left .22s ease!important;
-}
-.side.open{left:0!important}
-.overlay{z-index:2900!important}
-.appHeader,.top{width:100%!important;max-width:100vw!important;box-sizing:border-box!important}
-@media(max-width:700px){
-  main{padding:10px!important}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .actions,.formgrid{grid-template-columns:1fr!important}
-  .hero,.box,.card{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
-}
-@media(max-width:390px){
-  .grid{grid-template-columns:1fr!important}
-}
-</style>
-<script id="sutar-v5-fullscreen-js">
-(function(){
-  function forceDrawerClosed(){
-    var s=document.getElementById('side'), o=document.getElementById('overlay');
-    if(s) s.classList.remove('open');
-    if(o) o.classList.remove('show');
-  }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',forceDrawerClosed);
-  }else{
-    forceDrawerClosed();
-  }
-  window.addEventListener('pageshow',forceDrawerClosed);
-})();
-</script>
-
-
-<style id="sutar-true-full-width-final">
-/* Final: use the complete available viewport on PC, tablet and mobile. */
-html,body{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;overflow-x:hidden!important}
-.appHeader,.top,main,footer{width:100%!important;max-width:none!important;box-sizing:border-box!important}
-main{margin-left:0!important;margin-right:0!important;padding:18px 22px!important}
-.page,.page.active,.hero,.box,.card{width:100%!important;max-width:none!important;box-sizing:border-box!important}
-.grid{width:100%!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
-.actions{width:100%!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
-.search{width:100%!important}
-.search input{min-width:0!important}
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-}
-@media(max-width:600px){
-  main{padding:10px!important}
-  .grid,.actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .hero,.box{padding:14px!important}
-}
-@media(max-width:430px){
-  .grid,.actions{grid-template-columns:1fr!important}
-}
-</style>
-
-<style id="sutar-final-device-menu-fix">
-/* FINAL DEVICE MENU BEHAVIOUR:
-   PC/tablet: drawer stays open and page makes room for it.
-   Mobile: drawer can open/close normally; selecting a menu item closes it. */
-@media (min-width:701px){
-  :root{--sutar-menu-width:290px}
-  .side{left:0!important;transform:none!important;width:var(--sutar-menu-width)!important;max-width:var(--sutar-menu-width)!important}
-  .side.open{left:0!important;transform:none!important}
-  body .appHeader, body .top, body main, body footer{
-    width:calc(100% - var(--sutar-menu-width))!important;
-    margin-left:var(--sutar-menu-width)!important;
-    margin-right:0!important;
-  }
-  body main{max-width:none!important}
-}
-@media (max-width:700px){
-  .side{left:-100vw!important;transform:none!important;width:min(320px,88vw)!important;max-width:88vw!important}
-  .side.open{left:0!important;transform:none!important}
-  body .appHeader,body .top,body main,body footer{width:100%!important;margin-left:0!important;margin-right:0!important}
-}
-</style>
-<script id="sutar-final-device-menu-js">
-(function(){
-  function setupDeviceMenu(){
-    var side=document.getElementById('side');
-    var overlay=document.getElementById('overlay');
-    if(!side) return;
-
-    function desktop(){ return window.matchMedia('(min-width:701px)').matches; }
-    function closeMobile(){
-      if(desktop()) return;
-      side.classList.remove('open');
-      if(overlay) overlay.classList.remove('show');
-    }
-
-    /* PC: always keep menu open. Mobile: start closed. */
-    if(desktop()) side.classList.add('open');
-    else side.classList.remove('open');
-
-    /* Selecting a menu item closes the drawer ONLY on mobile. */
-    side.addEventListener('click',function(e){
-      var b=e.target.closest('button');
-      if(!b) return;
-      if(!desktop() && b.classList.contains('sub')){
-        setTimeout(closeMobile,0);
-      }
-    },false);
-
-    window.addEventListener('resize',function(){
-      if(desktop()){
-        side.classList.add('open');
-        if(overlay) overlay.classList.remove('show');
-      }else{
-        side.classList.remove('open');
-        if(overlay) overlay.classList.remove('show');
-      }
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupDeviceMenu);
-  else setupDeviceMenu();
-})();
-</script>
+</body></html>
