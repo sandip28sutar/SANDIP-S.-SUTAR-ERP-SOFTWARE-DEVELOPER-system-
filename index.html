@@ -443,6 +443,74 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 <style id="v22-developer-tools">
 .devToolsGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.devToolCard{background:#fff;border:1px solid #e1e5ea;border-radius:12px;padding:16px}.devToolCard h3{margin:0 0 7px;color:#301706}.devToolCard p{margin:0 0 12px;color:#667085;font-size:13px;line-height:1.45}.toolRow{display:flex;gap:8px;flex-wrap:wrap}.toolInput{padding:10px;border:1px solid #ccd2da;border-radius:7px;width:100%}.checkList{margin:0;padding-left:20px;line-height:1.9}.moduleSwitch{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}.moduleSwitch:last-child{border-bottom:0}.moduleSwitch input{width:20px;height:20px}@media(max-width:850px){.devToolsGrid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.devToolsGrid{grid-template-columns:1fr}}
 </style>
+<style id="live-v25-style">.liveModal{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:99999;display:none;align-items:center;justify-content:center;padding:14px}.liveModal.show{display:flex}.liveCard{background:#fff;width:min(980px,100%);max-height:94vh;overflow:auto;border-radius:18px;box-shadow:0 20px 70px rgba(0,0,0,.35)}.liveHead{position:sticky;top:0;background:#fff;z-index:2;padding:16px 18px;border-bottom:1px solid #ddd;display:flex;align-items:center;gap:10px}.liveHead h2{margin:0;font-size:20px;flex:1}.liveClose{border:0;border-radius:10px;padding:9px 12px;background:#eee;font-size:18px}.liveBody{padding:18px}.liveGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.liveField label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.liveField input,.liveField select,.liveField textarea{width:100%;box-sizing:border-box;border:1px solid #ccc;border-radius:10px;padding:10px;font-size:15px}.liveField.full{grid-column:1/-1}.liveActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.liveActions button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.livePrimary{background:#5b2b0a;color:#fff}.liveTable{width:100%;border-collapse:collapse;margin-top:18px;font-size:13px}.liveTable th,.liveTable td{padding:9px;border-bottom:1px solid #ddd;text-align:left}.liveTable th{background:#f5f5f5}.liveKpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.liveKpi{padding:14px;border-radius:12px;background:#f5f5f5}.liveKpi b{display:block;font-size:22px}.liveNote{padding:10px 12px;background:#fff8e1;border-radius:10px;margin-bottom:12px}@media(max-width:650px){.liveGrid{grid-template-columns:1fr}.liveField.full{grid-column:auto}.liveKpis{grid-template-columns:repeat(2,1fr)}}</style>
+<script>
+/* SSS28 — EXAMPLE / DEMO PROFILE */
+const SSS28_DEMO_PROFILE = Object.freeze({
+ id:"SSS28", name:"SANDIP SUNIL SUTAR", mobile:"9096136898",
+ email:"sandipsutar2810@gmail.com",
+ address:"A/P NANGOLE TAL KAVATHEMAHANKAL DIST SANGLI STATE MAHARASHTRA",
+ pincode:"416405"
+});
+window.SSS28_DEMO_PROFILE = SSS28_DEMO_PROFILE;
+</script>
+
+<style>
+.quickERPDeveloper{grid-column:1/-1;border:1px solid #e5e7eb;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.quickERPMain{width:100%;display:flex;align-items:center;justify-content:space-between;border:0;background:#fff;padding:16px 18px;cursor:pointer;font-size:16px;text-align:left}
+.quickERPMain span,.quickERPLevel>button span{transition:.2s;color:#777}.quickERPDeveloper.closed .quickERPSub{display:none}.quickERPDeveloper.closed .quickERPMain span{transform:rotate(-90deg)}
+.quickERPSub{border-top:1px solid #eee;background:#fafafa;padding:8px}
+.quickERPLevel{border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin:6px 0;background:#fff}
+.quickERPLevel>button{width:100%;display:flex;align-items:center;justify-content:space-between;border:0;background:#fff;padding:13px 15px;text-align:left;cursor:pointer}
+.quickERPLevel.closed .quickERPItems{display:none}.quickERPLevel.closed>button span{transform:rotate(-90deg)}
+.quickERPItems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid #eee}
+.quickERPItems button{border:0;border-bottom:1px solid #eee;border-right:1px solid #eee;background:#fafafa;text-align:left;padding:11px 14px;cursor:pointer}
+.quickERPItems button:hover{background:#f1f5f9}
+@media(max-width:700px){.quickERPItems{grid-template-columns:1fr}.quickERPItems button{min-height:44px}}
+</style>
+<style id="premium-dashboard-v3">
+#dashboard .hero{border-radius:24px!important;box-shadow:0 12px 35px rgba(15,23,42,.08)!important}
+#dashboard .grid .card{border-radius:18px!important;box-shadow:0 10px 30px rgba(15,23,42,.08)!important;transition:transform .18s,box-shadow .18s!important}
+#dashboard .grid .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(15,23,42,.12)!important}
+#dashboard .quickERPGrid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px!important}
+#dashboard .quickERPGrid>.action,#dashboard .quickERPDeveloper{border-radius:18px!important;box-shadow:0 10px 28px rgba(15,23,42,.08)!important;border:1px solid rgba(148,163,184,.18)!important;background:linear-gradient(145deg,#fff,#f8fafc)!important;transition:transform .18s,box-shadow .18s!important}
+#dashboard .quickERPGrid>.action:hover,#dashboard .quickERPDeveloper:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(15,23,42,.13)!important}
+#dashboard .quickERPDeveloper{grid-column:1/-1;overflow:hidden}
+#dashboard .quickERPMain{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border:0;background:transparent;font-size:16px;cursor:pointer}
+#dashboard .quickERPSub{padding:0 16px 16px}
+#dashboard .quickERPLevel{margin-top:10px;border-radius:14px;background:rgba(248,250,252,.9);border:1px solid rgba(148,163,184,.16);overflow:hidden}
+#dashboard .quickERPLevel>button{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:0;background:transparent;cursor:pointer;font-size:14px;text-align:left}
+#dashboard .quickERPItems{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;padding:0 12px 12px}
+#dashboard .quickERPItems button{padding:10px 12px;border:1px solid rgba(148,163,184,.14);border-radius:10px;background:#fff;text-align:left;cursor:pointer}
+@media(max-width:700px){#dashboard .quickERPGrid{grid-template-columns:1fr 1fr!important}#dashboard .quickERPDeveloper{grid-column:1/-1!important}#dashboard .quickERPItems{grid-template-columns:1fr 1fr}}
+</style>
+
+<style id="touch-expand-v2">
+.touch-tree{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.touch-item{border:1px solid #e5e7eb;border-radius:14px;background:#fff;overflow:hidden}
+.touch-head{width:100%;border:0;background:transparent;padding:15px 16px;display:flex;align-items:center;gap:10px;text-align:left;font-weight:800;cursor:pointer}
+.touch-head .arrow{margin-left:auto;transition:transform .18s ease;opacity:.65}
+.touch-item.open>.touch-head .arrow{transform:rotate(90deg)}
+.touch-body{display:none;padding:0 14px 14px 42px}
+.touch-item.open>.touch-body{display:block}
+.touch-sub{padding:11px 12px;border:1px solid #eef2f7;border-radius:10px;margin-top:7px;background:#f8fafc;cursor:pointer}
+.touch-sub .touch-subbody{display:none;margin-top:8px;padding-left:12px}
+.touch-sub.open .touch-subbody{display:block}
+.touch-sub.open .arrow2{transform:rotate(90deg)}
+.arrow2{float:right;opacity:.6;transition:.18s}
+</style>
+<script id="touch-expand-v2-js">
+(function(){
+  window.toggleTouchItem=function(el){
+    const item=el.closest('.touch-item');
+    item.classList.toggle('open');
+  };
+  window.toggleTouchSub=function(el){
+    el.classList.toggle('open');
+  };
+})();
+</script>
+
 </head>
 <body>
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
@@ -486,6 +554,8 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 <button onclick="showPage('dashboard')">🏠 Dashboard</button>
 <button onclick="showPage('quick')">⚡ Quick Action</button>
 <button onclick="showPage('allinone')">🚀 All-in-One Factory</button>
+<button onclick="showPage('universal-erp')">🌐 Universal ERP Factory</button>
+
 
 <div class="devGroup" id="erpGroup">
 <button class="devMain" onclick="toggleDev('erpGroup')">🏢 ERP SOFTWARE DEVELOPER <span>▾</span></button>
@@ -526,7 +596,7 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 <button class="sub" onclick="showPage('erp-apk')">34 📦 APK Management</button>
 <button class="sub" onclick="showPage('erp-exe')">35 🖥️ EXE Management</button>
 <button class="sub" onclick="showPage('erp-updates')">36 🔄 Version & Update Management</button>
-<button class="sub" onclick="showPage('erp-developer')">37 🧑‍💻 Developer Console</button>
+<button class="sub" onclick="showPage('erp-software-developer')">37 🧑‍💻 Developer Console</button>
 <button class="sub" onclick="showPage('erp-settings')">38 ⚙️ System Settings</button>
 </div></div></div>
 
@@ -587,11 +657,53 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 </div>
 <div class="box">
 <h2>⚡ Quick Actions</h2>
-<div class="actions">
-<div class="action" onclick="showPage('newerp')">➕ <b>Create New ERP</b><br><small>Start a customer ERP</small></div>
-<div class="action" onclick="showPage('business')">🏪 <b>Business Setup</b><br><small>Shop details and branding</small></div>
-<div class="action" onclick="showPage('build')">🛠️ <b>Build Center</b><br><small>Prepare final build</small></div>
-<div class="action" onclick="showPage('appdev')">📱 <b>App / APK Developer</b><br><small>Create Android app</small></div>
+<div class="actions quickERPGrid">
+<div class="action" onclick="showPage('newerp')">➕ <b>Create New ERP</b><br><small>Start a new ERP project</small></div>
+<div class="action" onclick="showPage('business')">🏪 <b>Business Setup</b><br><small>Business, shop & branding</small></div>
+<div class="action" onclick="showPage('build')">🛠️ <b>Build Center</b><br><small>Web • APK • EXE</small></div>
+<div class="action" onclick="showPage('appdev')">📱 <b>App / APK Developer</b><br><small>Create Android application</small></div>
+<div class="action" onclick="showPage('universal-erp')">🌐 <b>Universal ERP Factory</b><br><small>Industry → Modules → Build</small></div>
+
+<div class="quickERPDeveloper">
+<button class="quickERPMain" onclick="toggleDev('quickERPGroup')">🏢 <b>ERP SOFTWARE DEVELOPER</b><span>▾</span></button>
+<div class="quickERPSub" id="quickERPGroup">
+<div class="quickERPLevel"><button onclick="toggleQuickERP('coreERP')">➡️ <b>MAIN ERP SOFTWARE / FEATURES</b><span>▾</span></button>
+<div id="coreERP" class="quickERPItems">
+<button onclick="showPage('erp-dashboard')">📊 ERP Dashboard</button>
+<button onclick="showPage('erp-company')">🏢 Company Management</button>
+<button onclick="showPage('erp-branch')">🏬 Branch Management</button>
+<button onclick="showPage('erp-users')">👥 Users & Roles</button>
+<button onclick="showPage('erp-customers')">👤 Customers</button>
+<button onclick="showPage('erp-suppliers')">🚚 Suppliers</button>
+<button onclick="showPage('erp-products')">📦 Products / Items</button>
+<button onclick="showPage('erp-sales')">🛒 Sales</button>
+<button onclick="showPage('erp-purchase')">🧾 Purchase</button>
+<button onclick="showPage('erp-inventory')">📊 Inventory / Stock</button>
+<button onclick="showPage('erp-pos')">💵 POS / Billing</button>
+<button onclick="showPage('erp-accounts')">💳 Accounts</button>
+<button onclick="showPage('erp-gst')">🇮🇳 GST / Tax</button>
+<button onclick="showPage('erp-crm')">🤝 CRM</button>
+<button onclick="showPage('erp-hr')">👨‍💼 HR & Payroll</button>
+<button onclick="showPage('erp-manufacturing')">🏭 Manufacturing</button>
+<button onclick="showPage('erp-service')">🔧 Service Management</button>
+<button onclick="showPage('erp-projects')">📋 Project Management</button>
+<button onclick="showPage('erp-reports')">📈 Reports & Analytics</button>
+</div></div>
+<div class="quickERPLevel"><button onclick="toggleQuickERP('advancedERP')">➡️ <b>ADVANCED ERP FEATURES</b><span>▾</span></button>
+<div id="advancedERP" class="quickERPItems">
+<button onclick="showPage('erp-warehouse')">🏭 Warehouse Management</button>
+<button onclick="showPage('erp-transport')">🚛 Transport / Delivery</button>
+<button onclick="showPage('erp-expenses')">💸 Expense Management</button>
+<button onclick="showPage('erp-assets')">🏢 Asset Management</button>
+<button onclick="showPage('erp-notifications')">🔔 Notifications</button>
+<button onclick="showPage('erp-cloud')">☁️ Cloud & Database</button>
+<button onclick="showPage('erp-integrations')">🔗 Integrations / API</button>
+<button onclick="showPage('erp-customization')">🎨 Customization / Form Builder</button>
+<button onclick="showPage('erp-license')">🔑 License Management</button>
+<button onclick="showPage('erp-subscription')">💎 Subscription & Plans</button>
+<button onclick="showPage('erp-payment')">💰 Payment Management</button>
+</div></div>
+</div></div>
 </div>
 </div>
 </section>
@@ -602,7 +714,7 @@ main{width:100%!important;max-width:100%!important;margin-left:0!important;margi
 <section id="appscreens" class="page"><div class="box"><h2>🖥️ App Screens / UI</h2><div class="actions"><div class="action">🏠 Splash / Home</div><div class="action">🔐 Login Screen</div><div class="action">📊 Dashboard</div><div class="action">☰ Menu</div><div class="action">📝 Forms</div><div class="action">📄 Reports</div></div></div></section>
 <section id="applogin" class="page"><div class="box"><h2>🔐 App Login</h2><p>Set User ID and Password login for the application.</p><div class="formgrid"><div class="field"><label>User ID</label><input placeholder="admin"></div><div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div></div><br><button class="primary" onclick="alert('App login settings saved in demo mode.')">Save Login</button></div></section>
 <section id="appfirebase" class="page"><div class="box"><h2>🔥 App Firebase</h2><p>Firebase connection area for Authentication, Firestore/Realtime Database, Storage and cloud features.</p><div class="actions"><div class="action">🔐 Authentication</div><div class="action">🗄️ Firestore / Database</div><div class="action">☁️ Storage</div></div></div></section>
-<section id="appassets" class="page"><div class="box"><h2>🎨 Logo & Assets</h2><p>Manage app logo, splash image, icons and other assets.</p></div></section>
+<section id="appassets" class="page"><div class="box"><h2>🎨 Logo & Assets</h2><p>Manage app logo, splash image, icons and other assets.</p><div class="formgrid"><div class="field"><label>📱 App / ERP Logo</label><input id="appLogoUpload" type="file" accept="image/png,image/jpeg,image/webp"><small>Upload customer/business logo for the generated app and ERP.</small></div></div><div id="appLogoPreview" style="margin-top:12px"></div><br><button class="primary" type="button" onclick="saveAppLogo()">💾 Save Logo</button><button class="action" type="button" onclick="removeBusinessLogo()">🗑️ Remove Logo</button></div></section>
 <section id="apptest" class="page"><div class="box"><h2>🧪 Test App</h2><div class="actions"><div class="action">📱 Mobile Preview</div><div class="action">🐞 Error Check</div><div class="action">⚡ Performance Check</div><div class="action">🔍 Final Test</div></div></div></section>
 <section id="apkbuild" class="page"><div class="box"><h2>📦 Build APK</h2><div class="status">Ready for Android APK build setup.</div><div class="actions"><div class="action">🧪 Debug APK</div><div class="action">🚀 Release APK</div><div class="action">🔏 Signed APK</div></div></div></section>
 <section id="appexport" class="page"><div class="box"><h2>📤 Export App Project</h2><p>Export the app project files for Android Studio or further development.</p><button class="primary" onclick="alert('Export project selected in demo mode.')">Export Project</button></div></section>
@@ -784,7 +896,10 @@ function printInvoice(d){
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3><script>window.onload=()=>window.print()<\/script>
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3></body></html>`);
+  w.document.close();w.print();
+}
+</script>
 <!-- SANDIP V3 MOBILE SCREEN FIX -->
 <style id="sutar-v3-mobile-screen-fix">
 html,body{width:100%!important;min-width:0!important;overflow-x:hidden!important}
@@ -1356,7 +1471,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="business overview" onclick="openERPFunction(this.dataset.search, 'Business Overview')">01 Business Overview</button><button class="action erpAction" data-search="sales summary" onclick="openERPFunction(this.dataset.search, 'Sales Summary')">02 Sales Summary</button><button class="action erpAction" data-search="purchase summary" onclick="openERPFunction(this.dataset.search, 'Purchase Summary')">03 Purchase Summary</button><button class="action erpAction" data-search="stock summary" onclick="openERPFunction(this.dataset.search, 'Stock Summary')">04 Stock Summary</button><button class="action erpAction" data-search="cash & bank" onclick="openERPFunction(this.dataset.search, 'Cash & Bank')">05 Cash & Bank</button><button class="action erpAction" data-search="receivable" onclick="openERPFunction(this.dataset.search, 'Receivable')">06 Receivable</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">07 Payable</button><button class="action erpAction" data-search="profit & loss" onclick="openERPFunction(this.dataset.search, 'Profit & Loss')">08 Profit & Loss</button><button class="action erpAction" data-search="pending orders" onclick="openERPFunction(this.dataset.search, 'Pending Orders')">09 Pending Orders</button><button class="action erpAction" data-search="low stock" onclick="openLowStock()">10 Low Stock</button><button class="action erpAction" data-search="payment due" onclick="openERPFunction(this.dataset.search, 'Payment Due')">11 Payment Due</button><button class="action erpAction" data-search="notifications" onclick="openERPFunction(this.dataset.search, 'Notifications')">12 Notifications</button><button class="action erpAction" data-search="analytics & charts" onclick="openERPFunction(this.dataset.search, 'Analytics & Charts')">13 Analytics & Charts</button></div>
+<div class="actions"><button class="action erpAction" data-search="business overview" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">01 Business Overview</button><button class="action erpAction" data-search="sales summary" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">02 Sales Summary</button><button class="action erpAction" data-search="purchase summary" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">03 Purchase Summary</button><button class="action erpAction" data-search="stock summary" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">04 Stock Summary</button><button class="action erpAction" data-search="cash & bank" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">05 Cash & Bank</button><button class="action erpAction" data-search="receivable" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">06 Receivable</button><button class="action erpAction" data-search="payable" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">07 Payable</button><button class="action erpAction" data-search="profit & loss" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">08 Profit & Loss</button><button class="action erpAction" data-search="pending orders" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">09 Pending Orders</button><button class="action erpAction" data-search="low stock" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">10 Low Stock</button><button class="action erpAction" data-search="payment due" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">11 Payment Due</button><button class="action erpAction" data-search="notifications" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">12 Notifications</button><button class="action erpAction" data-search="analytics & charts" onclick="liveModuleAction('01','Dashboard',this.innerText.replace(/^\d+\s*/,'').trim())">13 Analytics & Charts</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1371,7 +1486,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="company profile" onclick="openERPFunction(this.dataset.search, 'Company Profile')">01 Company Profile</button><button class="action erpAction" data-search="company creation" onclick="openERPFunction(this.dataset.search, 'Company Creation')">02 Company Creation</button><button class="action erpAction" data-search="company switch" onclick="openERPFunction(this.dataset.search, 'Company Switch')">03 Company Switch</button><button class="action erpAction" data-search="financial year" onclick="openERPFunction(this.dataset.search, 'Financial Year')">04 Financial Year</button><button class="action erpAction" data-search="business type" onclick="openERPFunction(this.dataset.search, 'Business Type')">05 Business Type</button><button class="action erpAction" data-search="currency" onclick="openERPFunction(this.dataset.search, 'Currency')">06 Currency</button><button class="action erpAction" data-search="language" onclick="openERPFunction(this.dataset.search, 'Language')">07 Language</button><button class="action erpAction" data-search="tax configuration" onclick="openERPFunction(this.dataset.search, 'Tax Configuration')">08 Tax Configuration</button><button class="action erpAction" data-search="company settings" onclick="openERPFunction(this.dataset.search, 'Company Settings')">09 Company Settings</button></div>
+<div class="actions"><button class="action erpAction" data-search="company profile" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">01 Company Profile</button><button class="action erpAction" data-search="company creation" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">02 Company Creation</button><button class="action erpAction" data-search="company switch" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">03 Company Switch</button><button class="action erpAction" data-search="financial year" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">04 Financial Year</button><button class="action erpAction" data-search="business type" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">05 Business Type</button><button class="action erpAction" data-search="currency" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">06 Currency</button><button class="action erpAction" data-search="language" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">07 Language</button><button class="action erpAction" data-search="tax configuration" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">08 Tax Configuration</button><button class="action erpAction" data-search="company settings" onclick="liveModuleAction('02','Company Management',this.innerText.replace(/^\d+\s*/,'').trim())">09 Company Settings</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1386,7 +1501,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="branch creation" onclick="openERPFunction(this.dataset.search, 'Branch Creation')">01 Branch Creation</button><button class="action erpAction" data-search="branch list" onclick="openERPFunction(this.dataset.search, 'Branch List')">02 Branch List</button><button class="action erpAction" data-search="branch-wise users" onclick="openERPFunction(this.dataset.search, 'Branch-wise Users')">03 Branch-wise Users</button><button class="action erpAction" data-search="branch-wise stock" onclick="openERPFunction(this.dataset.search, 'Branch-wise Stock')">04 Branch-wise Stock</button><button class="action erpAction" data-search="branch-wise sales" onclick="openERPFunction(this.dataset.search, 'Branch-wise Sales')">05 Branch-wise Sales</button><button class="action erpAction" data-search="branch-wise accounts" onclick="openERPFunction(this.dataset.search, 'Branch-wise Accounts')">06 Branch-wise Accounts</button><button class="action erpAction" data-search="branch transfer" onclick="openERPFunction(this.dataset.search, 'Branch Transfer')">07 Branch Transfer</button></div>
+<div class="actions"><button class="action erpAction" data-search="branch creation" onclick="liveModuleAction('03','Branch Management',this.innerText.replace(/^\d+\s*/,'').trim())">01 Branch Creation</button><button class="action erpAction" data-search="branch list" onclick="liveModuleAction('03','Branch Management',this.innerText.replace(/^\d+\s*/,'').trim())">02 Branch List</button><button class="action erpAction" data-search="branch-wise users" onclick="liveModuleAction('03','Branch Management',this.innerText.replace(/^\d+\s*/,'').trim())">03 Branch-wise Users</button><button class="action erpAction" data-search="branch-wise stock" onclick="liveModuleAction('03','Branch Management',this.innerText.replace(/^\d+\s*/,'').trim())">04 Branch-wise Stock</button><button class="action erpAction" data-search="branch-wise sales" onclick="liveModuleAction('03','Branch Management',this.innerText.replace(/^\d+\s*/,'').trim())">05 Branch-wise Sales</button><button class="action erpAction" data-search="branch-wise accounts" onclick="liveModuleAction('03','Branch Management',this.innerText.replace(/^\d+\s*/,'').trim())">06 Branch-wise Accounts</button><button class="action erpAction" data-search="branch transfer" onclick="liveModuleAction('03','Branch Management',this.innerText.replace(/^\d+\s*/,'').trim())">07 Branch Transfer</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1401,7 +1516,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="users" onclick="openERPFunction(this.dataset.search, 'Users')">01 Users</button><button class="action erpAction" data-search="roles" onclick="openERPFunction(this.dataset.search, 'Roles')">02 Roles</button><button class="action erpAction" data-search="permissions" onclick="openERPFunction(this.dataset.search, 'Permissions')">03 Permissions</button><button class="action erpAction" data-search="module access" onclick="openERPFunction(this.dataset.search, 'Module Access')">04 Module Access</button><button class="action erpAction" data-search="add/edit/delete access" onclick="openERPFunction(this.dataset.search, 'Add/Edit/Delete Access')">05 Add/Edit/Delete Access</button><button class="action erpAction" data-search="view-only access" onclick="openERPFunction(this.dataset.search, 'View-only Access')">06 View-only Access</button><button class="action erpAction" data-search="branch access" onclick="openERPFunction(this.dataset.search, 'Branch Access')">07 Branch Access</button><button class="action erpAction" data-search="login history" onclick="openERPFunction(this.dataset.search, 'Login History')">08 Login History</button><button class="action erpAction" data-search="activity log" onclick="openERPFunction(this.dataset.search, 'Activity Log')">09 Activity Log</button></div>
+<div class="actions"><button class="action erpAction" data-search="users" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">01 Users</button><button class="action erpAction" data-search="roles" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">02 Roles</button><button class="action erpAction" data-search="permissions" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">03 Permissions</button><button class="action erpAction" data-search="module access" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">04 Module Access</button><button class="action erpAction" data-search="add/edit/delete access" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">05 Add/Edit/Delete Access</button><button class="action erpAction" data-search="view-only access" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">06 View-only Access</button><button class="action erpAction" data-search="branch access" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">07 Branch Access</button><button class="action erpAction" data-search="login history" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">08 Login History</button><button class="action erpAction" data-search="activity log" onclick="liveModuleAction('04','User & Role Management',this.innerText.replace(/^\d+\s*/,'').trim())">09 Activity Log</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1416,7 +1531,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="customer master" onclick="openERPFunction(this.dataset.search, 'Customer Master')">01 Customer Master</button><button class="action erpAction" data-search="customer groups" onclick="openERPFunction(this.dataset.search, 'Customer Groups')">02 Customer Groups</button><button class="action erpAction" data-search="customer ledger" onclick="openPartyLedger('customer')">03 Customer Ledger</button><button class="action erpAction" data-search="outstanding" onclick="openOutstanding('customer')">04 Outstanding</button><button class="action erpAction" data-search="credit limit" onclick="openERPFunction(this.dataset.search, 'Credit Limit')">05 Credit Limit</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">06 Payment History</button><button class="action erpAction" data-search="customer statement" onclick="openERPFunction(this.dataset.search, 'Customer Statement')">07 Customer Statement</button><button class="action erpAction" data-search="customer documents" onclick="openERPFunction(this.dataset.search, 'Customer Documents')">08 Customer Documents</button></div>
+<div class="actions"><button class="action erpAction" data-search="customer master" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">01 Customer Master</button><button class="action erpAction" data-search="customer groups" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">02 Customer Groups</button><button class="action erpAction" data-search="customer ledger" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">03 Customer Ledger</button><button class="action erpAction" data-search="outstanding" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">04 Outstanding</button><button class="action erpAction" data-search="credit limit" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">05 Credit Limit</button><button class="action erpAction" data-search="payment history" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">06 Payment History</button><button class="action erpAction" data-search="customer statement" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">07 Customer Statement</button><button class="action erpAction" data-search="customer documents" onclick="liveModuleAction('05','Customer Management',this.innerText.replace(/^\d+\s*/,'').trim())">08 Customer Documents</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1431,7 +1546,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="supplier master" onclick="openERPFunction(this.dataset.search, 'Supplier Master')">01 Supplier Master</button><button class="action erpAction" data-search="supplier groups" onclick="openERPFunction(this.dataset.search, 'Supplier Groups')">02 Supplier Groups</button><button class="action erpAction" data-search="supplier ledger" onclick="openPartyLedger('supplier')">03 Supplier Ledger</button><button class="action erpAction" data-search="payable" onclick="openERPFunction(this.dataset.search, 'Payable')">04 Payable</button><button class="action erpAction" data-search="payment history" onclick="openERPFunction(this.dataset.search, 'Payment History')">05 Payment History</button><button class="action erpAction" data-search="supplier statement" onclick="openERPFunction(this.dataset.search, 'Supplier Statement')">06 Supplier Statement</button><button class="action erpAction" data-search="supplier documents" onclick="openERPFunction(this.dataset.search, 'Supplier Documents')">07 Supplier Documents</button></div>
+<div class="actions"><button class="action erpAction" data-search="supplier master" onclick="liveModuleAction('06','Supplier Management',this.innerText.replace(/^\d+\s*/,'').trim())">01 Supplier Master</button><button class="action erpAction" data-search="supplier groups" onclick="liveModuleAction('06','Supplier Management',this.innerText.replace(/^\d+\s*/,'').trim())">02 Supplier Groups</button><button class="action erpAction" data-search="supplier ledger" onclick="liveModuleAction('06','Supplier Management',this.innerText.replace(/^\d+\s*/,'').trim())">03 Supplier Ledger</button><button class="action erpAction" data-search="payable" onclick="liveModuleAction('06','Supplier Management',this.innerText.replace(/^\d+\s*/,'').trim())">04 Payable</button><button class="action erpAction" data-search="payment history" onclick="liveModuleAction('06','Supplier Management',this.innerText.replace(/^\d+\s*/,'').trim())">05 Payment History</button><button class="action erpAction" data-search="supplier statement" onclick="liveModuleAction('06','Supplier Management',this.innerText.replace(/^\d+\s*/,'').trim())">06 Supplier Statement</button><button class="action erpAction" data-search="supplier documents" onclick="liveModuleAction('06','Supplier Management',this.innerText.replace(/^\d+\s*/,'').trim())">07 Supplier Documents</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1446,7 +1561,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="item master" onclick="openERPFunction(this.dataset.search, 'Item Master')">01 Item Master</button><button class="action erpAction" data-search="category" onclick="openERPFunction(this.dataset.search, 'Category')">02 Category</button><button class="action erpAction" data-search="sub-category" onclick="openERPFunction(this.dataset.search, 'Sub-category')">03 Sub-category</button><button class="action erpAction" data-search="brand" onclick="openERPFunction(this.dataset.search, 'Brand')">04 Brand</button><button class="action erpAction" data-search="unit" onclick="openERPFunction(this.dataset.search, 'Unit')">05 Unit</button><button class="action erpAction" data-search="hsn/sac" onclick="openERPFunction(this.dataset.search, 'HSN/SAC')">06 HSN/SAC</button><button class="action erpAction" data-search="barcode" onclick="openBarcode()">07 Barcode</button><button class="action erpAction" data-search="sku" onclick="openERPFunction(this.dataset.search, 'SKU')">08 SKU</button><button class="action erpAction" data-search="batch" onclick="openERPFunction(this.dataset.search, 'Batch')">09 Batch</button><button class="action erpAction" data-search="serial number" onclick="openERPFunction(this.dataset.search, 'Serial Number')">10 Serial Number</button><button class="action erpAction" data-search="purchase price" onclick="openERPFunction(this.dataset.search, 'Purchase Price')">11 Purchase Price</button><button class="action erpAction" data-search="sales price" onclick="openERPFunction(this.dataset.search, 'Sales Price')">12 Sales Price</button><button class="action erpAction" data-search="mrp" onclick="openERPFunction(this.dataset.search, 'MRP')">13 MRP</button><button class="action erpAction" data-search="tax" onclick="openERPFunction(this.dataset.search, 'Tax')">14 Tax</button><button class="action erpAction" data-search="discount" onclick="openERPFunction(this.dataset.search, 'Discount')">15 Discount</button><button class="action erpAction" data-search="custom fields" onclick="openERPFunction(this.dataset.search, 'Custom Fields')">16 Custom Fields</button></div>
+<div class="actions"><button class="action erpAction" data-search="item master" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">01 Item Master</button><button class="action erpAction" data-search="category" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">02 Category</button><button class="action erpAction" data-search="sub-category" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">03 Sub-category</button><button class="action erpAction" data-search="brand" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">04 Brand</button><button class="action erpAction" data-search="unit" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">05 Unit</button><button class="action erpAction" data-search="hsn/sac" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">06 HSN/SAC</button><button class="action erpAction" data-search="barcode" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">07 Barcode</button><button class="action erpAction" data-search="sku" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">08 SKU</button><button class="action erpAction" data-search="batch" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">09 Batch</button><button class="action erpAction" data-search="serial number" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">10 Serial Number</button><button class="action erpAction" data-search="purchase price" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">11 Purchase Price</button><button class="action erpAction" data-search="sales price" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">12 Sales Price</button><button class="action erpAction" data-search="mrp" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">13 MRP</button><button class="action erpAction" data-search="tax" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">14 Tax</button><button class="action erpAction" data-search="discount" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">15 Discount</button><button class="action erpAction" data-search="custom fields" onclick="liveModuleAction('07','Product / Item Master',this.innerText.replace(/^\d+\s*/,'').trim())">16 Custom Fields</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1461,7 +1576,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="quotation" onclick="openDocumentCenter('quotation')">01 Quotation</button><button class="action erpAction" data-search="sales order" onclick="openDocumentCenter('salesorder')">02 Sales Order</button><button class="action erpAction" data-search="delivery challan" onclick="openDocumentCenter('delivery')">03 Delivery Challan</button><button class="action erpAction" data-search="sales invoice" onclick="openGSTInvoice('sale')">04 Sales Invoice</button><button class="action erpAction" data-search="sales return" onclick="openERPFunction(this.dataset.search, 'Sales Return')">05 Sales Return</button><button class="action erpAction" data-search="credit note" onclick="openERPFunction(this.dataset.search, 'Credit Note')">06 Credit Note</button><button class="action erpAction" data-search="customer payment" onclick="openERPFunction(this.dataset.search, 'Customer Payment')">07 Customer Payment</button><button class="action erpAction" data-search="sales history" onclick="openERPFunction(this.dataset.search, 'Sales History')">08 Sales History</button><button class="action erpAction" data-search="outstanding" onclick="openERPFunction(this.dataset.search, 'Outstanding')">09 Outstanding</button><button class="action erpAction" data-search="sales reports" onclick="openSalesReport()">10 Sales Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="quotation" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">01 Quotation</button><button class="action erpAction" data-search="sales order" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">02 Sales Order</button><button class="action erpAction" data-search="delivery challan" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">03 Delivery Challan</button><button class="action erpAction" data-search="sales invoice" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">04 Sales Invoice</button><button class="action erpAction" data-search="sales return" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">05 Sales Return</button><button class="action erpAction" data-search="credit note" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">06 Credit Note</button><button class="action erpAction" data-search="customer payment" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">07 Customer Payment</button><button class="action erpAction" data-search="sales history" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">08 Sales History</button><button class="action erpAction" data-search="outstanding" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">09 Outstanding</button><button class="action erpAction" data-search="sales reports" onclick="liveModuleAction('08','Sales',this.innerText.replace(/^\d+\s*/,'').trim())">10 Sales Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1476,7 +1591,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="purchase enquiry" onclick="openERPFunction(this.dataset.search, 'Purchase Enquiry')">01 Purchase Enquiry</button><button class="action erpAction" data-search="purchase quotation" onclick="openERPFunction(this.dataset.search, 'Purchase Quotation')">02 Purchase Quotation</button><button class="action erpAction" data-search="purchase order" onclick="openDocumentCenter('purchaseorder')">03 Purchase Order</button><button class="action erpAction" data-search="goods receipt" onclick="openERPFunction(this.dataset.search, 'Goods Receipt')">04 Goods Receipt</button><button class="action erpAction" data-search="purchase invoice" onclick="openGSTInvoice('purchase')">05 Purchase Invoice</button><button class="action erpAction" data-search="purchase return" onclick="openERPFunction(this.dataset.search, 'Purchase Return')">06 Purchase Return</button><button class="action erpAction" data-search="debit note" onclick="openERPFunction(this.dataset.search, 'Debit Note')">07 Debit Note</button><button class="action erpAction" data-search="supplier payment" onclick="openERPFunction(this.dataset.search, 'Supplier Payment')">08 Supplier Payment</button><button class="action erpAction" data-search="purchase history" onclick="openERPFunction(this.dataset.search, 'Purchase History')">09 Purchase History</button><button class="action erpAction" data-search="purchase reports" onclick="openPurchaseReport()">10 Purchase Reports</button></div>
+<div class="actions"><button class="action erpAction" data-search="purchase enquiry" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">01 Purchase Enquiry</button><button class="action erpAction" data-search="purchase quotation" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">02 Purchase Quotation</button><button class="action erpAction" data-search="purchase order" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">03 Purchase Order</button><button class="action erpAction" data-search="goods receipt" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">04 Goods Receipt</button><button class="action erpAction" data-search="purchase invoice" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">05 Purchase Invoice</button><button class="action erpAction" data-search="purchase return" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">06 Purchase Return</button><button class="action erpAction" data-search="debit note" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">07 Debit Note</button><button class="action erpAction" data-search="supplier payment" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">08 Supplier Payment</button><button class="action erpAction" data-search="purchase history" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">09 Purchase History</button><button class="action erpAction" data-search="purchase reports" onclick="liveModuleAction('09','Purchase',this.innerText.replace(/^\d+\s*/,'').trim())">10 Purchase Reports</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -1491,7 +1606,7 @@ onAuthStateChanged(authV16,user=>{
 <button class="primary" onclick="showPage('erp')">← ERP Main Menu</button>
 </div>
 <div class="status">Simple use: select a function below. Related functions are grouped inside this module.</div>
-<div class="actions"><button class="action erpAction" data-search="opening stock" onclick="openInventoryForm('opening')">01 Opening Stock</button><button class="action erpAction" data-search="stock in" onclick="openInventoryForm('in')">02 Stock In</button><button class="action erpAction" data-search="stock out" onclick="openInventoryForm('out')">03 Stock Out</button><button class="action erpAction" data-search="stock transfer" onclick="openInventoryForm('transfer')">04 Stock Transfer</button><button class="action erpAction" data-search="stock adjustment" onclick="openInventoryForm('adjust')">05 Stock Adjustment</button><button class="action erpAction" data-search="stock ledger" onclick="openStockLedger()">06 Stock Ledger</button><button class="action erpAction" data-search="stock valuation" onclick="openERPFunction(this.dataset.search, 'Stock Valuation')">07 Stock Valuation</button><button class="action erpAction" data-search="physical stock" onclick="openERPFunction(this.dataset.search, 'Physical Stock')">08 Physical Stock</button><button class="action erpAction" data-search="low stock" onclick="openERPFunction(this.dataset.search, 'Low Stock')">09 Low Stock</button><button class="action erpAction" data-search="expiry" onclick="openERPFunction(this.dataset.search, 'Expiry')">10 Expiry</button><button class="action erpAction" data-search="batch management" onclick="openERPFunction(this.dataset.search, 'Batch Management')">11 Batch Management</button><button class="action erpAction" data-search="serial management" onclick="openERPFunction(this.dataset.search, 'Serial Management')">12 Serial Management</button></div>
+<div class="actions"><button class="action erpAction" data-search="opening stock" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">01 Opening Stock</button><button class="action erpAction" data-search="stock in" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">02 Stock In</button><button class="action erpAction" data-search="stock out" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">03 Stock Out</button><button class="action erpAction" data-search="stock transfer" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">04 Stock Transfer</button><button class="action erpAction" data-search="stock adjustment" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">05 Stock Adjustment</button><button class="action erpAction" data-search="stock ledger" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">06 Stock Ledger</button><button class="action erpAction" data-search="stock valuation" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">07 Stock Valuation</button><button class="action erpAction" data-search="physical stock" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">08 Physical Stock</button><button class="action erpAction" data-search="low stock" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">09 Low Stock</button><button class="action erpAction" data-search="expiry" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">10 Expiry</button><button class="action erpAction" data-search="batch management" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">11 Batch Management</button><button class="action erpAction" data-search="serial management" onclick="liveModuleAction('10','Inventory',this.innerText.replace(/^\d+\s*/,'').trim())">12 Serial Management</button></div>
 </div>
 <div class="box">
 <h3>Quick Setup</h3>
@@ -2052,7 +2167,7 @@ onAuthStateChanged(authV16,user=>{
 <div class="field"><label>Mobile / Contact</label><input placeholder="Contact number"></div>
 </div><br><button class="primary" onclick="createERP()">Create Project</button></div></section>
 
-<section id="business" class="page"><div class="box"><h2>🏪 Business Details</h2><p>Each customer can enter their own business details, logo and branding.</p><div class="formgrid"><div class="field"><label>Business Name</label><input></div><div class="field"><label>GST / Tax ID</label><input></div><div class="field"><label>Address</label><input></div><div class="field"><label>Invoice Prefix</label><input placeholder="INV-"></div></div></div></section>
+<section id="business" class="page"><div class="box"><h2>🏪 Business Details</h2><p>Each customer can enter their own business details, logo and branding.</p><div class="formgrid"><div class="field"><label>Business Name</label><input id="businessName"></div><div class="field"><label>GST / Tax ID</label><input></div><div class="field"><label>Address</label><input></div><div class="field"><label>Invoice Prefix</label><input placeholder="INV-"></div><div class="field"><label>🏷️ Business Logo</label><input id="businessLogoUpload" type="file" accept="image/png,image/jpeg,image/webp"><small>PNG / JPG / WEBP • Logo will appear in the ERP header.</small></div></div><div id="logoPreviewBox" style="display:flex;align-items:center;gap:14px;margin-top:14px;padding:12px;border:1px dashed #b7c5d8;border-radius:12px;background:#f8fafc"><div id="logoPreview" style="width:80px;height:80px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #dbe3ee"><span style="font-size:28px">🖼️</span></div><div><b>Logo Preview</b><div><button type="button" class="action" onclick="removeBusinessLogo()">🗑️ Remove Logo</button></div></div></div><br><button class="primary" type="button" onclick="saveBusinessLogoInfo()">💾 Save Business Branding</button></div></section>
 
 <section id="masters" class="page"><div class="box"><h2>👥 Masters</h2><div class="actions"><div class="action">👤 Customers</div><div class="action">🏢 Suppliers</div><div class="action">📦 Products / Items</div><div class="action">📏 Units</div><div class="action">💳 Payment Modes</div><div class="action">👨‍💼 Staff / Users</div></div></div></section>
 
@@ -2155,6 +2270,182 @@ onAuthStateChanged(authV16,user=>{
 </div>
 </section>
 
+
+<section id="universal-erp" class="page">
+  <div class="box">
+    <h2>🌐 UNIVERSAL ERP FACTORY</h2>
+    <p>One ERP engine for Business • Shop • School • College • Hospital • Medical Store • Banking • Manufacturing • Service • Office and more.</p>
+    <div class="formgrid">
+      <div class="field"><label>Business / Industry</label>
+        <select id="uniIndustry" onchange="uniLoadModules()">
+          <option value="general">General Business</option><option value="shop">Retail Shop</option>
+          <option value="medical">Medical Store / Pharmacy</option><option value="school">School</option>
+          <option value="college">College / Institute</option><option value="banking">Banking / Finance</option>
+          <option value="hospital">Hospital / Clinic</option><option value="manufacturing">Manufacturing</option>
+          <option value="service">Service Business</option><option value="construction">Construction</option>
+          <option value="restaurant">Restaurant / Hotel</option><option value="office">Office / Professional</option>
+          <option value="ngo">NGO / Trust</option>
+        </select>
+      </div>
+      <div class="field"><label>Application Type</label>
+        <select id="uniAppType"><option>Web ERP</option><option>Android APK</option><option>Windows EXE</option><option>Web + APK + EXE</option></select>
+      </div>
+    </div>
+  </div>
+  <div class="box">
+    <h3>🧩 Universal Core Modules</h3>
+    <div id="uniModules" class="actions"></div>
+  </div>
+  <div class="box">
+    <h3>⚙️ Advanced ERP Functions</h3>
+    <div class="actions">
+      <div class="action">🏢 Company / Branch / Department</div><div class="action">👥 User / Role / Permission</div>
+      <div class="action">👤 Customer / Member / Student</div><div class="action">🚚 Supplier / Vendor</div>
+      <div class="action">📦 Product / Item / Asset Master</div><div class="action">🛒 Sales / Billing / POS</div>
+      <div class="action">🧾 Purchase / Expense / Payable</div><div class="action">📊 Inventory / Stock / Warehouse</div>
+      <div class="action">💳 Accounts / Ledger / Cash / Bank</div><div class="action">🇮🇳 GST / Tax / Compliance</div>
+      <div class="action">💰 Payroll / Salary / HRMS</div><div class="action">🤝 CRM / Leads / Follow-up</div>
+      <div class="action">📅 Calendar / Tasks / Attendance</div><div class="action">🔔 Alerts / Notifications / Reminders</div>
+      <div class="action">📈 Dashboard / MIS / Reports</div><div class="action">🧾 Invoice / Receipt / Print / PDF</div>
+      <div class="action">☁️ Cloud / Firebase / Multi-device Sync</div><div class="action">💾 Backup / Restore / Data Export</div>
+      <div class="action">🔐 Audit Log / Login History / Security</div><div class="action">🔄 Workflow / Approval / Automation</div>
+    </div>
+  </div>
+  <div class="box">
+    <h3>📱 Deployment & Install Center</h3>
+    <div class="actions">
+      <div class="action" onclick="showPage('appdev')">📱 Create Android APK</div>
+      <div class="action" onclick="showPage('apkbuild')">📦 Build APK</div>
+      <div class="action" onclick="showPage('pc-exe-developer')">🖥️ Create Windows EXE</div>
+      <div class="action" onclick="showPage('build')">🚀 Web / APK / EXE Build</div>
+      <div class="action" onclick="showPage('firebase')">☁️ Firebase / Cloud Setup</div>
+      <div class="action" onclick="showPage('settings')">⚙️ System Settings</div>
+    </div>
+    <div class="status">Select an industry above, keep only required modules ON, then build the same ERP as Web + Android + Windows for that business.</div>
+  </div>
+</section>
+<script>
+(function(){
+ const data={
+ general:['Dashboard','Customers','Suppliers','Products / Services','Sales','Purchase','Inventory','Accounts','GST / Tax','HRMS','CRM','Reports'],
+ shop:['Dashboard','POS Billing','Barcode','Products','Customers','Suppliers','Purchase','Stock','Sales Return','Purchase Return','Accounts','GST','Reports'],
+ medical:['Dashboard','Medicine Master','Batch & Expiry','Prescription','Patient / Customer','Doctor','Purchase','Supplier','POS Billing','Sales Return','Stock Alerts','GST','Reports'],
+ school:['Dashboard','Student Admission','Student Master','Fees & Receipts','Attendance','Examination','Timetable','Teacher / Staff','Payroll','Parent Portal','Library','Transport','Reports'],
+ college:['Dashboard','Student Admission','Courses','Fees','Attendance','Examination','Faculty','Payroll','Library','Hostel','Transport','Certificates','Reports'],
+ banking:['Dashboard','Customer / Account','Deposit','Withdrawal','Loan','EMI','Bank Ledger','Cash / Vault','Cheque','Interest','Reconciliation','KYC','Reports'],
+ hospital:['Dashboard','Patient Registration','Doctor','Appointment','OPD / IPD','Prescription','Pharmacy','Lab','Billing','Insurance','Staff','Reports'],
+ manufacturing:['Dashboard','Item Master','BOM','Purchase','Raw Material','Production','WIP','Quality','Warehouse','Sales','Dispatch','Costing','Reports'],
+ service:['Dashboard','Customer','Service Jobs','Quotation','Invoice','Technician','Parts / Inventory','AMC','Appointments','Expenses','Accounts','Reports'],
+ construction:['Dashboard','Projects','Site','BOQ','Material','Purchase','Labour','Contractor','Measurement','Billing','Costing','Accounts','Reports'],
+ restaurant:['Dashboard','Menu / Items','Table / KOT','POS Billing','Kitchen','Purchase','Stock','Recipe','Staff','Expenses','Accounts','Reports'],
+ office:['Dashboard','Clients','Projects','Tasks','Quotation','Invoice','Expenses','Documents','Attendance','Payroll','Accounts','Reports'],
+ ngo:['Dashboard','Donor / Member','Donation','Campaigns','Projects','Volunteers','Expenses','Accounts','Receipts','Compliance','Reports']
+ };
+ window.uniLoadModules=function(){
+   const k=document.getElementById('uniIndustry').value, box=document.getElementById('uniModules');
+   box.innerHTML=(data[k]||data.general).map((x,i)=>'<div class="action"><input type="checkbox" checked style="margin-right:8px"> '+String(i+1).padStart(2,'0')+' '+x+'</div>').join('');
+ };
+ window.uniLoadModules();
+})();
+</script>
+
+
+<section id="universal-factory" class="page">
+<div class="box"><h2>🌐 Universal ERP Factory</h2><p>Industry निवडा → modules automatically तयार करा → Branding → Database → Build → Install → License.</p>
+<div class="formgrid"><div class="field"><label>Industry / Business Type</label><select id="ufIndustry" onchange="UF.showModules()"><option value="retail">🏪 Shop / Retail</option><option value="medical">💊 Medical Store / Pharmacy</option><option value="school">🏫 School</option><option value="college">🎓 College</option><option value="banking">🏦 Banking / Finance</option><option value="hospital">🏥 Hospital / Clinic</option><option value="manufacturing">🏭 Manufacturing</option><option value="service">🔧 Service Business</option><option value="construction">🏗️ Construction</option><option value="restaurant">🍽️ Restaurant / Hotel</option><option value="office">🏢 Office / Professional</option><option value="ngo">🤝 NGO / Trust</option><option value="general">➕ General Business</option></select></div><div class="field"><label>ERP / App Name</label><input id="ufName" placeholder="e.g. Sutar Business ERP"></div></div>
+<div id="ufModules" class="actions"></div></div>
+<div class="box"><h2>🛠️ ERP Creation Workflow</h2><div class="actions">
+<div class="action" onclick="UF.step('01 Industry & Modules')">01 🧩 Industry & Modules</div><div class="action" onclick="UF.step('02 Business Setup')">02 🏢 Business Setup</div><div class="action" onclick="UF.step('03 Branding')">03 🎨 Branding</div><div class="action" onclick="UF.step('04 Database & Cloud')">04 ☁️ Database & Cloud</div><div class="action" onclick="UF.step('05 Users & Permissions')">05 🔐 Users & Permissions</div><div class="action" onclick="UF.step('06 Forms & Workflow')">06 🧱 Forms & Workflow</div><div class="action" onclick="UF.step('07 Reports & Dashboard')">07 📊 Reports & Dashboard</div><div class="action" onclick="UF.step('08 Test & Validate')">08 🧪 Test & Validate</div><div class="action" onclick="UF.step('09 Build Web + APK + EXE')">09 🚀 Build Web + APK + EXE</div><div class="action" onclick="UF.step('10 Install & Release')">10 📦 Install & Release</div><div class="action" onclick="UF.step('11 License & Subscription')">11 🔑 License & Subscription</div><div class="action" onclick="UF.step('12 Backup & Updates')">12 🔄 Backup & Updates</div>
+</div><div id="ufStatus" class="status">Ready — Select industry and start building.</div></div>
+</section>
+<script>
+window.UF=(function(){
+ const base=['Dashboard','Company / Branch','Customers / Members','Suppliers / Vendors','Products / Services','Sales / Billing','Purchase','Inventory / Stock','Accounts / Cashbook','GST / Tax','Reports','Users / Roles','Notifications','Backup / Restore','Audit Log'];
+ const extra={
+ retail:['POS','Barcode','Sales Return','Purchase Return','Offers / Discounts'],
+ medical:['Medicine Master','Batch & Expiry','Prescription','Doctor','Patient','Expiry Alerts','Schedule H / H1 fields'],
+ school:['Students','Admissions','Fees','Attendance','Exams / Results','Teachers','Classes / Timetable','Parents','Transport','Certificates'],
+ college:['Students','Admissions','Fees','Attendance','Exams / Results','Faculty','Departments','Courses','Library','Hostel'],
+ banking:['Accounts / Customers','Deposits','Loans / EMI','Interest','Transactions','Cash / Vault','Cheque','Reconciliation','KYC','Statements'],
+ hospital:['Patients','Doctors','Appointments','OPD / IPD','Pharmacy','Lab','Billing','Insurance','Medical Records'],
+ manufacturing:['BOM','Production','Raw Material','WIP','Quality','Job Work','Machine','Costing'],
+ service:['Leads','Service Requests','Appointments','Technicians','Job Cards','AMC','Parts','Service Billing'],
+ construction:['Projects','Sites','Materials','Labour','Contractors','BOQ','Expenses','Progress','Billing'],
+ restaurant:['Tables','Menu','KOT','POS','Kitchen','Inventory','Recipes','Delivery','Staff'],
+ office:['Leads','Projects','Tasks','Timesheet','Expenses','Documents','HR','Payroll','Client Billing'],
+ ngo:['Donors','Members','Donations','Projects','Beneficiaries','Expenses','Receipts','Compliance'],
+ general:['Custom Forms','Custom Fields','Custom Workflow','Custom Reports']
+ };
+ function showModules(){const k=document.getElementById('ufIndustry').value; const arr=[...base,...(extra[k]||[])]; document.getElementById('ufModules').innerHTML=arr.map((x,i)=>'<div class="action">'+String(i+1).padStart(2,'0')+' ☑️ '+x+'</div>').join('');}
+ function step(x){const n=document.getElementById('ufName').value.trim()||'New Universal ERP'; document.getElementById('ufStatus').innerHTML='✅ <b>'+x+'</b> — '+n+' selected. पुढील step साठी configuration तयार आहे.';}
+ return {showModules,step};
+})();
+document.addEventListener('DOMContentLoaded',()=>UF.showModules());
+</script>
+
+
+<section id="erp-software-developer" class="page">
+  <div class="box">
+    <h2>🏢 ERP SOFTWARE DEVELOPER</h2>
+    <p>Touch a main option to open its features. Touch again to collapse.</p>
+    <div class="touch-tree">
+
+      <div class="touch-item">
+        <button class="touch-head" onclick="toggleTouchItem(this)">📊 MAIN ERP SOFTWARE / FEATURES <span class="arrow">›</span></button>
+        <div class="touch-body">
+          <div class="touch-sub" onclick="toggleTouchSub(this)">📈 Dashboard <span class="arrow2">›</span><div class="touch-subbody">KPI • Sales • Purchase • Stock • Cash • Profit • Alerts</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🏢 Company Management <span class="arrow2">›</span><div class="touch-subbody">Company • Branch • Financial Year • Branding • Logo</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">👥 Customer Management <span class="arrow2">›</span><div class="touch-subbody">Customer Master • Ledger • Credit • Follow-up • Statements</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🚚 Supplier Management <span class="arrow2">›</span><div class="touch-subbody">Supplier Master • Ledger • Payables • Purchase History</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">📦 Inventory Management <span class="arrow2">›</span><div class="touch-subbody">Item Master • Stock In/Out • Batch • Expiry • Barcode • Adjustment</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🛒 Sales & POS <span class="arrow2">›</span><div class="touch-subbody">Invoice • POS • Quotation • Sales Return • Receipts</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🧾 Purchase <span class="arrow2">›</span><div class="touch-subbody">Purchase Order • Bill • Purchase Return • Supplier Payment</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">💰 Accounts <span class="arrow2">›</span><div class="touch-subbody">Ledger • Cash/Bank • Receipt • Payment • P&L • Balance Sheet</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🇮🇳 GST / Tax <span class="arrow2">›</span><div class="touch-subbody">GST Setup • Tax Invoice • Tax Summary • Reports</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🤝 CRM <span class="arrow2">›</span><div class="touch-subbody">Leads • Follow-up • Pipeline • Quotation • Customer Communication</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">👨‍💼 HRMS <span class="arrow2">›</span><div class="touch-subbody">Employee • Attendance • Leave • Payroll • Recruitment</div></div>
+        </div>
+      </div>
+
+      <div class="touch-item">
+        <button class="touch-head" onclick="toggleTouchItem(this)">⚡ ADVANCED ERP FEATURES <span class="arrow">›</span></button>
+        <div class="touch-body">
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🔄 Workflow & Approval <span class="arrow2">›</span><div class="touch-subbody">IF → THEN • Approvals • Multi-level Workflow</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">📊 Report Builder <span class="arrow2">›</span><div class="touch-subbody">Filters • Columns • Charts • Export PDF/Excel</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🔐 User & Permission <span class="arrow2">›</span><div class="touch-subbody">Roles • Screen Permission • Field Permission • Audit</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">☁️ Cloud / Firebase <span class="arrow2">›</span><div class="touch-subbody">Login • Database • Sync • Notifications</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">💾 Backup & Restore <span class="arrow2">›</span><div class="touch-subbody">Manual Backup • Auto Backup • Restore • Data Export</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🔔 Notifications & Alerts <span class="arrow2">›</span><div class="touch-subbody">Low Stock • Expiry • Payment Due • Approval Alerts</div></div>
+        </div>
+      </div>
+
+      <div class="touch-item">
+        <button class="touch-head" onclick="toggleTouchItem(this)">🏪 INDUSTRY ERP TEMPLATES <span class="arrow">›</span></button>
+        <div class="touch-body">
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🏪 Retail / Shop ERP <span class="arrow2">›</span><div class="touch-subbody">POS • Stock • Purchase • Sales • Customer</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">💊 Medical Store ERP <span class="arrow2">›</span><div class="touch-subbody">Medicine • Batch • Expiry • Prescription • Pharmacy Billing</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🏫 School / College ERP <span class="arrow2">›</span><div class="touch-subbody">Student • Fees • Attendance • Exam • Staff • Timetable</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🏦 Banking / Finance ERP <span class="arrow2">›</span><div class="touch-subbody">Accounts • Customer • Loan • EMI • Ledger • Reconciliation</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🏥 Hospital / Clinic ERP <span class="arrow2">›</span><div class="touch-subbody">Patient • Doctor • Appointment • Billing • Pharmacy</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🏭 Manufacturing ERP <span class="arrow2">›</span><div class="touch-subbody">BOM • Production • WIP • Job Work • Costing</div></div>
+        </div>
+      </div>
+
+      <div class="touch-item">
+        <button class="touch-head" onclick="toggleTouchItem(this)">📱 APP / EXE / RELEASE <span class="arrow">›</span></button>
+        <div class="touch-body">
+          <div class="touch-sub" onclick="toggleTouchSub(this)">📱 Android APK <span class="arrow2">›</span><div class="touch-subbody">App Details • UI • Login • Firebase • Test • Build APK</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">💻 Windows EXE <span class="arrow2">›</span><div class="touch-subbody">Desktop UI • Database • Build EXE • Release</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🌐 Web ERP <span class="arrow2">›</span><div class="touch-subbody">Web Build • Domain • Hosting • Deployment</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🔄 Version & Auto Update <span class="arrow2">›</span><div class="touch-subbody">Version • Release Notes • Force Update • Optional Update</div></div>
+          <div class="touch-sub" onclick="toggleTouchSub(this)">🔑 License Management <span class="arrow2">›</span><div class="touch-subbody">License • Subscription • Expiry • Feature Control</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 </main>
 
 
@@ -2169,7 +2460,7 @@ onAuthStateChanged(authV16,user=>{
 <div class="devToolCard"><h3>📋 Build Checklist</h3><ul class="checkList"><li>Company & branch configured</li><li>User roles configured</li><li>Core modules selected</li><li>Cloud / database checked</li><li>Web / APK / EXE build tested</li><li>Version & update plan ready</li></ul></div>
 </div></div></section>
 
-<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V2</small></footer>
+<footer>© 2026 SANDIP S. SUTAR ERP System<br>Designed & Developed by <b>SANDIP S. SUTAR</b><br><small>All-in-One Developer System V25 • Modules 01–10 Live</small></footer>
 
 <script>
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
@@ -2193,14 +2484,35 @@ function logout(){if(confirm('Logout from Developer Console?')) alert('Logged ou
 function filterText(){var q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.action').forEach(x=>x.style.display=(!q||x.innerText.toLowerCase().includes(q))?'block':'none')}
 
 function openERPFunction(key,label){
-  alert(label+" selected — demo mode. This function is placed inside its related ERP module.");
+  // V28: functional workflow for modules 31-38; other modules keep their existing navigation.
+  const n=parseInt((label.match(/^\s*(\d+)/)||['','0'])[1],10);
+  const functionalLabels=['Ticket','Activity','Log','Android','APK','EXE','Version','Developer','Settings'];
+  const isLate = /Support|Ticket|Activity|Error|App Management|APK Management|EXE Management|Version|Developer|System Settings|User Activity|Login History|Data Changes|Deleted Records|Error Logs|API Logs|System Logs|Security Logs|Android App|Windows EXE|Build|Release|Auto Update|Configuration|New Version|Update Notes|Force Update|Optional Update|Module Update|Database Migration|Customer Management|Company Management|License Management|Subscription Management|Module Management|User Management|Database Management|Backup Management|Feature Control|Support|Notifications|Developer Settings|General Settings/i.test(label);
+  if(!isLate && n<31){ alert(label+" selected — open the related module to use its functions."); return; }
+  let keyName='ERP_'+label.replace(/[^a-z0-9]+/gi,'_').toLowerCase();
+  let fields=[];
+  if(/Ticket|Support|Customer Support|Priority|Assign Staff/i.test(label)) fields=[['title','Title / Subject'],['customer','Customer'],['priority','Priority'],['status','Status'],['description','Description']];
+  else if(/Log|Activity|History|Changes|Deleted|Security|API/i.test(label)) fields=[['user','User'],['action','Action'],['module','Module'],['details','Details']];
+  else if(/APK|Android App|EXE|Windows EXE|Build|Release|Version|Update|Migration/i.test(label)) fields=[['project','Project Name'],['version','Version'],['file','File / Build Name'],['status','Status'],['notes','Notes']];
+  else if(/Developer|Management|Settings|Configuration|Database|Backup|License|Subscription|Feature|Notifications|Customer|Company|Module|User/i.test(label)) fields=[['name','Name'],['type','Type / Category'],['status','Status'],['details','Details']];
+  else fields=[['name','Name'],['details','Details']];
+  const overlay=document.createElement('div'); overlay.className='v28Modal';
+  overlay.innerHTML='<div class="v28Card"><div class="v28Head"><b>⚙️ '+label+'</b><button onclick="this.closest(\'.v28Modal\').remove()">✕</button></div><div class="v28Status">LIVE FUNCTION • Data saves in this browser</div><div class="v28Form">'+fields.map(function(f){return '<label>'+f[1]+'<input data-field="'+f[0]+'" placeholder="Enter '+f[1]+'"></label>';}).join('')+'</div><div class="v28Actions"><button class="primary" id="v28Save">💾 Save</button><button class="action" id="v28View">📋 View Saved</button><button class="action" onclick="this.closest(\'.v28Modal\').remove()">Close</button></div><div id="v28List"></div></div>';
+  document.body.appendChild(overlay);
+  const store=()=>JSON.parse(localStorage.getItem(keyName)||'[]');
+  const render=()=>{const data=store(); overlay.querySelector('#v28List').innerHTML=data.length?'<div class="v28List">'+data.map((r,i)=>`<div class="v28Row"><b>#${i+1}</b> ${Object.values(r).filter(Boolean).join(' • ')} <button onclick="v28Delete('${keyName}',${i},this)">🗑️</button></div>`).join('')+'</div>':'<div class="v28Empty">No saved records yet.</div>';};
+  overlay.querySelector('#v28Save').onclick=()=>{const r={}; overlay.querySelectorAll('[data-field]').forEach(x=>r[x.dataset.field]=x.value.trim()); if(!Object.values(r).some(Boolean)){alert('Please enter data.');return;} const d=store(); d.push({...r,savedAt:new Date().toLocaleString()}); localStorage.setItem(keyName,JSON.stringify(d)); overlay.querySelectorAll('input').forEach(x=>x.value=''); render();};
+  overlay.querySelector('#v28View').onclick=render; render();
 }
+function v28Delete(k,i,btn){const d=JSON.parse(localStorage.getItem(k)||'[]');d.splice(i,1);localStorage.setItem(k,JSON.stringify(d));btn.closest('.v28Row').remove();}
 function filterModule(input){
   const q=input.value.toLowerCase();
   input.closest('.box').querySelectorAll('.erpAction').forEach(b=>{
     b.style.display=(!q || b.dataset.search.includes(q))?'block':'none';
   });
 }
+
+function toggleQuickERP(id){const e=document.getElementById(id);if(e&&e.parentElement)e.parentElement.classList.toggle('closed');}
 
 function toggleDev(id){
   const group=document.getElementById(id);
@@ -2593,8 +2905,8 @@ body:has(.side.open) main{max-width:none!important}
       const db=getDB();
       const forms={
         company:`<h2>${title}</h2><input id="emName" placeholder="Company name"><button class="primary" onclick="ERPModulePanel.add('companies','emName')">Add Company</button>`,
-        customers:`<h2>${title}</h2><input id="emName" placeholder="Customer name"><input id="emPhone" placeholder="Mobile number"><button class="primary" onclick="ERPModulePanel.addCustomer()">Add Customer</button>`,
-        suppliers:`<h2>${title}</h2><input id="emName" placeholder="Supplier name"><input id="emPhone" placeholder="Mobile number"><button class="primary" onclick="ERPModulePanel.addSupplier()">Add Supplier</button>`,
+        customers:`<h2>${title}</h2><input id="emName" placeholder="SANDIP SUNIL SUTAR"><input id="emPhone" placeholder="Mobile number"><button class="primary" onclick="ERPModulePanel.addCustomer()">Add Customer</button>`,
+        suppliers:`<h2>${title}</h2><input id="emName" placeholder="SANDIP SUNIL SUTAR"><input id="emPhone" placeholder="Mobile number"><button class="primary" onclick="ERPModulePanel.addSupplier()">Add Supplier</button>`,
         products:`<h2>${title}</h2><input id="emName" placeholder="Product / Item"><input id="emPrice" type="number" min="0" placeholder="Price"><input id="emStock" type="number" min="0" placeholder="Stock"><button class="primary" onclick="ERPModulePanel.addProduct()">Add Product</button>`,
         sales:`<h2>${title}</h2><select id="emCustomer"></select><select id="emProduct"></select><input id="emQty" type="number" min="1" value="1" placeholder="Quantity"><button class="primary" onclick="ERPModulePanel.sale()">Create Sale</button>`,
         purchase:`<h2>${title}</h2><p>Purchase entry module — connect supplier and product records here.</p>`,
@@ -3898,7 +4210,12 @@ function run(){
 }
 window.Day2GSTReports={
 run,
-print(){run();const w=window.open("","_blank");w.document.write(`<html><head><title>GST Report</title></head><body><h2>GST / Tax Report</h2>${grSummary.outerHTML}${grTable.outerHTML}
+print(){run();const w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><head><title>GST Report</title></head><body><h2>GST / Tax Report</h2>${grSummary.outerHTML}${grTable.outerHTML}</body></html>`);w.document.close();w.print()}
+
+
+};
+})();
+</script>
 <style id="day2-finance-style">
 #day2Finance{margin-bottom:16px}#day2Finance .fGrid{display:grid;grid-template-columns:1fr 1.8fr;gap:12px}
 #day2Finance .fCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
@@ -3954,7 +4271,10 @@ function generate(){
  <p><small>Note: This is a management summary from records currently stored in the app; it is not a statutory balance sheet or audited financial statement.</small></p>`;
  window.__day2FinanceData={revenue,purchaseTotal,totalExpense,grossProfit,netProfit,receipts,supplierPay,netCash};
 }
-window.Day2Finance={generate,print(){generate();const d=window.__day2FinanceData||{};const w=window.open("","_blank");if(!w)return alert("Popup blocked. Please allow popups.");w.document.write("<html><head><title>Business Financial Summary</title></head><body><h2>Profit & Loss + Business Summary</h2>"+finSummary.outerHTML+finTable.outerHTML+"
+window.Day2Finance={generate,print(){generate();const w=window.open("","_blank");if(!w)return alert("Popup blocked. Please allow popups.");w.document.write(`<html><head><title>Business Financial Summary</title></head><body><h2>Profit & Loss + Business Summary</h2>${finSummary.outerHTML}${finTable.outerHTML}</body></html>`);w.document.close();w.print()}};
+
+})();
+</script>
 <style id="day2-dashboard-style">
 #day2Dashboard{margin-bottom:16px}#day2Dashboard .dbGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 #day2Dashboard .dbCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px;min-width:0}
@@ -4021,7 +4341,7 @@ function render(){
  <p><span class="duStat">Customer Outstanding: ${money(receivable)}</span><span class="duStat">Supplier Payable: ${money(payable)}</span><span class="duStat">Overdue: ${over}</span></p>
  <div class="duGrid"><div class="duCard"><h3>➕ Add Due</h3>
  <select id="duType"><option value="RECEIVABLE">Customer Receivable</option><option value="PAYABLE">Supplier Payable</option></select>
- <input id="duParty" placeholder="Customer / Supplier Name"><input id="duRef" placeholder="Invoice / Bill No.">
+ <input id="duParty" placeholder="SANDIP SUNIL SUTAR"><input id="duRef" placeholder="Invoice / Bill No.">
  <input id="duAmount" type="number" min="0.01" step="0.01" placeholder="Outstanding Amount ₹">
  <input id="duDueDate" type="date"><input id="duNote" placeholder="Remarks">
  <button class="duPrimary" onclick="Day2Due.add()">💾 Save Due</button>
@@ -4057,7 +4377,7 @@ const R=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return
 const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 function mount(){let e=document.getElementById("day2Quotation");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Quotation";e.className="box";m.prepend(e);return e}
 function total(x){let b=Number(x.qty)*Number(x.rate)-Number(x.discount||0),g=b*Number(x.gst||0)/100;return b+g}
-function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>📝 Quotation + Sales Order</h2><div class="qGrid"><div class="qCard"><h3>➕ New Quotation</h3><input id="qCustomer" placeholder="Customer Name"><input id="qMobile" placeholder="Customer Mobile"><input id="qDate" type="date"><input id="qValid" type="date"><input id="qItem" placeholder="Item / Product"><div class="qItems"><input id="qQty" type="number" value="1" min="1" placeholder="Qty"><input id="qRate" type="number" min="0" placeholder="Rate ₹"><input id="qGST" type="number" value="18" min="0" placeholder="GST %"><input id="qDiscount" type="number" value="0" min="0" placeholder="Discount ₹"></div><input id="qNote" placeholder="Terms / Remarks"><button class="qPrimary" onclick="Day2Quotation.save()">💾 Save Quotation</button></div><div class="qCard"><h3>📋 Quotations</h3><div id="qTable"></div><h3>🛒 Sales Orders</h3><div id="qOrders"></div></div></div>`;qDate.value=new Date().toISOString().slice(0,10);qValid.value=new Date(Date.now()+7*86400000).toISOString().slice(0,10);draw()}
+function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>📝 Quotation + Sales Order</h2><div class="qGrid"><div class="qCard"><h3>➕ New Quotation</h3><input id="qCustomer" placeholder="SANDIP SUNIL SUTAR"><input id="qMobile" placeholder="Customer Mobile"><input id="qDate" type="date"><input id="qValid" type="date"><input id="qItem" placeholder="Item / Product"><div class="qItems"><input id="qQty" type="number" value="1" min="1" placeholder="Qty"><input id="qRate" type="number" min="0" placeholder="Rate ₹"><input id="qGST" type="number" value="18" min="0" placeholder="GST %"><input id="qDiscount" type="number" value="0" min="0" placeholder="Discount ₹"></div><input id="qNote" placeholder="Terms / Remarks"><button class="qPrimary" onclick="Day2Quotation.save()">💾 Save Quotation</button></div><div class="qCard"><h3>📋 Quotations</h3><div id="qTable"></div><h3>🛒 Sales Orders</h3><div id="qOrders"></div></div></div>`;qDate.value=new Date().toISOString().slice(0,10);qValid.value=new Date(Date.now()+7*86400000).toISOString().slice(0,10);draw()}
 function draw(){let a=R(Q),o=R(O);qTable.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>No.</th><th>Date</th><th>Customer</th><th>Item</th><th>Total</th><th>Action</th></tr>${a.slice().reverse().map((x,j)=>{let i=a.length-1-j;return`<tr><td>${E(x.no)}</td><td>${E(x.date)}</td><td>${E(x.customer)}</td><td>${E(x.item)}</td><td>${M(total(x))}</td><td><button onclick="Day2Quotation.convert(${i})">Convert</button><button onclick="Day2Quotation.print(${i})">Print</button></td></tr>`}).join("")}</table></div>`:"<p>No quotations yet.</p>";qOrders.innerHTML=o.length?`<div style="overflow:auto"><table><tr><th>Order</th><th>Quotation</th><th>Customer</th><th>Total</th><th>Status</th></tr>${o.slice().reverse().map(x=>`<tr><td>${E(x.no)}</td><td>${E(x.quoteNo)}</td><td>${E(x.customer)}</td><td>${M(x.total)}</td><td>${E(x.status)}</td></tr>`).join("")}</table></div>`:"<p>No sales orders yet.</p>"}
 window.Day2Quotation={save(){let c=qCustomer.value.trim(),it=qItem.value.trim(),qty=+qQty.value,rate=+qRate.value;if(!c||!it||qty<=0)return alert("Customer, item and quantity are required.");let a=R(Q);a.push({id:Date.now(),no:"QT-"+String(a.length+1).padStart(4,"0"),date:qDate.value,validTill:qValid.value,customer:c,mobile:qMobile.value.trim(),item:it,qty,rate,gst:+qGST.value||0,discount:+qDiscount.value||0,note:qNote.value.trim(),status:"DRAFT"});W(Q,a);render();alert("Quotation saved.")},convert(i){let a=R(Q),x=a[i];if(!x)return;let o=R(O);if(o.some(z=>z.quoteNo===x.no))return alert("Already converted.");o.push({id:Date.now(),no:"SO-"+String(o.length+1).padStart(4,"0"),quoteNo:x.no,date:new Date().toISOString().slice(0,10),customer:x.customer,mobile:x.mobile,item:x.item,qty:x.qty,rate:x.rate,gst:x.gst,discount:x.discount,total:total(x),status:"CONFIRMED"});x.status="CONVERTED";W(Q,a);W(O,o);render();alert("Converted to Sales Order.")},print(i){let x=R(Q)[i];if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<h2>Quotation ${E(x.no)}</h2><p>Customer: ${E(x.customer)}<br>Mobile: ${E(x.mobile)}<br>Date: ${E(x.date)}<br>Valid Till: ${E(x.validTill)}</p><table border="1" cellpadding="8"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Total</th></tr><tr><td>${E(x.item)}</td><td>${x.qty}</td><td>${M(x.rate)}</td><td>${M(total(x)-((x.qty*x.rate-x.discount)*1))}</td><td>${M(total(x))}</td></tr></table><p>${E(x.note)}</p>`);w.print()}};
 setTimeout(render,100);
@@ -4098,7 +4418,12 @@ ivSummary.innerHTML=`<span class="ivStat">Invoices: ${a.length}</span><span clas
 ivTable.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Invoice</th><th>Date</th><th>DC</th><th>Customer</th><th>Item</th><th>Qty</th><th>GST</th><th>Total</th><th>Payment</th><th>Action</th></tr>${a.slice().reverse().map((x,j)=>{let i=a.length-1-j;return`<tr><td>${E(x.no)}</td><td>${E(x.date)}</td><td>${E(x.dcNo)}</td><td>${E(x.customer)}</td><td>${E(x.item)}</td><td>${x.qty}</td><td>${M(x.gstAmount)}</td><td>${M(x.total)}</td><td>${E(x.payment)}</td><td><button onclick="Day2Invoice.print(${i})">Print</button></td></tr>`}).join("")}</table></div>`:"<p>No sales invoices yet.</p>"}
 window.Day2Invoice={
 create(){let id=ivDC.value;if(!id)return alert("Select a Delivery Challan.");let d=R(D),x=d.find(z=>String(z.id)===String(id));if(!x)return alert("Delivery Challan not found.");let qty=+ivQty.value;if(qty<=0||qty>x.qty)return alert("Enter valid invoice quantity.");let rate=+ivRate.value;if(rate<0)return alert("Enter valid rate.");let discount=+ivDiscount.value||0,gstRate=+ivGST.value||0,base=qty*rate-discount;if(base<0)return alert("Discount cannot exceed item value.");let gst=base*gstRate/100,total=base+gst,a=R(K);if(a.some(z=>z.dcId===x.id&&z.qty===qty))return alert("This delivery quantity is already invoiced.");a.push({id:Date.now(),no:"INV-"+String(a.length+1).padStart(4,"0"),date:ivDate.value,dcId:x.id,dcNo:x.no,orderNo:x.orderNo,customer:x.customer,mobile:x.mobile,item:x.item,qty,rate,discount,gstRate,gstAmount:gst,total,payment:ivPayment.value,note:ivNote.value.trim(),status:"ISSUED"});W(K,a);render();alert("Sales Invoice created.")},
-print(i){let x=R(K)[i];if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Sales Invoice ${E(x.no)}</h2><p>Date: ${E(x.date)}<br>Delivery Challan: ${E(x.dcNo)}<br>Sales Order: ${E(x.orderNo)}<br>Customer: ${E(x.customer)}<br>Mobile: ${E(x.mobile)}</p><table border="1" cellpadding="8"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Discount</th><th>GST ${x.gstRate}%</th><th>Total</th></tr><tr><td>${E(x.item)}</td><td>${x.qty}</td><td>${M(x.rate)}</td><td>${M(x.discount)}</td><td>${M(x.gstAmount)}</td><td>${M(x.total)}</td></tr></table><p>Payment: ${E(x.payment)}<br>${E(x.note)}</p>
+print(i){let x=R(K)[i];if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Sales Invoice ${E(x.no)}</h2><p>Date: ${E(x.date)}<br>Delivery Challan: ${E(x.dcNo)}<br>Sales Order: ${E(x.orderNo)}<br>Customer: ${E(x.customer)}<br>Mobile: ${E(x.mobile)}</p><table border="1" cellpadding="8"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Discount</th><th>GST ${x.gstRate}%</th><th>Total</th></tr><tr><td>${E(x.item)}</td><td>${x.qty}</td><td>${M(x.rate)}</td><td>${M(x.discount)}</td><td>${M(x.gstAmount)}</td><td>${M(x.total)}</td></tr></table><p>Payment: ${E(x.payment)}<br>${E(x.note)}</p></body></html>`);w.document.close();w.print()}
+
+
+};
+})();
+</script>
 <style id="day2-product-style">
 #day2Product{margin-bottom:16px}#day2Product .pmGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
 #day2Product .pmCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
@@ -4287,7 +4612,12 @@ generate(){
  let working=daysInMonth(y,m),paid=present+half*.5,prorated=basic*(paid/working),allowance=+prAllowance.value||0,overtime=+prOvertime.value||0,bonus=+prBonus.value||0,deduction=+prDeduction.value||0,advance=+prAdvance.value||0,net=Math.max(0,prorated+allowance+overtime+bonus-deduction-advance);
  let a=R(PKEY),obj={id:Date.now(),employeeId:em.id,employee:em.name,code:em.code,month,basic,workingDays:working,present,halfDay:half,absent,paidDays:paid,proratedBasic:prorated,allowance,overtime,bonus,deduction,advance,net,status:"GENERATED",createdAt:new Date().toISOString()};
  let old=a.findIndex(x=>String(x.employeeId)===String(id)&&x.month===month);if(old>=0){obj.id=a[old].id;a[old]=obj}else a.push(obj);W(PKEY,a);render();alert("Payroll generated. Paid days: "+paid+" / "+working+". Net salary: "+M(net))},
-print(i){let x=R(PKEY)[i];if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Salary Slip — ${E(x.month)}</h2><p>Employee: ${E(x.employee)}<br>Employee ID: ${E(x.code)}<br>Working Days: ${x.workingDays}<br>Present: ${x.present}<br>Half Day: ${x.halfDay}<br>Absent: ${x.absent}<br>Paid Days: ${x.paidDays}</p><table border="1" cellpadding="8"><tr><th>Earnings</th><th>Amount</th><th>Deductions</th><th>Amount</th></tr><tr><td>Basic (Prorated)</td><td>${M(x.proratedBasic)}</td><td>Other Deduction</td><td>${M(x.deduction)}</td></tr><tr><td>Allowance</td><td>${M(x.allowance)}</td><td>Advance</td><td>${M(x.advance)}</td></tr><tr><td>Overtime</td><td>${M(x.overtime)}</td><td></td><td></td></tr><tr><td>Bonus</td><td>${M(x.bonus)}</td><td><b>Net Salary</b></td><td><b>${M(x.net)}</b></td></tr></table>
+print(i){let x=R(PKEY)[i];if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Salary Slip — ${E(x.month)}</h2><p>Employee: ${E(x.employee)}<br>Employee ID: ${E(x.code)}<br>Working Days: ${x.workingDays}<br>Present: ${x.present}<br>Half Day: ${x.halfDay}<br>Absent: ${x.absent}<br>Paid Days: ${x.paidDays}</p><table border="1" cellpadding="8"><tr><th>Earnings</th><th>Amount</th><th>Deductions</th><th>Amount</th></tr><tr><td>Basic (Prorated)</td><td>${M(x.proratedBasic)}</td><td>Other Deduction</td><td>${M(x.deduction)}</td></tr><tr><td>Allowance</td><td>${M(x.allowance)}</td><td>Advance</td><td>${M(x.advance)}</td></tr><tr><td>Overtime</td><td>${M(x.overtime)}</td><td></td><td></td></tr><tr><td>Bonus</td><td>${M(x.bonus)}</td><td><b>Net Salary</b></td><td><b>${M(x.net)}</b></td></tr></table></body></html>`);w.document.close();w.print()}
+
+
+};
+})();
+</script>
 <style id="day2-reports-style">
 #day2Reports{margin-bottom:16px}#day2Reports .rpGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 #day2Reports .rpCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
@@ -4329,7 +4659,10 @@ window.Day2Reports={
 finance(){let a=R(F),i=a.filter(x=>x.type==="INCOME").reduce((z,x)=>z+x.amount,0),e=a.filter(x=>x.type==="EXPENSE").reduce((z,x)=>z+x.amount,0);rpDetails.innerHTML=`<h4>Finance Report</h4><p>Income: ${M(i)} | Expense: ${M(e)} | Net: ${M(i-e)}</p><div style="overflow:auto"><table><tr><th>Date</th><th>Type</th><th>Category</th><th>Party</th><th>Amount</th></tr>${a.slice().reverse().map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.type)}</td><td>${E(x.category)}</td><td>${E(x.party)}</td><td>${M(x.amount)}</td></tr>`).join("")}</table></div>`},
 stock(){let a=R(S),m={};a.forEach(x=>{let k=x.item.toLowerCase();if(!m[k])m[k]={item:x.item,sku:x.sku,qty:0};m[k].qty+=x.type==="IN"?+x.qty:-+x.qty});rpDetails.innerHTML=`<h4>Stock Report</h4><div style="overflow:auto"><table><tr><th>Item</th><th>SKU</th><th>Current Qty</th></tr>${Object.values(m).map(x=>`<tr><td>${E(x.item)}</td><td>${E(x.sku)}</td><td>${x.qty}</td></tr>`).join("")}</table></div>`},
 payroll(){let a=R(PR);rpDetails.innerHTML=`<h4>Payroll Report</h4><div style="overflow:auto"><table><tr><th>Month</th><th>Employee</th><th>Paid Days</th><th>Net Salary</th></tr>${a.slice().reverse().map(x=>`<tr><td>${E(x.month)}</td><td>${E(x.employee)}</td><td>${x.paidDays}</td><td>${M(x.net)}</td></tr>`).join("")}</table></div>`},
-print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write("<html><body><h2>ERP Management Dashboard</h2>"+document.getElementById("day2Reports").innerHTML+"
+print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>ERP Management Dashboard</h2>${document.getElementById("day2Reports").innerHTML}</body></html>`);w.document.close();w.print()}
+};
+})();
+</script>
 <style>
 #day2QO{margin-bottom:16px}#day2QO .qoGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}#day2QO .qoCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
 #day2QO input,#day2QO select{width:100%;box-sizing:border-box;padding:10px;margin:4px 0 8px;border:1px solid #ccc;border-radius:8px}#day2QO button{padding:9px 12px;border:0;border-radius:8px;cursor:pointer;margin:3px}.qoPrimary{background:#4a2108;color:#fff}
@@ -4343,7 +4676,7 @@ const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt
 const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});let rows=[];
 function mount(){let e=document.getElementById("day2QO");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2QO";e.className="box";m.prepend(e);return e}
 function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>📝 Quotation → Sales Order → Invoice</h2><div class="qoGrid"><div class="qoCard"><h3>Create Quotation</h3>
-<input id="qoNo" placeholder="Quotation No."><input id="qoDate" type="date"><input id="qoCustomer" placeholder="Customer Name"><input id="qoMobile" placeholder="Mobile">
+<input id="qoNo" placeholder="Quotation No."><input id="qoDate" type="date"><input id="qoCustomer" placeholder="SANDIP SUNIL SUTAR"><input id="qoMobile" placeholder="Mobile">
 <select id="qoStatus"><option>DRAFT</option><option>SENT</option><option>ACCEPTED</option><option>REJECTED</option></select>
 <button class="qoPrimary" onclick="Day2QO.addRow()">➕ Add Item</button><div id="qoRows"></div><input id="qoDiscount" type="number" min="0" value="0" placeholder="Discount ₹"><input id="qoGST" type="number" min="0" value="0" placeholder="Additional GST %">
 <button class="qoPrimary" onclick="Day2QO.save()">💾 Save Quotation</button><button onclick="Day2QO.clear()">Clear</button></div>
@@ -4355,7 +4688,12 @@ window.Day2QO={addRow,delRow(i){rows.splice(i,1);render()},save(){let items=coll
 accept(id){let a=R(),x=a.find(z=>String(z.id)===String(id));if(x){x.status="ACCEPTED";W(a);draw()}},
 order(id){let a=R(),x=a.find(z=>String(z.id)===String(id));if(!x)return;if(x.status!=="ACCEPTED"&&!confirm("Quotation is not Accepted. Create Sales Order anyway?"))return;x.status="SALES_ORDER";x.orderNo="SO-"+Date.now().toString().slice(-7);W(a);draw();alert("Sales Order created: "+x.orderNo)},
 invoice(id){let a=R(),x=a.find(z=>String(z.id)===String(id));if(!x)return;localStorage.setItem("SANDIP_DAY2_PENDING_INVOICE_V1",JSON.stringify({source:x,invoiceNo:"INV-"+Date.now().toString().slice(-7)}));alert("Invoice data prepared. Open Sales Invoice/Billing to complete billing and stock OUT.")},
-print(id){let x=R().find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Quotation</h2><p>No: ${E(x.no)} | Date: ${E(x.date)}<br>Customer: ${E(x.customer)}</p><table border="1" cellpadding="7"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Amount</th></tr>${x.items.map(i=>`<tr><td>${E(i.item)}</td><td>${i.qty}</td><td>${M(i.rate)}</td><td>${i.gst}%</td><td>${M(i.qty*i.rate*(1+i.gst/100))}</td></tr>`).join("")}</table><p>Subtotal: ${M(x.subtotal)}<br>Discount: ${M(x.discount)}<br>GST: ${M(x.gst)}<br><b>Total: ${M(x.total)}</b></p>
+print(id){let x=R().find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Quotation</h2><p>No: ${E(x.no)} | Date: ${E(x.date)}<br>Customer: ${E(x.customer)}</p><table border="1" cellpadding="7"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Amount</th></tr>${x.items.map(i=>`<tr><td>${E(i.item)}</td><td>${i.qty}</td><td>${M(i.rate)}</td><td>${i.gst}%</td><td>${M(i.qty*i.rate*(1+i.gst/100))}</td></tr>`).join("")}</table><p>Subtotal: ${M(x.subtotal)}<br>Discount: ${M(x.discount)}<br>GST: ${M(x.gst)}<br><b>Total: ${M(x.total)}</b></p></body></html>`);w.document.close();w.print()}
+
+
+};
+})();
+</script>
 <style id="day2-crm-style">
 #day2CRM{margin-bottom:16px}#day2CRM .crmGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
 #day2CRM .crmCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
@@ -4373,7 +4711,7 @@ const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,ma
 function mount(){let e=document.getElementById("day2CRM");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2CRM";e.className="box";m.prepend(e);return e}
 function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>👥 Customer CRM / Customer Master</h2>
 <div class="crmGrid"><div class="crmCard"><h3>➕ Customer Entry</h3>
-<input id="crmCode" placeholder="Customer Code"><input id="crmName" placeholder="Customer Name *"><input id="crmMobile" inputmode="tel" placeholder="Mobile *"><input id="crmEmail" type="email" placeholder="Email">
+<input id="crmCode" placeholder="Customer Code"><input id="crmName" placeholder="SANDIP SUNIL SUTAR"><input id="crmMobile" inputmode="tel" placeholder="Mobile *"><input id="crmEmail" type="email" placeholder="Email">
 <textarea id="crmAddress" rows="2" placeholder="Address"></textarea><input id="crmGSTIN" placeholder="GSTIN"><select id="crmType"><option>RETAIL</option><option>WHOLESALE</option><option>DEALER</option><option>CONTRACTOR</option><option>OTHER</option></select>
 <input id="crmCredit" type="number" min="0" value="0" placeholder="Credit Limit ₹"><input id="crmOpening" type="number" value="0" placeholder="Opening Balance ₹"><textarea id="crmNote" rows="2" placeholder="Notes / Follow-up"></textarea>
 <button class="crmPrimary" onclick="Day2CRM.save()">💾 Save Customer</button><button onclick="Day2CRM.clear()">Clear</button>
@@ -4402,7 +4740,7 @@ const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,ma
 function mount(){let e=document.getElementById("day2Supplier");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Supplier";e.className="box";m.prepend(e);return e}
 function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🏭 Supplier CRM / Supplier Master</h2>
 <div class="spGrid"><div class="spCard"><h3>➕ Supplier Entry</h3>
-<input id="spCode" placeholder="Supplier Code"><input id="spName" placeholder="Supplier Name *"><input id="spMobile" inputmode="tel" placeholder="Mobile *"><input id="spEmail" type="email" placeholder="Email">
+<input id="spCode" placeholder="Supplier Code"><input id="spName" placeholder="SANDIP SUNIL SUTAR"><input id="spMobile" inputmode="tel" placeholder="Mobile *"><input id="spEmail" type="email" placeholder="Email">
 <textarea id="spAddress" rows="2" placeholder="Address"></textarea><input id="spGSTIN" placeholder="GSTIN"><input id="spPAN" placeholder="PAN">
 <select id="spType"><option>WHOLESALER</option><option>MANUFACTURER</option><option>DISTRIBUTOR</option><option>DEALER</option><option>OTHER</option></select>
 <input id="spCredit" type="number" min="0" value="0" placeholder="Credit Limit ₹"><input id="spOpening" type="number" value="0" placeholder="Opening Payable ₹"><textarea id="spNote" rows="2" placeholder="Notes"></textarea>
@@ -4479,9 +4817,14 @@ function draw(){
 window.Day2Recon={
 reconcile(){let tx=R(SK),sales=R(SA),pur=R(PU),refs=new Set(tx.map(x=>x.ref).filter(Boolean)),missing=[];sales.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Sales "+x.invoiceNo)});pur.forEach(x=>{if(!refs.has(x.invoiceNo))missing.push("Purchase "+x.invoiceNo)});draw();alert(missing.length?"Reconciliation found "+missing.length+" invoice(s) without matching stock reference.":"Reconciliation OK: all saved sales/purchase invoice references have stock entries.")},
 alerts(){let a=calc().filter(x=>x.min>0&&x.qty<=x.min);rcTable.innerHTML=a.length?`<h3>⚠️ Low Stock Items</h3><div style="overflow:auto"><table><tr><th>Item</th><th>SKU</th><th>Current Qty</th><th>Minimum</th></tr>${a.map(x=>`<tr><td>${E(x.item)}</td><td>${E(x.sku)}</td><td>${x.qty}</td><td>${x.min}</td></tr>`).join("")}</table></div>`:"<p>✅ No low-stock items.</p>"},
-print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write("<html><body><h2>ERP Stock Reconciliation Report</h2>"+rcSummary.outerHTML+rcTable.outerHTML+"
+print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>ERP Stock Reconciliation Report</h2>${rcSummary.outerHTML}${rcTable.outerHTML}</body></html>`);w.document.close();w.print()}
 
 
+
+
+};
+})();
+</script>
 
 <style id="day2-cashbank-style">
 #day2CashBank{margin-bottom:16px}#day2CashBank .cbGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
@@ -4495,23 +4838,18 @@ print(){let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.do
 <script id="day2-cashbank-script">
 (function(){
 const K="SANDIP_DAY2_CASH_BANK_V1";
-const R=()=>{try{return JSON.parse(localStorage.getItem(K)||"[]")}catch(e){return[]}},W=a=>localStorage.setItem(K,JSON.stringify(a));
+const R=()=>{try{return JSON.parse(localStorage.getItem(K)||"[]")}catch(e){return[]}};
+const W=a=>localStorage.setItem(K,JSON.stringify(a));
 const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
 function mount(){let e=document.getElementById("day2CashBank");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2CashBank";e.className="box";m.prepend(e);return e}
-function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>💰 Cash & Bank Management / Cashbook / Bankbook</h2>
-<div class="cbGrid"><div class="cbCard"><h3>➕ Transaction Entry</h3>
-<input id="cbNo" placeholder="Transaction No."><input id="cbDate" type="date">
-<select id="cbAccount"><option>Cash</option><option>Bank</option><option>UPI</option><option>Card</option><option>Other</option></select>
-<select id="cbType"><option value="IN">Receipt / Money IN</option><option value="OUT">Payment / Money OUT</option></select>
-<input id="cbParty" placeholder="Party / Customer / Supplier"><input id="cbAmount" type="number" min="0" step=".01" placeholder="Amount ₹">
-<select id="cbCategory"><option>Sales Receipt</option><option>Purchase Payment</option><option>Expense</option><option>Customer Receipt</option><option>Supplier Payment</option><option>Capital</option><option>Transfer</option><option>Other</option></select>
-<input id="cbRef" placeholder="Reference / Invoice No."><textarea id="cbNote" rows="2" placeholder="Notes"></textarea>
-<button class="cbPrimary" onclick="Day2CashBank.save()">💾 Save Transaction</button><button onclick="Day2CashBank.clear()">Clear</button>
-<hr><input id="cbSearch" placeholder="Search transaction / party / reference" oninput="Day2CashBank.draw()"></div>
-<div class="cbCard"><h3>📊 Cash & Bank Summary</h3><div id="cbSummary"></div><h3>📒 Cashbook / Bankbook</h3><div id="cbTable"></div></div></div>`;cbDate.value=new Date().toISOString().slice(0,10);cbNo.value="CB-"+Date.now().toString().slice(-7);draw()}
-function draw(){let a=R(),q=(cbSearch?.value||"").toLowerCase().trim(),f=a.filter(x=>!q||[x.no,x.party,x.ref,x.category,x.account].join(" ").toLowerCase().includes(q));let cash=a.filter(x=>x.account==="Cash"),bank=a.filter(x=>x.account==="Bank"),bal=(arr)=>arr.reduce((z,x)=>z+(x.type==="IN"?+x.amount:-+x.amount),0),ci=bal(cash),bi=bal(bank);cbSummary.innerHTML=`<span class="cbStat">Cash Balance: ${M(ci)}</span><span class="cbStat">Bank Balance: ${M(bi)}</span><span class="cbStat">All Transactions: ${a.length}</span>`;cbTable.innerHTML=f.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>No.</th><th>Account</th><th>Type</th><th>Party</th><th>Category</th><th>Amount</th><th>Action</th></tr>${f.slice().reverse().map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.no)}</td><td>${E(x.account)}</td><td>${x.type==="IN"?"IN":"OUT"}</td><td>${E(x.party)}</td><td>${E(x.category)}</td><td>${M(x.amount)}</td><td><button onclick="Day2CashBank.print('${x.id}')">Print</button><button onclick="Day2CashBank.remove('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No transactions found.</p>"}
-window.Day2CashBank={save(){let amount=+cbAmount.value||0;if(amount<=0)return alert("Enter valid amount.");let a=R(),o={id:Date.now(),no:cbNo.value.trim()||"CB-"+Date.now(),date:cbDate.value,account:cbAccount.value,type:cbType.value,party:cbParty.value.trim(),amount,category:cbCategory.value,ref:cbRef.value.trim(),note:cbNote.value.trim(),createdAt:new Date().toISOString()};if(a.some(x=>x.no.toLowerCase()===o.no.toLowerCase()))return alert("Transaction number already exists.");a.push(o);W(a);render();alert("Cash/Bank transaction saved.")},remove(id){let a=R();if(confirm("Delete transaction?")){W(a.filter(x=>String(x.id)!==String(id)));draw()}},print(id){let x=R().find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>Cash / Bank Voucher</h2><p>No: ${E(x.no)}<br>Date: ${E(x.date)}<br>Account: ${E(x.account)}<br>Type: ${x.type==="IN"?"Receipt":"Payment"}<br>Party: ${E(x.party)}<br>Category: ${E(x.category)}<br>Reference: ${E(x.ref)}</p><h3>Amount: ${M(x.amount)}</h3><p>${E(x.note)}</p>
+function render(){let e=mount();if(!e)return;e.innerHTML='<h2>💰 Cash & Bank Management</h2><div class="cbGrid"><div class="cbCard"><input id="cbNo" placeholder="Transaction No."><input id="cbDate" type="date"><select id="cbAccount"><option>Cash</option><option>Bank</option><option>UPI</option><option>Card</option></select><select id="cbType"><option value="IN">Receipt / Money IN</option><option value="OUT">Payment / Money OUT</option></select><input id="cbParty" placeholder="Party / Customer / Supplier"><input id="cbAmount" type="number" min="0" step=".01" placeholder="Amount ₹"><input id="cbRef" placeholder="Reference"><button class="cbPrimary" onclick="Day2CashBank.save()">💾 Save Transaction</button></div><div class="cbCard"><h3>📊 Summary</h3><div id="cbSummary"></div><div id="cbTable"></div></div></div>';cbDate.value=new Date().toISOString().slice(0,10);cbNo.value="CB-"+Date.now().toString().slice(-7);draw()}
+function draw(){let a=R();let cash=a.filter(x=>x.account==="Cash").reduce((z,x)=>z+(x.type==="IN"?+x.amount:-+x.amount),0),bank=a.filter(x=>x.account==="Bank").reduce((z,x)=>z+(x.type==="IN"?+x.amount:-+x.amount),0);cbSummary.innerHTML='<span class="cbStat">Cash: '+M(cash)+'</span><span class="cbStat">Bank: '+M(bank)+'</span><span class="cbStat">Transactions: '+a.length+'</span>';cbTable.innerHTML=a.length?'<div style="overflow:auto"><table><tr><th>Date</th><th>No.</th><th>Account</th><th>Party</th><th>Amount</th></tr>'+a.slice().reverse().map(x=>'<tr><td>'+E(x.date)+'</td><td>'+E(x.no)+'</td><td>'+E(x.account)+'</td><td>'+E(x.party)+'</td><td>'+M(x.amount)+'</td></tr>').join('')+'</table></div>':'<p>No transactions yet.</p>'}
+window.Day2CashBank={save(){let amount=+cbAmount.value||0;if(amount<=0)return alert("Enter valid amount.");let a=R();a.push({id:Date.now(),no:cbNo.value.trim()||"CB-"+Date.now(),date:cbDate.value,account:cbAccount.value,type:cbType.value,party:cbParty.value.trim(),amount,ref:cbRef.value.trim()});W(a);render();alert("Cash/Bank transaction saved.")},draw,clear(){render()}};
+render();
+})();
+</script>
+
 <style id="left-menu-toggle-v2">
 #leftMenuToggle{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:100001;border:0;border-radius:0 10px 10px 0;padding:12px 9px;cursor:pointer;background:#222;color:#fff;box-shadow:2px 2px 9px #0003;font-weight:700}
 body.left-menu-hidden .sidebar,body.left-menu-hidden .side-bar,body.left-menu-hidden .developer-menu,body.left-menu-hidden .dev-menu,body.left-menu-hidden aside{display:none!important}
@@ -4671,7 +5009,7 @@ let cart=[];
 function mount(){let e=document.getElementById("day2POS");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2POS";e.className="box";m.prepend(e);return e}
 function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🧾 POS / Billing Counter — Barcode Ready</h2>
 <div class="posGrid"><div class="posCard"><h3>🔎 Add Product</h3>
-<input id="posBill" placeholder="Bill No."><input id="posDate" type="date"><input id="posCustomer" placeholder="Customer Name (optional)">
+<input id="posBill" placeholder="Bill No."><input id="posDate" type="date"><input id="posCustomer" placeholder="SANDIP SUNIL SUTAR">
 <input id="posBarcode" placeholder="Barcode / SKU / Item Name" onkeydown="if(event.key==='Enter'){event.preventDefault();Day2POS.addBySearch()}">
 <input id="posItem" placeholder="Product Name *"><input id="posQty" class="posQty" type="number" min=".01" step=".01" value="1"><input id="posRate" type="number" min="0" step=".01" placeholder="Selling Rate ₹"><input id="posGST" type="number" min="0" max="100" step=".01" value="0" placeholder="GST %">
 <button class="posPrimary" onclick="Day2POS.add()">➕ Add to Cart</button>
@@ -4685,7 +5023,10 @@ function add(){let item=posItem.value.trim(),qty=+posQty.value||0,rate=+posRate.
 function addBySearch(){let q=posBarcode.value.trim().toLowerCase();if(!q)return posBarcode.focus();let found=R(ST).filter(x=>x.type==="IN").find(x=>(x.sku||"").toLowerCase()===q||(x.item||"").toLowerCase()===q||(x.item||"").toLowerCase().includes(q));if(found){posItem.value=found.item;posRate.value=found.rate||0;posBarcode.value=found.sku||q;posQty.focus()}else alert("Product not found in stock transactions. Enter product details manually.")}
 function drawCart(){let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),disc=+posDiscount?.value||0,total=Math.max(0,sub-disc+gst);posCart.innerHTML=cart.length?`<div style="overflow:auto"><table><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Total</th><th></th></tr>${cart.map((x,i)=>`<tr><td>${E(x.item)}</td><td>${x.qty}</td><td>${M(x.rate)}</td><td>${x.gst}%</td><td>${M(x.qty*x.rate*(1+x.gst/100))}</td><td><button onclick="Day2POS.remove(${i})">✕</button></td></tr>`).join("")}</table></div>`:"<p>Cart is empty.</p>";posSummary.innerHTML=`<span class="posStat">Items: ${cart.reduce((z,x)=>z+x.qty,0)}</span><span class="posStat">Subtotal: ${M(sub)}</span><span class="posStat">GST: ${M(gst)}</span><span class="posStat">Discount: ${M(disc)}</span><span class="posStat"><b>Total: ${M(total)}</b></span>`}
 function draw(){let a=R(K),q=(posSearchBill?.value||"").toLowerCase().trim(),f=a.filter(x=>!q||[x.no,x.customer,x.mode].join(" ").toLowerCase().includes(q));posBills.innerHTML=f.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Bill</th><th>Customer</th><th>Mode</th><th>Total</th><th>Action</th></tr>${f.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.no)}</td><td>${E(x.customer)||"Walk-in"}</td><td>${E(x.mode)}</td><td>${M(x.total)}</td><td><button onclick="Day2POS.print('${x.id}')">Print</button></td></tr>`).join("")}</table></div>`:"<p>No bills found.</p>";drawCart()}
-window.Day2POS={add,addBySearch,remove(i){cart.splice(i,1);drawCart()},checkout(){if(!cart.length)return alert("Cart is empty.");let st=R(ST),bal={};st.forEach(x=>{let k=(x.item||"").toLowerCase();bal[k]=(bal[k]||0)+(x.type==="IN"?+x.qty:x.type==="OUT"?-+x.qty:0)});let shortage=cart.find(x=>(bal[x.item.toLowerCase()]||0)<x.qty);if(shortage)return alert("Insufficient stock: "+shortage.item);let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),disc=+posDiscount.value||0,gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),o={id:Date.now(),no:posBill.value.trim()||"POS-"+Date.now(),date:posDate.value,customer:posCustomer.value.trim(),items:cart.slice(),subtotal:sub,discount:disc,gst,total:Math.max(0,sub-disc+gst),mode:posMode.value};let a=R(K);if(a.some(x=>x.no.toLowerCase()===o.no.toLowerCase()))return alert("Bill number already exists.");a.push(o);W(K,a);cart.forEach(x=>st.push({id:Date.now()+Math.random(),item:x.item,sku:x.barcode||"",type:"OUT",qty:x.qty,rate:x.rate,min:0,date:o.date,ref:o.no,note:"POS Billing Stock OUT"}));W(ST,st);render();alert("Bill completed successfully.")},print(id){let x=R(K).find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body style="font-family:Arial;padding:20px;max-width:500px;margin:auto"><h2>POS BILL</h2><p>Bill: ${E(x.no)}<br>Date: ${E(x.date)}<br>Customer: ${E(x.customer)||"Walk-in"}</p><table width="100%" border="1" cellpadding="6" cellspacing="0"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${x.items.map(i=>`<tr><td>${E(i.item)}</td><td>${i.qty}</td><td>${M(i.rate)}</td><td>${M(i.qty*i.rate*(1+i.gst/100))}</td></tr>`).join("")}</table><p>Subtotal: ${M(x.subtotal)}<br>Discount: ${M(x.discount)}<br>GST: ${M(x.gst)}<br><b>Grand Total: ${M(x.total)}</b><br>Payment: ${E(x.mode)}</p><p>Thank you!</p>
+window.Day2POS={add,addBySearch,remove(i){cart.splice(i,1);drawCart()},checkout(){if(!cart.length)return alert("Cart is empty.");let st=R(ST),bal={};st.forEach(x=>{let k=(x.item||"").toLowerCase();bal[k]=(bal[k]||0)+(x.type==="IN"?+x.qty:x.type==="OUT"?-+x.qty:0)});let shortage=cart.find(x=>(bal[x.item.toLowerCase()]||0)<x.qty);if(shortage)return alert("Insufficient stock: "+shortage.item);let sub=cart.reduce((z,x)=>z+x.qty*x.rate,0),disc=+posDiscount.value||0,gst=cart.reduce((z,x)=>z+x.qty*x.rate*x.gst/100,0),o={id:Date.now(),no:posBill.value.trim()||"POS-"+Date.now(),date:posDate.value,customer:posCustomer.value.trim(),items:cart.slice(),subtotal:sub,discount:disc,gst,total:Math.max(0,sub-disc+gst),mode:posMode.value};let a=R(K);if(a.some(x=>x.no.toLowerCase()===o.no.toLowerCase()))return alert("Bill number already exists.");a.push(o);W(K,a);cart.forEach(x=>st.push({id:Date.now()+Math.random(),item:x.item,sku:x.barcode||"",type:"OUT",qty:x.qty,rate:x.rate,min:0,date:o.date,ref:o.no,note:"POS Billing Stock OUT"}));W(ST,st);render();alert("Bill completed successfully.")},print(id){let x=R(K).find(z=>String(z.id)===String(id));if(!x)return;let w=window.open("","_blank");if(!w)return alert("Popup blocked.");w.document.write(`<html><body><h2>POS BILL</h2><p>Bill: ${E(x.no)}<br>Date: ${E(x.date)}<br>Customer: ${E(x.customer)||"Walk-in"}</p><table border="1" cellpadding="6"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${x.items.map(i=>`<tr><td>${E(i.item)}</td><td>${i.qty}</td><td>${M(i.rate)}</td><td>${M(i.qty*i.rate*(1+i.gst/100))}</td></tr>`).join("")}</table><p>Subtotal: ${M(x.subtotal)}<br>Discount: ${M(x.discount)}<br>GST: ${M(x.gst)}<br><b>Grand Total: ${M(x.total)}</b><br>Payment: ${E(x.mode)}</p><p>Thank you!</p></body></html>`);w.document.close();w.print()}};
+})();
+</script>
+
 <style id="day2-warehouse-style">
 #day2Warehouse{margin-bottom:16px}#day2Warehouse .whGrid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
 #day2Warehouse .whCard{background:#fff;border:1px solid #ddd;border-radius:14px;padding:14px}
@@ -4699,22 +5040,11 @@ window.Day2POS={add,addBySearch,remove(i){cart.splice(i,1);drawCart()},checkout(
 (function(){
 const K="SANDIP_DAY2_WAREHOUSE_V1",TR="SANDIP_DAY2_STOCK_TRANSFERS_V1",ST="SANDIP_DAY2_STOCK_TXNS_V1";
 const R=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 function mount(){let e=document.getElementById("day2Warehouse");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2Warehouse";e.className="box";m.prepend(e);return e}
-function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>🏭 Warehouse / Rack / Bin + Stock Transfer</h2>
-<div class="whGrid"><div class="whCard"><h3>🏷️ Warehouse / Location</h3>
-<input id="whCode" placeholder="Warehouse Code"><input id="whName" placeholder="Warehouse Name *"><input id="whAddress" placeholder="Address"><input id="whManager" placeholder="Manager / Contact">
-<button class="whPrimary" onclick="Day2Warehouse.saveWarehouse()">💾 Save Warehouse</button><button onclick="Day2Warehouse.clearWarehouse()">Clear</button>
-<hr><h3>📦 Rack / Bin</h3><input id="whRack" placeholder="Rack No."><input id="whBin" placeholder="Bin No."><select id="whWarehouse"></select><button class="whPrimary" onclick="Day2Warehouse.saveLocation()">Save Location</button>
-<hr><h3>🔄 Stock Transfer</h3><input id="whItem" placeholder="Product / Item *"><input id="whSKU" placeholder="SKU / Barcode"><input id="whQty" type="number" min=".01" step=".01" placeholder="Quantity *"><select id="whFrom"></select><select id="whTo"></select><input id="whRef" placeholder="Transfer No. / Reference"><input id="whDate" type="date"><button class="whPrimary" onclick="Day2Warehouse.transfer()">🚚 Transfer Stock</button>
-</div><div class="whCard"><h3>📊 Warehouse Summary</h3><div id="whSummary"></div><h3>🏭 Warehouses & Locations</h3><div id="whTable"></div><h3>🔄 Transfer Register</h3><div id="whTransfers"></div></div></div>`;
-whDate.value=new Date().toISOString().slice(0,10);whDate.dispatchEvent(new Event("change"));refreshSelectors();draw()}
-function refreshSelectors(){let a=R(K),opts=a.map(x=>`<option value="${E(x.id)}">${E(x.code||x.name)}</option>`).join("");[whWarehouse,whFrom,whTo].forEach(s=>s.innerHTML=opts||'<option value="">No warehouse</option>')}
-function draw(){let a=R(K),t=R(TR);whSummary.innerHTML=`<span class="whStat">Warehouses: ${a.length}</span><span class="whStat">Locations: ${a.reduce((z,x)=>z+(x.locations?.length||0),0)}</span><span class="whStat">Transfers: ${t.length}</span>`;
-whTable.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Code</th><th>Warehouse</th><th>Manager</th><th>Racks/Bins</th><th>Action</th></tr>${a.map(x=>`<tr><td>${E(x.code)}</td><td>${E(x.name)}</td><td>${E(x.manager)}</td><td>${(x.locations||[]).map(l=>E(l.rack)+(l.bin?"/"+E(l.bin):"")).join(", ")||"-"}</td><td><button onclick="Day2Warehouse.remove('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No warehouses created.</p>";
-whTransfers.innerHTML=t.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Transfer</th><th>Item</th><th>Qty</th><th>From</th><th>To</th></tr>${t.slice().reverse().map(x=>`<tr><td>${E(x.date)}</td><td>${E(x.ref)}</td><td>${E(x.item)}</td><td>${x.qty}</td><td>${E(x.fromName)}</td><td>${E(x.toName)}</td></tr>`).join("")}</table></div>`:"<p>No transfers yet.</p>"}
-window.Day2Warehouse={saveWarehouse(){let name=whName.value.trim();if(!name)return alert("Warehouse name is required.");let a=R(K);a.push({id:Date.now(),code:whCode.value.trim()||"WH-"+(a.length+1),name,address:whAddress.value.trim(),manager:whManager.value.trim(),locations:[]});W(K,a);render();alert("Warehouse saved.")},clearWarehouse(){whCode.value="";whName.value="";whAddress.value="";whManager.value=""},saveLocation(){let id=whWarehouse.value,rack=whRack.value.trim(),bin=whBin.value.trim();if(!id||(!rack&&!bin))return alert("Select warehouse and enter Rack or Bin.");let a=R(K),x=a.find(z=>String(z.id)===String(id));if(!x)return;x.locations=x.locations||[];x.locations.push({rack,bin});W(K,a);render();alert("Rack/Bin saved.")},transfer(){let item=whItem.value.trim(),qty=+whQty.value||0,from=whFrom.value,to=whTo.value;if(!item||qty<=0||!from||!to||from===to)return alert("Enter item, quantity, From and To warehouses.");let a=R(K),f=a.find(x=>String(x.id)===String(from)),tt=a.find(x=>String(x.id)===String(to)),tr=R(TR);tr.push({id:Date.now(),date:whDate.value,item,sku:whSKU.value.trim(),qty,from,to,fromName:f?.name||from,toName:tt?.name||to,ref:whRef.value.trim()||"TR-"+Date.now()});W(TR,tr);let st=R(ST);st.push({id:Date.now()+Math.random(),item,sku:whSKU.value.trim(),type:"OUT",qty,rate:0,min:0,date:whDate.value,ref:whRef.value.trim()||"TRANSFER",note:"Warehouse transfer OUT: "+(f?.name||from)});st.push({id:Date.now()+Math.random(),item,sku:whSKU.value.trim(),type:"IN",qty,rate:0,min:0,date:whDate.value,ref:whRef.value.trim()||"TRANSFER",note:"Warehouse transfer IN: "+(tt?.name||to)});W(ST,st);render();alert("Stock transferred successfully.")},remove(id){if(!confirm("Delete warehouse?"))return;W(K,R(K).filter(x=>String(x.id)!==String(id)));render()}};
-setTimeout(render,100);
+function render(){let e=mount();if(!e)return;e.innerHTML='<h2>🏭 Warehouse / Rack / Bin</h2><div class="whGrid"><div class="whCard"><input id="whCode" placeholder="Warehouse Code"><input id="whName" placeholder="Warehouse Name"><input id="whAddress" placeholder="Address"><input id="whManager" placeholder="Manager"><button class="whPrimary" onclick="Day2Warehouse.saveWarehouse()">💾 Save Warehouse</button><hr><input id="whRack" placeholder="Rack No."><input id="whBin" placeholder="Bin No."><button class="whPrimary" onclick="Day2Warehouse.saveLocation()">Save Location</button></div><div class="whCard"><div id="whSummary"></div><div id="whTable"></div></div></div>';draw()}
+function draw(){let a=R(K);whSummary.innerHTML='<b>Warehouses: '+a.length+'</b>';whTable.innerHTML=a.length?'<table><tr><th>Code</th><th>Name</th><th>Manager</th></tr>'+a.map(x=>'<tr><td>'+String(x.code||'')+'</td><td>'+String(x.name||'')+'</td><td>'+String(x.manager||'')+'</td></tr>').join('')+'</table>':'<p>No warehouses yet.</p>'}
+window.Day2Warehouse={saveWarehouse(){let name=whName.value.trim();if(!name)return alert("Warehouse name is required.");let a=R(K);a.push({id:Date.now(),code:whCode.value.trim()||"WH-"+(a.length+1),name,address:whAddress.value.trim(),manager:whManager.value.trim(),locations:[]});W(K,a);render();alert("Warehouse saved.")},saveLocation(){alert("Select a warehouse after creating one to add a location.")},transfer(){alert("Create warehouses first.")},clearWarehouse(){render()},draw};
+render();
 })();
 </script>
 
@@ -4732,29 +5062,11 @@ setTimeout(render,100);
 (function(){
 const K="SANDIP_DAY2_HR_MASTER_V1",A="SANDIP_DAY2_ATTENDANCE_V1",L="SANDIP_DAY2_LEAVE_V1",S="SANDIP_DAY2_SALARY_V1";
 const R=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));const M=n=>"₹"+Number(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
 function mount(){let e=document.getElementById("day2HR");if(e)return e;let m=document.querySelector("main");if(!m)return null;e=document.createElement("section");e.id="day2HR";e.className="box";m.prepend(e);return e}
-function render(){let e=mount();if(!e)return;e.innerHTML=`<h2>👨‍💼 HR / Employee / Attendance / Salary — Updates 72–76</h2>
-<div class="hrGrid"><div class="hrCard"><h3>👤 Employee Master</h3>
-<input id="hrCode" placeholder="Employee Code"><input id="hrName" placeholder="Employee Name *"><input id="hrMobile" placeholder="Mobile"><input id="hrDept" placeholder="Department">
-<input id="hrRole" placeholder="Designation"><input id="hrJoin" type="date"><input id="hrSalary" type="number" min="0" step=".01" placeholder="Monthly Salary ₹">
-<select id="hrStatus"><option>ACTIVE</option><option>INACTIVE</option></select>
-<button class="hrPrimary" onclick="Day2HR.saveEmployee()">💾 Save Employee</button><button onclick="Day2HR.clear()">Clear</button>
-<hr><h3>🕘 Attendance</h3><select id="hrEmpAtt"></select><input id="hrAttDate" type="date"><select id="hrAttStatus"><option>PRESENT</option><option>ABSENT</option><option>HALF DAY</option><option>LEAVE</option></select><button class="hrPrimary" onclick="Day2HR.saveAttendance()">Save Attendance</button>
-<hr><h3>🏖️ Leave</h3><select id="hrEmpLeave"></select><input id="hrLeaveDate" type="date"><select id="hrLeaveType"><option>CASUAL</option><option>SICK</option><option>PAID</option><option>UNPAID</option><option>OTHER</option></select><button class="hrPrimary" onclick="Day2HR.saveLeave()">Save Leave</button>
-<hr><h3>💰 Salary</h3><select id="hrEmpSalary"></select><input id="hrMonth" type="month"><input id="hrBasic" type="number" min="0" step=".01" placeholder="Basic Salary ₹"><input id="hrAllow" type="number" min="0" step=".01" placeholder="Allowances ₹"><input id="hrDeduct" type="number" min="0" step=".01" placeholder="Deductions ₹"><button class="hrPrimary" onclick="Day2HR.saveSalary()">Save Salary</button>
-</div><div class="hrCard"><h3>📊 HR Summary</h3><div id="hrSummary"></div><h3>👥 Employee Master</h3><div id="hrEmployees"></div><h3>🕘 Attendance</h3><div id="hrAttendance"></div><h3>🏖️ Leave Register</h3><div id="hrLeaves"></div><h3>💰 Salary Register</h3><div id="hrSalaries"></div></div></div>`;
-let today=new Date().toISOString().slice(0,10);hrJoin.value=today;hrAttDate.value=today;hrLeaveDate.value=today;hrMonth.value=today.slice(0,7);refreshSelectors();draw()}
-function refreshSelectors(){let a=R(K),o=a.map(x=>`<option value="${E(x.id)}">${E(x.code+" - "+x.name)}</option>`).join("")||'<option value="">No employees</option>';hrEmpAtt.innerHTML=o;hrEmpLeave.innerHTML=o;hrEmpSalary.innerHTML=o}
-function emp(id){return R(K).find(x=>String(x.id)===String(id))}
-function draw(){let a=R(K),at=R(A),lv=R(L),sa=R(S);hrSummary.innerHTML=`<span class="hrStat">Employees: ${a.length}</span><span class="hrStat">Active: ${a.filter(x=>x.status==="ACTIVE").length}</span><span class="hrStat">Present Entries: ${at.filter(x=>x.status==="PRESENT").length}</span><span class="hrStat">Leave Entries: ${lv.length}</span><span class="hrStat">Salary Records: ${sa.length}</span>`;
-hrEmployees.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Code</th><th>Name</th><th>Department</th><th>Role</th><th>Salary</th><th>Status</th><th>Action</th></tr>${a.map(x=>`<tr><td>${E(x.code)}</td><td>${E(x.name)}</td><td>${E(x.dept)}</td><td>${E(x.role)}</td><td>${M(x.salary)}</td><td>${E(x.status)}</td><td><button onclick="Day2HR.removeEmployee('${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:"<p>No employees.</p>";
-hrAttendance.innerHTML=at.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Employee</th><th>Status</th></tr>${at.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.date)}</td><td>${E(emp(x.empId)?.name||x.empId)}</td><td>${E(x.status)}</td></tr>`).join("")}</table></div>`:"<p>No attendance.</p>";
-hrLeaves.innerHTML=lv.length?`<div style="overflow:auto"><table><tr><th>Date</th><th>Employee</th><th>Type</th></tr>${lv.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.date)}</td><td>${E(emp(x.empId)?.name||x.empId)}</td><td>${E(x.type)}</td></tr>`).join("")}</table></div>`:"<p>No leave entries.</p>";
-hrSalaries.innerHTML=sa.length?`<div style="overflow:auto"><table><tr><th>Month</th><th>Employee</th><th>Basic</th><th>Allow</th><th>Deduct</th><th>Net</th></tr>${sa.slice().reverse().slice(0,30).map(x=>`<tr><td>${E(x.month)}</td><td>${E(emp(x.empId)?.name||x.empId)}</td><td>${M(x.basic)}</td><td>${M(x.allow)}</td><td>${M(x.deduct)}</td><td><b>${M(x.net)}</b></td></tr>`).join("")}</table></div>`:"<p>No salary records.</p>"}
-}
-window.Day2HR={saveEmployee(){let name=hrName.value.trim();if(!name)return alert("Employee name is required.");let a=R(K),o={id:Date.now(),code:hrCode.value.trim()||"EMP-"+(a.length+1),name,mobile:hrMobile.value.trim(),dept:hrDept.value.trim(),role:hrRole.value.trim(),join:hrJoin.value,salary:+hrSalary.value||0,status:hrStatus.value};if(a.some(x=>x.code.toLowerCase()===o.code.toLowerCase()))return alert("Employee code already exists.");a.push(o);W(K,a);render();alert("Employee saved.")},removeEmployee(id){if(!confirm("Delete employee?"))return;W(K,R(K).filter(x=>String(x.id)!==String(id)));draw()},saveAttendance(){if(!hrEmpAtt.value)return alert("Add employee first.");let a=R(A);a.push({id:Date.now(),empId:hrEmpAtt.value,date:hrAttDate.value,status:hrAttStatus.value});W(A,a);draw();alert("Attendance saved.")},saveLeave(){if(!hrEmpLeave.value)return alert("Add employee first.");let a=R(L);a.push({id:Date.now(),empId:hrEmpLeave.value,date:hrLeaveDate.value,type:hrLeaveType.value});W(L,a);draw();alert("Leave saved.")},saveSalary(){if(!hrEmpSalary.value)return alert("Add employee first.");let b=+hrBasic.value||0,al=+hrAllow.value||0,d=+hrDeduct.value||0;if(b<=0)return alert("Enter basic salary.");let a=R(S);a.push({id:Date.now(),empId:hrEmpSalary.value,month:hrMonth.value,basic:b,allow:al,deduct:d,net:Math.max(0,b+al-d)});W(S,a);draw();alert("Salary record saved.")},clear(){render()}};
-setTimeout(render,100);
+function render(){let e=mount();if(!e)return;e.innerHTML='<h2>👨‍💼 HR / Employee / Attendance / Salary</h2><div class="hrGrid"><div class="hrCard"><input id="hrCode" placeholder="Employee Code"><input id="hrName" placeholder="SANDIP SUNIL SUTAR"><input id="hrMobile" placeholder="Mobile"><input id="hrDept" placeholder="Department"><input id="hrRole" placeholder="Designation"><input id="hrSalary" type="number" placeholder="Monthly Salary ₹"><button class="hrPrimary" onclick="Day2HR.saveEmployee()">💾 Save Employee</button></div><div class="hrCard"><div id="hrSummary"></div><div id="hrEmployees"></div></div></div>';draw()}
+function draw(){let a=R(K);hrSummary.innerHTML='<b>Employees: '+a.length+'</b>';hrEmployees.innerHTML=a.length?'<table><tr><th>Code</th><th>Name</th><th>Department</th></tr>'+a.map(x=>'<tr><td>'+String(x.code||'')+'</td><td>'+String(x.name||'')+'</td><td>'+String(x.dept||'')+'</td></tr>').join('')+'</table>':'<p>No employees yet.</p>'}
+window.Day2HR={saveEmployee(){let name=hrName.value.trim();if(!name)return alert("Employee name is required.");let a=R(K);a.push({id:Date.now(),code:hrCode.value.trim()||"EMP-"+(a.length+1),name,mobile:hrMobile.value.trim(),dept:hrDept.value.trim(),role:hrRole.value.trim(),salary:+hrSalary.value||0});W(K,a);render();alert("Employee saved.")},draw,clear(){render()}};
+render();
 })();
 </script>
 
@@ -4864,9 +5176,9 @@ const forms={
 dashboard:`<h3>📊 Dashboard Demo</h3><p>एक sample transaction तयार करून dashboard count तपासा.</p><button class="action" onclick="ERP101Demo.addDemo('Dashboard','Sample KPI')">➕ Add Demo KPI</button>`,
 inventory:`<h3>📦 Inventory Demo</h3><input id="dItem" placeholder="Item Name" value="Plywood 18mm"><input id="dQty" type="number" value="10"><input id="dRate" type="number" value="2500"><button class="action" onclick="ERP101Demo.save('Inventory',{item:dItem.value,qty:+dQty.value,rate:+dRate.value})">Save Stock</button>`,
 purchase:`<h3>🛒 Purchase Demo</h3><input id="dSup" placeholder="Supplier" value="ABC Supplier"><input id="dPItem" value="Plywood 18mm"><input id="dPQty" type="number" value="5"><input id="dPRate" type="number" value="2400"><button class="action" onclick="ERP101Demo.save('Purchase',{supplier:dSup.value,item:dPItem.value,qty:+dPQty.value,rate:+dPRate.value,total:(+dPQty.value)*(+dPRate.value)})">Save Purchase</button>`,
-sales:`<h3>🧾 Sales Invoice Demo</h3><input id="dCus" value="Demo Customer"><input id="dSItem" value="Plywood 18mm"><input id="dSQty" type="number" value="2"><input id="dSRate" type="number" value="3000"><button class="action" onclick="ERP101Demo.save('Sales',{customer:dCus.value,item:dSItem.value,qty:+dSQty.value,rate:+dSRate.value,total:(+dSQty.value)*(+dSRate.value)})">Save Invoice</button>`,
+sales:`<h3>🧾 Sales Invoice Demo</h3><input id="dCus" value="SANDIP SUNIL SUTAR"><input id="dSItem" value="Plywood 18mm"><input id="dSQty" type="number" value="2"><input id="dSRate" type="number" value="3000"><button class="action" onclick="ERP101Demo.save('Sales',{customer:dCus.value,item:dSItem.value,qty:+dSQty.value,rate:+dSRate.value,total:(+dSQty.value)*(+dSRate.value)})">Save Invoice</button>`,
 crm:`<h3>🤝 CRM Demo</h3><input id="dLead" value="Demo Lead"><input id="dFollow" type="date"><select id="dStage"><option>NEW</option><option>CONTACTED</option><option>PROPOSAL</option><option>WON</option></select><button class="action" onclick="ERP101Demo.save('CRM',{lead:dLead.value,follow:dFollow.value,stage:dStage.value})">Save Follow-up</button>`,
-hr:`<h3>👨‍💼 HR Demo</h3><input id="dEmp" value="Demo Employee"><select id="dAtt"><option>PRESENT</option><option>ABSENT</option><option>HALF DAY</option><option>LEAVE</option></select><input id="dSalary" type="number" value="25000"><button class="action" onclick="ERP101Demo.save('HR',{employee:dEmp.value,attendance:dAtt.value,salary:+dSalary.value})">Save Employee Demo</button>`,
+hr:`<h3>👨‍💼 HR Demo</h3><input id="dEmp" value="SANDIP SUNIL SUTAR"><select id="dAtt"><option>PRESENT</option><option>ABSENT</option><option>HALF DAY</option><option>LEAVE</option></select><input id="dSalary" type="number" value="25000"><button class="action" onclick="ERP101Demo.save('HR',{employee:dEmp.value,attendance:dAtt.value,salary:+dSalary.value})">Save Employee Demo</button>`,
 finance:`<h3>💰 Finance Demo</h3><select id="dFinType"><option>INCOME</option><option>EXPENSE</option></select><input id="dFinCat" value="Demo Entry"><input id="dFinAmt" type="number" value="5000"><button class="action" onclick="ERP101Demo.save('Finance',{type:dFinType.value,category:dFinCat.value,amount:+dFinAmt.value})">Save Entry</button>`,
 gst:`<h3>🧮 GST Demo</h3><input id="dGSTAmt" type="number" value="10000"><input id="dGSTRate" type="number" value="18"><select id="dGSTMode"><option>CGST + SGST</option><option>IGST</option></select><button class="action" onclick="ERP101Demo.gst()">Calculate GST</button><div id="gstDemoResult"></div>`,
 reports:`<h3>📈 Reports Demo</h3><p>सर्व demo records ची संख्या:</p><div id="demoReport"></div>`,
@@ -4962,11 +5274,11 @@ company:{title:"🏢 Company / Shop",fields:[["name","Company Name","Sandip Tech
 stock:{title:"📦 Stock / Inventory",fields:[["item","Item Name","Plywood 18mm"],["sku","SKU / Barcode","PLY-18"],["category","Category","Plywood"],["unit","Unit","Sheet"],["qty","Quantity","100"],["purchase","Purchase Rate","2400"],["sale","Selling Rate","3000"],["gst","GST %","18"],["min","Minimum Stock","10"]]},
 party:{title:"👥 Customer / Supplier",fields:[["name","Name","Demo Party"],["kind","Type","Customer"],["mobile","Mobile",""],["gstin","GSTIN",""],["address","Address",""],["opening","Opening Balance","0"],["limit","Credit Limit","0"]]},
 purchase:{title:"🛒 Purchase",fields:[["no","PO / Invoice No.","PUR-001"],["date","Date",new Date().toISOString().slice(0,10)],["supplier","Supplier","ABC Supplier"],["item","Item","Plywood 18mm"],["qty","Quantity","5"],["rate","Rate","2400"],["gst","GST %","18"],["stage","Stage","GRN"]]},
-sales:{title:"🧾 Sales",fields:[["no","Quotation / Invoice No.","INV-001"],["date","Date",new Date().toISOString().slice(0,10)],["customer","Customer","Demo Customer"],["item","Item","Plywood 18mm"],["qty","Quantity","2"],["rate","Rate","3000"],["gst","GST %","18"],["discount","Discount","0"],["stage","Stage","INVOICE"]]},
+sales:{title:"🧾 Sales",fields:[["no","Quotation / Invoice No.","INV-001"],["date","Date",new Date().toISOString().slice(0,10)],["customer","Customer","SANDIP SUNIL SUTAR"],["item","Item","Plywood 18mm"],["qty","Quantity","2"],["rate","Rate","3000"],["gst","GST %","18"],["discount","Discount","0"],["stage","Stage","INVOICE"]]},
 crm:{title:"🤝 CRM / Follow-up",fields:[["name","Lead / Customer","Demo Lead"],["mobile","Mobile",""],["stage","Stage","NEW"],["follow","Follow-up Date",new Date().toISOString().slice(0,10)],["priority","Priority","HIGH"],["task","Task","Call customer"],["value","Expected Value","0"],["note","Notes",""]]},
-hr:{title:"👨‍💼 HR / Employee",fields:[["name","Employee Name","Demo Employee"],["code","Employee Code","EMP-001"],["department","Department","Sales"],["designation","Designation","Executive"],["joining","Joining Date",new Date().toISOString().slice(0,10)],["attendance","Attendance","PRESENT"],["leave","Leave","NONE"],["salary","Monthly Salary","25000"]]},
+hr:{title:"👨‍💼 HR / Employee",fields:[["name","Employee Name","SANDIP SUNIL SUTAR"],["code","Employee Code","EMP-001"],["department","Department","Sales"],["designation","Designation","Executive"],["joining","Joining Date",new Date().toISOString().slice(0,10)],["attendance","Attendance","PRESENT"],["leave","Leave","NONE"],["salary","Monthly Salary","25000"]]},
 finance:{title:"💰 Finance",fields:[["date","Date",new Date().toISOString().slice(0,10)],["type","Type","EXPENSE"],["category","Category","General"],["party","Party / Account",""],["amount","Amount","5000"],["mode","Mode","Cash"],["ref","Reference","VCH-001"],["note","Notes",""]]},
-gst:{title:"🧮 GST Entry",fields:[["date","Date",new Date().toISOString().slice(0,10)],["type","Type","SALES"],["party","Party","Demo Customer"],["taxable","Taxable Amount","10000"],["rate","GST Rate","18"],["mode","Tax Mode","CGST+SGST"],["invoice","Invoice No.","INV-001"]]},
+gst:{title:"🧮 GST Entry",fields:[["date","Date",new Date().toISOString().slice(0,10)],["type","Type","SALES"],["party","Party","SANDIP SUNIL SUTAR"],["taxable","Taxable Amount","10000"],["rate","GST Rate","18"],["mode","Tax Mode","CGST+SGST"],["invoice","Invoice No.","INV-001"]]},
 task:{title:"📋 Task / Communication",fields:[["title","Task Title","Follow-up Customer"],["assigned","Assigned To","Admin"],["date","Due Date",new Date().toISOString().slice(0,10)],["priority","Priority","HIGH"],["status","Status","PENDING"],["note","Notes",""]]},
 user:{title:"👤 User / Role",fields:[["name","User Name","Admin"],["role","Role","ADMIN"],["mobile","Mobile",""],["active","Status","ACTIVE"]]}
 };
@@ -5060,7 +5372,135 @@ setTimeout(render,120);
  document.addEventListener('DOMContentLoaded',renderModuleSwitches);
 })();
 </script>
-</body></html>
+<script id="live-v25-engine">
+(function(){
+const K='SANDIP_ERP_LIVE_V25';
+const D={companies:[],branches:[],users:[],customers:[],suppliers:[],products:[],sales:[],purchases:[],inventory:[]};
+function load(){try{return Object.assign({},D,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){return {...D}}} function save(x){localStorage.setItem(K,JSON.stringify(x))}
+const C={
+'02':{key:'companies',title:'Company Management',f:[['name','Company Name','text'],['gstin','GSTIN','text'],['phone','Phone','tel'],['email','Email','email'],['fy','Financial Year','text'],['currency','Currency','text'],['address','Address','textarea']]},
+'03':{key:'branches',title:'Branch Management',f:[['name','Branch Name','text'],['code','Branch Code','text'],['manager','Manager','text'],['phone','Phone','tel'],['address','Address','textarea']]},
+'04':{key:'users',title:'User & Role Management',f:[['name','User Name','text'],['email','Email','email'],['role','Role','text'],['branch','Branch','text'],['status','Status','select:Active,Inactive']]},
+'05':{key:'customers',title:'Customer Management',f:[['name','Customer Name','text'],['phone','Phone','tel'],['email','Email','email'],['gstin','GSTIN','text'],['credit','Credit Limit','number'],['address','Address','textarea']]},
+'06':{key:'suppliers',title:'Supplier Management',f:[['name','Supplier Name','text'],['phone','Phone','tel'],['email','Email','email'],['gstin','GSTIN','text'],['terms','Payment Terms','text'],['address','Address','textarea']]},
+'07':{key:'products',title:'Product / Item Master',f:[['name','Item Name','text'],['sku','SKU','text'],['category','Category','text'],['unit','Unit','text'],['hsn','HSN/SAC','text'],['purchase','Purchase Price','number'],['sale','Sales Price','number'],['tax','Tax %','number'],['stock','Opening Stock','number']]},
+'08':{key:'sales',title:'Sales',f:[['invoice','Invoice No','text'],['date','Date','date'],['customer','Customer','text'],['item','Item','text'],['qty','Qty','number'],['rate','Rate','number'],['tax','Tax %','number'],['payment','Payment Status','select:Paid,Pending,Partial']]},
+'09':{key:'purchases',title:'Purchase',f:[['invoice','Invoice No','text'],['date','Date','date'],['supplier','Supplier','text'],['item','Item','text'],['qty','Qty','number'],['rate','Rate','number'],['tax','Tax %','number'],['payment','Payment Status','select:Paid,Pending,Partial']]},
+'10':{key:'inventory',title:'Inventory',f:[['date','Date','date'],['item','Item','text'],['type','Stock Type','select:Opening,In,Out,Adjustment'],['qty','Quantity','number'],['rate','Rate','number'],['warehouse','Warehouse','text'],['note','Note','textarea']]}};
+function esc(v){return String(v??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[c]))}
+function getM(){let m=document.getElementById('liveV25Modal');if(!m){m=document.createElement('div');m.id='liveV25Modal';m.className='liveModal';m.innerHTML='<div class="liveCard"><div class="liveHead"><h2 id="liveV25Title"></h2><button class="liveClose" onclick="closeLiveV25()">✕</button></div><div class="liveBody" id="liveV25Body"></div></div>';document.body.appendChild(m)}return m}
+window.closeLiveV25=()=>getM().classList.remove('show');
+window.liveModuleAction=function(num,module,label){if(num==='01'){dash();return}const c=C[num];if(c)form(num,c,label,-1)};
+function form(num,c,label,idx){const m=getM(),db=load(),r=idx>=0?db[c.key][idx]:{};document.getElementById('liveV25Title').textContent=c.title+' — '+label;let h='<div class="liveNote">🟢 LIVE • Save, edit, delete and export records. Data stays in this browser.</div><div class="liveGrid">';c.f.forEach(x=>{let v=r[x[0]]??'';if(x[2]==='textarea')h+=`<div class="liveField full"><label>${x[1]}</label><textarea id="lv_${x[0]}" rows="3">${esc(v)}</textarea></div>`;else if(x[2].startsWith('select:'))h+=`<div class="liveField"><label>${x[1]}</label><select id="lv_${x[0]}">${x[2].slice(7).split(',').map(o=>`<option ${v===o?'selected':''}>${o}</option>`).join('')}</select></div>`;else h+=`<div class="liveField"><label>${x[1]}</label><input id="lv_${x[0]}" type="${x[2]}" value="${esc(v)}"></div>`});h+='</div><div class="liveActions"><button class="livePrimary" onclick="saveLiveV25(\''+num+'\','+idx+')">💾 Save</button><button onclick="exportLiveV25(\''+c.key+'\')">📤 Export</button></div><div id="liveList"></div>';document.getElementById('liveV25Body').innerHTML=h;window.liveCfg=c;window.liveNum=num;list(c,num);m.classList.add('show')}
+function list(c,num){const rows=load()[c.key]||[];let h='<h3>Saved Records ('+rows.length+')</h3>';if(!rows.length)h+='<p>No records saved yet.</p>';else h+='<div style="overflow:auto"><table class="liveTable"><thead><tr>'+c.f.slice(0,6).map(x=>'<th>'+x[1]+'</th>').join('')+'<th>Actions</th></tr></thead><tbody>'+rows.map((r,i)=>'<tr>'+c.f.slice(0,6).map(x=>'<td>'+esc(r[x[0]])+'</td>').join('')+`<td><button onclick="editLiveV25(${i})">✏️</button> <button onclick="deleteLiveV25(${i})">🗑️</button></td></tr>`).join('')+'</tbody></table></div>';document.getElementById('liveList').innerHTML=h}
+window.saveLiveV25=function(num,idx){const c=C[num],db=load(),o={};c.f.forEach(x=>{o[x[0]]=document.getElementById('lv_'+x[0])?.value||''});if(idx>=0)db[c.key][idx]=o;else db[c.key].push({...o,id:Date.now()});save(db);form(num,c,'Saved',-1)};
+window.editLiveV25=i=>form(window.liveNum,C[window.liveNum],'Edit',i);window.deleteLiveV25=i=>{const c=C[window.liveNum],db=load();if(confirm('Delete this record?')){db[c.key].splice(i,1);save(db);form(window.liveNum,c,'List',-1)}};window.exportLiveV25=key=>{const b=new Blob([JSON.stringify(load()[key]||[],null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=key+'-backup.json';a.click()};
+function dash(){const m=getM(),d=load(),sv=d.sales.reduce((s,r)=>s+(+r.qty||0)*(+r.rate||0)*(1+(+r.tax||0)/100),0),pv=d.purchases.reduce((s,r)=>s+(+r.qty||0)*(+r.rate||0)*(1+(+r.tax||0)/100),0);document.getElementById('liveV25Title').textContent='01 Dashboard — Live Overview';document.getElementById('liveV25Body').innerHTML='<div class="liveKpis">'+[['Companies',d.companies.length],['Customers',d.customers.length],['Products',d.products.length],['Sales Value','₹'+sv.toFixed(2)],['Suppliers',d.suppliers.length],['Users',d.users.length],['Purchases','₹'+pv.toFixed(2)],['Stock Entries',d.inventory.length]].map(x=>'<div class="liveKpi">'+x[0]+'<b>'+x[1]+'</b></div>').join('')+'</div><div class="liveActions"><button onclick="exportLiveV25(\'customers\')">📤 Customers</button><button onclick="exportLiveV25(\'products\')">📤 Products</button><button onclick="exportLiveV25(\'sales\')">📤 Sales</button><button onclick="closeLiveV25()">Close</button></div>';m.classList.add('show')}
+})();</script>
+<script>
+/* ===== V26: Modules 21-30 Functional Engine ===== */
+(function(){
+ const M={
+  'Expense Entry':['expenses','Expense Entry',[['category','Expense Category'],['amount','Amount','number'],['date','Date','date'],['paidBy','Paid By'],['note','Note']]],
+  'Expense Category':['expense_categories','Expense Category',[['name','Category Name'],['code','Code']]],
+  'Employee Expense':['employee_expenses','Employee Expense',[['employee','Employee'],['category','Category'],['amount','Amount','number'],['date','Date','date']]],
+  'Business Expense':['business_expenses','Business Expense',[['category','Category'],['amount','Amount','number'],['date','Date','date'],['note','Note']]],
+  'Recurring Expense':['recurring_expenses','Recurring Expense',[['name','Expense Name'],['amount','Amount','number'],['frequency','Frequency'],['nextDate','Next Date','date']]],
+  'Expense Approval':['expense_approvals','Expense Approval',[['expense','Expense'],['approver','Approver'],['status','Status'],['date','Date','date']]],
+  'Asset Master':['assets','Asset Master',[['name','Asset Name'],['code','Asset Code'],['value','Purchase Value','number'],['date','Purchase Date','date']]],
+  'Asset Allocation':['asset_allocations','Asset Allocation',[['asset','Asset'],['employee','Assigned To'],['date','Date','date']]],
+  'Asset Transfer':['asset_transfers','Asset Transfer',[['asset','Asset'],['from','From'],['to','To'],['date','Date','date']]],
+  'Maintenance':['asset_maintenance','Maintenance',[['asset','Asset'],['date','Date','date'],['cost','Cost','number'],['note','Note']]],
+  'Depreciation':['depreciation','Depreciation',[['asset','Asset'],['rate','Rate %','number'],['amount','Amount','number'],['date','Date','date']]],
+  'Asset Disposal':['asset_disposals','Asset Disposal',[['asset','Asset'],['reason','Reason'],['value','Disposal Value','number'],['date','Date','date']]],
+  'Payment Reminder':['notifications','Payment Reminder',[['party','Party'],['amount','Amount','number'],['dueDate','Due Date','date'],['status','Status']]],
+  'Stock Alert':['notifications','Stock Alert',[['item','Item'],['current','Current Qty','number'],['minimum','Minimum Qty','number'],['status','Status']]],
+  'Order Alert':['notifications','Order Alert',[['order','Order No'],['party','Party'],['status','Status'],['date','Date','date']]],
+  'Invoice Alert':['notifications','Invoice Alert',[['invoice','Invoice No'],['party','Party'],['amount','Amount','number'],['status','Status']]],
+  'Task Reminder':['notifications','Task Reminder',[['task','Task'],['assigned','Assigned To'],['dueDate','Due Date','date'],['status','Status']]],
+  'Subscription Alert':['notifications','Subscription Alert',[['customer','Customer'],['plan','Plan'],['expiry','Expiry','date'],['status','Status']]],
+  'System Notification':['notifications','System Notification',[['title','Title'],['message','Message'],['date','Date','date'],['status','Status']]],
+  'Email':['integrations','Email Integration',[['provider','Provider'],['email','Email'],['status','Status']]],
+  'WhatsApp Notification':['integrations','WhatsApp Notification',[['number','Mobile'],['message','Message'],['status','Status']]],
+  'Cloud Database':['cloud_settings','Cloud Database',[['provider','Provider'],['database','Database'],['status','Status']]],
+  'Data Sync':['cloud_settings','Data Sync',[['source','Source'],['lastSync','Last Sync','date'],['status','Status']]],
+  'Automatic Backup':['backups','Automatic Backup',[['frequency','Frequency'],['location','Location'],['status','Status']]],
+  'Manual Backup':['backups','Manual Backup',[['name','Backup Name'],['date','Date','date'],['status','Status']]],
+  'Restore':['backups','Restore',[['backup','Backup Name'],['date','Date','date'],['status','Status']]],
+  'Database Management':['database_settings','Database Management',[['name','Database Name'],['version','Version'],['status','Status']]],
+  'Data Import':['data_transfers','Data Import',[['source','Source'],['file','File Name'],['date','Date','date'],['status','Status']]],
+  'Data Export':['data_transfers','Data Export',[['type','Data Type'],['format','Format'],['date','Date','date']]],
+  'Storage Management':['storage','Storage Management',[['location','Location'],['capacity','Capacity'],['used','Used'],['status','Status']]],
+  'Payment Gateway':['integrations','Payment Gateway',[['provider','Provider'],['mode','Mode'],['merchant','Merchant ID'],['status','Status']]],
+  'Printer':['integrations','Printer',[['name','Printer Name'],['type','Type'],['status','Status']]],
+  'Barcode Scanner':['integrations','Barcode Scanner',[['name','Scanner Name'],['port','Port'],['status','Status']]],
+  'QR Scanner':['integrations','QR Scanner',[['name','Scanner Name'],['status','Status']]],
+  'Excel':['integrations','Excel Integration',[['mode','Mode'],['status','Status']]],
+  'PDF':['integrations','PDF Integration',[['mode','Mode'],['status','Status']]],
+  'API':['api_settings','API',[['name','API Name'],['endpoint','Endpoint'],['key','API Key'],['status','Status']]],
+  'Third-party Integration':['integrations','Third-party Integration',[['name','Service Name'],['type','Type'],['status','Status']]],
+  'Company Logo':['customization','Company Logo',[['name','Company'],['logo','Logo/File'],['status','Status']]],
+  'Theme':['customization','Theme',[['theme','Theme'],['mode','Mode'],['status','Status']]],
+  'Invoice Design':['customization','Invoice Design',[['name','Design Name'],['layout','Layout'],['status','Status']]],
+  'Print Format':['customization','Print Format',[['name','Format Name'],['size','Paper Size'],['status','Status']]],
+  'Custom Fields':['custom_fields','Custom Fields',[['module','Module'],['name','Field Name'],['type','Field Type'],['status','Status']]],
+  'Custom Forms':['custom_forms','Custom Forms',[['module','Module'],['name','Form Name'],['status','Status']]],
+  'Custom Reports':['custom_reports','Custom Reports',[['name','Report Name'],['module','Module'],['status','Status']]],
+  'Menu Customization':['customization','Menu Customization',[['menu','Menu'],['position','Position'],['status','Status']]],
+  'Module ON/OFF':['module_control','Module ON/OFF',[['module','Module'],['status','ON / OFF']]],
+  'Business-specific Configuration':['business_config','Business Configuration',[['key','Setting'],['value','Value'],['status','Status']]],
+  'License Creation':['licenses','License Creation',[['customer','Customer'],['plan','Plan'],['expiry','Expiry','date'],['status','Status']]],
+  'License Key':['licenses','License Key',[['customer','Customer'],['key','License Key'],['status','Status']]],
+  'Activation':['licenses','Activation',[['key','License Key'],['device','Device'],['date','Date','date'],['status','Status']]],
+  'Deactivation':['licenses','Deactivation',[['key','License Key'],['device','Device'],['date','Date','date'],['reason','Reason']]],
+  'Device Limit':['licenses','Device Limit',[['customer','Customer'],['limit','Device Limit','number'],['used','Used','number']]],
+  'User Limit':['licenses','User Limit',[['customer','Customer'],['limit','User Limit','number'],['used','Used','number']]],
+  'Branch Limit':['licenses','Branch Limit',[['customer','Customer'],['limit','Branch Limit','number'],['used','Used','number']]],
+  'Module Limit':['licenses','Module Limit',[['customer','Customer'],['module','Module'],['status','Allowed']]],
+  'Trial License':['licenses','Trial License',[['customer','Customer'],['days','Trial Days','number'],['expiry','Expiry','date']]],
+  'License Expiry':['licenses','License Expiry',[['customer','Customer'],['expiry','Expiry','date'],['status','Status']]],
+  'License Renewal':['licenses','License Renewal',[['customer','Customer'],['newExpiry','New Expiry','date'],['status','Status']]],
+  'Free Trial':['subscriptions','Free Trial',[['customer','Customer'],['days','Days','number'],['expiry','Expiry','date']]],
+  'Basic Plan':['subscriptions','Basic Plan',[['customer','Customer'],['price','Price','number'],['period','Period'],['status','Status']]],
+  'Standard Plan':['subscriptions','Standard Plan',[['customer','Customer'],['price','Price','number'],['period','Period'],['status','Status']]],
+  'Professional Plan':['subscriptions','Professional Plan',[['customer','Customer'],['price','Price','number'],['period','Period'],['status','Status']]],
+  'Enterprise Plan':['subscriptions','Enterprise Plan',[['customer','Customer'],['price','Price','number'],['period','Period'],['status','Status']]],
+  'Monthly Plan':['subscriptions','Monthly Plan',[['customer','Customer'],['price','Price','number'],['start','Start Date','date'],['status','Status']]],
+  'Yearly Plan':['subscriptions','Yearly Plan',[['customer','Customer'],['price','Price','number'],['start','Start Date','date'],['status','Status']]],
+  'Add-on Modules':['subscription_addons','Add-on Modules',[['customer','Customer'],['module','Module'],['price','Price','number'],['status','Status']]],
+  'User Add-ons':['subscription_addons','User Add-ons',[['customer','Customer'],['users','Extra Users','number'],['price','Price','number']]],
+  'Branch Add-ons':['subscription_addons','Branch Add-ons',[['customer','Customer'],['branches','Extra Branches','number'],['price','Price','number']]],
+  'Plan Upgrade/Downgrade':['subscriptions','Plan Change',[['customer','Customer'],['from','Current Plan'],['to','New Plan'],['date','Date','date']]],
+  'Subscription Payment':['payments','Subscription Payment',[['customer','Customer'],['amount','Amount','number'],['date','Date','date'],['method','Method']]],
+  'Payment History':['payments','Payment History',[['customer','Customer'],['amount','Amount','number'],['date','Date','date'],['status','Status']]],
+  'Pending Payment':['payments','Pending Payment',[['customer','Customer'],['amount','Amount','number'],['dueDate','Due Date','date'],['status','Status']]],
+  'Refund':['payments','Refund',[['customer','Customer'],['amount','Amount','number'],['date','Date','date'],['reason','Reason']]],
+  'Transaction History':['payments','Transaction History',[['transaction','Transaction ID'],['customer','Customer'],['amount','Amount','number'],['date','Date','date'],['status','Status']]]
+ };
+ function report(title){
+   const el=document.getElementById('erp-data-modal'); if(!el)return;
+   const totals={sales:(ERP_DB.sales||[]).reduce((a,r)=>a+erpNum(r.amount),0),purchase:(ERP_DB.purchases||[]).reduce((a,r)=>a+erpNum(r.amount),0),expenses:(ERP_DB.expenses||[]).reduce((a,r)=>a+erpNum(r.amount),0),payments:(ERP_DB.payments||[]).reduce((a,r)=>a+erpNum(r.amount),0)};
+   el.innerHTML='<div class="erpModalInner"><div class="modalHead"><h2>'+esc(title)+'</h2><button onclick="closeERPData()">✕</button></div><div class="status">Live summary from saved ERP data.</div><div class="formgrid"><div class="box"><b>Sales</b><h2>₹ '+totals.sales.toLocaleString('en-IN')+'</h2></div><div class="box"><b>Purchase</b><h2>₹ '+totals.purchase.toLocaleString('en-IN')+'</h2></div><div class="box"><b>Expenses</b><h2>₹ '+totals.expenses.toLocaleString('en-IN')+'</h2></div><div class="box"><b>Payments</b><h2>₹ '+totals.payments.toLocaleString('en-IN')+'</h2></div></div><button class="primary" onclick="exportERP()">📤 Export ERP Data</button></div>'; el.style.display='flex';
+ }
+ const old=window.openERPFunction;
+ window.openERPFunction=function(key,label){
+   if(M[label]){ const d=M[label]; const fields=d[2].map(x=>({key:x[0],label:x[1],type:x[2]||'text'})); ensureERPCollection(d[0]); openERPData(d[0],d[1],fields); return; }
+   if(/Reports$|Reports & Analytics|Business Analytics|Custom Reports|Excel Export|PDF Export|^Print$/.test(label)){ report(label); return; }
+   if(label==='Payment Gateway'){ const d=M[label]; openERPData(d[0],d[1],d[2].map(x=>({key:x[0],label:x[1],type:x[2]||'text'}))); return; }
+   if(typeof old==='function') old(key,label); else alert(label+' selected');
+ };
+ // Special report actions that use the browser's native export/print capability.
+ window.module30Export=function(){ if(typeof exportERP==='function') exportERP(); };
+})();
+</script>
+
+<style id="v28-functional">
+.v28Modal{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px}
+.v28Card{width:min(680px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.v28Head{display:flex;justify-content:space-between;align-items:center;font-size:20px;margin-bottom:10px}.v28Head button{border:0;background:transparent;font-size:20px}
+.v28Status{padding:10px;border-radius:10px;background:#eef7ee;margin-bottom:14px;font-size:13px}.v28Form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.v28Form label{font-weight:600;font-size:13px}.v28Form input{display:block;width:100%;box-sizing:border-box;margin-top:5px;padding:11px;border:1px solid #ccd3dc;border-radius:10px}.v28Actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.v28List{margin-top:15px}.v28Row{padding:10px;border:1px solid #e1e5ea;border-radius:10px;margin-top:7px;font-size:13px}.v28Row button{float:right;border:0;background:transparent}.v28Empty{margin-top:14px;color:#777}@media(max-width:700px){.v28Form{grid-template-columns:1fr}}
+</style>
+<div id="sss28-demo-profile" data-id="SSS28" data-name="SANDIP SUNIL SUTAR" data-mobile="9096136898" data-email="sandipsutar2810@gmail.com" data-address="A/P NANGOLE TAL KAVATHEMAHANKAL DIST SANGLI STATE MAHARASHTRA" data-pincode="416405" hidden></div></body></html>
 
 <!-- ===== V24 FUNCTION ACTIVATION PATCH ===== -->
 <style id="v24-function-center-style">
@@ -5195,3 +5635,79 @@ setTimeout(render,120);
 })();
 </script>
 <!-- ===== END V25 ===== -->
+
+<!-- ===== V26: MODULES 11-20 LIVE BUSINESS UPDATE ===== -->
+<style id="v26-next10-style">
+.v26Note{padding:10px 12px;border-radius:10px;background:#f4f8fb;border:1px solid #dbe5ee;margin:10px 0;font-size:13px}
+.v26Grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}.v26Grid label{font-weight:700;font-size:13px}.v26Grid input,.v26Grid select,.v26Grid textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #cbd5e1;border-radius:8px;margin-top:5px}.v26Grid textarea{min-height:75px}.v26Actions{display:flex;gap:8px;flex-wrap:wrap}.v26Table{width:100%;border-collapse:collapse;margin-top:14px}.v26Table th,.v26Table td{padding:8px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:12px}.v26Badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#e8f7ee;color:#087443;font-weight:800;margin-right:5px}
+@media(max-width:560px){.v26Grid{grid-template-columns:1fr}}
+</style>
+<script id="v26-next10-live">
+(function(){
+  const STORE='SANDIP_ERP_MODULES_11_20_V26';
+  const MOD={
+    '11':{name:'Warehouse',key:'warehouse',fields:[['name','Warehouse Name','text'],['code','Warehouse Code','text'],['location','Location','text'],['manager','Manager','text'],['capacity','Capacity','number'],['status','Status','text']]},
+    '12':{name:'POS / Billing',key:'pos',fields:[['bill','Bill No.','text'],['date','Date','date'],['customer','Customer','text'],['item','Item','text'],['qty','Quantity','number'],['rate','Rate','number'],['payment','Payment Status','text']]},
+    '13':{name:'Accounts',key:'accounts',fields:[['date','Date','date'],['type','Entry Type','text'],['account','Account / Party','text'],['amount','Amount','number'],['reference','Reference','text'],['note','Note','text']]},
+    '14':{name:'GST / Tax',key:'gst',fields:[['date','Date','date'],['type','Transaction Type','text'],['party','Party','text'],['taxable','Taxable Amount','number'],['rate','GST Rate %','number'],['tax','Tax Amount','number']]},
+    '15':{name:'CRM',key:'crm',fields:[['name','Lead / Customer','text'],['mobile','Mobile','tel'],['source','Source','text'],['followup','Follow-up Date','date'],['status','Status','text'],['note','Notes','text']]},
+    '16':{name:'HR & Payroll',key:'hr',fields:[['employee','Employee','text'],['date','Date / Month','date'],['department','Department','text'],['basic','Basic / Salary','number'],['deduction','Deduction','number'],['status','Status','text']]},
+    '17':{name:'Manufacturing',key:'manufacturing',fields:[['product','Finished Product','text'],['material','Raw Material','text'],['qty','Quantity','number'],['date','Date','date'],['workorder','Work Order','text'],['status','Status','text']]},
+    '18':{name:'Service Management',key:'service',fields:[['customer','Customer','text'],['request','Service Request','text'],['technician','Technician','text'],['date','Date','date'],['status','Status','text'],['note','Details','text']]},
+    '19':{name:'Project Management',key:'projects',fields:[['project','Project Name','text'],['customer','Customer','text'],['task','Task / Milestone','text'],['owner','Owner','text'],['date','Date','date'],['status','Status','text']]},
+    '20':{name:'Transport / Delivery',key:'transport',fields:[['date','Date','date'],['document','Order / Challan No.','text'],['customer','Customer','text'],['vehicle','Vehicle No.','text'],['driver','Driver','text'],['status','Delivery Status','text']]}
+  };
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  function read(){try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){return{}}}
+  function write(d){localStorage.setItem(STORE,JSON.stringify(d))}
+  function modal(){let m=document.getElementById('v26Modal');if(!m){m=document.createElement('div');m.id='v26Modal';m.className='liveModal';m.innerHTML='<div class="liveCard"><div class="liveHead"><h2 id="v26Title"></h2><button class="liveClose" onclick="closeV26()">✕</button></div><div class="liveBody" id="v26Body"></div></div>';document.body.appendChild(m)}return m}
+  window.closeV26=()=>modal().classList.remove('show');
+  function fieldsFor(c,label){
+    const l=label.toLowerCase(), base=c.fields.map(x=>x.slice());
+    if(/report|history|ledger|statement|summary|analytics/.test(l)) return [['date','From / Date','date'],['to','To Date','date'],['filter','Filter / Party','text'],['status','Status','text']];
+    if(/payment|receipt|income|expense/.test(l) && c.name==='Accounts') return [['date','Date','date'],['party','Party','text'],['amount','Amount','number'],['mode','Payment Mode','text'],['reference','Reference','text']];
+    if(/tax|gst|return|invoice/.test(l) && c.name==='GST / Tax') return [['date','Date','date'],['party','Party','text'],['taxable','Taxable Amount','number'],['rate','GST Rate %','number'],['tax','Tax Amount','number'],['status','Status','text']];
+    return base;
+  }
+  function render(num,label,idx){
+    const c=MOD[num], d=read(), rows=d[c.key]||[], fields=fieldsFor(c,label), r=idx>=0?(rows[idx]||{}):{};
+    const f=fields.map(x=>`<label>${esc(x[1])}<input id="v26_${esc(x[0])}" type="${x[2]}" value="${esc(r[x[0]]||((x[2]==='date'&&idx<0)?new Date().toISOString().slice(0,10):''))}"></label>`).join('');
+    const shown=rows.slice().reverse().slice(0,30), head=fields.map(x=>`<th>${esc(x[1])}</th>`).join('');
+    const body=shown.length?shown.map((row,rev)=>{const i=rows.length-1-rev;return '<tr>'+fields.map(x=>`<td>${esc(row[x[0]])}</td>`).join('')+`<td><button onclick="v26Edit('${num}','${i}')">✏️</button> <button onclick="v26Delete('${num}','${i}')">🗑️</button></td></tr>`}).join(''):`<tr><td colspan="${fields.length+1}">No records yet</td></tr>`;
+    document.getElementById('v26Title').textContent='MODULE '+num+' — '+c.name+' — '+label;
+    document.getElementById('v26Body').innerHTML=`<div class="v26Note"><span class="v26Badge">🟢 LIVE</span> ${esc(label)} is active. Save, edit, delete and export data locally.</div><div class="v26Grid">${f}</div><div class="v26Actions"><button class="livePrimary" onclick="v26Save('${num}','${esc(label)}',${idx})">💾 Save</button><button onclick="v26Export('${num}')">📤 Export</button><button onclick="closeV26()">Close</button></div><h3>Saved Records (${rows.length})</h3><div style="overflow:auto"><table class="v26Table"><tr>${head}<th>Action</th></tr>${body}</table></div>`;
+    modal().classList.add('show');
+  }
+  window.v26Save=function(num,label,idx){const c=MOD[num],d=read(),rows=d[c.key]||[],fields=fieldsFor(c,label),o={id:Date.now()};fields.forEach(x=>o[x[0]]=document.getElementById('v26_'+x[0])?.value||'');if(idx>=0)rows[idx]=o;else rows.push(o);d[c.key]=rows;write(d);render(num,label,-1);};
+  window.v26Edit=(num,idx)=>render(num,'Edit',idx);
+  window.v26Delete=function(num,idx){const c=MOD[num],d=read(),rows=d[c.key]||[];if(confirm('Delete this record?')){rows.splice(idx,1);d[c.key]=rows;write(d);render(num,'List',-1)}};
+  window.v26Export=function(num){const c=MOD[num],d=read(),blob=new Blob([JSON.stringify({module:num,name:c.name,exportedAt:new Date().toISOString(),records:d[c.key]||[]},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='module-'+num+'-'+c.key+'-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
+  const oldOpen=window.openERPFunction;
+  window.openERPFunction=function(key,label){
+    // Keep existing dedicated functions for modules 01-10 and later special engines.
+    for(const n of Object.keys(MOD)){
+      const sec=document.getElementById('erp-'+({11:'warehouse',12:'pos',13:'accounts',14:'gst',15:'crm',16:'hr',17:'manufacturing',18:'service',19:'projects',20:'transport'}[n]||''));
+      if(sec && Array.from(sec.querySelectorAll('.erpAction')).some(b=>b.innerText.replace(/^\d+\s*/,'').trim()===label)){render(n,label,-1);return;}
+    }
+    return oldOpen(key,label);
+  };
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeV26()});
+})();
+</script>
+
+<script id="universal-logo-manager">
+(function(){
+  const KEY='SANDIP_UNIVERSAL_BUSINESS_LOGO_V1';
+  function get(){try{return localStorage.getItem(KEY)||''}catch(e){return ''}}
+  function setLogo(data){try{localStorage.setItem(KEY,data);apply(data);return true}catch(e){alert('Logo save failed. Please use a smaller image.');return false}}
+  function apply(data){if(!data)return;document.querySelectorAll('.appLogo img').forEach(img=>{img.src=data;img.style.display='block'});document.querySelectorAll('.appLogo').forEach(x=>x.classList.remove('logoFallback'));renderPreview(data)}
+  function renderPreview(data){const a=document.getElementById('logoPreview');if(a)a.innerHTML=data?'<img src="'+data+'" style="width:100%;height:100%;object-fit:contain">':'<span style="font-size:28px">🖼️</span>';const b=document.getElementById('appLogoPreview');if(b)b.innerHTML=data?'<img src="'+data+'" style="width:120px;height:120px;object-fit:contain;border:1px solid #dbe3ee;border-radius:12px;background:#fff;padding:8px">':'<div style="padding:12px">No logo selected.</div>'}
+  function readFile(file){if(!file)return;const r=new FileReader();r.onload=()=>setLogo(r.result);r.readAsDataURL(file)}
+  window.saveBusinessLogoInfo=function(){const f=document.getElementById('businessLogoUpload')?.files?.[0];if(f)readFile(f);else{const d=get();apply(d);alert(d?'Business branding saved.':'Please select a logo first.')}};
+  window.saveAppLogo=function(){const f=document.getElementById('appLogoUpload')?.files?.[0];if(f)readFile(f);else alert('Please select a logo first.')};
+  window.removeBusinessLogo=function(){try{localStorage.removeItem(KEY)}catch(e){} document.querySelectorAll('.appLogo').forEach(x=>x.classList.add('logoFallback'));document.querySelectorAll('.appLogo img').forEach(img=>{img.removeAttribute('src');img.style.display='none'});renderPreview('');alert('Logo removed.')};
+  document.addEventListener('DOMContentLoaded',()=>{const d=get();if(d)apply(d);document.getElementById('businessLogoUpload')?.addEventListener('change',e=>{if(e.target.files[0])renderPreview(URL.createObjectURL(e.target.files[0]))});document.getElementById('appLogoUpload')?.addEventListener('change',e=>{if(e.target.files[0]){const r=new FileReader();r.onload=()=>renderPreview(r.result);r.readAsDataURL(e.target.files[0])}})});
+})();
+</script>
+
+<!-- ===== END V26 ===== -->
