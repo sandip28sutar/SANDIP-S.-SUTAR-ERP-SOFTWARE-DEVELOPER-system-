@@ -458,61 +458,345 @@ window.SSS28_DEMO_PROFILE = SSS28_DEMO_PROFILE;
 <style>
 .quickERPDeveloper{grid-column:1/-1;border:1px solid #e5e7eb;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.06)}
 .quickERPMain{width:100%;display:flex;align-items:center;justify-content:space-between;border:0;background:#fff;padding:16px 18px;cursor:pointer;font-size:16px;text-align:left}
-.quickERPMain span,.quickERPLevel>button span{transition:.2s;color:#777}.quickERPDeveloper.closed .quickERPSub{display:none}.quickERPDeveloper.closed .quickERPMain span{transform:rotate(-90deg)}
+.quickERPMain span,.quickERPLevel>button span{transition:.2s;color:#777}.quickERPDeveloper.closed .quickERPSub{display:none !important}.quickERPDeveloper.closed .quickERPMain span{transform:rotate(-90deg)}
 .quickERPSub{border-top:1px solid #eee;background:#fafafa;padding:8px}
 .quickERPLevel{border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin:6px 0;background:#fff}
 .quickERPLevel>button{width:100%;display:flex;align-items:center;justify-content:space-between;border:0;background:#fff;padding:13px 15px;text-align:left;cursor:pointer}
-.quickERPLevel.closed .quickERPItems{display:none}.quickERPLevel.closed>button span{transform:rotate(-90deg)}
+.quickERPLevel.closed .quickERPItems{display:none !important}.quickERPLevel.closed>button span{transform:rotate(-90deg)}
 .quickERPItems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid #eee}
 .quickERPItems button{border:0;border-bottom:1px solid #eee;border-right:1px solid #eee;background:#fafafa;text-align:left;padding:11px 14px;cursor:pointer}
 .quickERPItems button:hover{background:#f1f5f9}
 @media(max-width:700px){.quickERPItems{grid-template-columns:1fr}.quickERPItems button{min-height:44px}}
 </style>
-<style id="premium-dashboard-v3">
-#dashboard .hero{border-radius:24px!important;box-shadow:0 12px 35px rgba(15,23,42,.08)!important}
-#dashboard .grid .card{border-radius:18px!important;box-shadow:0 10px 30px rgba(15,23,42,.08)!important;transition:transform .18s,box-shadow .18s!important}
-#dashboard .grid .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(15,23,42,.12)!important}
-#dashboard .quickERPGrid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px!important}
-#dashboard .quickERPGrid>.action,#dashboard .quickERPDeveloper{border-radius:18px!important;box-shadow:0 10px 28px rgba(15,23,42,.08)!important;border:1px solid rgba(148,163,184,.18)!important;background:linear-gradient(145deg,#fff,#f8fafc)!important;transition:transform .18s,box-shadow .18s!important}
-#dashboard .quickERPGrid>.action:hover,#dashboard .quickERPDeveloper:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(15,23,42,.13)!important}
-#dashboard .quickERPDeveloper{grid-column:1/-1;overflow:hidden}
-#dashboard .quickERPMain{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border:0;background:transparent;font-size:16px;cursor:pointer}
-#dashboard .quickERPSub{padding:0 16px 16px}
-#dashboard .quickERPLevel{margin-top:10px;border-radius:14px;background:rgba(248,250,252,.9);border:1px solid rgba(148,163,184,.16);overflow:hidden}
-#dashboard .quickERPLevel>button{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:0;background:transparent;cursor:pointer;font-size:14px;text-align:left}
-#dashboard .quickERPItems{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;padding:0 12px 12px}
-#dashboard .quickERPItems button{padding:10px 12px;border:1px solid rgba(148,163,184,.14);border-radius:10px;background:#fff;text-align:left;cursor:pointer}
-@media(max-width:700px){#dashboard .quickERPGrid{grid-template-columns:1fr 1fr!important}#dashboard .quickERPDeveloper{grid-column:1/-1!important}#dashboard .quickERPItems{grid-template-columns:1fr 1fr}}
+<style id="touch-collapse-command">
+/* TOUCH-COLLAPSE COMMAND: nested ERP features stay hidden until the parent is touched. */
+.quickERPSub,.quickERPItems{transition:none;}
+.quickERPDeveloper.closed .quickERPSub,.quickERPLevel.closed .quickERPItems{display:none !important;}
 </style>
 
-<style id="touch-expand-v2">
-.touch-tree{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-.touch-item{border:1px solid #e5e7eb;border-radius:14px;background:#fff;overflow:hidden}
-.touch-head{width:100%;border:0;background:transparent;padding:15px 16px;display:flex;align-items:center;gap:10px;text-align:left;font-weight:800;cursor:pointer}
-.touch-head .arrow{margin-left:auto;transition:transform .18s ease;opacity:.65}
-.touch-item.open>.touch-head .arrow{transform:rotate(90deg)}
-.touch-body{display:none;padding:0 14px 14px 42px}
-.touch-item.open>.touch-body{display:block}
-.touch-sub{padding:11px 12px;border:1px solid #eef2f7;border-radius:10px;margin-top:7px;background:#f8fafc;cursor:pointer}
-.touch-sub .touch-subbody{display:none;margin-top:8px;padding-left:12px}
-.touch-sub.open .touch-subbody{display:block}
-.touch-sub.open .arrow2{transform:rotate(90deg)}
-.arrow2{float:right;opacity:.6;transition:.18s}
+<style id="organized-erp-nav">
+.navGroup{margin:5px 8px;border-radius:12px;overflow:hidden}.navGroupHead{width:100%;display:flex!important;justify-content:space-between!important;align-items:center!important;background:rgba(255,255,255,.05)!important;border:0!important;font-weight:800!important}.navGroupBody{display:none;padding:3px 0}.navGroup.open .navGroupBody{display:block}.navGroup.open .navGroupHead span{transform:rotate(90deg);display:inline-block}.navGroupBody .sub{width:100%;text-align:left;margin:2px 0;padding-left:28px!important;font-size:12px!important}
 </style>
-<script id="touch-expand-v2-js">
+<script>function toggleNavGroup(btn){btn.closest('.navGroup').classList.toggle('open')}</script>
+
+<style id="universal-premium-navigation">
+.upn-hidden{display:none!important}
+.upn-dashboard-clean .upn-quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.upn-card{border:1px solid #e5e7eb;border-radius:18px;background:#fff;box-shadow:0 8px 28px rgba(15,23,42,.07);overflow:hidden}
+.upn-card>button{width:100%;border:0;background:transparent;padding:18px;text-align:left;display:flex;align-items:center;gap:12px;font-weight:800;font-size:15px;cursor:pointer}
+.upn-card>button .upn-chevron{margin-left:auto;transition:transform .18s}
+.upn-card.open>button .upn-chevron{transform:rotate(90deg)}
+.upn-panel{display:none;padding:0 14px 14px}
+.upn-card.open>.upn-panel{display:block}
+.upn-row{border:1px solid #edf1f5;border-radius:12px;margin-top:8px;background:#f8fafc;overflow:hidden}
+.upn-row>button{width:100%;border:0;background:transparent;padding:13px 14px;text-align:left;display:flex;align-items:center;gap:9px;font-weight:700;cursor:pointer}
+.upn-row>button .upn-chevron{margin-left:auto;transition:transform .18s}
+.upn-row.open>button .upn-chevron{transform:rotate(90deg)}
+.upn-subpanel{display:none;padding:0 12px 12px}
+.upn-row.open>.upn-subpanel{display:block}
+.upn-leaf{padding:9px 11px;margin-top:6px;border-radius:9px;background:#fff;border:1px solid #edf1f5;font-size:13px}
+.upn-note{font-size:12px;opacity:.65;margin:2px 0 12px}
+</style>
+<script id="universal-premium-navigation-js">
 (function(){
-  window.toggleTouchItem=function(el){
-    const item=el.closest('.touch-item');
-    item.classList.toggle('open');
+  window.upnToggle=function(el){
+    var card=el.closest('.upn-card');
+    document.querySelectorAll('.upn-card.open').forEach(function(x){
+      if(x!==card) x.classList.remove('open');
+    });
+    card.classList.toggle('open');
   };
-  window.toggleTouchSub=function(el){
-    el.classList.toggle('open');
+  window.upnToggleRow=function(el){
+    var row=el.closest('.upn-row');
+    var panel=row.parentElement;
+    panel.querySelectorAll(':scope > .upn-row.open').forEach(function(x){
+      if(x!==row) x.classList.remove('open');
+    });
+    row.classList.toggle('open');
   };
 })();
 </script>
 
+<style id="project-vault-page-style">#projectFileVault{width:100%;box-sizing:border-box;padding:0!important;background:transparent!important;border:0!important}#projectFileVault>.box{margin:0}</style>
+
+<style id="main-screen-clean-final">
+/* FINAL: dashboard exposes only ERP SOFTWARE DEVELOPER as the main tool. */
+body.dashboard-clean-final .direct-dev-tool,
+body.dashboard-clean-final .dashboard-direct-tool,
+body.dashboard-clean-final [data-direct-tool="true"]{display:none!important}
+.main-only-erp{display:block!important}
+.main-only-erp .erp-child{display:none!important}
+</style>
+<script id="main-screen-clean-final-js">
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.classList.add('dashboard-clean-final');
+});
+</script>
+
+
+<style id="smart-search-final">
+.smart-search-wrap{position:relative;max-width:680px;margin:0 auto 18px}
+.smart-search{width:100%;box-sizing:border-box;padding:14px 46px 14px 44px;border:1px solid #e5e7eb;border-radius:16px;background:#fff;font-size:15px;outline:none;box-shadow:0 8px 24px rgba(15,23,42,.07)}
+.smart-search:focus{border-color:#94a3b8;box-shadow:0 10px 30px rgba(15,23,42,.10)}
+.smart-search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:19px}
+.smart-search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);border:0;background:transparent;font-size:18px;cursor:pointer;opacity:.55}
+.smart-results{display:none;position:absolute;z-index:9999;left:0;right:0;top:58px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 18px 40px rgba(15,23,42,.15);max-height:360px;overflow:auto;padding:7px}
+.smart-result{padding:11px 13px;border-radius:10px;cursor:pointer}
+.smart-result:hover{background:#f8fafc}
+.smart-result-title{font-weight:800;font-size:14px}
+.smart-result-path{font-size:11px;opacity:.6;margin-top:4px}
+.smart-empty{padding:16px;text-align:center;opacity:.6;font-size:13px}
+</style>
+<script id="smart-search-final-js">
+(function(){
+  const items = [
+    ["Create New ERP","ERP SOFTWARE DEVELOPER → ERP PROJECT CREATION → Create New ERP"],
+    ["Business Setup & Branding","ERP SOFTWARE DEVELOPER → ERP PROJECT CREATION → Business Setup & Branding"],
+    ["Project File Vault","ERP SOFTWARE DEVELOPER → ERP PROJECT CREATION → Project File Vault"],
+    ["Dashboard","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Dashboard"],
+    ["Company","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Masters → Company"],
+    ["Customer","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Masters → Customer"],
+    ["Supplier","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Masters → Supplier"],
+    ["Product / Item","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Masters → Product / Item"],
+    ["Sales","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Sales"],
+    ["Invoice / POS","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Sales → Invoice / POS"],
+    ["Sales Return","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Sales → Sales Return"],
+    ["Purchase","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Purchase"],
+    ["Purchase Bill","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Purchase → Purchase Bill"],
+    ["Inventory","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Inventory"],
+    ["Batch & Expiry","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Inventory → Batch & Expiry"],
+    ["Barcode","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Inventory → Barcode"],
+    ["Accounts","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Accounts & GST"],
+    ["GST / Tax","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → Accounts & GST → GST / Tax"],
+    ["CRM","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → CRM & HRMS → CRM"],
+    ["HRMS","ERP SOFTWARE DEVELOPER → MAIN ERP SOFTWARE → CRM & HRMS → HRMS"],
+    ["Workflow & Approval","ERP SOFTWARE DEVELOPER → ADVANCED ERP FEATURES → Workflow & Approval"],
+    ["Report Builder","ERP SOFTWARE DEVELOPER → ADVANCED ERP FEATURES → Reports & Analytics → Report Builder"],
+    ["Users & Permissions","ERP SOFTWARE DEVELOPER → ADVANCED ERP FEATURES → Users & Security"],
+    ["Firebase / Cloud","ERP SOFTWARE DEVELOPER → ADVANCED ERP FEATURES → Cloud / Firebase"],
+    ["Backup & Restore","ERP SOFTWARE DEVELOPER → ADVANCED ERP FEATURES → Backup & Restore"],
+    ["Medical Store ERP","ERP SOFTWARE DEVELOPER → INDUSTRY ERP TEMPLATES → Medical Store"],
+    ["School ERP","ERP SOFTWARE DEVELOPER → INDUSTRY ERP TEMPLATES → School / College"],
+    ["Banking / Finance ERP","ERP SOFTWARE DEVELOPER → INDUSTRY ERP TEMPLATES → Banking / Finance"],
+    ["Hospital / Clinic ERP","ERP SOFTWARE DEVELOPER → INDUSTRY ERP TEMPLATES → Hospital / Clinic"],
+    ["Manufacturing ERP","ERP SOFTWARE DEVELOPER → INDUSTRY ERP TEMPLATES → Manufacturing"],
+    ["Web ERP","ERP SOFTWARE DEVELOPER → ERP BUILD / APP / EXE → Web ERP"],
+    ["Android APK","ERP SOFTWARE DEVELOPER → ERP BUILD / APP / EXE → Android APK"],
+    ["Windows EXE","ERP SOFTWARE DEVELOPER → ERP BUILD / APP / EXE → Windows EXE"],
+    ["License Management","ERP SOFTWARE DEVELOPER → ERP BUILD / APP / EXE → License"],
+    ["Auto Update","ERP SOFTWARE DEVELOPER → ERP BUILD / APP / EXE → Version / Updates"]
+  ];
+  window.smartSearchInit=function(){
+    const input=document.getElementById("smartERPsearch"), box=document.getElementById("smartERPresults");
+    if(!input||!box) return;
+    function render(q){
+      q=q.trim().toLowerCase();
+      if(!q){box.style.display="none";box.innerHTML="";return;}
+      const hits=items.filter(x=>(x[0]+" "+x[1]).toLowerCase().includes(q)).slice(0,12);
+      box.innerHTML=hits.length?hits.map((x,i)=>'<div class="smart-result" data-i="'+i+'"><div class="smart-result-title">🔎 '+x[0]+'</div><div class="smart-result-path">'+x[1]+'</div></div>').join(""):'<div class="smart-empty">No matching feature found</div>';
+      box.style.display="block";
+      box.querySelectorAll(".smart-result").forEach(el=>el.onclick=function(){
+        const hit=hits[+el.dataset.i];
+        input.value=hit[0]; box.style.display="none";
+        // Open the ERP developer page if the host app provides showPage.
+        if(typeof window.showPage==="function"){
+          try{ window.showPage("universal-erp-developer"); }catch(e){}
+        }
+        const text=hit[0].toLowerCase();
+        // Best-effort open matching visible accordion/row.
+        setTimeout(function(){
+          document.querySelectorAll(".upn-card,.upn-row").forEach(function(node){
+            const label=(node.innerText||"").toLowerCase();
+            if(label.includes(text)){
+              node.classList.add("open");
+              node.scrollIntoView({behavior:"smooth",block:"center"});
+            }
+          });
+        },80);
+      });
+    }
+    input.addEventListener("input",()=>render(input.value));
+    input.addEventListener("keydown",e=>{if(e.key==="Escape"){input.value="";render("")}});
+    document.addEventListener("click",e=>{if(!e.target.closest(".smart-search-wrap"))box.style.display="none"});
+  };
+  document.addEventListener("DOMContentLoaded",window.smartSearchInit);
+})();
+</script>
+
+
+<style id="erp-organized-v2">
+.erp-organized-v2{max-width:1100px;margin:18px auto;padding:0 14px}
+.erp-v2-search{position:relative;margin-bottom:16px}
+.erp-v2-search input{width:100%;box-sizing:border-box;padding:14px 44px;border:1px solid #ddd;border-radius:16px;font-size:15px;outline:none;background:#fff}
+.erp-v2-search .ico{position:absolute;left:15px;top:13px;font-size:20px}
+.erp-v2-results{display:none;position:absolute;z-index:10000;left:0;right:0;top:54px;background:#fff;border:1px solid #ddd;border-radius:14px;box-shadow:0 16px 36px rgba(0,0,0,.14);padding:6px;max-height:360px;overflow:auto}
+.erp-v2-result{padding:11px;border-radius:10px;cursor:pointer}
+.erp-v2-result:hover{background:#f6f7f9}
+.erp-v2-path{font-size:11px;opacity:.58;margin-top:4px}
+.erp-v2-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.erp-v2-card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 8px 25px rgba(15,23,42,.07);overflow:hidden}
+.erp-v2-head{width:100%;padding:17px;border:0;background:transparent;text-align:left;font-weight:800;display:flex;gap:10px;align-items:center;cursor:pointer}
+.erp-v2-head .chev{margin-left:auto;transition:.18s}
+.erp-v2-card.open>.erp-v2-head .chev{transform:rotate(90deg)}
+.erp-v2-body{display:none;padding:0 13px 13px}
+.erp-v2-card.open>.erp-v2-body{display:block}
+.erp-v2-row{border:1px solid #edf0f3;border-radius:12px;margin-top:8px;background:#fafbfc;overflow:hidden}
+.erp-v2-row>button{width:100%;border:0;background:transparent;padding:12px 13px;text-align:left;font-weight:700;display:flex;align-items:center;cursor:pointer}
+.erp-v2-row .chev{margin-left:auto;transition:.18s}
+.erp-v2-row.open .chev{transform:rotate(90deg)}
+.erp-v2-sub{display:none;padding:0 10px 10px}
+.erp-v2-row.open>.erp-v2-sub{display:block}
+.erp-v2-leaf{padding:9px 10px;margin-top:6px;background:#fff;border:1px solid #edf0f3;border-radius:9px;font-size:13px}
+.erp-v2-note{font-size:12px;opacity:.6;margin:0 0 13px}
+@media(max-width:600px){.erp-v2-grid{grid-template-columns:1fr}}
+</style>
+<script id="erp-organized-v2-js">
+(function(){
+  const data=[
+    ["➕ ERP Project Creation",[
+      ["Create New ERP",["New Project","Select Industry","Business Details"]],
+      ["Business Setup & Branding",["Company Profile","Logo Upload","Theme & Invoice Branding"]],
+      ["Project File Vault",["Project Files","Import / Export"]]
+    ]],
+    ["📊 Main ERP Software / Features",[
+      ["Dashboard",["KPI","Sales Summary","Purchase Summary","Stock Summary","Profit & Loss"]],
+      ["Masters",["Company","Customer","Supplier","Product / Item","Employee"]],
+      ["Sales",["Quotation","Invoice / POS","Sales Return","Receipts","Sales Reports"]],
+      ["Purchase",["Purchase Order","Purchase Bill","Purchase Return","Supplier Payment"]],
+      ["Inventory",["Stock In / Out","Warehouse","Batch & Expiry","Barcode","Stock Adjustment"]],
+      ["Accounts & GST",["Ledger","Cash / Bank","Receipt / Payment","GST / Tax","P&L / Balance Sheet"]],
+      ["CRM & HRMS",["CRM","Leads & Follow-up","Employees","Attendance / Leave","Payroll"]]
+    ]],
+    ["⚡ Advanced ERP Features",[
+      ["Workflow & Approval",["IF → THEN Rules","Multi-level Approval"]],
+      ["Reports & Analytics",["Report Builder","Charts","PDF / Excel Export"]],
+      ["Users & Security",["Roles","Permissions","Audit Log"]],
+      ["Cloud / Firebase",["Database","Sync","Notifications"]],
+      ["Backup & Restore",["Backup","Restore","Import / Export"]]
+    ]],
+    ["🏪 Industry ERP Templates",[
+      ["Retail / Shop ERP",["POS","Stock","Sales","Purchase"]],
+      ["Medical Store ERP",["Medicine Master","Batch & Expiry","Prescription","Pharmacy Billing"]],
+      ["School / College ERP",["Students","Fees","Attendance","Exam","Staff"]],
+      ["Banking / Finance ERP",["Accounts","Customer","Loan","EMI","Reconciliation"]],
+      ["Hospital / Clinic ERP",["Patient","Doctor","Appointment","Billing","Pharmacy"]],
+      ["Manufacturing ERP",["BOM","Production","WIP","Job Work","Costing"]],
+      ["Service / Construction ERP",["Service Jobs","Projects","Tasks","Billing"]]
+    ]],
+    ["🧰 Developer Tools",[
+      ["UI & Form Builder",["Page Builder","Form Builder","Field Builder","Theme"]],
+      ["Report & Workflow Builder",["Report Designer","Workflow Designer","Approval Rules"]],
+      ["API & Database Tools",["API Builder","Database Manager","Data Mapping"]],
+      ["Testing Tools",["Preview","Validation","Test Data","Error Logs"]]
+    ]],
+    ["📱 App / Web / Windows Build",[
+      ["Android APK",["App Details","UI","Login","Firebase","Test","Build APK"]],
+      ["Windows EXE",["Desktop UI","Database","Build EXE","Release"]],
+      ["Web ERP",["Web Build","Deploy","Domain / Hosting"]],
+      ["Version / Update",["Version","Release Notes","Auto Update"]]
+    ]],
+    ["🔐 License & System Management",[
+      ["License Management",["License","Subscription","Expiry","Feature Control"]],
+      ["System Settings",["General","Language","Theme","Configuration"]],
+      ["Security & Audit",["Login Security","Audit Trail","Activity Logs"]]
+    ]]
+  ];
+
+  window.erpV2Toggle=function(btn){
+    const card=btn.closest(".erp-v2-card");
+    document.querySelectorAll(".erp-v2-card.open").forEach(x=>{if(x!==card)x.classList.remove("open")});
+    card.classList.toggle("open");
+  };
+  window.erpV2Row=function(btn){
+    const row=btn.closest(".erp-v2-row");
+    const body=row.parentElement;
+    body.querySelectorAll(":scope>.erp-v2-row.open").forEach(x=>{if(x!==row)x.classList.remove("open")});
+    row.classList.toggle("open");
+  };
+
+  function build(){
+    const root=document.getElementById("erp-organized-v2-root");
+    if(!root)return;
+    root.innerHTML='<div class="erp-v2-search"><span class="ico">🔍</span><input id="erpV2Search" placeholder="Search ERP features, tools, modules..." autocomplete="off"><div id="erpV2Results" class="erp-v2-results"></div></div><div class="erp-v2-note">Dashboard clean आहे. Touch केल्यावरच category → feature → sub-feature उघडेल.</div><div class="erp-v2-grid" id="erpV2Grid"></div>';
+    const grid=root.querySelector("#erpV2Grid");
+    data.forEach((cat,ci)=>{
+      const card=document.createElement("div");card.className="erp-v2-card";
+      const h=document.createElement("button");h.className="erp-v2-head";h.innerHTML=cat[0]+' <span class="chev">›</span>';h.onclick=function(){erpV2Toggle(this)};
+      const body=document.createElement("div");body.className="erp-v2-body";
+      cat[1].forEach(item=>{
+        const row=document.createElement("div");row.className="erp-v2-row";
+        const b=document.createElement("button");b.innerHTML=item[0]+' <span class="chev">›</span>';b.onclick=function(){erpV2Row(this)};
+        const sub=document.createElement("div");sub.className="erp-v2-sub";
+        item[1].forEach(leaf=>{const l=document.createElement("div");l.className="erp-v2-leaf";l.textContent=leaf;sub.appendChild(l)});
+        row.appendChild(b);row.appendChild(sub);body.appendChild(row);
+      });
+      card.appendChild(h);card.appendChild(body);grid.appendChild(card);
+    });
+
+    const input=root.querySelector("#erpV2Search"), results=root.querySelector("#erpV2Results");
+    const flat=[];
+    data.forEach(c=>c[1].forEach(f=>f[1].forEach(x=>flat.push([x,c[0]+" → "+f[0]+" → "+x])));
+    data.forEach(c=>c[1].forEach(f=>flat.push([f[0],c[0]+" → "+f[0]])));
+    data.forEach(c=>flat.push([c[0],c[0]]));
+
+    input.oninput=function(){
+      const q=this.value.trim().toLowerCase();
+      if(!q){results.style.display="none";results.innerHTML="";return}
+      const hits=flat.filter(x=>(x[0]+" "+x[1]).toLowerCase().includes(q)).slice(0,15);
+      results.innerHTML=hits.length?hits.map((x,i)=>'<div class="erp-v2-result" data-i="'+i+'"><b>🔎 '+x[0]+'</b><div class="erp-v2-path">'+x[1]+'</div></div>').join(""):'<div class="erp-v2-result">No matching feature found</div>';
+      results.style.display="block";
+      results.querySelectorAll("[data-i]").forEach(el=>el.onclick=function(){
+        input.value=hits[+el.dataset.i][0];results.style.display="none";
+      });
+    };
+    document.addEventListener("click",e=>{if(!e.target.closest(".erp-v2-search"))results.style.display="none"});
+  }
+  document.addEventListener("DOMContentLoaded",build);
+})();
+</script>
+
+
+<style id="simple-user-mode">
+.simple-user-mode{max-width:1050px;margin:18px auto;padding:0 14px}
+.simple-user-mode .simple-head{padding:22px;border-radius:20px;background:#fff;box-shadow:0 8px 26px rgba(15,23,42,.07);margin-bottom:15px}
+.simple-user-mode .simple-head h2{margin:0 0 6px}
+.simple-user-mode .simple-head p{margin:0;opacity:.62;font-size:13px}
+.simple-user-mode .simple-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.simple-user-mode .simple-action{border:1px solid #e7e9ee;border-radius:17px;background:#fff;padding:18px;cursor:pointer;box-shadow:0 7px 22px rgba(15,23,42,.06);transition:.18s}
+.simple-user-mode .simple-action:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(15,23,42,.10)}
+.simple-user-mode .simple-action b{display:block;font-size:16px;margin-top:8px}
+.simple-user-mode .simple-action small{display:block;margin-top:5px;opacity:.58}
+.simple-user-mode .simple-panel{display:none;margin-top:14px;padding:15px;border:1px solid #e7e9ee;border-radius:17px;background:#fff}
+.simple-user-mode .simple-panel.open{display:block}
+.simple-user-mode .simple-search{width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid #e1e5ea;border-radius:13px;font-size:14px}
+.simple-user-mode .simple-hint{font-size:12px;opacity:.58;margin-top:8px}
+</style>
+<script id="simple-user-mode-js">
+(function(){
+  window.simpleOpen=function(id){
+    document.querySelectorAll(".simple-user-mode .simple-panel").forEach(function(p){
+      if(p.id!==id)p.classList.remove("open");
+    });
+    var x=document.getElementById(id); if(x)x.classList.toggle("open");
+  };
+})();
+</script>
+
+
+<style id="simple-default-hide">
+#erp-organized-v2-root{display:none!important}
+body .simple-user-mode{display:block}
+</style>
+
 </head>
 <body>
+<div class="smart-search-wrap" id="smartSearchWrap">
+  <span class="smart-search-icon">🔍</span>
+  <input id="smartERPsearch" class="smart-search" type="search" placeholder="Search ERP features, tools, modules..." autocomplete="off">
+  <button class="smart-search-clear" type="button" onclick="document.getElementById('smartERPsearch').value='';document.getElementById('smartERPresults').style.display='none'">×</button>
+  <div id="smartERPresults" class="smart-results"></div>
+</div>
+
 <div id="erp-data-modal" class="erpModal" onclick="if(event.target===this)closeERPData()"></div>
 
 <header class="appHeader" role="banner">
@@ -553,55 +837,11 @@ window.SSS28_DEMO_PROFILE = SSS28_DEMO_PROFILE;
 
 <button onclick="showPage('dashboard')">🏠 Dashboard</button>
 <button onclick="showPage('quick')">⚡ Quick Action</button>
-<button onclick="showPage('allinone')">🚀 All-in-One Factory</button>
-<button onclick="showPage('universal-erp')">🌐 Universal ERP Factory</button>
-
-
-<div class="devGroup" id="erpGroup">
+<div class="devGroup closed" id="erpGroup">
 <button class="devMain" onclick="toggleDev('erpGroup')">🏢 ERP SOFTWARE DEVELOPER <span>▾</span></button>
-<div class="devSub"><div class="optionTable">
-<button class="sub" onclick="showPage('erp-dashboard')">01 🏠 Dashboard</button>
-<button class="sub" onclick="showPage('erp-company')">02 🏢 Company Management</button>
-<button class="sub" onclick="showPage('erp-branch')">03 🏬 Branch Management</button>
-<button class="sub" onclick="showPage('erp-users')">04 👥 User & Role Management</button>
-<button class="sub" onclick="showPage('erp-customers')">05 👤 Customer Management</button>
-<button class="sub" onclick="showPage('erp-suppliers')">06 🚚 Supplier Management</button>
-<button class="sub" onclick="showPage('erp-products')">07 📦 Product / Item Master</button>
-<button class="sub" onclick="showPage('erp-sales')">08 🛒 Sales</button>
-<button class="sub" onclick="showPage('erp-purchase')">09 🧾 Purchase</button>
-<button class="sub" onclick="showPage('erp-inventory')">10 📊 Inventory</button>
-<button class="sub" onclick="showPage('erp-warehouse')">11 🏭 Warehouse</button>
-<button class="sub" onclick="showPage('erp-pos')">12 💵 POS / Billing</button>
-<button class="sub" onclick="showPage('erp-accounts')">13 💳 Accounts</button>
-<button class="sub" onclick="showPage('erp-gst')">14 🇮🇳 GST / Tax</button>
-<button class="sub" onclick="showPage('erp-crm')">15 🤝 CRM</button>
-<button class="sub" onclick="showPage('erp-hr')">16 👨‍💼 HR & Payroll</button>
-<button class="sub" onclick="showPage('erp-manufacturing')">17 🏭 Manufacturing</button>
-<button class="sub" onclick="showPage('erp-service')">18 🔧 Service Management</button>
-<button class="sub" onclick="showPage('erp-projects')">19 📋 Project Management</button>
-<button class="sub" onclick="showPage('erp-transport')">20 🚛 Transport / Delivery</button>
-<button class="sub" onclick="showPage('erp-expenses')">21 💸 Expense Management</button>
-<button class="sub" onclick="showPage('erp-assets')">22 🏢 Asset Management</button>
-<button class="sub" onclick="showPage('erp-reports')">23 📈 Reports & Analytics</button>
-<button class="sub" onclick="showPage('erp-notifications')">24 🔔 Notification Center</button>
-<button class="sub" onclick="showPage('erp-cloud')">25 ☁️ Cloud & Database</button>
-<button class="sub" onclick="showPage('erp-integrations')">26 🔗 Integrations</button>
-<button class="sub" onclick="showPage('erp-customization')">27 🎨 Customization</button>
-<button class="sub" onclick="showPage('erp-license')">28 🔑 License Management</button>
-<button class="sub" onclick="showPage('erp-subscription')">29 💎 Subscription & Plans</button>
-<button class="sub" onclick="showPage('erp-payment')">30 💰 Payment Management</button>
-<button class="sub" onclick="showPage('erp-support')">31 🎧 Support / Tickets</button>
-<button class="sub" onclick="showPage('erp-logs')">32 📝 Activity & Error Log</button>
-<button class="sub" onclick="showPage('erp-app')">33 📱 App Management</button>
-<button class="sub" onclick="showPage('erp-apk')">34 📦 APK Management</button>
-<button class="sub" onclick="showPage('erp-exe')">35 🖥️ EXE Management</button>
-<button class="sub" onclick="showPage('erp-updates')">36 🔄 Version & Update Management</button>
-<button class="sub" onclick="showPage('erp-software-developer')">37 🧑‍💻 Developer Console</button>
-<button class="sub" onclick="showPage('erp-settings')">38 ⚙️ System Settings</button>
-</div></div></div>
+<div class="devSub"><div class="optionTable"><div class="navGroup collapsed"><button class="navGroupHead" onclick="toggleNavGroup(this)">➕ ERP PROJECT CREATION <span>▸</span></button><div class="navGroupBody"><button class="sub" onclick="showPage('newerp')">01 ➕ Create New ERP</button><button class="sub" onclick="showPage('projectFileVault')">02 🗂️ Project File Vault</button></div></div><div class="navGroup collapsed"><button class="navGroupHead" onclick="toggleNavGroup(this)">⚙️ ERP SETUP & BRANDING <span>▸</span></button><div class="navGroupBody"><button class="sub" onclick="showPage('business')">01 🏪 Business Setup & Branding</button></div></div><div class="navGroup collapsed"><button class="navGroupHead" onclick="toggleNavGroup(this)">📊 MAIN ERP SOFTWARE / FEATURES <span>▸</span></button><div class="navGroupBody"><button class="sub" onclick="showPage('erp-company')">02 🏢 Company Management</button><button class="sub" onclick="showPage('erp-branch')">03 🏬 Branch Management</button><button class="sub" onclick="showPage('erp-users')">04 👥 User & Role Management</button><button class="sub" onclick="showPage('erp-customers')">05 👤 Customer Management</button><button class="sub" onclick="showPage('erp-suppliers')">06 🚚 Supplier Management</button><button class="sub" onclick="showPage('erp-products')">07 📦 Product / Item Master</button><button class="sub" onclick="showPage('erp-sales')">08 🛒 Sales</button><button class="sub" onclick="showPage('erp-purchase')">09 🧾 Purchase</button><button class="sub" onclick="showPage('erp-inventory')">10 📊 Inventory</button><button class="sub" onclick="showPage('erp-pos')">12 💵 POS / Billing</button><button class="sub" onclick="showPage('erp-accounts')">13 💳 Accounts</button><button class="sub" onclick="showPage('erp-gst')">14 🇮🇳 GST / Tax</button><button class="sub" onclick="showPage('erp-crm')">15 🤝 CRM</button><button class="sub" onclick="showPage('erp-hr')">16 👨‍💼 HR & Payroll</button><button class="sub" onclick="showPage('erp-manufacturing')">17 🏭 Manufacturing</button><button class="sub" onclick="showPage('erp-service')">18 🔧 Service Management</button><button class="sub" onclick="showPage('erp-projects')">19 📋 Project Management</button><button class="sub" onclick="showPage('erp-reports')">23 📈 Reports & Analytics</button><button class="sub" onclick="showPage('erp-notifications')">24 🔔 Notification Center</button><button class="sub" onclick="showPage('erp-app')">33 📱 App Management</button></div></div><div class="navGroup collapsed"><button class="navGroupHead" onclick="toggleNavGroup(this)">⚡ ADVANCED ERP FEATURES <span>▸</span></button><div class="navGroupBody"><button class="sub" onclick="showPage('erp-warehouse')">11 🏭 Warehouse</button><button class="sub" onclick="showPage('erp-transport')">20 🚛 Transport / Delivery</button><button class="sub" onclick="showPage('erp-expenses')">21 💸 Expense Management</button><button class="sub" onclick="showPage('erp-assets')">22 🏢 Asset Management</button><button class="sub" onclick="showPage('erp-cloud')">25 ☁️ Cloud & Database</button><button class="sub" onclick="showPage('erp-integrations')">26 🔗 Integrations</button><button class="sub" onclick="showPage('erp-customization')">27 🎨 Customization</button><button class="sub" onclick="showPage('erp-license')">28 🔑 License Management</button><button class="sub" onclick="showPage('erp-subscription')">29 💎 Subscription & Plans</button><button class="sub" onclick="showPage('erp-payment')">30 💰 Payment Management</button><button class="sub" onclick="showPage('erp-support')">31 🎧 Support / Tickets</button><button class="sub" onclick="showPage('erp-logs')">32 📝 Activity & Error Log</button><button class="sub" onclick="showPage('erp-apk')">34 📦 APK Management</button><button class="sub" onclick="showPage('erp-exe')">35 🖥️ EXE Management</button><button class="sub" onclick="showPage('erp-updates')">36 🔄 Version & Update Management</button><button class="sub" onclick="showPage('erp-developer')">37 🧑‍💻 Developer Console</button><button class="sub" onclick="showPage('erp-settings')">38 ⚙️ System Settings</button></div></div><div class="navGroup collapsed"><button class="navGroupHead" onclick="toggleNavGroup(this)">📱 ERP BUILD / APP / EXE <span>▸</span></button><div class="navGroupBody"><button class="sub" onclick="showPage('build')">01 🚀 Build Center</button><button class="sub" onclick="showPage('appdev')">02 📱 Android / APK Developer</button><button class="sub" onclick="showPage('pc-exe-developer')">03 💻 Windows EXE Developer</button></div></div><div class="navGroup collapsed"><button class="navGroupHead" onclick="toggleNavGroup(this)">🌐 ERP FACTORY & INDUSTRY <span>▸</span></button><div class="navGroupBody"><button class="sub" onclick="showPage('universal-erp')">01 🌐 Universal ERP Factory</button><button class="sub" onclick="showPage('allinone')">02 🚀 All-in-One Factory</button></div></div></div></div></div>
 
 
-<button onclick="showPage('devtools')">🧰 Developer Tools</button>
 <div class="devGroup" id="appGroup">
 <button class="devMain" onclick="toggleDev('appGroup')">📱 APP / APK DEVELOPER <span>▾</span></button>
 <div class="devSub">
@@ -639,9 +879,6 @@ window.SSS28_DEMO_PROFILE = SSS28_DEMO_PROFILE;
 
 <button onclick="showPage('programs')">🚀 Active Programs</button>
 <button onclick="showPage('demo')">🧪 Demo / Fictional Programs</button>
-<button onclick="showPage('build')">🛠️ Build Center</button>
-<button onclick="showPage('firebase')">🔥 Firebase / Database</button>
-<button onclick="showPage('settings')">⚙️ Settings</button>
 </aside>
 
 <main>
@@ -658,53 +895,57 @@ window.SSS28_DEMO_PROFILE = SSS28_DEMO_PROFILE;
 <div class="box">
 <h2>⚡ Quick Actions</h2>
 <div class="actions quickERPGrid">
-<div class="action" onclick="showPage('newerp')">➕ <b>Create New ERP</b><br><small>Start a new ERP project</small></div>
-<div class="action" onclick="showPage('business')">🏪 <b>Business Setup</b><br><small>Business, shop & branding</small></div>
-<div class="action" onclick="showPage('build')">🛠️ <b>Build Center</b><br><small>Web • APK • EXE</small></div>
-<div class="action" onclick="showPage('appdev')">📱 <b>App / APK Developer</b><br><small>Create Android application</small></div>
-<div class="action" onclick="showPage('universal-erp')">🌐 <b>Universal ERP Factory</b><br><small>Industry → Modules → Build</small></div>
-
-<div class="quickERPDeveloper">
-<button class="quickERPMain" onclick="toggleDev('quickERPGroup')">🏢 <b>ERP SOFTWARE DEVELOPER</b><span>▾</span></button>
+<div class="quickERPDeveloper closed">
+<button class="quickERPMain" onclick="toggleQuickERPRoot(this)">🏢 <b>ERP SOFTWARE DEVELOPER</b><span>▾</span></button>
 <div class="quickERPSub" id="quickERPGroup">
-<div class="quickERPLevel"><button onclick="toggleQuickERP('coreERP')">➡️ <b>MAIN ERP SOFTWARE / FEATURES</b><span>▾</span></button>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('erpProjectCreate')">➡️ <b>01. ERP PROJECT CREATION</b><span>▾</span></button>
+<div id="erpProjectCreate" class="quickERPItems">
+<button onclick="showPage('newerp')">➕ Create New ERP</button>
+<button onclick="showPage('business')">🏪 Business Setup & Branding</button>
+<button onclick="showPage('projectFileVault')">🗂️ Project File Vault</button>
+</div></div>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('coreERP')">➡️ <b>02. MAIN ERP SOFTWARE / FEATURES</b><span>▾</span></button>
 <div id="coreERP" class="quickERPItems">
-<button onclick="showPage('erp-dashboard')">📊 ERP Dashboard</button>
-<button onclick="showPage('erp-company')">🏢 Company Management</button>
-<button onclick="showPage('erp-branch')">🏬 Branch Management</button>
-<button onclick="showPage('erp-users')">👥 Users & Roles</button>
-<button onclick="showPage('erp-customers')">👤 Customers</button>
-<button onclick="showPage('erp-suppliers')">🚚 Suppliers</button>
-<button onclick="showPage('erp-products')">📦 Products / Items</button>
-<button onclick="showPage('erp-sales')">🛒 Sales</button>
-<button onclick="showPage('erp-purchase')">🧾 Purchase</button>
-<button onclick="showPage('erp-inventory')">📊 Inventory / Stock</button>
-<button onclick="showPage('erp-pos')">💵 POS / Billing</button>
-<button onclick="showPage('erp-accounts')">💳 Accounts</button>
-<button onclick="showPage('erp-gst')">🇮🇳 GST / Tax</button>
-<button onclick="showPage('erp-crm')">🤝 CRM</button>
-<button onclick="showPage('erp-hr')">👨‍💼 HR & Payroll</button>
-<button onclick="showPage('erp-manufacturing')">🏭 Manufacturing</button>
-<button onclick="showPage('erp-service')">🔧 Service Management</button>
-<button onclick="showPage('erp-projects')">📋 Project Management</button>
-<button onclick="showPage('erp-reports')">📈 Reports & Analytics</button>
+<button onclick="showPage('erp-dashboard')">📊 ERP Dashboard</button><button onclick="showPage('erp-company')">🏢 Company Management</button><button onclick="showPage('erp-branch')">🏬 Branch Management</button><button onclick="showPage('erp-users')">👥 Users & Roles</button><button onclick="showPage('erp-customers')">👤 Customers</button><button onclick="showPage('erp-suppliers')">🚚 Suppliers</button><button onclick="showPage('erp-products')">📦 Products / Items</button><button onclick="showPage('erp-sales')">🛒 Sales</button><button onclick="showPage('erp-purchase')">🧾 Purchase</button><button onclick="showPage('erp-inventory')">📊 Inventory / Stock</button><button onclick="showPage('erp-pos')">💵 POS / Billing</button><button onclick="showPage('erp-accounts')">💳 Accounts</button><button onclick="showPage('erp-gst')">🇮🇳 GST / Tax</button><button onclick="showPage('erp-crm')">🤝 CRM</button><button onclick="showPage('erp-hr')">👨‍💼 HR & Payroll</button><button onclick="showPage('erp-manufacturing')">🏭 Manufacturing</button><button onclick="showPage('erp-service')">🔧 Service Management</button><button onclick="showPage('erp-projects')">📋 Project Management</button><button onclick="showPage('erp-reports')">📈 Reports & Analytics</button>
 </div></div>
-<div class="quickERPLevel"><button onclick="toggleQuickERP('advancedERP')">➡️ <b>ADVANCED ERP FEATURES</b><span>▾</span></button>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('advancedERP')">➡️ <b>03. ADVANCED ERP FEATURES</b><span>▾</span></button>
 <div id="advancedERP" class="quickERPItems">
-<button onclick="showPage('erp-warehouse')">🏭 Warehouse Management</button>
-<button onclick="showPage('erp-transport')">🚛 Transport / Delivery</button>
-<button onclick="showPage('erp-expenses')">💸 Expense Management</button>
-<button onclick="showPage('erp-assets')">🏢 Asset Management</button>
-<button onclick="showPage('erp-notifications')">🔔 Notifications</button>
-<button onclick="showPage('erp-cloud')">☁️ Cloud & Database</button>
-<button onclick="showPage('erp-integrations')">🔗 Integrations / API</button>
-<button onclick="showPage('erp-customization')">🎨 Customization / Form Builder</button>
-<button onclick="showPage('erp-license')">🔑 License Management</button>
-<button onclick="showPage('erp-subscription')">💎 Subscription & Plans</button>
-<button onclick="showPage('erp-payment')">💰 Payment Management</button>
+<button onclick="showPage('erp-warehouse')">🏭 Warehouse Management</button><button onclick="showPage('erp-transport')">🚛 Transport / Delivery</button><button onclick="showPage('erp-expenses')">💸 Expense Management</button><button onclick="showPage('erp-assets')">🏢 Asset Management</button><button onclick="showPage('erp-notifications')">🔔 Notifications</button><button onclick="showPage('erp-cloud')">☁️ Cloud & Database</button><button onclick="showPage('erp-integrations')">🔗 Integrations / API</button><button onclick="showPage('erp-customization')">🎨 Customization / Form Builder</button><button onclick="showPage('erp-license')">🔑 License Management</button><button onclick="showPage('erp-subscription')">💎 Subscription & Plans</button><button onclick="showPage('erp-payment')">💰 Payment Management</button><button onclick="showPage('erp-support')">🎧 Support / Tickets</button><button onclick="showPage('erp-logs')">📝 Activity & Error Log</button>
 </div></div>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('developerTools')">➡️ <b>04. DEVELOPER TOOLS</b><span>▾</span></button>
+<div id="developerTools" class="quickERPItems"><button onclick="showPage('erp-developer')">🧑‍💻 Developer Console</button><button onclick="showPage('settings')">⚙️ Developer / System Settings</button>
 </div></div>
-</div>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('appDeveloper')">➡️ <b>05. APP / APK DEVELOPER</b><span>▾</span></button>
+<div id="appDeveloper" class="quickERPItems">
+<button onclick="showPage('newapp')">➕ New Android App</button><button onclick="showPage('appdetails')">📋 App Details</button><button onclick="showPage('appscreens')">🖥️ App Screens / UI</button><button onclick="showPage('applogin')">🔐 App Login</button><button onclick="showPage('appfirebase')">🔥 Firebase</button><button onclick="showPage('appassets')">🎨 Logo & Assets</button><button onclick="showPage('apptest')">🧪 Test App</button><button onclick="showPage('apkbuild')">📦 Build APK</button><button onclick="showPage('appexport')">📤 Export App Project</button>
+</div></div>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('pcDeveloper')">➡️ <b>06. PC EXE / WINDOWS DEVELOPER</b><span>▾</span></button>
+<div id="pcDeveloper" class="quickERPItems">
+<button onclick="showPage('pc-exe-developer')">➕ New PC Software</button><button onclick="showPage('pc-exe-developer')">📋 Software Details</button><button onclick="showPage('pc-exe-developer')">🖥️ Desktop UI</button><button onclick="showPage('pc-exe-developer')">🗄️ Database</button><button onclick="showPage('pc-exe-developer')">🧩 Modules</button><button onclick="showPage('pc-exe-developer')">🔐 Users & Security</button><button onclick="showPage('pc-exe-developer')">🧪 Testing</button><button onclick="showPage('pc-exe-developer')">💾 Backup</button><button onclick="showPage('pc-exe-developer')">📦 Build EXE</button><button onclick="showPage('pc-exe-developer')">📤 Release / Export</button>
+</div></div>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('buildRelease')">➡️ <b>07. BUILD / RELEASE / UPDATE</b><span>▾</span></button>
+<div id="buildRelease" class="quickERPItems">
+<button onclick="showPage('build')">🚀 Build Center</button><button onclick="showPage('apkbuild')">📦 APK Management</button><button onclick="showPage('erp-exe')">🖥️ EXE Management</button><button onclick="showPage('erp-updates')">🔄 Version & Update Management</button><button onclick="showPage('appexport')">📤 Export Project</button>
+</div></div>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('factoryIndustry')">➡️ <b>08. ERP FACTORY & INDUSTRY</b><span>▾</span></button>
+<div id="factoryIndustry" class="quickERPItems">
+<button onclick="showPage('universal-erp')">🌐 Universal ERP Factory</button><button onclick="showPage('allinone')">🚀 All-in-One Factory</button>
+</div></div>
+
+<div class="quickERPLevel closed"><button onclick="toggleQuickERP('systemManagement')">➡️ <b>09. SYSTEM MANAGEMENT</b><span>▾</span></button>
+<div id="systemManagement" class="quickERPItems">
+<button onclick="showPage('firebase')">🔥 Firebase / Database</button><button onclick="showPage('settings')">⚙️ Settings</button><button onclick="showPage('programs')">🚀 Active Programs</button><button onclick="showPage('demo')">🧪 Demo / Fictional Programs</button>
+</div></div>
+
+</div></div></div>
 </div>
 </section>
 
@@ -896,7 +1137,119 @@ function printInvoice(d){
   <p><b>Invoice:</b> ${esc(d.invoice)}<br><b>Date:</b> ${esc(d.date)}<br><b>${d.type==="sale"?"Customer":"Supplier"}:</b> ${esc(d.customer||d.supplier)}</p>
   <table><tr><th>Item</th><th>Taxable Amount</th><th>GST %</th><th>CGST</th><th>SGST</th><th>Total</th></tr>
   <tr><td>${esc(d.item)}</td><td class="right">₹${d.taxable.toFixed(2)}</td><td>${d.rate}%</td><td class="right">₹${d.cgst.toFixed(2)}</td><td class="right">₹${d.sgst.toFixed(2)}</td><td class="right">₹${d.total.toFixed(2)}</td></tr></table>
-  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3></body></html>`);
+  <h3 class="right">Grand Total: ₹${d.total.toFixed(2)}</h3>
+<section id="universal-erp-developer" class="page">
+  <div class="box upn-dashboard-clean">
+    <h2>🏢 ERP SOFTWARE DEVELOPER</h2><div style="font-size:12px;opacity:.65;margin:4px 0 14px">Dashboard वर फक्त हा मुख्य option. बाकी सर्व Developer Tools याच्या आत आहेत.</div>
+    <div class="upn-note">Touch a section to open it. Nothing stays visible by default.</div>
+
+    <div class="upn-quick-grid">
+
+      <div class="upn-card">
+        <button onclick="upnToggle(this)">➕ ERP PROJECT CREATION <span class="upn-chevron">›</span></button>
+        <div class="upn-panel">
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Create New ERP <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">New Project</div><div class="upn-leaf">Select Industry</div><div class="upn-leaf">Business Details</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Business Setup & Branding <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Company Profile</div><div class="upn-leaf">Logo Upload</div><div class="upn-leaf">Theme & Invoice Branding</div></div></div>
+        </div>
+      </div>
+
+      <div class="upn-card">
+        <button onclick="upnToggle(this)">📊 MAIN ERP SOFTWARE / FEATURES <span class="upn-chevron">›</span></button>
+        <div class="upn-panel">
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Dashboard <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">KPI</div><div class="upn-leaf">Sales Summary</div><div class="upn-leaf">Stock Summary</div><div class="upn-leaf">Profit & Loss</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Masters <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Company</div><div class="upn-leaf">Customer</div><div class="upn-leaf">Supplier</div><div class="upn-leaf">Product / Item</div><div class="upn-leaf">Employee</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Sales <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Quotation</div><div class="upn-leaf">Invoice / POS</div><div class="upn-leaf">Sales Return</div><div class="upn-leaf">Receipts</div><div class="upn-leaf">Sales Reports</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Purchase <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Purchase Order</div><div class="upn-leaf">Purchase Bill</div><div class="upn-leaf">Purchase Return</div><div class="upn-leaf">Supplier Payment</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Inventory <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Stock In / Out</div><div class="upn-leaf">Warehouse</div><div class="upn-leaf">Batch & Expiry</div><div class="upn-leaf">Barcode</div><div class="upn-leaf">Stock Adjustment</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Accounts & GST <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Ledger</div><div class="upn-leaf">Cash / Bank</div><div class="upn-leaf">Receipt / Payment</div><div class="upn-leaf">GST / Tax</div><div class="upn-leaf">P&L / Balance Sheet</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">CRM & HRMS <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Leads & Follow-up</div><div class="upn-leaf">Customers</div><div class="upn-leaf">Employees</div><div class="upn-leaf">Attendance / Leave</div><div class="upn-leaf">Payroll</div></div></div>
+        </div>
+      </div>
+
+      <div class="upn-card">
+        <button onclick="upnToggle(this)">⚡ ADVANCED ERP FEATURES <span class="upn-chevron">›</span></button>
+        <div class="upn-panel">
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Workflow & Approval <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">IF → THEN Rules</div><div class="upn-leaf">Multi-level Approval</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Reports & Analytics <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Report Builder</div><div class="upn-leaf">Charts</div><div class="upn-leaf">PDF / Excel Export</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Users & Security <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Roles</div><div class="upn-leaf">Permissions</div><div class="upn-leaf">Audit Log</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Cloud / Firebase <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Database</div><div class="upn-leaf">Sync</div><div class="upn-leaf">Notifications</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Backup & Restore <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Backup</div><div class="upn-leaf">Restore</div><div class="upn-leaf">Import / Export</div></div></div>
+        </div>
+      </div>
+
+      <div class="upn-card">
+        <button onclick="upnToggle(this)">🏪 INDUSTRY ERP TEMPLATES <span class="upn-chevron">›</span></button>
+        <div class="upn-panel">
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Retail / Shop <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">POS</div><div class="upn-leaf">Stock</div><div class="upn-leaf">Sales</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Medical Store <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Medicine Master</div><div class="upn-leaf">Batch & Expiry</div><div class="upn-leaf">Prescription</div><div class="upn-leaf">Pharmacy Billing</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">School / College <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Students</div><div class="upn-leaf">Fees</div><div class="upn-leaf">Attendance</div><div class="upn-leaf">Exam</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Banking / Finance <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Accounts</div><div class="upn-leaf">Loan</div><div class="upn-leaf">EMI</div><div class="upn-leaf">Reconciliation</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Hospital / Clinic <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Patient</div><div class="upn-leaf">Doctor</div><div class="upn-leaf">Appointment</div><div class="upn-leaf">Billing</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Manufacturing / Service / Construction <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Production</div><div class="upn-leaf">Job Work</div><div class="upn-leaf">Service Jobs</div><div class="upn-leaf">Projects</div></div></div>
+        </div>
+      </div>
+
+      <div class="upn-card">
+        <button onclick="upnToggle(this)">📱 ERP BUILD / APP / EXE <span class="upn-chevron">›</span></button>
+        <div class="upn-panel">
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Web ERP <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Build</div><div class="upn-leaf">Deploy</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Android APK <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">App Details</div><div class="upn-leaf">UI</div><div class="upn-leaf">Firebase</div><div class="upn-leaf">Test</div><div class="upn-leaf">Build APK</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Windows EXE <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Desktop Build</div><div class="upn-leaf">Database</div><div class="upn-leaf">Build EXE</div></div></div>
+          <div class="upn-row"><button onclick="upnToggleRow(this)">Version / License / Updates <span class="upn-chevron">›</span></button><div class="upn-subpanel"><div class="upn-leaf">Version</div><div class="upn-leaf">License</div><div class="upn-leaf">Subscription</div><div class="upn-leaf">Auto Update</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="erp-organized-v2-root" class="erp-organized-v2" aria-label="ERP Software Developer"></section>
+
+
+<section id="simple-user-home" class="simple-user-mode">
+  <div class="simple-head">
+    <h2>👋 Welcome to ERP Developer</h2>
+    <p>Simple Mode — फक्त आवश्यक options. बाकी features touch केल्यावरच दिसतील.</p>
+  </div>
+
+  <div class="simple-actions">
+    <div class="simple-action" onclick="simpleOpen('simple-erp-panel')">
+      <span style="font-size:28px">🏢</span>
+      <b>ERP SOFTWARE DEVELOPER</b>
+      <small>ERP तयार करा आणि manage करा</small>
+    </div>
+    <div class="simple-action" onclick="simpleOpen('simple-search-panel')">
+      <span style="font-size:28px">🔍</span>
+      <b>SEARCH</b>
+      <small>कोणतेही feature पटकन शोधा</small>
+    </div>
+    <div class="simple-action" onclick="simpleOpen('simple-help-panel')">
+      <span style="font-size:28px">🧭</span>
+      <b>QUICK START</b>
+      <small>पहिल्यांदा काय करायचे ते पाहा</small>
+    </div>
+  </div>
+
+  <div id="simple-erp-panel" class="simple-panel">
+    <h3>🏢 ERP SOFTWARE DEVELOPER</h3>
+    <p class="simple-hint">खालील category touch केल्यावरच उघडेल.</p>
+    <div id="simple-erp-mount"></div>
+  </div>
+
+  <div id="simple-search-panel" class="simple-panel">
+    <h3>🔍 Search</h3>
+    <input class="simple-search" placeholder="Invoice, Stock, GST, APK, Medical..." oninput="this.nextElementSibling.textContent=this.value ? 'Search: '+this.value : 'Feature name type करा'">
+    <div class="simple-hint">Feature नाव type करून शोधा.</div>
+  </div>
+
+  <div id="simple-help-panel" class="simple-panel">
+    <h3>🧭 Quick Start</h3>
+    <div class="simple-hint">1. ERP SOFTWARE DEVELOPER → 2. Create New ERP → 3. Industry निवडा → 4. Modules निवडा → 5. Build करा</div>
+  </div>
+</section>
+
+</body></html>`);
   w.document.close();w.print();
 }
 </script>
@@ -2383,69 +2736,6 @@ window.UF=(function(){
 document.addEventListener('DOMContentLoaded',()=>UF.showModules());
 </script>
 
-
-<section id="erp-software-developer" class="page">
-  <div class="box">
-    <h2>🏢 ERP SOFTWARE DEVELOPER</h2>
-    <p>Touch a main option to open its features. Touch again to collapse.</p>
-    <div class="touch-tree">
-
-      <div class="touch-item">
-        <button class="touch-head" onclick="toggleTouchItem(this)">📊 MAIN ERP SOFTWARE / FEATURES <span class="arrow">›</span></button>
-        <div class="touch-body">
-          <div class="touch-sub" onclick="toggleTouchSub(this)">📈 Dashboard <span class="arrow2">›</span><div class="touch-subbody">KPI • Sales • Purchase • Stock • Cash • Profit • Alerts</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🏢 Company Management <span class="arrow2">›</span><div class="touch-subbody">Company • Branch • Financial Year • Branding • Logo</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">👥 Customer Management <span class="arrow2">›</span><div class="touch-subbody">Customer Master • Ledger • Credit • Follow-up • Statements</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🚚 Supplier Management <span class="arrow2">›</span><div class="touch-subbody">Supplier Master • Ledger • Payables • Purchase History</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">📦 Inventory Management <span class="arrow2">›</span><div class="touch-subbody">Item Master • Stock In/Out • Batch • Expiry • Barcode • Adjustment</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🛒 Sales & POS <span class="arrow2">›</span><div class="touch-subbody">Invoice • POS • Quotation • Sales Return • Receipts</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🧾 Purchase <span class="arrow2">›</span><div class="touch-subbody">Purchase Order • Bill • Purchase Return • Supplier Payment</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">💰 Accounts <span class="arrow2">›</span><div class="touch-subbody">Ledger • Cash/Bank • Receipt • Payment • P&L • Balance Sheet</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🇮🇳 GST / Tax <span class="arrow2">›</span><div class="touch-subbody">GST Setup • Tax Invoice • Tax Summary • Reports</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🤝 CRM <span class="arrow2">›</span><div class="touch-subbody">Leads • Follow-up • Pipeline • Quotation • Customer Communication</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">👨‍💼 HRMS <span class="arrow2">›</span><div class="touch-subbody">Employee • Attendance • Leave • Payroll • Recruitment</div></div>
-        </div>
-      </div>
-
-      <div class="touch-item">
-        <button class="touch-head" onclick="toggleTouchItem(this)">⚡ ADVANCED ERP FEATURES <span class="arrow">›</span></button>
-        <div class="touch-body">
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🔄 Workflow & Approval <span class="arrow2">›</span><div class="touch-subbody">IF → THEN • Approvals • Multi-level Workflow</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">📊 Report Builder <span class="arrow2">›</span><div class="touch-subbody">Filters • Columns • Charts • Export PDF/Excel</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🔐 User & Permission <span class="arrow2">›</span><div class="touch-subbody">Roles • Screen Permission • Field Permission • Audit</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">☁️ Cloud / Firebase <span class="arrow2">›</span><div class="touch-subbody">Login • Database • Sync • Notifications</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">💾 Backup & Restore <span class="arrow2">›</span><div class="touch-subbody">Manual Backup • Auto Backup • Restore • Data Export</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🔔 Notifications & Alerts <span class="arrow2">›</span><div class="touch-subbody">Low Stock • Expiry • Payment Due • Approval Alerts</div></div>
-        </div>
-      </div>
-
-      <div class="touch-item">
-        <button class="touch-head" onclick="toggleTouchItem(this)">🏪 INDUSTRY ERP TEMPLATES <span class="arrow">›</span></button>
-        <div class="touch-body">
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🏪 Retail / Shop ERP <span class="arrow2">›</span><div class="touch-subbody">POS • Stock • Purchase • Sales • Customer</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">💊 Medical Store ERP <span class="arrow2">›</span><div class="touch-subbody">Medicine • Batch • Expiry • Prescription • Pharmacy Billing</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🏫 School / College ERP <span class="arrow2">›</span><div class="touch-subbody">Student • Fees • Attendance • Exam • Staff • Timetable</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🏦 Banking / Finance ERP <span class="arrow2">›</span><div class="touch-subbody">Accounts • Customer • Loan • EMI • Ledger • Reconciliation</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🏥 Hospital / Clinic ERP <span class="arrow2">›</span><div class="touch-subbody">Patient • Doctor • Appointment • Billing • Pharmacy</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🏭 Manufacturing ERP <span class="arrow2">›</span><div class="touch-subbody">BOM • Production • WIP • Job Work • Costing</div></div>
-        </div>
-      </div>
-
-      <div class="touch-item">
-        <button class="touch-head" onclick="toggleTouchItem(this)">📱 APP / EXE / RELEASE <span class="arrow">›</span></button>
-        <div class="touch-body">
-          <div class="touch-sub" onclick="toggleTouchSub(this)">📱 Android APK <span class="arrow2">›</span><div class="touch-subbody">App Details • UI • Login • Firebase • Test • Build APK</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">💻 Windows EXE <span class="arrow2">›</span><div class="touch-subbody">Desktop UI • Database • Build EXE • Release</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🌐 Web ERP <span class="arrow2">›</span><div class="touch-subbody">Web Build • Domain • Hosting • Deployment</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🔄 Version & Auto Update <span class="arrow2">›</span><div class="touch-subbody">Version • Release Notes • Force Update • Optional Update</div></div>
-          <div class="touch-sub" onclick="toggleTouchSub(this)">🔑 License Management <span class="arrow2">›</span><div class="touch-subbody">License • Subscription • Expiry • Feature Control</div></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 </main>
 
 
@@ -2466,6 +2756,7 @@ document.addEventListener('DOMContentLoaded',()=>UF.showModules());
 function openMenu(){document.getElementById('side').classList.add('open');document.getElementById('overlay').classList.add('show')}
 function closeMenu(){document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('show')}
 function showPage(id){
+  if(id==='projectFileVault' && window.ProjectVault && !document.getElementById('projectFileVault')) window.ProjectVault.mount();
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   var x=document.getElementById(id);
   if(!x){
@@ -2512,12 +2803,31 @@ function filterModule(input){
   });
 }
 
-function toggleQuickERP(id){const e=document.getElementById(id);if(e&&e.parentElement)e.parentElement.classList.toggle('closed');}
+function toggleQuickERPRoot(btn){
+  const card=btn.closest('.quickERPDeveloper');
+  if(!card)return;
+  const wasClosed=card.classList.contains('closed');
+  card.classList.toggle('closed', !wasClosed);
+  if(wasClosed){
+    card.querySelectorAll('.quickERPLevel').forEach(x=>x.classList.add('closed'));
+  }
+}
+
+function toggleQuickERP(id){
+  const e=document.getElementById(id);
+  if(!e||!e.parentElement)return;
+  const level=e.parentElement;
+  const wasClosed=level.classList.contains('closed');
+  level.parentElement.querySelectorAll(':scope > .quickERPLevel').forEach(x=>x.classList.add('closed'));
+  if(wasClosed) level.classList.remove('closed');
+}
 
 function toggleDev(id){
   const group=document.getElementById(id);
   if(!group)return;
-  group.classList.toggle('closed');
+  const wasClosed=group.classList.contains('closed');
+  document.querySelectorAll('.devGroup').forEach(x=>x.classList.add('closed'));
+  if(wasClosed) group.classList.remove('closed');
 }
 </script>
 
@@ -5328,7 +5638,7 @@ setTimeout(render,120);
  async function all(){const db=await openDB();return new Promise((res,rej)=>{const q=db.transaction(STORE,'readonly').objectStore(STORE).getAll();q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
  async function add(rec){const db=await openDB();return new Promise((res,rej)=>{const q=db.transaction(STORE,'readwrite').objectStore(STORE).add(rec);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
  async function del(id){const db=await openDB();return new Promise((res,rej)=>{const q=db.transaction(STORE,'readwrite').objectStore(STORE).delete(id);q.onsuccess=()=>res();q.onerror=()=>rej(q.error)})}
- function mount(){if(document.getElementById('projectFileVault'))return;const m=document.querySelector('main');if(!m)return;const s=document.createElement('section');s.id='projectFileVault';s.className='box';s.innerHTML=`<h2>🗂️ Project File Vault — ERP / APK / EXE</h2>
+ function mount(){if(document.getElementById('projectFileVault'))return;const m=document.querySelector('main');if(!m)return;const s=document.createElement('section');s.id='projectFileVault';s.className='page';s.innerHTML=`<div class="box"><h2>🗂️ Project File Vault — ERP / APK / EXE</h2>
  <p>Created or imported project files are saved in this browser's local project storage.</p>
  <div class="fvNote">⚠️ <b>Important:</b> This Developer Console can save APK/EXE files after you import them. Actual APK/EXE compilation requires a build toolchain; this HTML console does not compile native binaries by itself.</div>
  <div class="fvGrid">
@@ -5338,7 +5648,7 @@ setTimeout(render,120);
   <label>Choose File<input id="fvFile" type="file" accept=".apk,.exe,.html,.htm,.json,.zip,.txt,.pdf"></label>
   <div class="fvWide"><button class="primary" onclick="ProjectVault.saveFile()">💾 Save Project File</button><button onclick="ProjectVault.saveCurrentERP()">📄 Save Current ERP HTML</button><button onclick="ProjectVault.exportIndexBackup()">🗃️ Save Console Backup</button><input id="fvSearch" placeholder="🔎 Search saved files..." oninput="ProjectVault.render()"></div>
  </div>
- <div id="fvStats"></div><div id="fvTable"></div>`;m.prepend(s);ProjectVault.render()}
+ <div id="fvStats"></div><div id="fvTable"></div></div>`;m.appendChild(s);ProjectVault.render()}
  async function saveFile(){const f=document.getElementById('fvFile')?.files?.[0];const name=(document.getElementById('fvName')?.value||'Untitled Project').trim();const type=document.getElementById('fvType')?.value||'Project';const version=document.getElementById('fvVersion')?.value||'1.0.0';if(!f)return alert('Choose a file first.');await add({project:name,type,version,fileName:f.name,size:f.size,mime:f.type||'application/octet-stream',blob:f,createdAt:new Date().toISOString()});document.getElementById('fvFile').value='';alert('✅ File saved in Project File Vault.');render()}
  async function saveCurrentERP(){const name=(document.getElementById('fvName')?.value||'ERP Project').trim();const type=document.getElementById('fvType')?.value||'ERP';const version=document.getElementById('fvVersion')?.value||'1.0.0';const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});await add({project:name,type,version,fileName:name.replace(/[^a-z0-9_-]+/gi,'-')+'-ERP.html',size:blob.size,mime:'text/html',blob,createdAt:new Date().toISOString()});alert('✅ Current ERP HTML saved.');render()}
  async function exportIndexBackup(){const data={version:'SANDIP-CONSOLE-BACKUP-V1',createdAt:new Date().toISOString(),localStorage:{}};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);data.localStorage[k]=localStorage.getItem(k)}const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});await add({project:(document.getElementById('fvName')?.value||'ERP Console').trim(),type:'Backup',version:'1.0.0',fileName:'sutar-console-backup-'+new Date().toISOString().slice(0,10)+'.json',size:blob.size,mime:'application/json',blob,createdAt:new Date().toISOString()});alert('✅ Console backup saved.');render()}
@@ -5346,7 +5656,7 @@ setTimeout(render,120);
  async function remove(id){if(!confirm('Delete this saved project file?'))return;await del(id);render()}
  async function render(){const el=document.getElementById('fvTable');if(!el)return;const q=(document.getElementById('fvSearch')?.value||'').toLowerCase().trim();let a=await all();a=a.filter(x=>!q||[x.project,x.type,x.version,x.fileName].join(' ').toLowerCase().includes(q));const st=document.getElementById('fvStats');if(st)st.innerHTML=`<span class="fvBadge">Saved Files: ${a.length}</span><span class="fvBadge">ERP: ${a.filter(x=>x.type==='ERP').length}</span><span class="fvBadge">APK: ${a.filter(x=>x.type==='APK').length}</span><span class="fvBadge">EXE: ${a.filter(x=>x.type==='EXE').length}</span>`;el.innerHTML=a.length?`<div style="overflow:auto"><table><tr><th>Project</th><th>Type</th><th>Version</th><th>File</th><th>Size</th><th>Saved</th><th>Action</th></tr>${a.slice().reverse().map(x=>`<tr><td>${esc(x.project)}</td><td>${esc(x.type)}</td><td>${esc(x.version)}</td><td>${esc(x.fileName)}</td><td>${(x.size/1024).toFixed(1)} KB</td><td>${new Date(x.createdAt).toLocaleString()}</td><td><button onclick="ProjectVault.download(${x.id})">⬇️ Download</button><button onclick="ProjectVault.del(${x.id})">🗑️ Delete</button></td></tr>`).join('')}</table></div>`:'<p>No saved project files yet.</p>'}
  function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
- window.ProjectVault={saveFile,saveCurrentERP,exportIndexBackup,download,del:remove,render};setTimeout(mount,250)
+ window.ProjectVault={saveFile,saveCurrentERP,exportIndexBackup,download,del:remove,render,mount};
 })();
 </script>
 <script id="v22-developer-tools-js">
